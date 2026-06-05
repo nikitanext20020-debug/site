@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nik · Дизайн — превью YouTube, шапки каналов, логотипы</title>
+<meta name="description" content="Дизайн от Nik: превью YouTube, шапки каналов, логотипы, оформление соцсетей.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700;9..144,900&family=Inter:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config={theme:{extend:{
+  fontFamily:{
+    serif:['"Fraunces"','serif'],
+    sans:['"Inter"','sans-serif'],
+    mono:['"JetBrains Mono"','monospace']
+  },
+  colors:{
+    paper:'#FAF7F2',
+    ink:'#1A1A1A',
+    smoke:'#6B6B6B',
+    line:'#E5E0D6',
+    olive:'#3F4A35',
+    gold:'#A88752',
+    cream:'#F0EAD6'
+  }
+}}}
+</script>
+<style>
+html{scroll-behavior:smooth}
+body{background:#FAF7F2;color:#1A1A1A;font-family:'Inter',sans-serif;font-feature-settings:"ss01","ss02";overflow-x:hidden}
+::selection{background:#1A1A1A;color:#FAF7F2}
+
+/* Subtle paper texture */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");opacity:.04;pointer-events:none;z-index:9990;mix-blend-mode:multiply}
+
+/* Display serif */
+.display{font-family:'Fraunces',serif;font-weight:300;letter-spacing:-0.02em;line-height:0.95}
+.display-italic{font-family:'Fraunces',serif;font-style:italic;font-weight:300}
+
+/* Numbered marker */
+.num-marker{font-family:'Fraunces',serif;font-style:italic;font-weight:300;color:#A88752}
+
+/* Hover image scale */
+.hover-img img,.hover-img .ph{transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+.hover-img:hover img,.hover-img:hover .ph{transform:scale(1.04)}
+
+/* Placeholder gradients (per-project tones) */
+.ph{width:100%;height:100%;display:block}
+.ph-1{background:linear-gradient(135deg,#3F4A35 0%,#1A2418 100%)}
+.ph-2{background:linear-gradient(135deg,#A88752 0%,#5C4926 100%)}
+.ph-3{background:linear-gradient(135deg,#F0EAD6 0%,#A88752 100%)}
+.ph-4{background:linear-gradient(135deg,#1A1A1A 0%,#3F4A35 100%)}
+.ph-5{background:linear-gradient(135deg,#FAF7F2 0%,#E5E0D6 100%)}
+.ph-6{background:linear-gradient(135deg,#A88752 0%,#1A1A1A 100%)}
+
+/* Marquee */
+.marq{display:flex;overflow:hidden}
+.marq-track{display:flex;gap:3rem;flex-shrink:0;animation:marq 40s linear infinite;align-items:baseline}
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(-100%)}}
+
+/* Reveal */
+.reveal{opacity:0;transform:translateY(24px);transition:all 1s cubic-bezier(.2,.7,.2,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+
+/* Underline link */
+.u-link{position:relative;display:inline-block}
+.u-link::after{content:'';position:absolute;left:0;right:0;bottom:-2px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.u-link:hover::after{transform:scaleX(1);transform-origin:left}
+
+/* Project card hover label */
+.proj-card .meta{transform:translateY(8px);opacity:.7;transition:all .5s cubic-bezier(.2,.7,.2,1)}
+.proj-card:hover .meta{transform:translateY(0);opacity:1}
+
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* ── Hero photo animations ── */
+/* Reveal: scale + fade + slide */
+.hero-image-wrap{opacity:0;transform:translateY(40px) scale(0.97);transition:opacity 1.2s cubic-bezier(.2,.7,.2,1),transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.hero-image-wrap.visible{opacity:1;transform:translateY(0) scale(1)}
+
+/* Subtle float on the photo container */
+@keyframes hero-float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-6px)}
+}
+.hero-image-wrap.visible .hero-photo-inner{
+  animation:hero-float 6s ease-in-out infinite;
+  animation-delay:1.5s;
+}
+
+/* Photo image slow zoom */
+@keyframes hero-zoom{
+  from{transform:scale(1)}
+  to{transform:scale(1.06)}
+}
+.hero-photo-img{
+  transition:transform 8s cubic-bezier(.2,.7,.2,1);
+}
+.hero-image-wrap.visible .hero-photo-img{
+  animation:hero-zoom 8s cubic-bezier(.2,.7,.2,1) forwards;
+  animation-delay:0.5s;
+}
+
+/* Decorative frame stagger */
+.hero-frame,
+.hero-badge{opacity:0;transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.hero-frame{transform:translate(8px,8px)}
+.hero-badge{transform:translateY(-8px)}
+.hero-image-wrap.visible .hero-frame,
+.hero-image-wrap.visible .hero-badge{opacity:1;transform:translate(0)}
+.hero-image-wrap.visible .hero-frame{transition-delay:.6s}
+.hero-image-wrap.visible .hero-badge{transition-delay:.8s}
+
+/* Hover tilt effect */
+.hero-photo-inner{
+  transition:transform .6s cubic-bezier(.2,.7,.2,1),box-shadow .6s cubic-bezier(.2,.7,.2,1);
+}
+.hero-image-wrap:hover .hero-photo-inner{
+  transform:perspective(800px) rotateY(-1deg) rotateX(1deg) scale(1.01);
+  box-shadow:0 32px 64px rgba(0,0,0,.15);
+}
+
+/* ── Interactive Showcase Layers ── */
+.showcase-layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  z-index: 0;
+  pointer-events: none;
+  transform: scale(0.96) translateY(10px);
+  transition: opacity 0.5s cubic-bezier(.2,.7,.2,1), transform 0.6s cubic-bezier(.2,.7,.2,1);
+}
+.showcase-layer.active {
+  opacity: 1;
+  z-index: 10;
+  pointer-events: auto;
+  transform: scale(1) translateY(0);
+}
+.blueprint-grid {
+  background-image: 
+    linear-gradient(rgba(168, 135, 82, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(168, 135, 82, 0.08) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+.service-item {
+  transition: all 0.3s cubic-bezier(.2,.7,.2,1);
+}
+
+/* ── Lightbox ── */
+#lb-overlay{
+  display:none;position:fixed;inset:0;z-index:9999;
+  background:rgba(0,0,0,.92);
+  align-items:center;justify-content:center;
+  cursor:zoom-out;
+  padding:16px;
+}
+#lb-overlay.open{display:flex}
+#lb-overlay img{
+  max-width:100%;max-height:100%;
+  object-fit:contain;
+  border-radius:4px;
+  box-shadow:0 32px 80px rgba(0,0,0,.6);
+  cursor:default;
+  animation:lb-in .25s cubic-bezier(.2,.7,.2,1);
+}
+@keyframes lb-in{from{opacity:0;transform:scale(.93)}to{opacity:1;transform:scale(1)}}
+#lb-close{
+  position:fixed;top:20px;right:24px;
+  color:#fff;font-size:2rem;line-height:1;
+  background:none;border:none;cursor:pointer;
+  opacity:.7;transition:opacity .2s;z-index:10000;
+}
+#lb-close:hover{opacity:1}
+#lb-prev,#lb-next{
+  position:fixed;top:50%;transform:translateY(-50%);
+  color:#fff;font-size:2.5rem;background:none;border:none;
+  cursor:pointer;opacity:.5;transition:opacity .2s;
+  padding:16px;z-index:10000;user-select:none;
+}
+#lb-prev{left:8px}#lb-next{right:8px}
+#lb-prev:hover,#lb-next:hover{opacity:1}
+#lb-caption{
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  color:rgba(255,255,255,.6);font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;
+  white-space:nowrap;z-index:10000;
+}
+
+/* cursor hint on lightbox images */
+[data-lb]{cursor:zoom-in}
+
+/* ── Figma-like step cards ── */
+.step-card {
+  position: relative;
+  overflow: visible;
+}
+.figma-corner {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #FAF7F2;
+  border: 1.5px solid #A88752;
+  border-radius: 1px;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.3s cubic-bezier(.2,.7,.2,1), transform 0.3s cubic-bezier(.2,.7,.2,1);
+  z-index: 20;
+}
+.figma-corner.top-left { top: -3px; left: -3px; }
+.figma-corner.top-right { top: -3px; right: -3px; }
+.figma-corner.bottom-left { bottom: -3px; left: -3px; }
+.figma-corner.bottom-right { bottom: -3px; right: -3px; }
+
+.figma-badge {
+  position: absolute;
+  top: -22px;
+  left: -1px;
+  background: #A88752;
+  color: #FAF7F2;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: 2px 2px 2px 0;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.3s cubic-bezier(.2,.7,.2,1), transform 0.3s cubic-bezier(.2,.7,.2,1);
+  pointer-events: none;
+  z-index: 20;
+}
+
+.step-card:hover .figma-corner {
+  opacity: 1;
+  transform: scale(1);
+}
+.step-card:hover .figma-badge {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── SVG микро-анимации с яркими градиентами ── */
+.radar-beam {
+  animation: radar-rotate 4s linear infinite;
+  transition: filter 0.3s, stroke-width 0.3s;
+}
+.step-card:hover .radar-beam {
+  animation-duration: 1.5s;
+  stroke-width: 2.5px;
+  filter: drop-shadow(0 0 4px #06B6D4);
+}
+@keyframes radar-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.radar-dot {
+  opacity: 0.4;
+  transition: opacity 0.3s, fill 0.3s, filter 0.3s;
+}
+.dot-1 { animation: dot-pulse 2s infinite ease-in-out; }
+.dot-2 { animation: dot-pulse 1.7s infinite ease-in-out 0.4s; }
+.dot-3 { animation: dot-pulse 2.3s infinite ease-in-out 0.8s; }
+
+@keyframes dot-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+.step-card:hover .dot-1 {
+  fill: #3B82F6;
+  filter: drop-shadow(0 0 5px #3B82F6);
+  opacity: 1;
+}
+.step-card:hover .dot-2 {
+  fill: #EC4899;
+  filter: drop-shadow(0 0 5px #EC4899);
+  opacity: 1;
+}
+.step-card:hover .dot-3 {
+  fill: #10B981;
+  filter: drop-shadow(0 0 5px #10B981);
+  opacity: 1;
+}
+.step-card:hover .radar-grid {
+  stroke: rgba(168, 135, 82, 0.4);
+  transition: stroke 0.3s;
+}
+
+/* 2. Концепция (Безье) */
+.bezier-curve {
+  transition: stroke 0.3s, stroke-width 0.3s, filter 0.3s;
+}
+.step-card:hover .bezier-curve {
+  stroke: url(#bezier-grad);
+  stroke-width: 3px;
+  filter: drop-shadow(0 0 5px rgba(139, 92, 246, 0.7));
+}
+.bezier-handle-1, .bezier-handle-line-1 {
+  animation: bezier-float-left 5s ease-in-out infinite;
+  transition: fill 0.3s, stroke 0.3s, filter 0.3s, opacity 0.3s;
+}
+.bezier-handle-2, .bezier-handle-line-2 {
+  animation: bezier-float-right 5.5s ease-in-out infinite;
+  transition: fill 0.3s, stroke 0.3s, filter 0.3s, opacity 0.3s;
+}
+.bezier-anchor {
+  transition: stroke 0.3s;
+}
+.bezier-grid {
+  transition: stroke 0.3s;
+}
+
+@keyframes bezier-float-left {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-3px, 5px); }
+}
+@keyframes bezier-float-right {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(4px, -3px); }
+}
+
+.step-card:hover .bezier-handle-1 {
+  fill: #EC4899;
+  filter: drop-shadow(0 0 4px #EC4899);
+}
+.step-card:hover .bezier-handle-line-1 {
+  stroke: #EC4899;
+  opacity: 0.8;
+}
+.step-card:hover .bezier-handle-2 {
+  fill: #3B82F6;
+  filter: drop-shadow(0 0 4px #3B82F6);
+}
+.step-card:hover .bezier-handle-line-2 {
+  stroke: #3B82F6;
+  opacity: 0.8;
+}
+.step-card:hover .bezier-anchor {
+  stroke: #8B5CF6;
+}
+.step-card:hover .bezier-grid {
+  stroke: rgba(168, 135, 82, 0.3);
+}
+
+/* 3. Воплощение (Слои) */
+.layer-bottom, .layer-middle, .layer-top {
+  transition: transform 0.5s cubic-bezier(.2,.7,.2,1);
+}
+.layer-rect-bottom, .layer-rect-middle, .layer-rect-top {
+  transition: stroke 0.4s, fill 0.4s, filter 0.4s;
+}
+.layer-line, .layer-circle {
+  transition: stroke 0.4s;
+}
+.step-card:hover .layer-middle {
+  transform: translate(-3px, -12px);
+}
+.step-card:hover .layer-top {
+  transform: translate(-6px, -24px);
+}
+
+.step-card:hover .layer-rect-bottom {
+  stroke: url(#layer-grad-bottom);
+  filter: drop-shadow(0 0 3px rgba(59, 130, 246, 0.4));
+}
+.step-card:hover .layer-rect-middle {
+  stroke: url(#layer-grad-middle);
+  filter: drop-shadow(0 0 3px rgba(139, 92, 246, 0.4));
+}
+.step-card:hover .layer-rect-top {
+  stroke: url(#layer-grad-top);
+  filter: drop-shadow(0 0 4px rgba(236, 72, 153, 0.5));
+}
+.step-card:hover .layer-middle .layer-circle,
+.step-card:hover .layer-middle .layer-line {
+  stroke: #8B5CF6;
+}
+.step-card:hover .layer-bottom .layer-line {
+  stroke: #3B82F6;
+}
+
+.export-arrow {
+  transition: transform 0.5s cubic-bezier(.2,.7,.2,1), stroke 0.3s, filter 0.3s;
+}
+.step-card:hover .export-arrow {
+  stroke: #F59E0B;
+  filter: drop-shadow(0 0 3px #F59E0B);
+  animation: export-bounce 1.2s infinite ease-in-out;
+}
+@keyframes export-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* ── SVG Линии-Коннекторы ── */
+.anim-pulse-line {
+  stroke-dasharray: 8 80;
+  animation: line-pulse 3s infinite linear;
+}
+svg .delay-75 {
+  animation-delay: 1.5s;
+}
+@keyframes line-pulse {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -88; }
+}
+</style>
+<base target="_blank">
+</head>
+<body>
+
+<!-- NAV -->
+<header class="px-6 md:px-10 py-5 flex items-center justify-between text-sm border-b border-line">
+  <a href="index.html" class="font-serif text-xl tracking-tight">Nik<span class="display-italic text-gold">·</span>Studio</a>
+  <nav class="hidden md:flex gap-8 text-smoke">
+    <a href="index.html"   class="hover:text-ink u-link">Hub</a>
+    <a href="montage.html" class="hover:text-ink u-link">Монтаж</a>
+    <a href="design.html"  class="text-ink">Дизайн</a>
+    <a href="dev.html"     class="hover:text-ink u-link">Разработка</a>
+  </nav>
+  <a href="#contact" class="hidden md:inline-block border border-ink px-4 py-2 hover:bg-ink hover:text-paper transition">Связаться</a>
+</header>
+
+<!-- HERO -->
+<section class="px-6 md:px-10 pt-16 md:pt-28 pb-20 md:pb-32 border-b border-line">
+  <div class="max-w-[1400px] mx-auto">
+    <div class="flex items-baseline gap-4 mb-10 reveal">
+      <span class="num-marker text-2xl">02</span>
+      <span class="text-xs uppercase tracking-[0.25em] text-smoke">Дизайн&nbsp;·&nbsp;Studio</span>
+    </div>
+
+    <!-- Hero with image -->
+    <div class="grid md:grid-cols-12 gap-8 md:gap-12 items-center">
+      <!-- Text -->
+      <div class="md:col-span-7">
+        <h1 class="display text-[8vw] md:text-[clamp(2.2rem,3.5vw,3.4rem)] leading-[1.05] reveal">
+          Дизайн, который <span class="display-italic text-gold">кликают</span>, а не листают мимо.
+        </h1>
+
+        <div class="grid md:grid-cols-1 gap-8 mt-10 reveal reveal-delay-1">
+          <p class="text-lg leading-relaxed text-ink/85">
+            Превью YouTube, шапки каналов, логотипы, оформление соцсетей. 6 лет&nbsp;развиваю свой канал на&nbsp;272K — знаю, что&nbsp;работает в&nbsp;нише блогеров.
+          </p>
+          <div class="space-y-2.5" id="services-list">
+            <!-- Item 1: YouTube previews -->
+            <a href="#previews" target="_self" class="service-item flex items-center justify-between border-b border-line pb-4 pt-3 cursor-pointer transition-all duration-300 group hover:border-gold px-3 hover:bg-gold/5 rounded hover:shadow-sm block" data-showcase="youtube">
+              <div class="flex items-center gap-3">
+                <span class="num-marker text-xs opacity-50 group-hover:opacity-100 group-hover:text-gold transition">01</span>
+                <span class="text-base text-ink font-medium tracking-tight group-hover:translate-x-1 transition-transform duration-300">Превью YouTube</span>
+              </div>
+              <div class="flex items-center gap-4 font-mono text-sm">
+                <span class="text-smoke group-hover:text-ink transition hidden sm:inline">от 500 ₽</span>
+                <span class="px-3 py-1.5 text-xs font-serif font-semibold italic bg-gold/10 border border-gold/30 text-gold rounded-full transition-all duration-300 group-hover:bg-gold group-hover:text-paper group-hover:border-gold">Смотреть →</span>
+              </div>
+            </a>
+            <!-- Item 2: Banners -->
+            <a href="#banners" target="_self" class="service-item flex items-center justify-between border-b border-line pb-4 pt-3 cursor-pointer transition-all duration-300 group hover:border-gold px-3 hover:bg-gold/5 rounded hover:shadow-sm block" data-showcase="banner">
+              <div class="flex items-center gap-3">
+                <span class="num-marker text-xs opacity-50 group-hover:opacity-100 group-hover:text-gold transition">02</span>
+                <span class="text-base text-ink font-medium tracking-tight group-hover:translate-x-1 transition-transform duration-300">Шапка канала</span>
+              </div>
+              <div class="flex items-center gap-4 font-mono text-sm">
+                <span class="text-smoke group-hover:text-ink transition hidden sm:inline">от 500 ₽</span>
+                <span class="px-3 py-1.5 text-xs font-serif font-semibold italic bg-gold/10 border border-gold/30 text-gold rounded-full transition-all duration-300 group-hover:bg-gold group-hover:text-paper group-hover:border-gold">Смотреть →</span>
+              </div>
+            </a>
+            <!-- Item 3: Marketplace cards -->
+            <a href="#marketplaces" target="_self" class="service-item flex items-center justify-between border-b border-line pb-4 pt-3 cursor-pointer transition-all duration-300 group hover:border-gold px-3 hover:bg-gold/5 rounded hover:shadow-sm block" data-showcase="cards">
+              <div class="flex items-center gap-3">
+                <span class="num-marker text-xs opacity-50 group-hover:opacity-100 group-hover:text-gold transition">03</span>
+                <span class="text-base text-ink font-medium tracking-tight group-hover:translate-x-1 transition-transform duration-300">Карточки товаров</span>
+              </div>
+              <div class="flex items-center gap-4 font-mono text-sm">
+                <span class="text-smoke group-hover:text-ink transition hidden sm:inline">от 500 ₽</span>
+                <span class="px-3 py-1.5 text-xs font-serif font-semibold italic bg-gold/10 border border-gold/30 text-gold rounded-full transition-all duration-300 group-hover:bg-gold group-hover:text-paper group-hover:border-gold">Смотреть →</span>
+              </div>
+            </a>
+            <!-- Item 4: Socials -->
+            <a href="#contact" target="_self" class="service-item flex items-center justify-between border-b border-line pb-4 pt-3 cursor-pointer transition-all duration-300 group hover:border-gold px-3 hover:bg-gold/5 rounded hover:shadow-sm block" data-showcase="socials">
+              <div class="flex items-center gap-3">
+                <span class="num-marker text-xs opacity-50 group-hover:opacity-100 group-hover:text-gold transition">04</span>
+                <span class="text-base text-ink font-medium tracking-tight group-hover:translate-x-1 transition-transform duration-300">Дизайн соцсетей</span>
+              </div>
+              <div class="flex items-center gap-4 font-mono text-sm">
+                <span class="text-smoke group-hover:text-ink transition hidden sm:inline">от 500 ₽</span>
+                <span class="px-3 py-1.5 text-xs font-serif font-semibold italic bg-gold/10 border border-gold/30 text-gold rounded-full transition-all duration-300 group-hover:bg-gold group-hover:text-paper group-hover:border-gold">Смотреть →</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Image -->
+      <div class="md:col-span-5 reveal reveal-delay-1 hero-image-wrap">
+        <div class="relative">
+          <div class="aspect-video overflow-hidden border border-line shadow-2xl hero-photo-inner relative" style="border-radius:2px;">
+            
+            <!-- Default Layer: Nik Studio photo -->
+            <div class="showcase-layer showcase-default active">
+              <img src="https://i.postimg.cc/KjnvGrzj/Editor-session-(1).png"
+                   alt="Nik — дизайнер"
+                   class="w-full h-full object-cover hero-photo-img"
+                   style="filter: contrast(1.05) saturate(0.95);">
+            </div>
+
+            <!-- YouTube Previews Layer (Collage) -->
+            <div class="showcase-layer showcase-youtube flex items-center justify-center bg-[#FAF7F2] p-4 overflow-hidden">
+              <div class="blueprint-grid opacity-15 absolute inset-0"></div>
+              <div class="relative w-full h-full flex items-center justify-center select-none">
+                <img src="https://i.ibb.co/rGXrG7cf/imgi-143-b9f790244922525-69a1cf2c177de.jpg" 
+                     class="absolute w-[52%] aspect-video object-cover shadow-2xl border border-line rounded transition-transform duration-500 hover:scale-105 z-20"
+                     style="transform: translate(-15%, -15%) rotate(-4deg); transform-origin: center;">
+                <img src="https://i.ibb.co/0yT0ZDhT/imgi-38-ebcf5b244922525-69a1cf285e209.jpg" 
+                     class="absolute w-[48%] aspect-video object-cover shadow-2xl border border-line rounded transition-transform duration-500 hover:scale-105 z-10"
+                     style="transform: translate(25%, 15%) rotate(5deg); transform-origin: center;">
+                <img src="https://i.ibb.co/tpr1fRjB/imgi-39-d7422e244922525-69a1cf285e97d.jpg" 
+                     class="absolute w-[44%] aspect-video object-cover shadow-2xl border border-line rounded transition-transform duration-500 hover:scale-105 z-30"
+                     style="transform: translate(-25%, 25%) rotate(-2deg); transform-origin: center;">
+              </div>
+            </div>
+
+            <!-- Banners Layer -->
+            <div class="showcase-layer showcase-banner flex flex-col justify-center items-center bg-[#FAF7F2] p-6 overflow-hidden">
+              <div class="blueprint-grid opacity-15 absolute inset-0"></div>
+              <div class="w-full space-y-4 max-w-[90%] relative z-10 select-none">
+                <div class="aspect-[21/4] w-full overflow-hidden border border-line shadow-lg rounded-sm transition-transform duration-500 hover:scale-102"
+                     style="transform: rotate(-1.5deg);">
+                  <img src="https://i.ibb.co/n85sCXR8/1.png" class="w-full h-full object-cover">
+                </div>
+                <div class="aspect-[21/4] w-full overflow-hidden border border-line shadow-lg rounded-sm transition-transform duration-500 hover:scale-102"
+                     style="transform: rotate(2deg) translate(5px, 0);">
+                  <img src="https://i.ibb.co/bRghRSdZ/2.png" class="w-full h-full object-cover">
+                </div>
+              </div>
+            </div>
+
+            <!-- Marketplace Cards Layer -->
+            <div class="showcase-layer showcase-cards flex items-center justify-center bg-[#FAF7F2] p-4 overflow-hidden">
+              <div class="blueprint-grid opacity-15 absolute inset-0"></div>
+              <div class="relative w-full h-full flex items-center justify-center gap-4 select-none">
+                <img src="https://i.ibb.co/qL2pr841/imgi-180-acb822250434979-6a1f2cab018d5.png" 
+                     class="w-[28%] aspect-[3/4] object-cover shadow-xl border border-line rounded transition-transform duration-500 hover:scale-105 z-20"
+                     style="transform: translate(-10px, -15px) rotate(-3deg);">
+                <img src="https://i.ibb.co/VcmMw8Xr/imgi-189-e32db2249721611-6a0dd5ffc8fc5.jpg" 
+                     class="w-[28%] aspect-[3/4] object-cover shadow-xl border border-line rounded transition-transform duration-500 hover:scale-105 z-10"
+                     style="transform: translate(5px, 15px) rotate(4deg);">
+                <img src="https://i.ibb.co/HpDZ2j1d/Screenshot-20.jpg" 
+                     class="w-[28%] aspect-[3/4] object-cover shadow-xl border border-line rounded transition-transform duration-500 hover:scale-105 z-30"
+                     style="transform: translate(15px, -20px) rotate(-1deg);">
+              </div>
+            </div>
+
+            <!-- Socials/Branding Layer -->
+            <div class="showcase-layer showcase-socials flex items-center justify-center bg-[#FAF7F2] p-4 overflow-hidden">
+              <div class="blueprint-grid opacity-15 absolute inset-0"></div>
+              <div class="relative w-full h-full flex items-center justify-center select-none">
+                <img src="https://i.ibb.co/VpHQX7zV/imgi-43-0ed169244922525-69a1cf299ce4d.jpg" 
+                     class="absolute w-[46%] aspect-video object-cover shadow-2xl border border-line rounded transition-transform duration-500 hover:scale-105 z-10"
+                     style="transform: translate(-20%, -10%) rotate(-5deg);">
+                <img src="https://i.ibb.co/vCVrVXG1/imgi-45-adeff4244922525-69a1cf2b3855b.jpg" 
+                     class="absolute w-[46%] aspect-video object-cover shadow-2xl border border-line rounded transition-transform duration-500 hover:scale-105 z-20"
+                     style="transform: translate(20%, 15%) rotate(3deg);">
+              </div>
+            </div>
+
+          </div>
+          <!-- Decorative frame element -->
+          <div class="absolute -bottom-3 -left-3 w-full h-full border border-gold/30 -z-10 hero-frame" style="border-radius:2px;"></div>
+          <div class="absolute -top-3 -right-3 text-xs font-mono text-gold/60 tracking-wider hero-badge">2026</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ABOUT -->
+<section class="px-6 md:px-10 py-20 md:py-28 border-y border-line">
+  <div class="max-w-[1400px] mx-auto grid md:grid-cols-12 gap-10">
+    <div class="md:col-span-3 reveal">
+      <div class="text-xs uppercase tracking-[0.25em] text-smoke">— Подход</div>
+    </div>
+    <div class="md:col-span-7 reveal reveal-delay-1">
+      <p class="display text-3xl md:text-5xl leading-tight">
+        Сначала смысл, потом форма. Хороший дизайн — <span class="display-italic text-gold">не&nbsp;стиль</span>, а&nbsp;ясная мысль, которой нашли точное визуальное выражение.
+      </p>
+      <div class="mt-12 relative">
+        <!-- SVG Линии-коннекторы для десктопа -->
+        <div class="hidden md:block absolute top-16 left-0 w-full h-32 pointer-events-none z-0">
+          <svg class="w-full h-full" viewBox="0 0 1000 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Линия 1 (от 1-й к 2-й карточке) -->
+            <path d="M 290 64 H 380" stroke="#E5E0D6" stroke-width="1.5" stroke-dasharray="4 4" />
+            <path d="M 290 64 H 380" stroke="#A88752" stroke-width="1.5" class="anim-pulse-line" />
+            
+            <!-- Линия 2 (от 2-й к 3-й карточке) -->
+            <path d="M 620 64 H 710" stroke="#E5E0D6" stroke-width="1.5" stroke-dasharray="4 4" />
+            <path d="M 620 64 H 710" stroke="#A88752" stroke-width="1.5" class="anim-pulse-line delay-75" />
+          </svg>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-sm text-smoke relative z-10">
+          <!-- Шаг i: Исследование -->
+          <div class="step-card group relative bg-paper border border-line rounded-lg p-6 transition-all duration-500 hover:border-gold hover:shadow-lg hover:-translate-y-1">
+            <div class="figma-corner top-left"></div>
+            <div class="figma-corner top-right"></div>
+            <div class="figma-corner bottom-left"></div>
+            <div class="figma-corner bottom-right"></div>
+            <div class="figma-badge">Nik (Designer)</div>
+
+            <div class="h-32 mb-6 flex items-center justify-center bg-cream/20 rounded-md border border-line/50 overflow-hidden relative group-hover:bg-gold/5 transition-colors duration-500">
+              <svg class="w-24 h-24 text-gold/30 group-hover:text-gold/80 transition-colors duration-500" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="radar-beam-grad" x1="50" y1="50" x2="50" y2="10" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#8B5CF6" stop-opacity="0" />
+                    <stop offset="55%" stop-color="#3B82F6" stop-opacity="0.4" />
+                    <stop offset="100%" stop-color="#06B6D4" stop-opacity="1" />
+                  </linearGradient>
+                </defs>
+                <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="0.75" stroke-dasharray="2 2" class="radar-grid" />
+                <circle cx="50" cy="50" r="28" stroke="currentColor" stroke-width="1" class="radar-grid" />
+                <circle cx="50" cy="50" r="16" stroke="currentColor" stroke-width="0.75" stroke-dasharray="2 2" class="radar-grid" />
+                <line x1="50" y1="50" x2="50" y2="10" stroke="url(#radar-beam-grad)" stroke-width="1.5" class="radar-beam" transform-origin="50 50" stroke-linecap="round" />
+                <circle cx="35" cy="30" r="3" fill="currentColor" class="radar-dot dot-1" />
+                <circle cx="68" cy="42" r="2" fill="currentColor" class="radar-dot dot-2" />
+                <circle cx="45" cy="72" r="2.5" fill="currentColor" class="radar-dot dot-3" />
+              </svg>
+            </div>
+
+            <div class="num-marker text-2xl mb-2 group-hover:text-gold transition-colors duration-300">1.</div>
+            <div class="text-ink font-semibold text-base mb-1 group-hover:text-gold transition-colors duration-300">Исследование</div>
+            <p class="text-smoke group-hover:text-ink/80 transition-colors duration-300">Конкуренты, аудитория, контекст рынка</p>
+          </div>
+
+          <!-- Шаг ii: Концепция -->
+          <div class="step-card group relative bg-paper border border-line rounded-lg p-6 transition-all duration-500 hover:border-gold hover:shadow-lg hover:-translate-y-1">
+            <div class="figma-corner top-left"></div>
+            <div class="figma-corner top-right"></div>
+            <div class="figma-corner bottom-left"></div>
+            <div class="figma-corner bottom-right"></div>
+            <div class="figma-badge">Nik (Designer)</div>
+
+            <div class="h-32 mb-6 flex items-center justify-center bg-cream/20 rounded-md border border-line/50 overflow-hidden relative group-hover:bg-gold/5 transition-colors duration-500">
+              <svg class="w-24 h-24 text-gold/30 group-hover:text-gold/80 transition-colors duration-500" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="bezier-grad" x1="20" y1="50" x2="80" y2="50" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#EC4899" />
+                    <stop offset="50%" stop-color="#8B5CF6" />
+                    <stop offset="100%" stop-color="#3B82F6" />
+                  </linearGradient>
+                </defs>
+                <path d="M10 50 H90 M50 10 V90" stroke="currentColor" stroke-width="0.5" stroke-dasharray="1 4" opacity="0.5" class="bezier-grid" />
+                <path d="M 20,65 C 35,25 65,25 80,65" stroke="currentColor" stroke-width="2" id="bezier-path" class="bezier-curve" />
+                <circle cx="20" cy="65" r="3" fill="#FAF7F2" stroke="currentColor" stroke-width="1.5" class="bezier-anchor" />
+                <circle cx="80" cy="65" r="3" fill="#FAF7F2" stroke="currentColor" stroke-width="1.5" class="bezier-anchor" />
+                
+                <line x1="20" y1="65" x2="35" y2="25" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2" class="bezier-handle-line-1" />
+                <circle cx="35" cy="25" r="3.5" fill="currentColor" class="bezier-handle-1" />
+                
+                <line x1="80" y1="65" x2="65" y2="25" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2" class="bezier-handle-line-2" />
+                <circle cx="65" cy="25" r="3.5" fill="currentColor" class="bezier-handle-2" />
+              </svg>
+            </div>
+
+            <div class="num-marker text-2xl mb-2 group-hover:text-gold transition-colors duration-300">2.</div>
+            <div class="text-ink font-semibold text-base mb-1 group-hover:text-gold transition-colors duration-300">Концепция</div>
+            <p class="text-smoke group-hover:text-ink/80 transition-colors duration-300">Стиль, тон, ключевая визуальная идея</p>
+          </div>
+
+          <!-- Шаг iii: Воплощение -->
+          <div class="step-card group relative bg-paper border border-line rounded-lg p-6 transition-all duration-500 hover:border-gold hover:shadow-lg hover:-translate-y-1">
+            <div class="figma-corner top-left"></div>
+            <div class="figma-corner top-right"></div>
+            <div class="figma-corner bottom-left"></div>
+            <div class="figma-corner bottom-right"></div>
+            <div class="figma-badge">Nik (Designer)</div>
+
+            <div class="h-32 mb-6 flex items-center justify-center bg-cream/20 rounded-md border border-line/50 overflow-hidden relative group-hover:bg-gold/5 transition-colors duration-500">
+              <svg class="w-24 h-24 text-gold/30 group-hover:text-gold/80 transition-colors duration-500" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="layer-grad-bottom" x1="25" y1="52" x2="75" y2="80" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#3B82F6" />
+                    <stop offset="100%" stop-color="#8B5CF6" />
+                  </linearGradient>
+                  <linearGradient id="layer-grad-middle" x1="25" y1="42" x2="75" y2="70" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#8B5CF6" />
+                    <stop offset="100%" stop-color="#EC4899" />
+                  </linearGradient>
+                  <linearGradient id="layer-grad-top" x1="25" y1="32" x2="75" y2="60" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#EC4899" />
+                    <stop offset="100%" stop-color="#F59E0B" />
+                  </linearGradient>
+                </defs>
+                <g class="layer-bottom" transform="translate(0, 0)">
+                  <rect x="25" y="52" width="50" height="28" rx="2" fill="none" stroke="currentColor" stroke-width="1.5" class="layer-rect-bottom" />
+                  <line x1="32" y1="60" x2="68" y2="60" stroke="currentColor" stroke-width="1" class="layer-line" opacity="0.7" />
+                  <line x1="32" y1="66" x2="56" y2="66" stroke="currentColor" stroke-width="1" class="layer-line" opacity="0.7" />
+                  <line x1="32" y1="72" x2="44" y2="72" stroke="currentColor" stroke-width="1" class="layer-line" opacity="0.7" />
+                </g>
+                <g class="layer-middle" transform="translate(0, -8)">
+                  <rect x="25" y="42" width="50" height="28" rx="2" fill="#FAF7F2" stroke="currentColor" stroke-width="1.5" class="layer-rect-middle" />
+                  <circle cx="37" cy="56" r="6" stroke="currentColor" stroke-width="1.2" class="layer-circle" />
+                  <line x1="48" y1="53" x2="68" y2="53" stroke="currentColor" stroke-width="1" class="layer-line" />
+                  <line x1="48" y1="59" x2="64" y2="59" stroke="currentColor" stroke-width="1" class="layer-line" />
+                </g>
+                <g class="layer-top" transform="translate(0, -16)">
+                  <rect x="25" y="32" width="50" height="28" rx="2" fill="#FAF7F2" stroke="currentColor" stroke-width="1.5" class="layer-rect-top" />
+                  <path d="M42 46 L50 38 L58 46 M50 38 V50" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="export-arrow" />
+                </g>
+              </svg>
+            </div>
+
+            <div class="num-marker text-2xl mb-2 group-hover:text-gold transition-colors duration-300">3.</div>
+            <div class="text-ink font-semibold text-base mb-1 group-hover:text-gold transition-colors duration-300">Воплощение</div>
+            <p class="text-smoke group-hover:text-ink/80 transition-colors duration-300">Создаем правила оформления, собираем макеты и отдаем готовый результат.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BIG TEXT MARQUEE -->
+<div class="border-y border-line py-8 overflow-hidden bg-paper">
+  <div class="marq">
+    <div class="marq-track display text-5xl md:text-7xl whitespace-nowrap">
+      <span>Брендинг</span><span class="display-italic text-gold">·</span>
+      <span>Лендинги</span><span class="display-italic text-gold">·</span>
+      <span>Постеры</span><span class="display-italic text-gold">·</span>
+      <span>Айдентика</span><span class="display-italic text-gold">·</span>
+      <span>UI&nbsp;/&nbsp;UX</span><span class="display-italic text-gold">·</span>
+      <span>Соцсети</span><span class="display-italic text-gold">·</span>
+    </div>
+    <div class="marq-track display text-5xl md:text-7xl whitespace-nowrap" aria-hidden="true">
+      <span>Брендинг</span><span class="display-italic text-gold">·</span>
+      <span>Лендинги</span><span class="display-italic text-gold">·</span>
+      <span>Постеры</span><span class="display-italic text-gold">·</span>
+      <span>Айдентика</span><span class="display-italic text-gold">·</span>
+      <span>UI&nbsp;/&nbsp;UX</span><span class="display-italic text-gold">·</span>
+      <span>Соцсети</span><span class="display-italic text-gold">·</span>
+    </div>
+  </div>
+</div>
+
+<!-- ПРЕВЬЮ ДЛЯ YOUTUBE -->
+<section id="previews" class="px-6 md:px-10 py-20 md:py-28">
+  <div class="max-w-[1400px] mx-auto">
+    <div class="flex items-end justify-between mb-12 reveal">
+      <div>
+        <div class="text-xs uppercase tracking-[0.25em] text-smoke mb-3">— Превью YouTube</div>
+        <h2 class="display text-5xl md:text-7xl">Превью</h2>
+      </div>
+      <div class="hidden md:block text-sm">
+        <span class="text-smoke">от</span> <span class="font-mono text-ink text-xl">500 ₽</span>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+      <article class="reveal group">
+        <div class="aspect-video overflow-hidden hover-img border border-line bg-ink shadow-lg transition-shadow hover:shadow-2xl cursor-zoom-in"
+             data-lb="https://i.ibb.co/rGXrG7cf/imgi-143-b9f790244922525-69a1cf2c177de.jpg" data-lb-caption="YouTube превью · 2026">
+          <img src="https://i.ibb.co/rGXrG7cf/imgi-143-b9f790244922525-69a1cf2c177de.jpg" alt="Превью 1" class="w-full h-full object-cover pointer-events-none" loading="eager">
+        </div>
+        <div class="mt-4 text-sm text-smoke group-hover:text-ink transition">YouTube превью · 2026</div>
+      </article>
+      
+      <article class="reveal reveal-delay-1 group">
+        <div class="aspect-video overflow-hidden hover-img border border-line bg-ink shadow-lg transition-shadow hover:shadow-2xl cursor-zoom-in"
+             data-lb="https://i.ibb.co/0yT0ZDhT/imgi-38-ebcf5b244922525-69a1cf285e209.jpg" data-lb-caption="YouTube превью · 2026">
+          <img src="https://i.ibb.co/0yT0ZDhT/imgi-38-ebcf5b244922525-69a1cf285e209.jpg" alt="Превью 2" class="w-full h-full object-cover pointer-events-none" loading="eager">
+        </div>
+        <div class="mt-4 text-sm text-smoke group-hover:text-ink transition">YouTube превью · 2026</div>
+      </article>
+
+      <article class="reveal reveal-delay-2 group">
+        <div class="aspect-video overflow-hidden hover-img border border-line bg-ink shadow-lg transition-shadow hover:shadow-2xl cursor-zoom-in"
+             data-lb="https://i.ibb.co/tpr1fRjB/imgi-39-d7422e244922525-69a1cf285e97d.jpg" data-lb-caption="YouTube превью · 2026">
+          <img src="https://i.ibb.co/tpr1fRjB/imgi-39-d7422e244922525-69a1cf285e97d.jpg" alt="Превью 3" class="w-full h-full object-cover pointer-events-none" loading="lazy">
+        </div>
+        <div class="mt-4 text-sm text-smoke group-hover:text-ink transition">YouTube превью · 2026</div>
+      </article>
+
+      <article class="reveal group">
+        <div class="aspect-video overflow-hidden hover-img border border-line bg-ink shadow-lg transition-shadow hover:shadow-2xl cursor-zoom-in"
+             data-lb="https://i.ibb.co/RGtMj0r1/imgi-40-b97cc7244922525-69a1cf2911825.jpg" data-lb-caption="YouTube превью · 2026">
+          <img src="https://i.ibb.co/RGtMj0r1/imgi-40-b97cc7244922525-69a1cf2911825.jpg" alt="Превью 4" class="w-full h-full object-cover pointer-events-none" loading="lazy">
+        </div>
+        <div class="mt-4 text-sm text-smoke group-hover:text-ink transition">YouTube превью · 2026</div>
+      </article>
+
+      <article class="reveal reveal-delay-1 group">
+        <div class="aspect-video overflow-hidden hover-img border border-line bg-ink shadow-lg transition-shadow hover:shadow-2xl cursor-zoom-in"
+             data-lb="https://i.ibb.co/VpHQX7zV/imgi-43-0ed169244922525-69a1cf299ce4d.jpg" data-lb-caption="YouTube превью · 2026">
+          <img src="https://i.ibb.co/VpHQX7zV/imgi-43-0ed169244922525-69a1cf299ce4d.jpg" alt="Превью 5" class="w-full h-full object-cover pointer-events-none" loading="lazy">
+        </div>
+        <div class="mt-4 text-sm text-smoke group-hover:text-ink transition">YouTube превью · 2026</div>
+      </article>
+
+      <article class="reveal reveal-delay-2 group">
+        <div class="aspect-video overflow-hidden hover-img border border-line bg-ink shadow-lg transition-shadow hover:shadow-2xl cursor-zoom-in"
+             data-lb="https://i.ibb.co/vCVrVXG1/imgi-45-adeff4244922525-69a1cf2b3855b.jpg" data-lb-caption="YouTube превью · 2026">
+          <img src="https://i.ibb.co/vCVrVXG1/imgi-45-adeff4244922525-69a1cf2b3855b.jpg" alt="Превью 6" class="w-full h-full object-cover pointer-events-none" loading="lazy">
+        </div>
+        <div class="mt-4 text-sm text-smoke group-hover:text-ink transition">YouTube превью · 2026</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ШАПКИ ДЛЯ YOUTUBE -->
+<section id="banners" class="px-6 md:px-10 py-20 md:py-28 bg-cream/40 border-y border-line">
+  <div class="max-w-[1400px] mx-auto">
+    <div class="flex items-end justify-between mb-12 reveal">
+      <div>
+        <div class="text-xs uppercase tracking-[0.25em] text-smoke mb-3">— Шапки каналов</div>
+        <h2 class="display text-5xl md:text-7xl">Баннеры</h2>
+      </div>
+      <div class="hidden md:block text-sm">
+        <span class="text-smoke">от</span> <span class="font-mono text-ink text-xl">500 ₽</span>
+      </div>
+    </div>
+
+    <div class="space-y-8">
+      <article class="reveal group">
+        <div class="aspect-[16/3] md:aspect-[21/4] overflow-hidden hover-img border-2 border-line bg-ink shadow-xl transition-shadow hover:shadow-2xl rounded-lg cursor-zoom-in"
+             data-lb="https://i.ibb.co/n85sCXR8/1.png" data-lb-caption="Шапка YouTube · 2560×1440 · 2026">
+          <img src="https://i.ibb.co/n85sCXR8/1.png" alt="Шапка канала 1" class="w-full h-full object-cover pointer-events-none" loading="eager">
+        </div>
+        <div class="mt-4 text-sm text-smoke group-hover:text-ink transition">Шапка YouTube · 2560×1440 · 2026</div>
+      </article>
+
+      <article class="reveal reveal-delay-1 group">
+        <div class="aspect-[16/3] md:aspect-[21/4] overflow-hidden hover-img border-2 border-line bg-ink shadow-xl transition-shadow hover:shadow-2xl rounded-lg cursor-zoom-in"
+             data-lb="https://i.ibb.co/bRghRSdZ/2.png" data-lb-caption="Шапка YouTube · 2560×1440 · 2026">
+          <img src="https://i.ibb.co/bRghRSdZ/2.png" alt="Шапка канала 2" class="w-full h-full object-cover pointer-events-none" loading="lazy">
+        </div>
+        <div class="mt-4 text-sm text-smoke group-hover:text-ink transition">Шапка YouTube · 2560×1440 · 2026</div>
+      </article>
+
+      <article class="reveal reveal-delay-2 group">
+        <div class="aspect-[16/3] md:aspect-[21/4] overflow-hidden hover-img border-2 border-line bg-ink shadow-xl transition-shadow hover:shadow-2xl rounded-lg cursor-zoom-in"
+             data-lb="https://i.ibb.co/DfCtgs5K/image.png" data-lb-caption="Шапка YouTube · 2560×1440 · 2026">
+          <img src="https://i.ibb.co/DfCtgs5K/image.png" alt="Шапка канала 3" class="w-full h-full object-cover pointer-events-none" loading="lazy">
+        </div>
+        <div class="mt-4 text-sm text-smoke group-hover:text-ink transition">Шапка YouTube · 2560×1440 · 2026</div>
+      </article>
+
+      <article class="reveal group">
+        <div class="aspect-[16/3] md:aspect-[21/4] overflow-hidden hover-img border-2 border-line bg-ink shadow-xl transition-shadow hover:shadow-2xl rounded-lg cursor-zoom-in"
+             data-lb="https://i.postimg.cc/3xTg7ntX/zagruzhennoe-(3).png" data-lb-caption="Шапка YouTube · 2560×1440 · 2026">
+          <img src="https://i.postimg.cc/3xTg7ntX/zagruzhennoe-(3).png" alt="Шапка канала 4" class="w-full h-full object-cover pointer-events-none" loading="lazy">
+        </div>
+        <div class="mt-4 text-sm text-smoke group-hover:text-ink transition">Шапка YouTube · 2560×1440 · 2025</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- КАРТОЧКИ ТОВАРОВ -->
+<section id="marketplaces" class="px-6 md:px-10 py-20 md:py-28 bg-gradient-to-b from-cream/30 to-paper">
+  <div class="max-w-[1400px] mx-auto">
+    <div class="flex items-end justify-between mb-12 reveal">
+      <div>
+        <div class="text-xs uppercase tracking-[0.25em] text-smoke mb-3">— Карточки товаров</div>
+        <h2 class="display text-5xl md:text-7xl">Маркетплейсы</h2>
+      </div>
+      <div class="hidden md:block text-sm">
+        <span class="text-smoke">от</span> <span class="font-mono text-ink text-xl">500 ₽</span>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
+      <article class="reveal group">
+        <div class="aspect-[3/4] overflow-hidden border-2 border-line bg-white shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-gold hover:-translate-y-2 rounded-xl cursor-zoom-in"
+             data-lb="https://i.ibb.co/qL2pr841/imgi-180-acb822250434979-6a1f2cab018d5.png" data-lb-caption="Карточка товара · Wildberries · 2026">
+          <img src="https://i.ibb.co/qL2pr841/imgi-180-acb822250434979-6a1f2cab018d5.png" alt="Карточка товара 1" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 pointer-events-none" loading="eager">
+        </div>
+        <div class="mt-3 text-center">
+          <div class="font-semibold text-ink group-hover:text-gold transition text-sm md:text-base">Wildberries</div>
+          <div class="text-xs text-smoke mt-1">2026</div>
+        </div>
+      </article>
+
+      <article class="reveal reveal-delay-1 group">
+        <div class="aspect-[3/4] overflow-hidden border-2 border-line bg-white shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-gold hover:-translate-y-2 rounded-xl cursor-zoom-in"
+             data-lb="https://i.ibb.co/VcmMw8Xr/imgi-189-e32db2249721611-6a0dd5ffc8fc5.jpg" data-lb-caption="Карточка товара · Wildberries · 2026">
+          <img src="https://i.ibb.co/VcmMw8Xr/imgi-189-e32db2249721611-6a0dd5ffc8fc5.jpg" alt="Карточка товара 2" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 pointer-events-none" loading="eager">
+        </div>
+        <div class="mt-3 text-center">
+          <div class="font-semibold text-ink group-hover:text-gold transition text-sm md:text-base">Wildberries</div>
+          <div class="text-xs text-smoke mt-1">2026</div>
+        </div>
+      </article>
+
+      <article class="reveal reveal-delay-2 group">
+        <div class="aspect-[3/4] overflow-hidden border-2 border-line bg-white shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-gold hover:-translate-y-2 rounded-xl cursor-zoom-in"
+             data-lb="https://i.ibb.co/HpDZ2j1d/Screenshot-20.jpg" data-lb-caption="Карточка товара · Ozon · 2026">
+          <img src="https://i.ibb.co/HpDZ2j1d/Screenshot-20.jpg" alt="Карточка товара 3" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 pointer-events-none" loading="lazy">
+        </div>
+        <div class="mt-3 text-center">
+          <div class="font-semibold text-ink group-hover:text-gold transition text-sm md:text-base">Ozon</div>
+          <div class="text-xs text-smoke mt-1">2026</div>
+        </div>
+      </article>
+
+      <article class="reveal group">
+        <div class="aspect-[3/4] overflow-hidden border-2 border-line bg-white shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-gold hover:-translate-y-2 rounded-xl cursor-zoom-in"
+             data-lb="https://i.ibb.co/TqmmX4G3/Screenshot-8.jpg" data-lb-caption="Карточка товара · Wildberries · 2025">
+          <img src="https://i.ibb.co/TqmmX4G3/Screenshot-8.jpg" alt="Карточка товара 4" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 pointer-events-none" loading="lazy">
+        </div>
+        <div class="mt-3 text-center">
+          <div class="font-semibold text-ink group-hover:text-gold transition text-sm md:text-base">Wildberries</div>
+          <div class="text-xs text-smoke mt-1">2025</div>
+        </div>
+      </article>
+
+      <article class="reveal reveal-delay-1 group">
+        <div class="aspect-[3/4] overflow-hidden border-2 border-line bg-white shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-gold hover:-translate-y-2 rounded-xl cursor-zoom-in"
+             data-lb="https://i.ibb.co/ynWtS2TF/Screenshot-7.jpg" data-lb-caption="Карточка товара · Ozon · 2025">
+          <img src="https://i.ibb.co/ynWtS2TF/Screenshot-7.jpg" alt="Карточка товара 5" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 pointer-events-none" loading="lazy">
+        </div>
+        <div class="mt-3 text-center">
+          <div class="font-semibold text-ink group-hover:text-gold transition text-sm md:text-base">Ozon</div>
+          <div class="text-xs text-smoke mt-1">2025</div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section class="px-6 md:px-10 py-24 md:py-36">
+  <div class="max-w-[1100px] mx-auto reveal">
+    <div class="num-marker text-3xl mb-8">“</div>
+    <blockquote class="display text-3xl md:text-5xl leading-snug">
+      Никита собрал нам айдентику за&nbsp;две недели. Результат — продажи в&nbsp;первый месяц выросли в&nbsp;<span class="display-italic text-gold">три раза</span>. И это&nbsp;при&nbsp;том, что мы&nbsp;не&nbsp;меняли продукт.
+    </blockquote>
+    <div class="mt-10 flex items-center gap-4">
+      <div class="w-10 h-10 rounded-full bg-olive"></div>
+      <div>
+        <div class="font-medium">Реальный отзыв клиента</div>
+        <div class="text-sm text-smoke">Брендинг-проект</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="px-6 md:px-10 py-24 border-t border-line bg-cream/40">
+  <div class="max-w-[1400px] mx-auto grid md:grid-cols-12 gap-10">
+    <div class="md:col-span-6 reveal">
+      <div class="text-xs uppercase tracking-[0.25em] text-smoke mb-4">— Связаться</div>
+      <h2 class="display text-5xl md:text-7xl leading-none">
+        Давайте <br/>
+        <span class="display-italic text-gold">сделаем </span><br/>
+        бренд.
+      </h2>
+      <p class="mt-8 text-smoke max-w-md">Опишите задачу — отвечу за сутки и пришлю смету с&nbsp;планом работы.</p>
+    </div>
+    <div class="md:col-span-6 space-y-4 reveal reveal-delay-1">
+      <a href="mailto:typonik@vk.com" class="block border border-ink p-6 hover:bg-ink hover:text-paper transition group">
+        <div class="text-xs uppercase tracking-[0.25em] opacity-60 mb-1">Email</div>
+        <div class="display text-3xl">typonik@vk.com</div>
+      </a>
+      <a href="https://t.me/pythonvoin" class="block border border-ink p-6 hover:bg-ink hover:text-paper transition">
+        <div class="text-xs uppercase tracking-[0.25em] opacity-60 mb-1">Telegram</div>
+        <div class="display text-3xl">@pythonvoin</div>
+      </a>
+      <a href="https://kwork.ru/user/nikitanext2002" target="_blank" class="block border border-ink p-6 hover:bg-ink hover:text-paper transition">
+        <div class="text-xs uppercase tracking-[0.25em] opacity-60 mb-1">Kwork · заказать сразу</div>
+        <div class="display text-3xl">kwork.ru/user/nikitanext2002</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="px-6 md:px-10 py-8 border-t border-line text-xs text-smoke flex flex-col md:flex-row justify-between gap-4">
+  <div>© 2026 Nik · Design studio · Блогер 272K</div>
+  <div class="flex gap-6">
+    <a href="/admin/" class="hover:text-ink">Admin</a>
+    <a href="https://youtube.com/@yotubeThebadBoy" target="_blank" class="hover:text-ink">YouTube</a>
+    <a href="https://kwork.ru/user/nikitanext2002" target="_blank" class="hover:text-ink">Kwork</a>
+    <a href="https://t.me/pythonvoin" class="hover:text-ink">Telegram</a>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div id="lb-overlay" role="dialog" aria-modal="true" aria-label="Просмотр изображения">
+  <button id="lb-close" aria-label="Закрыть">×</button>
+  <button id="lb-prev" aria-label="Предыдущее">‹</button>
+  <img id="lb-img" src="" alt="">
+  <button id="lb-next" aria-label="Следующее">›</button>
+  <div id="lb-caption"></div>
+</div>
+
+<script>
+// Reveal on scroll
+const io = new IntersectionObserver((es) => es.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+}), { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// ── Interactive Showcase switching ──
+(function() {
+  const serviceList = document.getElementById('services-list');
+  if (!serviceList) return;
+  const items = serviceList.querySelectorAll('.service-item');
+  const layers = document.querySelectorAll('.showcase-layer');
+
+  function showLayer(type) {
+    layers.forEach(layer => {
+      if (layer.classList.contains(`showcase-${type}`)) {
+        layer.classList.add('active');
+      } else {
+        layer.classList.remove('active');
+      }
+    });
+  }
+
+  let activeHover = null;
+  items.forEach(item => {
+    item.addEventListener('mouseenter', () => {
+      activeHover = item;
+      showLayer(item.dataset.showcase);
+    });
+    item.addEventListener('mouseleave', () => {
+      if (activeHover === item) {
+        activeHover = null;
+        setTimeout(() => {
+          if (!activeHover) {
+            showLayer('default');
+          }
+        }, 50);
+      }
+    });
+  });
+})();
+
+// ── Lightbox ──
+(function() {
+  const overlay = document.getElementById('lb-overlay');
+  const lbImg   = document.getElementById('lb-img');
+  const lbCap   = document.getElementById('lb-caption');
+  const btnClose = document.getElementById('lb-close');
+  const btnPrev  = document.getElementById('lb-prev');
+  const btnNext  = document.getElementById('lb-next');
+
+  let items = [];   // all [data-lb] elements
+  let cur   = 0;
+
+  function open(el) {
+    items = Array.from(document.querySelectorAll('[data-lb]'));
+    cur   = items.indexOf(el);
+    show(cur);
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+    lbImg.src = '';
+  }
+
+  function show(idx) {
+    cur = (idx + items.length) % items.length;
+    const el  = items[cur];
+    lbImg.src = el.dataset.lb;
+    lbImg.alt = el.querySelector('img')?.alt || '';
+    lbCap.textContent = el.dataset.lbCaption || '';
+    // hide arrows if only 1 image
+    const multi = items.length > 1;
+    btnPrev.style.display = multi ? '' : 'none';
+    btnNext.style.display = multi ? '' : 'none';
+  }
+
+  // Open on click
+  document.addEventListener('click', function(e) {
+    const el = e.target.closest('[data-lb]');
+    if (el) { e.preventDefault(); open(el); }
+  });
+
+  // Close on backdrop / button
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) close();
+  });
+  btnClose.addEventListener('click', close);
+
+  // Arrows
+  btnPrev.addEventListener('click', function(e) { e.stopPropagation(); show(cur - 1); });
+  btnNext.addEventListener('click', function(e) { e.stopPropagation(); show(cur + 1); });
+
+  // Keyboard
+  document.addEventListener('keydown', function(e) {
+    if (!overlay.classList.contains('open')) return;
+    if (e.key === 'Escape')     close();
+    if (e.key === 'ArrowLeft')  show(cur - 1);
+    if (e.key === 'ArrowRight') show(cur + 1);
+  });
+
+  // Touch swipe
+  let tx = 0;
+  overlay.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+  overlay.addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].clientX - tx;
+    if (Math.abs(dx) > 50) dx < 0 ? show(cur + 1) : show(cur - 1);
+  });
+})();
+
+// Try to render works from data/portfolio.json (graceful fallback to static)
+(async function loadWorks() {
+  try {
+    const res = await fetch('data/portfolio.json', { cache: 'no-store' });
+    if (!res.ok) return;
+    const data = await res.json();
+    const items = (data.projects || []).filter(p => p.category === 'design');
+    if (!items.length) return;
+
+    const grid = document.getElementById('works-grid');
+    grid.innerHTML = '';
+    items.forEach((p, i) => {
+      const sizes = [
+        'md:col-span-7 aspect-[4/3]',
+        'md:col-span-5 aspect-[4/5]',
+        'md:col-span-4 aspect-square',
+        'md:col-span-4 aspect-square',
+        'md:col-span-4 aspect-square',
+        'md:col-span-12 aspect-[21/9]'
+      ];
+      const cls = sizes[i % sizes.length].split(' ');
+      const colCls = cls[0];
+      const ratio = cls[1];
+      const tone = `ph-${(i % 6) + 1}`;
+      const link = p.link || '#';
+      const media = p.cover
+        ? `<img src="${p.cover}" alt="${p.title}" class="w-full h-full object-cover ph"/>`
+        : `<div class="ph ${tone}"></div>`;
+      grid.insertAdjacentHTML('beforeend', `
+        <article class="${colCls} proj-card reveal">
+          <a href="${link}" class="block group" target="_blank" rel="noopener">
+            <div class="${ratio} overflow-hidden hover-img">${media}</div>
+            <div class="mt-5 flex items-end justify-between meta">
+              <div>
+                <div class="display text-2xl md:text-3xl">${p.title || ''}</div>
+                <div class="text-sm text-smoke mt-1">${p.tag || ''}${p.year ? ' · ' + p.year : ''}</div>
+              </div>
+              <div class="text-xs font-mono text-smoke">→</div>
+            </div>
+          </a>
+        </article>
+      `);
+    });
+    // Re-arm reveals for newly added cards
+    document.querySelectorAll('#works-grid .reveal').forEach(el => io.observe(el));
+  } catch (e) { /* keep static fallback */ }
+})();
+</script>
+</body>
+</html>

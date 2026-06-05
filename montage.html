@@ -1,0 +1,1681 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nik · Монтаж YouTube · Превью · Reels</title>
+  <meta name="description" content="Монтаж YouTube-роликов, превью, Reels и Shorts. Заказы от блогера 272K." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Bebas+Neue&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['"JetBrains Mono"', 'monospace'],
+            display: ['"Bebas Neue"', 'sans-serif'],
+            sans: ['"Space Grotesk"', 'sans-serif'],
+          },
+          colors: {
+            ink: '#0A0A0A',
+            bone: '#EDE6D6',
+            rec: '#FF3B30',
+            amber: '#F5B82E',
+            tape: '#1A1A1A',
+            dust: '#3B3A36',
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    /* ============ ZERO-DEFAULTS ============ */
+    html {
+      scroll-behavior: smooth;
+      cursor: none;
+    }
+
+    body {
+      background: #0A0A0A;
+      color: #EDE6D6;
+      font-family: 'Space Grotesk', sans-serif;
+      overflow-x: hidden;
+    }
+
+    ::selection {
+      background: #FF3B30;
+      color: #0A0A0A;
+    }
+
+    /* ============ FILM GRAIN ============ */
+    .grain::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+      opacity: .12;
+      pointer-events: none;
+      z-index: 9990;
+      mix-blend-mode: overlay;
+      animation: grain 0.6s steps(6) infinite;
+    }
+
+    @keyframes grain {
+      0% {
+        transform: translate(0, 0);
+      }
+
+      20% {
+        transform: translate(-3%, 2%);
+      }
+
+      40% {
+        transform: translate(2%, -3%);
+      }
+
+      60% {
+        transform: translate(-2%, 3%);
+      }
+
+      80% {
+        transform: translate(3%, -2%);
+      }
+
+      100% {
+        transform: translate(0, 0);
+      }
+    }
+
+    /* ============ SCAN LINES ============ */
+    .scanlines::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(to bottom,
+          rgba(255, 255, 255, 0.03) 0px,
+          rgba(255, 255, 255, 0.03) 1px,
+          transparent 1px,
+          transparent 3px);
+      pointer-events: none;
+      z-index: 9989;
+    }
+
+    /* ============ CUSTOM CURSOR (PLAYHEAD) ============ */
+    .cursor-playhead {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 22px;
+      height: 22px;
+      border: 2px solid #FF3B30;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width .25s, height .25s, background .15s;
+      mix-blend-mode: difference;
+    }
+
+    .cursor-playhead::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 2px;
+      height: 2px;
+      background: #FF3B30;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+    }
+
+    .cursor-hover {
+      width: 60px !important;
+      height: 60px !important;
+      background: rgba(255, 59, 48, 0.15);
+    }
+
+    /* ============ CHROMATIC TEXT ============ */
+    .chroma {
+      position: relative;
+      display: inline-block;
+    }
+
+    .chroma::before,
+    .chroma::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .chroma::before {
+      color: #FF3B30;
+      transform: translate(-3px, 0);
+      mix-blend-mode: screen;
+      animation: rgbshift 4s infinite ease-in-out;
+    }
+
+    .chroma::after {
+      color: #00E5FF;
+      transform: translate(3px, 0);
+      mix-blend-mode: screen;
+      animation: rgbshift 4s infinite ease-in-out reverse;
+    }
+
+    @keyframes rgbshift {
+
+      0%,
+      100% {
+        transform: translate(-3px, 0);
+      }
+
+      50% {
+        transform: translate(-1px, 1px);
+      }
+    }
+
+    /* ============ MARQUEE ============ */
+    .marquee {
+      display: flex;
+      overflow: hidden;
+      gap: 4rem;
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 4rem;
+      flex-shrink: 0;
+      animation: marquee 30s linear infinite;
+    }
+
+    @keyframes marquee {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-100%);
+      }
+    }
+
+    /* ============ SPROCKET (FILM PERFORATION) ============ */
+    .sprocket {
+      background-image:
+        radial-gradient(circle, #0A0A0A 4px, transparent 5px),
+        radial-gradient(circle, #0A0A0A 4px, transparent 5px);
+      background-size: 24px 24px;
+      background-position: 0 6px, 12px 18px;
+      background-repeat: repeat-x;
+    }
+
+    /* ============ BENTO CELLS ============ */
+    .cell {
+      border: 1px solid rgba(237, 230, 214, 0.18);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.4));
+      position: relative;
+      overflow: hidden;
+      transition: transform .35s cubic-bezier(.2, .7, .2, 1), border-color .25s;
+    }
+
+    .cell:hover {
+      border-color: #FF3B30;
+      transform: translateY(-4px);
+    }
+
+    .cell::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 30%, rgba(245, 184, 46, 0.07) 50%, transparent 70%);
+      transform: translateX(-100%);
+      transition: transform .8s;
+    }
+
+    .cell:hover::after {
+      transform: translateX(100%);
+    }
+
+    /* ============ GLITCH HOVER ============ */
+    .glitch:hover {
+      animation: glitch .3s steps(2) infinite;
+    }
+
+    @keyframes glitch {
+      0% {
+        transform: translate(0, 0);
+        text-shadow: none;
+      }
+
+      25% {
+        transform: translate(-1px, 1px);
+        text-shadow: 2px 0 #FF3B30, -2px 0 #00E5FF;
+      }
+
+      50% {
+        transform: translate(1px, -1px);
+        text-shadow: -2px 0 #FF3B30, 2px 0 #00E5FF;
+      }
+
+      75% {
+        transform: translate(-1px, -1px);
+        text-shadow: 2px 0 #FF3B30, -2px 0 #00E5FF;
+      }
+
+      100% {
+        transform: translate(0, 0);
+      }
+    }
+
+    /* ============ TIMECODE PULSE ============ */
+    .rec-dot {
+      width: 10px;
+      height: 10px;
+      background: #FF3B30;
+      border-radius: 50%;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.6);
+      }
+
+      50% {
+        opacity: .6;
+        box-shadow: 0 0 0 6px rgba(255, 59, 48, 0);
+      }
+    }
+
+    /* ============ TIMELINE ============ */
+    .clip {
+      background: repeating-linear-gradient(90deg, rgba(245, 184, 46, 0.4) 0 8px, rgba(245, 184, 46, 0.2) 8px 16px);
+    }
+
+    .clip-2 {
+      background: repeating-linear-gradient(90deg, rgba(0, 229, 255, 0.4) 0 8px, rgba(0, 229, 255, 0.2) 8px 16px);
+    }
+
+    .clip-3 {
+      background: repeating-linear-gradient(90deg, rgba(255, 59, 48, 0.4) 0 8px, rgba(255, 59, 48, 0.2) 8px 16px);
+    }
+
+    /* ============ KINETIC HEADING ============ */
+    .kinetic span {
+      display: inline-block;
+      transition: transform .3s, color .3s;
+    }
+
+    .kinetic:hover span:nth-child(odd) {
+      transform: translateY(-6px) rotate(-2deg);
+      color: #F5B82E;
+    }
+
+    .kinetic:hover span:nth-child(even) {
+      transform: translateY(6px) rotate(2deg);
+      color: #FF3B30;
+    }
+
+    /* ============ NUMBER COUNTER ============ */
+    .ticker {
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ============ REVEAL ============ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all .8s cubic-bezier(.2, .7, .2, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============ NOISE BG FOR THUMBS ============ */
+    .thumb-bg {
+      background:
+        linear-gradient(45deg, rgba(255, 59, 48, 0.15), rgba(0, 229, 255, 0.15)),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n2'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n2)' opacity='0.5'/%3E%3C/svg%3E");
+      background-size: cover;
+    }
+
+    /* Reduce motion */
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+  <base target="_blank">
+</head>
+
+<body class="grain scanlines">
+
+  <!-- ============ CUSTOM CURSOR ============ -->
+  <div class="cursor-playhead" id="cursor"></div>
+
+  <!-- ============ TOP BAR (HUD) ============ -->
+  <div
+    class="fixed top-0 left-0 right-0 z-50 px-4 md:px-8 py-3 flex items-center justify-between font-mono text-xs uppercase tracking-widest backdrop-blur bg-ink/60 border-b border-bone/10">
+    <a href="index.html" class="flex items-center gap-3 group">
+      <span class="rec-dot"></span>
+      <span class="text-rec">REC</span>
+      <span class="text-bone/60 hidden sm:inline" id="timecode">00:00:00:00</span>
+    </a>
+    <div class="hidden md:flex gap-2">
+      <a href="index.html" class="px-3 py-1 text-bone/60 hover:text-bone">HUB</a>
+      <a href="montage.html" class="px-3 py-1 bg-rec text-ink">МОНТАЖ</a>
+      <a href="design.html" class="px-3 py-1 text-bone/60 hover:text-bone">ДИЗАЙН</a>
+      <a href="dev.html" class="px-3 py-1 text-bone/60 hover:text-bone">КОД</a>
+    </div>
+    <div class="text-bone/60">
+      <span class="hidden md:inline">RU / </span><span class="text-amber">24fps</span>
+    </div>
+  </div>
+
+  <!-- ============ HERO ============ -->
+  <section class="relative min-h-screen flex items-center px-4 md:px-8 pt-24 pb-16">
+    <!-- Background Video -->
+    <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover opacity-30 z-0">
+      <source src="videos/Nikita.mp4" type="video/mp4">
+    </video>
+
+    <!-- Overlay gradient -->
+    <div class="absolute inset-0 bg-gradient-to-b from-ink/80 via-ink/60 to-ink/90 z-0"></div>
+
+    <!-- Sprocket strips -->
+    <div class="absolute left-0 top-0 bottom-0 w-6 sprocket opacity-40 hidden md:block z-10"></div>
+    <div class="absolute right-0 top-0 bottom-0 w-6 sprocket opacity-40 hidden md:block z-10"></div>
+
+    <!-- Side label -->
+    <div
+      class="absolute left-8 top-1/2 -translate-y-1/2 -rotate-90 origin-left font-mono text-[10px] uppercase tracking-[0.4em] text-bone/40 hidden lg:block z-10">
+      PORTFOLIO / 2026 / KADR
+    </div>
+
+    <div class="max-w-7xl mx-auto w-full relative z-10">
+      <!-- Sub label -->
+      <div class="flex items-center gap-3 mb-8 font-mono text-xs uppercase tracking-[0.3em] text-bone/60">
+        <span class="w-12 h-px bg-rec"></span>
+        <span>YouTube · Превью · Монтаж · Reels</span>
+      </div>
+
+      <!-- Main headline -->
+      <h1 class="font-display leading-[0.85] text-[15vw] md:text-[12vw] lg:text-[10vw]">
+        <span class="block kinetic">
+          <span>М</span><span>О</span><span>Н</span><span>Т</span><span>А</span><span>Ж</span>
+        </span>
+        <span class="block chroma text-rec" data-text="ДЛЯ YOUTUBE">ДЛЯ YOUTUBE</span>
+      </h1>
+
+      <!-- Description + meta -->
+      <div class="grid md:grid-cols-12 gap-8 mt-12">
+        <p class="md:col-span-7 text-lg md:text-xl leading-relaxed text-bone/85">
+          Я — <span class="text-amber">Nik</span>, монтажом добился <span class="text-amber">272K подписчиков</span>.
+          Знаю изнутри, как делать ролики, которые залетают. Делаю профессиональный монтаж, как у топ-блогеров, и <span
+            class="text-rec font-bold">трендовые ИИ-видео / AI-мультфильмы</span> с миллионными просмотрами.
+        </p>
+        <div class="md:col-span-5 grid grid-cols-3 gap-4 font-mono text-xs">
+          <div class="border-l-2 border-rec pl-3">
+            <div class="text-3xl text-bone">272K</div>
+            <div class="text-bone/60 mt-1 uppercase">Свой канал</div>
+          </div>
+          <div class="border-l-2 border-amber pl-3">
+            <div class="text-3xl text-bone">10M+</div>
+            <div class="text-bone/60 mt-1 uppercase">Просмотров</div>
+          </div>
+          <div class="border-l-2 border-bone/50 pl-3">
+            <div class="text-3xl text-bone ticker" data-target="150">0</div>
+            <div class="text-bone/60 mt-1 uppercase">Проектов</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA strip -->
+      <div class="mt-16 flex flex-col sm:flex-row gap-4 items-start">
+        <a href="https://youtube.com/@yotubeThebadBoy" target="_blank"
+          class="group inline-flex items-center gap-3 bg-rec text-ink px-8 py-4 font-mono uppercase text-sm tracking-widest hover:bg-bone transition">
+          <span class="w-0 h-0 border-l-[8px] border-l-ink border-y-[6px] border-y-transparent"></span>
+          Мой канал · 272K
+        </a>
+        <a href="https://kwork.ru/user/nikitanext2002" target="_blank"
+          class="inline-flex items-center gap-3 border border-bone/30 px-8 py-4 font-mono uppercase text-sm tracking-widest hover:border-bone hover:bg-bone/5 transition">
+          Заказать на Kwork
+          <span class="text-rec">→</span>
+        </a>
+      </div>
+
+      <!-- Scroll hint -->
+      <div
+        class="absolute bottom-8 right-8 font-mono text-[10px] uppercase tracking-widest text-bone/40 flex items-center gap-2 hidden md:flex">
+        <div class="w-px h-12 bg-bone/30"></div>
+        Прокрути вниз
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MARQUEE / SOFTWARE ============ -->
+  <div class="border-y border-bone/10 py-6 overflow-hidden bg-tape">
+    <div class="marquee">
+      <div class="marquee-track font-display text-5xl md:text-7xl whitespace-nowrap text-bone/70">
+        <span>YouTube</span><span class="text-rec">/</span>
+        <span>Превью</span><span class="text-amber">/</span>
+        <span>Reels</span><span class="text-rec">/</span>
+        <span>Shorts</span><span class="text-amber">/</span>
+        <span>Стримы</span><span class="text-rec">/</span>
+      </div>
+      <div class="marquee-track font-display text-5xl md:text-7xl whitespace-nowrap text-bone/70" aria-hidden="true">
+        <span>YouTube</span><span class="text-rec">/</span>
+        <span>Превью</span><span class="text-amber">/</span>
+        <span>Reels</span><span class="text-rec">/</span>
+        <span>Shorts</span><span class="text-amber">/</span>
+        <span>Стримы</span><span class="text-rec">/</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============ SERVICES BENTO ============ -->
+  <section id="services" class="px-4 md:px-8 py-24 bg-tape/50">
+    <div class="max-w-7xl mx-auto">
+      <div class="mb-12 reveal">
+        <div class="font-mono text-xs uppercase tracking-[0.3em] text-bone/50 mb-3">// SCENE 02</div>
+        <h2 class="font-display text-5xl md:text-7xl">ЧТО МОНТИРУЮ</h2>
+      </div>
+
+      <div class="grid grid-cols-12 gap-3">
+        <!-- 01 Music videos: col-span-12 md:col-span-6 -->
+        <div class="cell p-6 md:p-8 col-span-12 md:col-span-6 reveal relative">
+          <video class="absolute inset-0 w-full h-full object-cover opacity-20 z-0" autoplay muted loop playsinline>
+            <source src="videos/MUSIC.mp4" type="video/mp4">
+          </video>
+          <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/65 to-ink/35 z-[1]"></div>
+          <div class="flex items-start justify-between h-full flex-col relative z-[2]">
+            <div>
+              <div class="font-mono text-xs text-rec mb-3">01 / MUSIC VIDEO</div>
+              <h3 class="font-display text-4xl md:text-5xl leading-none mb-4">Музыкальные клипы</h3>
+              <p class="text-bone/70 text-sm max-w-md">Резка под бит, ритмический монтаж, синхронизация с аудио.
+                Цветокор для создания атмосферы трека.</p>
+            </div>
+            <div class="flex items-end justify-between w-full mt-8">
+              <a href="#contact" target="_self"
+                class="inline-flex items-center gap-1.5 bg-rec/10 border border-rec/30 text-rec px-4 py-2 font-mono uppercase text-[10px] tracking-wider hover:bg-rec hover:text-ink transition rounded-sm font-bold">
+                Узнать цену →
+              </a>
+              <div class="font-display text-5xl text-bone/10 leading-none">01</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 02 YouTube & Reels: col-span-12 md:col-span-6 -->
+        <div class="cell p-6 md:p-8 col-span-12 md:col-span-6 reveal relative">
+          <video class="absolute inset-0 w-full h-full object-cover opacity-20 z-0" autoplay muted loop playsinline>
+            <source src="videos/reel_03.mp4" type="video/mp4">
+          </video>
+          <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/65 to-ink/35 z-[1]"></div>
+          <div class="flex items-start justify-between h-full flex-col relative z-[2]">
+            <div>
+              <div class="font-mono text-xs text-amber mb-3">02 / YOUTUBE & REELS</div>
+              <h3 class="font-display text-4xl md:text-5xl leading-none mb-4">YouTube & Reels</h3>
+              <p class="text-bone/70 text-sm max-w-md">Vlog, обзоры, Reels, Shorts, TikTok. Монтаж под удержание
+                внимания, динамичные склейки, графика.</p>
+            </div>
+            <div class="flex items-end justify-between w-full mt-8">
+              <a href="#contact" target="_self"
+                class="inline-flex items-center gap-1.5 bg-amber/10 border border-amber/30 text-amber px-4 py-2 font-mono uppercase text-[10px] tracking-wider hover:bg-amber hover:text-ink transition rounded-sm font-bold">
+                Узнать цену →
+              </a>
+              <div class="font-display text-5xl text-bone/10 leading-none">02</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 03 AI Video - SUPER ACCENT BLOCK: col-span-12 -->
+        <div
+          class="cell p-6 md:p-8 col-span-12 reveal relative overflow-hidden border border-amber/40 hover:border-amber transition-all duration-500">
+          <video class="absolute inset-0 w-full h-full object-cover opacity-20 z-0" autoplay muted loop playsinline>
+            <source src="videos/AI MULT.mp4" type="video/mp4">
+          </video>
+          <div class="absolute inset-0 bg-gradient-to-r from-ink via-ink/90 to-transparent z-[1] hidden md:block"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/95 to-transparent z-[1] md:hidden"></div>
+
+          <div class="grid md:grid-cols-12 gap-6 relative z-[2] h-full items-center">
+            <div class="md:col-span-8 flex flex-col justify-center h-full">
+              <div class="flex items-center gap-3 mb-4">
+                <span class="font-mono text-xs text-amber font-bold tracking-[0.2em]">// 03 / AI GENERATIVE</span>
+                <span
+                  class="bg-amber/20 text-amber border border-amber/50 px-2.5 py-0.5 rounded-full font-mono text-[9px] uppercase tracking-widest animate-pulse font-bold">TRENDING
+                  AI</span>
+              </div>
+
+              <h3 class="font-display text-4xl md:text-5xl text-bone leading-none mb-4 tracking-tight">
+                ИИ-РОЛИКИ И АИ-МУЛЬТФИЛЬМЫ
+              </h3>
+
+              <p class="text-bone/80 text-sm leading-relaxed max-w-2xl">
+                Создаю популярные ИИ-мульты, которые вирусятся и залетают на миллионы просмотров, а также фантастические
+                AI-короткометражки и генеративное видео.
+                Реализую любой ваш безумный план и сценарий — от вирусных Reels до полноценных кинематографичных миров.
+              </p>
+              <div class="mt-6 flex items-start">
+                <a href="#contact" target="_self"
+                  class="inline-flex items-center gap-1.5 bg-amber/10 border border-amber/30 text-amber px-4 py-2 font-mono uppercase text-[10px] tracking-wider hover:bg-amber hover:text-ink transition rounded-sm font-bold">
+                  Узнать цену →
+                </a>
+              </div>
+            </div>
+            <div class="md:col-span-4 hidden md:flex items-center justify-center">
+              <div
+                class="border border-bone/10 p-4 rounded bg-black/60 backdrop-blur-sm w-full max-w-[240px] font-mono text-[10px] text-bone/60 space-y-2 select-none">
+                <div class="flex justify-between items-center text-[9px] text-amber">
+                  <span>[ AI_MODEL_PROCESSING ]</span>
+                  <span class="w-1.5 h-1.5 bg-amber rounded-full animate-ping"></span>
+                </div>
+                <div class="h-px bg-bone/10"></div>
+                <div class="flex justify-between"><span>MODEL:</span><span class="text-bone">SEEDANCE 2.0</span></div>
+                <div class="flex justify-between"><span>RENDER:</span><span class="text-bone">ComfyUI / Lora</span>
+                </div>
+                <div class="flex justify-between"><span>VIRAL RATE:</span><span class="text-rec font-bold">98.4%</span>
+                </div>
+                <div class="h-2 bg-zinc-900 rounded-sm overflow-hidden mt-1 relative">
+                  <div class="absolute inset-y-0 left-0 bg-amber w-4/5 animate-pulse"></div>
+                </div>
+                <div class="text-[8px] text-bone/40 text-center uppercase tracking-widest mt-1">GENERATING FRAMES...
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 04 Promo & Advertising: col-span-12 md:col-span-4 -->
+        <div class="cell p-6 md:p-8 col-span-12 md:col-span-4 reveal relative">
+          <div class="flex items-start justify-between h-full flex-col relative z-[2]">
+            <div>
+              <div class="font-mono text-xs text-bone/40 mb-3">04 / ADVERTISING</div>
+              <h3 class="font-display text-3xl leading-none mb-4">Промо & Реклама</h3>
+              <p class="text-bone/70 text-xs leading-relaxed">Продающие креативы для брендов, реклама продуктов,
+                прероллы. Фокус на преимуществах товара и высокая конверсия.</p>
+            </div>
+            <div class="flex items-end justify-between w-full mt-8">
+              <a href="#contact" target="_self"
+                class="inline-flex items-center gap-1.5 bg-bone/10 border border-bone/20 text-bone/80 px-3 py-1.5 font-mono uppercase text-[9px] tracking-wider hover:bg-bone hover:text-ink transition rounded-sm font-bold">
+                Узнать цену →
+              </a>
+              <div class="font-display text-4xl text-bone/5 leading-none">04</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 05 VFX & Effects: col-span-12 md:col-span-4 -->
+        <div class="cell p-6 md:p-8 col-span-12 md:col-span-4 reveal relative">
+          <div class="flex items-start justify-between h-full flex-col relative z-[2]">
+            <div>
+              <div class="font-mono text-xs text-bone/40 mb-3">05 / VFX & POST</div>
+              <h3 class="font-display text-3xl leading-none mb-4">VFX & Сложный монтаж</h3>
+              <p class="text-bone/70 text-xs leading-relaxed">Клинап, замена фонов (хромакей), 3D-трекинг, кастомные
+                переходы и стильная инфографика для динамики.</p>
+            </div>
+            <div class="flex items-end justify-between w-full mt-8">
+              <a href="#contact" target="_self"
+                class="inline-flex items-center gap-1.5 bg-bone/10 border border-bone/20 text-bone/80 px-3 py-1.5 font-mono uppercase text-[9px] tracking-wider hover:bg-bone hover:text-ink transition rounded-sm font-bold">
+                Узнать цену →
+              </a>
+              <div class="font-display text-4xl text-bone/5 leading-none">05</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 06 Documentary: col-span-12 md:col-span-4 -->
+        <div class="cell p-6 md:p-8 col-span-12 md:col-span-4 reveal relative">
+          <div class="flex items-start justify-between h-full flex-col relative z-[2]">
+            <div>
+              <div class="font-mono text-xs text-bone/40 mb-3">06 / DOCUMENTARY</div>
+              <h3 class="font-display text-3xl leading-none mb-4">Документальные ролики</h3>
+              <p class="text-bone/70 text-xs leading-relaxed">Глубокие нарративные видео, сторителлинг, интервью.
+                Профессиональная работа с темпом и архивными материалами.</p>
+            </div>
+            <div class="flex items-end justify-between w-full mt-8">
+              <a href="#contact" target="_self"
+                class="inline-flex items-center gap-1.5 bg-bone/10 border border-bone/20 text-bone/80 px-3 py-1.5 font-mono uppercase text-[9px] tracking-wider hover:bg-bone hover:text-ink transition rounded-sm font-bold">
+                Узнать цену →
+              </a>
+              <div class="font-display text-4xl text-bone/5 leading-none">06</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 07 Color Correction: col-span-12 md:col-span-6 -->
+        <div class="cell p-6 md:p-8 col-span-12 md:col-span-6 reveal relative">
+          <div class="flex items-start justify-between h-full flex-col relative z-[2]">
+            <div>
+              <div class="font-mono text-xs text-amber mb-3">07 / COLOR GRADING</div>
+              <h3 class="font-display text-4xl md:text-5xl leading-none mb-4">Цветокоррекция</h3>
+              <p class="text-bone/70 text-sm max-w-md">Профессиональный грейдинг в DaVinci Resolve. Сделаю ваш RAW
+                неузнаваемым. Выравнивание баланса, скинтон и художественная стилизация.</p>
+            </div>
+            <div class="flex items-end justify-between w-full mt-8">
+              <a href="#contact" target="_self"
+                class="inline-flex items-center gap-1.5 bg-amber/10 border border-amber/30 text-amber px-4 py-2 font-mono uppercase text-[10px] tracking-wider hover:bg-amber hover:text-ink transition rounded-sm font-bold">
+                Узнать цену →
+              </a>
+              <div class="font-display text-5xl text-bone/10 leading-none">07</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 08 Special Project: col-span-12 md:col-span-6 -->
+        <div class="cell p-6 md:p-8 col-span-12 md:col-span-6 reveal relative">
+          <div class="flex items-start justify-between h-full flex-col relative z-[2]">
+            <div>
+              <div class="font-mono text-xs text-rec mb-3">08 / CUSTOM PROJECT</div>
+              <h3 class="font-display text-4xl md:text-5xl leading-none mb-4">Свой проект / Уникальный формат</h3>
+              <p class="text-bone/70 text-sm max-w-md">Не нашли подходящую категорию для вашего видео? Напишите —
+                обсудим сценарий, хронометраж и соберем уникальный формат под ваши задачи.</p>
+            </div>
+            <div class="flex items-end justify-between w-full mt-8">
+              <a href="#contact" target="_self"
+                class="inline-flex items-center gap-1.5 bg-rec/10 border border-rec/30 text-rec px-4 py-2 font-mono uppercase text-[10px] tracking-wider hover:bg-rec hover:text-ink transition rounded-sm font-bold">
+                Узнать цену →
+              </a>
+              <div class="font-display text-5xl text-bone/10 leading-none">08</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- ============ PROCESS / TIMELINE ============ -->
+  <section id="process" class="px-4 md:px-8 py-24">
+    <div class="max-w-7xl mx-auto">
+      <div class="mb-12 reveal">
+        <div class="font-mono text-xs uppercase tracking-[0.3em] text-bone/50 mb-3">// SCENE 03</div>
+        <h2 class="font-display text-5xl md:text-7xl">КАК <span class="text-rec">МОНТИРУЕМ</span></h2>
+      </div>
+
+      <div class="space-y-px">
+        <!-- step -->
+        <div class="grid md:grid-cols-12 gap-4 py-8 border-t border-bone/15 hover:bg-bone/5 transition reveal">
+          <div class="md:col-span-1 font-mono text-rec text-sm">01</div>
+          <div class="md:col-span-3 font-display text-3xl">БРИФ</div>
+          <div class="md:col-span-6 text-bone/70">Обсуждаем идею, референсы, дедлайн, бюджет. Получаю исходники: видео,
+            аудио, лого, бренд-гайд.</div>
+          <div class="md:col-span-2 font-mono text-xs text-bone/50 md:text-right">~1 день</div>
+        </div>
+        <div class="grid md:grid-cols-12 gap-4 py-8 border-t border-bone/15 hover:bg-bone/5 transition reveal">
+          <div class="md:col-span-1 font-mono text-amber text-sm">02</div>
+          <div class="md:col-span-3 font-display text-3xl">ROUGH CUT</div>
+          <div class="md:col-span-6 text-bone/70">Черновой монтаж: структура, тайминг, ритм. Отправляю на согласование с
+            таймкодами.</div>
+          <div class="md:col-span-2 font-mono text-xs text-bone/50 md:text-right">2–4 дня</div>
+        </div>
+        <div class="grid md:grid-cols-12 gap-4 py-8 border-t border-bone/15 hover:bg-bone/5 transition reveal">
+          <div class="md:col-span-1 font-mono text-rec text-sm">03</div>
+          <div class="md:col-span-3 font-display text-3xl">FINE CUT</div>
+          <div class="md:col-span-6 text-bone/70">Чистовой монтаж, графика, переходы, sound-design, правки клиента (до 3
+            раундов).</div>
+          <div class="md:col-span-2 font-mono text-xs text-bone/50 md:text-right">3–5 дней</div>
+        </div>
+        <div class="grid md:grid-cols-12 gap-4 py-8 border-t border-bone/15 hover:bg-bone/5 transition reveal">
+          <div class="md:col-span-1 font-mono text-amber text-sm">04</div>
+          <div class="md:col-span-3 font-display text-3xl">COLOR + AUDIO</div>
+          <div class="md:col-span-6 text-bone/70">Цветокор в DaVinci, мастеринг звука, финальные эффекты.
+            Кинематографичная картинка.</div>
+          <div class="md:col-span-2 font-mono text-xs text-bone/50 md:text-right">2 дня</div>
+        </div>
+        <div class="grid md:grid-cols-12 gap-4 py-8 border-y border-bone/15 hover:bg-bone/5 transition reveal">
+          <div class="md:col-span-1 font-mono text-rec text-sm">05</div>
+          <div class="md:col-span-3 font-display text-3xl">DELIVERY</div>
+          <div class="md:col-span-6 text-bone/70">Экспорт под платформу: 4K / 1080p / Vertical. Все исходники в облаке.
+          </div>
+          <div class="md:col-span-2 font-mono text-xs text-bone/50 md:text-right">1 день</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WORKS GRID ============ -->
+  <section id="works" class="px-4 md:px-8 py-24 bg-tape/50">
+    <style>
+      /* Scoped console styles */
+      .led-green {
+        background-color: #00FFB2 !important;
+        box-shadow: 0 0 6px rgba(0, 255, 178, 0.6);
+      }
+
+      .led-amber {
+        background-color: #F5B82E !important;
+        box-shadow: 0 0 6px rgba(245, 184, 46, 0.6);
+      }
+
+      .led-red {
+        background-color: #FF3B30 !important;
+        box-shadow: 0 0 6px rgba(255, 59, 48, 0.6);
+      }
+
+      .bin-item.active-rec {
+        border-color: #FF3B30 !important;
+        background-color: rgba(255, 59, 48, 0.08) !important;
+      }
+
+      .bin-item.active-amber {
+        border-color: #F5B82E !important;
+        background-color: rgba(245, 184, 46, 0.08) !important;
+      }
+
+      #timeline-track:hover #timeline-playhead {
+        border-left-width: 3px;
+      }
+
+      /* CRT Scanline & flicker effects */
+      .crt-scanlines {
+        background: repeating-linear-gradient(0deg,
+            rgba(0, 0, 0, 0.15) 0px,
+            rgba(0, 0, 0, 0.15) 1px,
+            transparent 1px,
+            transparent 3px);
+      }
+
+      @keyframes crt-flicker {
+        0% {
+          opacity: 0.98;
+        }
+
+        50% {
+          opacity: 1;
+        }
+
+        100% {
+          opacity: 0.98;
+        }
+      }
+
+      .crt-screen {
+        animation: crt-flicker 0.25s infinite;
+      }
+    </style>
+
+    <div class="max-w-7xl mx-auto">
+      <div class="flex items-end justify-between mb-12 reveal visible">
+        <div>
+          <div class="font-mono text-xs uppercase tracking-[0.3em] text-bone/50 mb-3">// СЦЕНА 04 · REELS</div>
+          <h2 class="font-display text-5xl md:text-7xl">МОНТАЖНЫЙ <span class="text-rec">СТОЛ / РЕФЫ</span></h2>
+        </div>
+        <span class="font-mono text-xs text-bone/50 hidden md:block">Интерактивный монтажный стол</span>
+      </div>
+
+      <!-- CONSOLE WRAPPER -->
+      <div class="grid lg:grid-cols-12 gap-6 items-stretch">
+
+        <!-- LEFT: PREVIEW MONITOR -->
+        <div
+          class="lg:col-span-7 flex flex-col justify-between border border-bone/15 bg-ink p-4 md:p-6 relative overflow-hidden reveal visible"
+          style="min-height: 580px;">
+          <!-- Top Status Bar of the Monitor -->
+          <div
+            class="flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-bone/50 border-b border-bone/10 pb-3 mb-4 select-none">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 bg-rec rounded-full animate-pulse inline-block" id="monitor-rec-dot"></span>
+              <span class="text-rec font-bold">МОНИТОР</span>
+              <span class="text-bone/30">|</span>
+              <span id="monitor-clip-name">НЕТ КАССЕТЫ</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span id="monitor-timecode" class="text-amber">00:00:00:00</span>
+              <span class="text-bone/30">|</span>
+              <span>24 К/С</span>
+            </div>
+          </div>
+
+          <!-- Video Display Area with TV Effect -->
+          <div
+            class="flex-1 flex items-center justify-center relative overflow-hidden bg-black/50 border border-bone/10 rounded-sm min-h-[360px] md:min-h-[420px] crt-screen">
+            <!-- Background screen with Nikita video playing -->
+            <div id="monitor-placeholder" class="absolute inset-0 z-20 transition-opacity duration-500 overflow-hidden">
+              <video id="monitor-bg-video" class="absolute inset-0 w-full h-full object-cover opacity-35" playsinline
+                autoplay muted loop>
+                <source src="videos/Nikita.mp4" type="video/mp4">
+              </video>
+              <!-- CRT TV scanlines and vignetting overlay -->
+              <div
+                class="absolute inset-0 pointer-events-none crt-scanlines bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.85)_100%)]">
+              </div>
+              <!-- Operator prompt overlay -->
+              <div
+                class="absolute inset-0 flex flex-col items-center justify-center font-mono text-center p-4 select-none z-30">
+                <div
+                  class="bg-ink/80 border border-rec/60 px-5 py-4 rounded-sm backdrop-blur-sm shadow-xl max-w-xs animate-pulse">
+                  <div
+                    class="text-rec font-bold text-xs uppercase tracking-widest mb-1 flex items-center justify-center gap-1.5">
+                    <span class="w-2 h-2 bg-rec rounded-full animate-ping"></span>
+                    <span>МОНТАЖ НЕ НАЧАТ</span>
+                  </div>
+                  <div class="text-bone/80 text-[10px] leading-relaxed uppercase tracking-wider mt-2">
+                    Вставьте кассету из списка справа для запуска предпросмотра
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- The actual Video Container (vertical aspect for reels) -->
+            <div id="monitor-iframe-wrapper"
+              class="w-full h-full opacity-0 pointer-events-none transition-opacity duration-500 flex items-center justify-center p-2 relative z-25">
+              <div
+                class="relative w-full max-w-[280px] h-full max-h-[500px] aspect-[9/16] border border-bone/20 rounded bg-black overflow-hidden shadow-2xl">
+                <!-- Smartphone bezel mockup -->
+                <div
+                  class="absolute top-2 left-1/2 -translate-x-1/2 w-16 h-4 bg-ink rounded-full z-30 opacity-70 flex items-center justify-center">
+                  <div class="w-2 h-2 rounded-full bg-zinc-800"></div>
+                </div>
+                <video id="monitor-video" class="w-full h-full object-cover" playsinline loop></video>
+                <!-- CRT TV scanlines inside smartphone screen -->
+                <div
+                  class="absolute inset-0 pointer-events-none crt-scanlines bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.45)_100%)]">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Audio VU Meter (bouncing LEDs) + Playback Controls -->
+          <div
+            class="mt-4 pt-4 border-t border-bone/10 flex flex-col md:flex-row md:items-center justify-between gap-4 font-mono select-none">
+
+            <!-- Controls -->
+            <div class="flex items-center gap-3">
+              <button id="console-play"
+                class="flex items-center justify-center w-10 h-10 border border-bone/20 hover:border-rec hover:text-rec rounded bg-bone/5 transition group cursor-pointer"
+                disabled>
+                <!-- Play icon -->
+                <svg id="play-svg" class="w-4 h-4 fill-current ml-0.5" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+                <!-- Pause icon (hidden by default) -->
+                <svg id="pause-svg" class="w-4 h-4 fill-current hidden" viewBox="0 0 24 24">
+                  <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                </svg>
+              </button>
+              <button id="console-mute"
+                class="flex items-center justify-center w-10 h-10 border border-bone/20 hover:border-amber hover:text-amber rounded bg-bone/5 transition cursor-pointer"
+                disabled>
+                <!-- Sound icon -->
+                <svg id="sound-svg" class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                  <path
+                    d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM4 9v6h4l5 5V4L8 9H4z" />
+                </svg>
+                <!-- Muted icon (hidden by default) -->
+                <svg id="muted-svg" class="w-4 h-4 fill-current hidden" viewBox="0 0 24 24">
+                  <path
+                    d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.21.05-.42.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H4v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z" />
+                </svg>
+              </button>
+              <button id="console-eject"
+                class="flex items-center justify-center w-10 h-10 border border-bone/20 hover:border-rec hover:text-rec rounded bg-bone/5 transition cursor-pointer"
+                title="Извлечь кассету">
+                <!-- Eject Icon -->
+                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                  <path d="M12 5L5 12h14z M5 16h14v2H5z" />
+                </svg>
+              </button>
+            </div>
+
+            <!-- VU Meters (animated LED bars) -->
+            <div class="flex-1 flex flex-col gap-1.5 max-w-[280px]">
+              <!-- L channel -->
+              <div class="flex items-center gap-2">
+                <span class="text-[9px] text-bone/45 w-2">L</span>
+                <div class="flex-1 flex gap-0.5 bg-black/40 p-0.5 border border-bone/5 rounded-sm" id="vu-l">
+                  <!-- 15 LED segments -->
+                  <div class="h-2 w-full bg-zinc-900 transition-colors duration-75"></div>
+                  <div class="h-2 w-full bg-zinc-900 transition-colors duration-75"></div>
+                  <div class="h-2 w-full bg-zinc-900 transition-colors duration-75"></div>
+                  <div class="h-2 w-full bg-zinc-900 transition-colors duration-75"></div>
+                  <div class="h-2 w-full bg-zinc-900 transition-colors duration-75"></div>
+                  <div class="h-2 w-full bg-zinc-900 transition-colors duration-75"></div>
+                  <div class="h-2 w-full bg-zinc-900 transition-colors duration-75"></div>
+                  <div class="h-2 w-full bg-zinc-900 transition-colors duration-75"></div>
+                  <div class="h-2 w-full bg-zinc-900 transition-colors duration-75"></div>
+                  <div class="h-2 w-full bg-zinc-900 transition-colors duration-75"></div>
+                  <div class="h-2 w-full bg-zinc-900 transition-colors duration-75"></div>
+                  <div class="h-2 w-full bg-zinc-900 transition-colors duration-75"></div>
+                  <div class="h-2 w-full bg-zinc-900 transition-colors duration-75"></div>
+                  <div class="h-2 w-full bg-zinc-900 transition-colors duration-75"></div>
+                  <div class="h-2 w-full bg-zinc-900 transition-colors duration-75"></div>
+                </div>
+              </div>
+              <!-- R channel -->
+              <div class="flex items-center gap-2">
+                <span class="text-[9px] text-bone/45 w-2">R</span>
+                <div class="flex-1 flex gap-0.5 bg-black/40 p-0.5 border border-bone/5 rounded-sm" id="vu-r">
+                  <!-- 15 LED segments -->
+                  <div class="h-2 w-full bg-zinc-900 transition-colors duration-75"></div>
+                  <div class="h-2 w-full bg-zinc-900 transition-colors duration-75"></div>
+                  <div class="h-2 w-full bg-zinc-900 transition-colors duration-75"></div>
+                  <div class="h-2 w-full bg-zinc-900 transition-colors duration-75"></div>
+                  <div class="h-2 w-full bg-zinc-900 transition-colors duration-75"></div>
+                  <div class="h-2 w-full bg-zinc-900 transition-colors duration-75"></div>
+                  <div class="h-2 w-full bg-zinc-900 transition-colors duration-75"></div>
+                  <div class="h-2 w-full bg-zinc-900 transition-colors duration-75"></div>
+                  <div class="h-2 w-full bg-zinc-900 transition-colors duration-75"></div>
+                  <div class="h-2 w-full bg-zinc-900 transition-colors duration-75"></div>
+                  <div class="h-2 w-full bg-zinc-900 transition-colors duration-75"></div>
+                  <div class="h-2 w-full bg-zinc-900 transition-colors duration-75"></div>
+                  <div class="h-2 w-full bg-zinc-900 transition-colors duration-75"></div>
+                  <div class="h-2 w-full bg-zinc-900 transition-colors duration-75"></div>
+                  <div class="h-2 w-full bg-zinc-900 transition-colors duration-75"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Custom Timeline Track -->
+          <div class="mt-4 border-t border-bone/10 pt-4 font-mono select-none">
+            <div class="flex items-center justify-between text-[9px] text-bone/40 mb-1">
+              <span>ДОРОЖКА 01 (ВИДЕО)</span>
+              <span id="timeline-duration">00:00</span>
+            </div>
+            <!-- Track lane -->
+            <div
+              class="h-6 w-full bg-black/60 border border-bone/10 rounded-sm relative overflow-hidden group cursor-pointer"
+              id="timeline-track">
+              <!-- Timeline ruler ticks -->
+              <div class="absolute inset-0 opacity-10 flex justify-between pointer-events-none">
+                <div class="w-px h-full bg-bone"></div>
+                <div class="w-px h-1/2 bg-bone"></div>
+                <div class="w-px h-1/2 bg-bone"></div>
+                <div class="w-px h-1/2 bg-bone"></div>
+                <div class="w-px h-full bg-bone"></div>
+                <div class="w-px h-1/2 bg-bone"></div>
+                <div class="w-px h-1/2 bg-bone"></div>
+                <div class="w-px h-1/2 bg-bone"></div>
+                <div class="w-px h-full bg-bone"></div>
+                <div class="w-px h-1/2 bg-bone"></div>
+                <div class="w-px h-1/2 bg-bone"></div>
+                <div class="w-px h-1/2 bg-bone"></div>
+                <div class="w-px h-full bg-bone"></div>
+              </div>
+              <!-- Active Video Clip in Track -->
+              <div id="timeline-clip-bar"
+                class="absolute left-0 top-1 bottom-1 bg-gradient-to-r from-rec/40 to-amber/40 border-y border-rec/60 rounded-sm transition-all duration-300 w-0">
+              </div>
+              <!-- Playhead indicator -->
+              <div id="timeline-playhead"
+                class="absolute left-0 top-0 bottom-0 w-[2px] bg-rec shadow-[0_0_8px_#ff3b30] pointer-events-none transition-all duration-75"
+                style="left: 0%;">
+                <div class="absolute top-0 -left-1.5 w-4 h-2 bg-rec rounded-b-sm"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: MEDIA BIN -->
+        <div class="lg:col-span-5 flex flex-col border border-bone/15 bg-ink p-4 md:p-6 reveal visible">
+          <div
+            class="font-mono text-[10px] uppercase tracking-widest text-bone/50 border-b border-bone/10 pb-3 mb-4 flex justify-between select-none">
+            <span>БИБЛИОТЕКА ФАЙЛОВ / ИСХОДНИКИ</span>
+            <span>6 ФАЙЛОВ</span>
+          </div>
+
+          <!-- Clip list -->
+          <div class="flex-1 flex flex-col gap-3 overflow-y-auto pr-1" style="max-height: 480px;">
+
+            <!-- Clip item 1 -->
+            <div
+              class="bin-item group cursor-pointer border border-bone/10 bg-black/20 hover:bg-rec/5 p-3 rounded flex items-center gap-4 transition"
+              data-id="reel-1" data-url="videos/reel_01.mp4" data-name="REEL_001_LIFESTYLE.mp4" data-duration="15"
+              data-color="rec">
+              <div
+                class="w-16 h-20 bg-zinc-900 border border-bone/10 group-hover:border-rec flex flex-col justify-between p-1.5 relative overflow-hidden flex-shrink-0 transition">
+                <div class="flex flex-col gap-1 w-full opacity-30">
+                  <div class="h-1 bg-bone"></div>
+                  <div class="h-1 bg-bone"></div>
+                  <div class="h-1 bg-bone"></div>
+                </div>
+                <div class="text-[9px] font-mono text-center text-bone/60">КАССЕТА 01</div>
+                <div
+                  class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition bg-black/60">
+                  <svg class="w-5 h-5 fill-rec" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="flex-1 min-w-0 font-mono">
+                <div class="text-bone font-medium text-xs truncate group-hover:text-rec transition">
+                  REEL_001_LIFESTYLE.mp4</div>
+                <div class="text-[10px] text-bone/40 mt-1 flex flex-wrap gap-x-2 gap-y-0.5 uppercase">
+                  <span>9:16</span>
+                  <span>•</span>
+                  <span>1080x1920</span>
+                  <span>•</span>
+                  <span>15с</span>
+                </div>
+                <div class="text-[9px] text-rec/70 mt-2 flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 bg-rec rounded-full inline-block animate-pulse"></span>
+                  <span>ГОТОВ К МОНТАЖУ</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Clip item 2 -->
+            <div
+              class="bin-item group cursor-pointer border border-bone/10 bg-black/20 hover:bg-amber/5 p-3 rounded flex items-center gap-4 transition"
+              data-id="reel-2" data-url="videos/reel_02.mp4" data-name="REEL_002_DYNAMICS.mp4" data-duration="12"
+              data-color="amber">
+              <div
+                class="w-16 h-20 bg-zinc-900 border border-bone/10 group-hover:border-amber flex flex-col justify-between p-1.5 relative overflow-hidden flex-shrink-0 transition">
+                <div class="flex flex-col gap-1 w-full opacity-30">
+                  <div class="h-1 bg-bone"></div>
+                  <div class="h-1 bg-bone"></div>
+                  <div class="h-1 bg-bone"></div>
+                </div>
+                <div class="text-[9px] font-mono text-center text-bone/60">КАССЕТА 02</div>
+                <div
+                  class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition bg-black/60">
+                  <svg class="w-5 h-5 fill-amber" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="flex-1 min-w-0 font-mono">
+                <div class="text-bone font-medium text-xs truncate group-hover:text-amber transition">
+                  REEL_002_DYNAMICS.mp4</div>
+                <div class="text-[10px] text-bone/40 mt-1 flex flex-wrap gap-x-2 gap-y-0.5 uppercase">
+                  <span>9:16</span>
+                  <span>•</span>
+                  <span>1080x1920</span>
+                  <span>•</span>
+                  <span>12с</span>
+                </div>
+                <div class="text-[9px] text-amber/70 mt-2 flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 bg-amber rounded-full inline-block animate-pulse"></span>
+                  <span>ГОТОВ К МОНТАЖУ</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Clip item 3 -->
+            <div
+              class="bin-item group cursor-pointer border border-bone/10 bg-black/20 hover:bg-rec/5 p-3 rounded flex items-center gap-4 transition"
+              data-id="reel-3" data-url="videos/reel_03.mp4" data-name="REEL_003_CINEMATIC.mp4" data-duration="18"
+              data-color="rec">
+              <div
+                class="w-16 h-20 bg-zinc-900 border border-bone/10 group-hover:border-rec flex flex-col justify-between p-1.5 relative overflow-hidden flex-shrink-0 transition">
+                <div class="flex flex-col gap-1 w-full opacity-30">
+                  <div class="h-1 bg-bone"></div>
+                  <div class="h-1 bg-bone"></div>
+                  <div class="h-1 bg-bone"></div>
+                </div>
+                <div class="text-[9px] font-mono text-center text-bone/60">КАССЕТА 03</div>
+                <div
+                  class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition bg-black/60">
+                  <svg class="w-5 h-5 fill-rec" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="flex-1 min-w-0 font-mono">
+                <div class="text-bone font-medium text-xs truncate group-hover:text-rec transition">
+                  REEL_003_CINEMATIC.mp4</div>
+                <div class="text-[10px] text-bone/40 mt-1 flex flex-wrap gap-x-2 gap-y-0.5 uppercase">
+                  <span>9:16</span>
+                  <span>•</span>
+                  <span>1080x1920</span>
+                  <span>•</span>
+                  <span>18с</span>
+                </div>
+                <div class="text-[9px] text-rec/70 mt-2 flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 bg-rec rounded-full inline-block animate-pulse"></span>
+                  <span>ГОТОВ К МОНТАЖУ</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Clip item 4 -->
+            <div
+              class="bin-item group cursor-pointer border border-bone/10 bg-black/20 hover:bg-amber/5 p-3 rounded flex items-center gap-4 transition"
+              data-id="reel-4" data-url="videos/reel_04.mp4" data-name="REEL_004_PROMO.mp4" data-duration="14"
+              data-color="amber">
+              <div
+                class="w-16 h-20 bg-zinc-900 border border-bone/10 group-hover:border-amber flex flex-col justify-between p-1.5 relative overflow-hidden flex-shrink-0 transition">
+                <div class="flex flex-col gap-1 w-full opacity-30">
+                  <div class="h-1 bg-bone"></div>
+                  <div class="h-1 bg-bone"></div>
+                  <div class="h-1 bg-bone"></div>
+                </div>
+                <div class="text-[9px] font-mono text-center text-bone/60">КАССЕТА 04</div>
+                <div
+                  class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition bg-black/60">
+                  <svg class="w-5 h-5 fill-amber" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="flex-1 min-w-0 font-mono">
+                <div class="text-bone font-medium text-xs truncate group-hover:text-amber transition">REEL_004_PROMO.mp4
+                </div>
+                <div class="text-[10px] text-bone/40 mt-1 flex flex-wrap gap-x-2 gap-y-0.5 uppercase">
+                  <span>9:16</span>
+                  <span>•</span>
+                  <span>1080x1920</span>
+                  <span>•</span>
+                  <span>14с</span>
+                </div>
+                <div class="text-[9px] text-amber/70 mt-2 flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 bg-amber rounded-full inline-block animate-pulse"></span>
+                  <span>ГОТОВ К МОНТАЖУ</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Clip item 5 (AI Cartoon) -->
+            <div
+              class="bin-item group cursor-pointer border border-rec/40 bg-rec/10 hover:bg-rec/20 p-3 rounded flex items-center gap-4 transition"
+              data-id="reel-5" data-url="videos/AI MULT.mp4" data-name="AI_MULT_CARTOON.mp4" data-duration="14"
+              data-color="rec">
+              <div
+                class="w-16 h-20 bg-zinc-900 border border-rec group-hover:border-rec flex flex-col justify-between p-1.5 relative overflow-hidden flex-shrink-0 transition">
+                <div class="flex flex-col gap-1 w-full opacity-35">
+                  <div class="h-1 bg-rec"></div>
+                  <div class="h-1 bg-rec"></div>
+                  <div class="h-1 bg-rec"></div>
+                </div>
+                <div class="text-[9px] font-mono text-center text-rec">КАССЕТА 05</div>
+                <div
+                  class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition bg-black/60">
+                  <svg class="w-5 h-5 fill-rec" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="flex-1 min-w-0 font-mono">
+                <div class="text-bone font-medium text-xs truncate group-hover:text-rec transition">AI_MULT_CARTOON.mp4
+                </div>
+                <div class="text-[10px] text-bone/50 mt-1 flex flex-wrap gap-x-2 gap-y-0.5 uppercase">
+                  <span>9:16</span>
+                  <span>•</span>
+                  <span>1080x1920</span>
+                  <span>•</span>
+                  <span>14с</span>
+                </div>
+                <div class="text-[9px] text-rec font-bold mt-2 flex items-center gap-1.5 animate-pulse">
+                  <span class="w-1.5 h-1.5 bg-rec rounded-full inline-block"></span>
+                  <span>AI TREND / ИИ МУЛЬТ 🔥</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Clip item 6 (AI Video) -->
+            <div
+              class="bin-item group cursor-pointer border border-amber/40 bg-amber/10 hover:bg-amber/20 p-3 rounded flex items-center gap-4 transition"
+              data-id="reel-6" data-url="videos/AI VIDEO.mp4" data-name="AI_VIDEO_CREATIVE.mp4" data-duration="22"
+              data-color="amber">
+              <div
+                class="w-16 h-20 bg-zinc-900 border border-amber group-hover:border-amber flex flex-col justify-between p-1.5 relative overflow-hidden flex-shrink-0 transition">
+                <div class="flex flex-col gap-1 w-full opacity-35">
+                  <div class="h-1 bg-amber"></div>
+                  <div class="h-1 bg-amber"></div>
+                  <div class="h-1 bg-amber"></div>
+                </div>
+                <div class="text-[9px] font-mono text-center text-amber">КАССЕТА 06</div>
+                <div
+                  class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition bg-black/60">
+                  <svg class="w-5 h-5 fill-amber" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="flex-1 min-w-0 font-mono">
+                <div class="text-bone font-medium text-xs truncate group-hover:text-amber transition">
+                  AI_VIDEO_CREATIVE.mp4</div>
+                <div class="text-[10px] text-bone/50 mt-1 flex flex-wrap gap-x-2 gap-y-0.5 uppercase">
+                  <span>9:16</span>
+                  <span>•</span>
+                  <span>1080x1920</span>
+                  <span>•</span>
+                  <span>22с</span>
+                </div>
+                <div class="text-[9px] text-amber font-bold mt-2 flex items-center gap-1.5 animate-pulse">
+                  <span class="w-1.5 h-1.5 bg-amber rounded-full inline-block"></span>
+                  <span>AI VIDEO / КРЕАТИВ 🔥</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Retro Instruction Panel -->
+          <div
+            class="mt-4 border border-dashed border-bone/15 p-3 rounded font-mono text-[10px] text-bone/60 bg-white/5 select-none">
+            <div class="text-rec font-bold uppercase mb-1">ИНСТРУКЦИЯ ОПЕРАТОРА:</div>
+            <div>1. Выберите файл из списка выше для загрузки на монтажную ленту.</div>
+            <div>2. Нажмите кнопку <b class="text-bone">PLAY</b> для воспроизведения.</div>
+            <div>3. Кликните по таймлайну, чтобы переместить ползунок.</div>
+            <div>4. Нажмите <b class="text-bone font-bold text-rec hover:underline">EJECT</b> для выгрузки кассеты.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTIMONIAL ============ -->
+  <section class="px-4 md:px-8 py-24">
+    <div class="max-w-5xl mx-auto reveal">
+      <div class="font-mono text-xs uppercase tracking-[0.3em] text-bone/50 mb-6">// QUOTE</div>
+      <blockquote class="font-display text-3xl md:text-6xl leading-tight">
+        «Никита за <span class="text-rec">3 дня</span> собрал из 12 часов сырца ролик, который собрал
+        <span class="text-amber">2.4M просмотров</span>. Чувствует ритм, как режиссёр.»
+      </blockquote>
+      <div class="mt-8 flex items-center gap-4 font-mono text-xs uppercase tracking-widest text-bone/60">
+        <span class="w-12 h-px bg-rec"></span>
+        Реальный отзыв клиента
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section id="contact" class="px-4 md:px-8 py-24 bg-tape/70 border-t border-bone/10">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid md:grid-cols-2 gap-12">
+        <div class="reveal">
+          <div class="font-mono text-xs uppercase tracking-[0.3em] text-bone/50 mb-3">// SCENE 05 · END</div>
+          <h2 class="font-display text-5xl md:text-7xl leading-none">
+            ДАВАЙ <br />
+            <span class="chroma text-rec" data-text="СНИМЕМ">СНИМЕМ</span> <br />
+            ВМЕСТЕ.
+          </h2>
+          <p class="text-bone/70 mt-6 max-w-md">Есть проект? Расскажи в двух словах — отвечу за сутки и пришлю смету.
+          </p>
+        </div>
+
+        <div class="reveal space-y-3">
+          <a href="mailto:typonik@vk.com" class="block cell p-6 group">
+            <div class="font-mono text-xs text-bone/50 mb-1">EMAIL</div>
+            <div class="font-display text-3xl group-hover:text-rec transition">typonik@vk.com</div>
+          </a>
+          <a href="https://t.me/pythonvoin" class="block cell p-6 group">
+            <div class="font-mono text-xs text-bone/50 mb-1">TELEGRAM</div>
+            <div class="font-display text-3xl group-hover:text-amber transition">@pythonvoin</div>
+          </a>
+          <a href="https://kwork.ru/user/nikitanext2002" target="_blank" class="block cell p-6 group">
+            <div class="font-mono text-xs text-bone/50 mb-1">KWORK · ЗАКАЗАТЬ</div>
+            <div class="font-display text-3xl group-hover:text-rec transition">kwork.ru/user/nikitanext2002</div>
+          </a>
+          <div class="flex gap-3 mt-4">
+            <a href="https://youtube.com/@yotubeThebadBoy" target="_blank"
+              class="flex-1 cell p-4 text-center font-mono text-xs uppercase tracking-widest hover:text-amber">YouTube</a>
+            <a href="https://kwork.ru/user/nikitanext2002" target="_blank"
+              class="flex-1 cell p-4 text-center font-mono text-xs uppercase tracking-widest hover:text-amber">Kwork</a>
+            <a href="https://t.me/pythonvoin"
+              class="flex-1 cell p-4 text-center font-mono text-xs uppercase tracking-widest hover:text-amber">Telegram</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer
+    class="px-4 md:px-8 py-8 border-t border-bone/10 font-mono text-xs uppercase tracking-widest text-bone/50 flex flex-col md:flex-row justify-between gap-4">
+    <div>© 2026 NIK · @pythonvoin · YOUTUBE 272K</div>
+    <div class="flex gap-6">
+      <a href="admin/" class="hover:text-amber">ADMIN</a>
+      <span class="text-rec">END OF FILE</span>
+    </div>
+  </footer>
+
+  <!-- ============ SCRIPTS ============ -->
+  <script>
+    // Cursor
+    const cursor = document.getElementById('cursor');
+    let cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+    let tx = cx, ty = cy;
+    document.addEventListener('mousemove', (e) => { tx = e.clientX; ty = e.clientY; });
+    function loop() {
+      cx += (tx - cx) * 0.18;
+      cy += (ty - cy) * 0.18;
+      cursor.style.left = cx + 'px';
+      cursor.style.top = cy + 'px';
+      requestAnimationFrame(loop);
+    }
+    loop();
+    document.querySelectorAll('a, button, .cell, .group').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+    });
+
+    // Timecode
+    const tc = document.getElementById('timecode');
+    const start = Date.now();
+    setInterval(() => {
+      const t = Date.now() - start;
+      const frames = Math.floor((t / 1000) * 24) % 24;
+      const secs = Math.floor(t / 1000) % 60;
+      const mins = Math.floor(t / 60000) % 60;
+      const hrs = Math.floor(t / 3600000);
+      const pad = n => String(n).padStart(2, '0');
+      tc.textContent = `${pad(hrs)}:${pad(mins)}:${pad(secs)}:${pad(frames)}`;
+    }, 41);
+
+    // Reveal on scroll
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // Number tickers
+    const tickers = document.querySelectorAll('.ticker');
+    const tIO = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const el = e.target;
+        const target = parseInt(el.dataset.target, 10);
+        const dur = 1400;
+        const t0 = performance.now();
+        function step(now) {
+          const k = Math.min(1, (now - t0) / dur);
+          const eased = 1 - Math.pow(1 - k, 3);
+          el.textContent = Math.floor(target * eased);
+          if (k < 1) requestAnimationFrame(step);
+          else el.textContent = target;
+        }
+        requestAnimationFrame(step);
+        tIO.unobserve(el);
+      });
+    }, { threshold: 0.5 });
+    tickers.forEach(t => tIO.observe(t));
+
+
+    // Interactive Editing Desk Logic
+    (function initEditingDesk() {
+      const binItems = document.querySelectorAll('.bin-item');
+      const monitorVideo = document.getElementById('monitor-video');
+      const monitorBgVideo = document.getElementById('monitor-bg-video');
+      const iframeWrapper = document.getElementById('monitor-iframe-wrapper');
+      const placeholder = document.getElementById('monitor-placeholder');
+      const clipNameLabel = document.getElementById('monitor-clip-name');
+      const timecodeDisplay = document.getElementById('monitor-timecode');
+      const recDot = document.getElementById('monitor-rec-dot');
+
+      const playBtn = document.getElementById('console-play');
+      const muteBtn = document.getElementById('console-mute');
+      const ejectBtn = document.getElementById('console-eject');
+
+      const playSvg = document.getElementById('play-svg');
+      const pauseSvg = document.getElementById('pause-svg');
+      const soundSvg = document.getElementById('sound-svg');
+      const mutedSvg = document.getElementById('muted-svg');
+
+      const timelineDuration = document.getElementById('timeline-duration');
+      const timelineTrack = document.getElementById('timeline-track');
+      const timelineClipBar = document.getElementById('timeline-clip-bar');
+      const timelinePlayhead = document.getElementById('timeline-playhead');
+
+      const vuL = document.getElementById('vu-l');
+      const vuR = document.getElementById('vu-r');
+
+      let activeClip = null; // { id, url, name, duration, color }
+      let vuInterval = null;
+
+      // Select a tape / clip
+      binItems.forEach(item => {
+        item.addEventListener('click', () => {
+          const id = item.dataset.id;
+          const url = item.dataset.url;
+          const name = item.dataset.name;
+          const duration = parseInt(item.dataset.duration, 10);
+          const color = item.dataset.color || 'rec';
+
+          // Update active class in media bin
+          binItems.forEach(bi => {
+            bi.classList.remove('active-rec', 'active-amber');
+          });
+          if (color === 'rec') {
+            item.classList.add('active-rec');
+          } else {
+            item.classList.add('active-amber');
+          }
+
+          loadClip({ id, url, name, duration, color });
+        });
+      });
+
+      function loadClip(clip) {
+        activeClip = clip;
+        clipNameLabel.textContent = clip.name;
+
+        // Load video source
+        monitorVideo.src = clip.url;
+        monitorVideo.load();
+
+        // Pause background ambient video
+        if (monitorBgVideo) monitorBgVideo.pause();
+
+        // Switch screen from placeholder to video
+        placeholder.style.opacity = '0';
+        placeholder.style.pointerEvents = 'none';
+        iframeWrapper.style.opacity = '1';
+        iframeWrapper.style.pointerEvents = 'auto';
+
+        // Enable controls
+        playBtn.removeAttribute('disabled');
+        muteBtn.removeAttribute('disabled');
+
+        // Reset playhead & state
+        updatePlayheadVisuals(0, clip.duration);
+
+        // Play
+        monitorVideo.play().catch(err => {
+          console.log("Auto-play blocked or error: ", err);
+        });
+      }
+
+      function ejectClip() {
+        monitorVideo.pause();
+        monitorVideo.src = '';
+        activeClip = null;
+
+        // Reset bin selection
+        binItems.forEach(bi => {
+          bi.classList.remove('active-rec', 'active-amber');
+        });
+
+        // Resume background ambient video
+        if (monitorBgVideo) {
+          monitorBgVideo.play().catch(() => { });
+        }
+
+        // Reset monitor screen
+        placeholder.style.opacity = '1';
+        placeholder.style.pointerEvents = 'auto';
+        iframeWrapper.style.opacity = '0';
+        iframeWrapper.style.pointerEvents = 'none';
+
+        // Reset status label
+        clipNameLabel.textContent = 'НЕТ КАССЕТЫ';
+        timecodeDisplay.textContent = '00:00:00:00';
+        if (recDot) recDot.classList.remove('animate-pulse');
+
+        // Reset timeline
+        timelineDuration.textContent = '00:00';
+        timelineClipBar.style.width = '0%';
+        timelinePlayhead.style.left = '0%';
+
+        // Disable controls
+        playBtn.setAttribute('disabled', 'true');
+        muteBtn.setAttribute('disabled', 'true');
+
+        // Reset VU meters
+        resetVUMeters();
+      }
+
+      ejectBtn.addEventListener('click', ejectClip);
+
+      // Sync with HTML5 video events
+      monitorVideo.addEventListener('play', () => {
+        playSvg.classList.add('hidden');
+        pauseSvg.classList.remove('hidden');
+        if (recDot) recDot.classList.add('animate-pulse');
+        startVUMeterAnimation();
+      });
+
+      monitorVideo.addEventListener('pause', () => {
+        playSvg.classList.remove('hidden');
+        pauseSvg.classList.add('hidden');
+        if (recDot) recDot.classList.remove('animate-pulse');
+        stopVUMeterAnimation();
+      });
+
+      monitorVideo.addEventListener('timeupdate', () => {
+        if (!activeClip) return;
+        const progress = monitorVideo.currentTime / (monitorVideo.duration || activeClip.duration);
+        const duration = monitorVideo.duration || activeClip.duration;
+        updatePlayheadVisuals(progress, duration);
+      });
+
+      monitorVideo.addEventListener('durationchange', () => {
+        if (!activeClip) return;
+        const duration = monitorVideo.duration || activeClip.duration;
+        timelineDuration.textContent = `00:${String(Math.floor(duration)).padStart(2, '0')}`;
+      });
+
+      playBtn.addEventListener('click', () => {
+        if (!activeClip) return;
+        if (monitorVideo.paused) {
+          monitorVideo.play();
+        } else {
+          monitorVideo.pause();
+        }
+      });
+
+      // Mute controls
+      muteBtn.addEventListener('click', () => {
+        monitorVideo.muted = !monitorVideo.muted;
+        if (monitorVideo.muted) {
+          soundSvg.classList.add('hidden');
+          mutedSvg.classList.remove('hidden');
+          resetVUMeters();
+        } else {
+          soundSvg.classList.remove('hidden');
+          mutedSvg.classList.add('hidden');
+        }
+      });
+
+      // Scrubbing timeline
+      timelineTrack.addEventListener('click', (e) => {
+        if (!activeClip) return;
+        const rect = timelineTrack.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const percent = Math.max(0, Math.min(1, clickX / rect.width));
+
+        const duration = monitorVideo.duration || activeClip.duration;
+        monitorVideo.currentTime = percent * duration;
+      });
+
+      function updatePlayheadVisuals(progress, duration) {
+        if (!activeClip) return;
+
+        // Move playhead
+        timelinePlayhead.style.left = `${progress * 100}%`;
+        timelineClipBar.style.width = '100%';
+        if (activeClip.color === 'rec') {
+          timelineClipBar.className = 'absolute left-0 top-1 bottom-1 bg-gradient-to-r from-rec/40 to-amber/40 border-y border-rec/60 rounded-sm transition-all duration-300 w-full';
+        } else {
+          timelineClipBar.className = 'absolute left-0 top-1 bottom-1 bg-gradient-to-r from-amber/40 to-rec/40 border-y border-amber/60 rounded-sm transition-all duration-300 w-full';
+        }
+
+        // Calculate current timecode
+        const currentSecs = progress * duration;
+        const totalMillis = currentSecs * 1000;
+        const frames = Math.floor((totalMillis / 1000) * 24) % 24;
+        const secs = Math.floor(totalMillis / 1000) % 60;
+        const mins = Math.floor(totalMillis / 60000) % 60;
+        const hrs = Math.floor(totalMillis / 3600000);
+
+        const pad = n => String(n).padStart(2, '0');
+        timecodeDisplay.textContent = `${pad(hrs)}:${pad(mins)}:${pad(secs)}:${pad(frames)}`;
+      }
+
+      // Audio VU Meter Simulation
+      function startVUMeterAnimation() {
+        if (vuInterval) clearInterval(vuInterval);
+
+        const ledElementsL = vuL.children;
+        const ledElementsR = vuR.children;
+
+        vuInterval = setInterval(() => {
+          if (monitorVideo.paused || monitorVideo.muted) {
+            resetVUMeters();
+            return;
+          }
+
+          // Generate random target volume for L and R
+          const volumeL = Math.floor(Math.random() * 8) + (Math.random() > 0.85 ? 7 : 4);
+          const volumeR = Math.floor(Math.random() * 8) + (Math.random() > 0.85 ? 7 : 4);
+
+          animateVUChannel(ledElementsL, volumeL);
+          animateVUChannel(ledElementsR, volumeR);
+        }, 80);
+      }
+
+      function stopVUMeterAnimation() {
+        if (vuInterval) {
+          clearInterval(vuInterval);
+          vuInterval = null;
+        }
+        resetVUMeters();
+      }
+
+      function animateVUChannel(leds, level) {
+        for (let i = 0; i < leds.length; i++) {
+          if (i <= level) {
+            // Turn LED on
+            if (i < 10) {
+              leds[i].className = 'h-2 w-full led-green transition-colors duration-75';
+            } else if (i < 13) {
+              leds[i].className = 'h-2 w-full led-amber transition-colors duration-75';
+            } else {
+              leds[i].className = 'h-2 w-full led-red transition-colors duration-75';
+            }
+          } else {
+            // Turn LED off
+            leds[i].className = 'h-2 w-full bg-zinc-900 transition-colors duration-75';
+          }
+        }
+      }
+
+      function resetVUMeters() {
+        const ledsL = vuL.children;
+        const ledsR = vuR.children;
+        for (let i = 0; i < ledsL.length; i++) {
+          ledsL[i].className = 'h-2 w-full bg-zinc-900 transition-colors duration-75';
+          ledsR[i].className = 'h-2 w-full bg-zinc-900 transition-colors duration-75';
+        }
+      }
+    })();
+  </script>
+</body>
+
+</html>
