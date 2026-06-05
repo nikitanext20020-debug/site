@@ -4,9 +4,18 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Nik · Блогер 272K · Монтаж · Дизайн · Разработка</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <meta name="description" content="Nik (@pythonvoin) — YouTube-блогер 272K подписчиков. Услуги: монтаж видео, превью, дизайн каналов, разработка сайтов." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Bebas+Neue&family=Archivo+Black&display=swap" rel="stylesheet" />
+<script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.166.1/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.166.1/examples/jsm/"
+    }
+  }
+</script>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
   tailwind.config = {
@@ -203,10 +212,63 @@
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation:none !important; transition:none !important; }
   }
+
+  /* Preloader CRT Scanlines and layout */
+  #preloader {
+    position: fixed;
+    inset: 0;
+    background: #101014;
+    color: #00FFB2;
+    font-family: 'JetBrains Mono', monospace;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: opacity 1s cubic-bezier(0.7, 0, 0.3, 1), transform 1s cubic-bezier(0.7, 0, 0.3, 1);
+  }
+  #preloader::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(to bottom, rgba(0, 255, 178, 0.05) 0px, rgba(0, 255, 178, 0.05) 1px, transparent 1px, transparent 3px);
+    pointer-events: none;
+    z-index: 10;
+  }
+  .preloader-zoom-out {
+    opacity: 0;
+    transform: scale(2.5) perspective(1000px) rotateX(15deg);
+    pointer-events: none;
+  }
 </style>
 </head>
 
 <body class="grain">
+
+<!-- RETRO BIOS PRELOADER -->
+<div id="preloader" class="select-none">
+  <!-- 3D Canvas Container -->
+  <div id="preloader-3d" class="absolute inset-0 z-0 bg-[#050810]"></div>
+  
+  <!-- CRT Screen Overlay simulating monitor screen dimensions -->
+  <div id="preloader-overlay" class="relative z-10 w-[90vw] max-w-sm md:max-w-xl aspect-[1.54] m-auto flex flex-col justify-between p-6 md:p-8 font-mono text-[9px] md:text-xs text-neon pointer-events-none transition-opacity duration-500">
+    <div class="space-y-1.5 overflow-y-auto pr-1 flex-grow h-0" id="boot-terminal-log">
+      <!-- Terminal text will render here -->
+    </div>
+    
+    <div class="space-y-3 mt-4">
+      <!-- Progress Bar Container -->
+      <div class="w-full bg-neon/15 border border-neon/30 p-1 rounded-sm">
+        <div id="preloader-bar" class="h-3 bg-neon w-0 transition-all duration-100 ease-out flex items-center justify-end pr-2 text-[8px] font-bold text-[#050810]">0%</div>
+      </div>
+      
+      <div class="flex justify-between items-center text-[8px] md:text-[10px] text-neon/60">
+        <span>DEVICE: CRT_MONITOR_OS_v2.6</span>
+        <span>SECTOR: 0x00FFB2</span>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- ============ TOP BAR ============ -->
 <header class="px-4 md:px-8 py-4 border-b border-bone/10 flex items-center justify-between font-mono text-xs uppercase tracking-widest">
@@ -426,8 +488,9 @@ const <span class="text-amber">stack</span> = [
 </div>
 
 <!-- ============ YOUTUBE CHANNEL ============ -->
-<section id="youtube" class="px-4 md:px-8 py-20 border-t border-bone/10">
-  <div class="max-w-7xl mx-auto">
+<section id="youtube" class="relative px-4 md:px-8 py-20 border-t border-bone/10 overflow-hidden">
+  <div id="youtube-glass-canvas" class="absolute inset-0 z-0 opacity-40"></div>
+  <div class="max-w-7xl mx-auto relative z-10">
     <div class="flex items-end justify-between mb-10 reveal">
       <div>
         <div class="font-mono text-xs uppercase tracking-[0.3em] text-bone/50 mb-3 flex items-center gap-2">
@@ -487,8 +550,16 @@ const <span class="text-amber">stack</span> = [
   </div>
 </footer>
 
-<script>
-  // Code rain on hub
+
+
+<script type="module">
+  import * as THREE from "three";
+  import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+  import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+  import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+  import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+
+  // ================== CODE RAIN ON HUB ==================
   (function rain() {
     const root = document.getElementById('coderain-hub');
     if (!root) return;
@@ -509,13 +580,13 @@ const <span class="text-amber">stack</span> = [
     }
   })();
 
-  // Reveal
+  // ================== REVEAL OBSERVER ==================
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-  // Load YouTube videos from data
+  // ================== LOAD YOUTUBE DATA ==================
   (async function loadYT(){
     try {
       const res = await fetch('data/portfolio.json', { cache:'no-store' });
@@ -544,6 +615,816 @@ const <span class="text-amber">stack</span> = [
       `).join('');
       grid.querySelectorAll('.reveal').forEach(el => io.observe(el));
     } catch(e) { console.warn(e); }
+  })();
+
+  // ================== LIQUID GLASS (BACKGROUND REFRACTION) ==================
+  function initLiquidGlass() {
+    const container = document.getElementById('youtube-glass-canvas');
+    if (!container) return;
+
+    const w = container.clientWidth || window.innerWidth;
+    const h = container.clientHeight || 500;
+
+    const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true });
+    renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+    renderer.setSize(w, h);
+    container.appendChild(renderer.domElement);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+
+    // Background typography canvas
+    const bgCanvas = document.createElement("canvas");
+    const bgCtx = bgCanvas.getContext("2d");
+    const bgTexture = new THREE.CanvasTexture(bgCanvas);
+    bgTexture.minFilter = THREE.LinearFilter;
+    bgTexture.magFilter = THREE.LinearFilter;
+
+    function drawBackground() {
+      const cw = renderer.domElement.width;
+      const ch = renderer.domElement.height;
+      bgCanvas.width = cw;
+      bgCanvas.height = ch;
+
+      // Dark cyber gradient background
+      const grd = bgCtx.createLinearGradient(0, 0, cw * 0.5, ch);
+      grd.addColorStop(0, "#08080c");
+      grd.addColorStop(0.5, "#150608");
+      grd.addColorStop(1, "#08080c");
+      bgCtx.fillStyle = grd;
+      bgCtx.fillRect(0, 0, cw, ch);
+
+      // Decorative radial colors
+      bgCtx.save();
+      bgCtx.globalAlpha = 0.22;
+      for (let i = 0; i < 4; i++) {
+        const cx = cw * (0.2 + i * 0.2);
+        const cy = ch * (0.35 + Math.sin(i * 1.4) * 0.2);
+        const rg = bgCtx.createRadialGradient(cx, cy, 0, cx, cy, cw * 0.35);
+        rg.addColorStop(0, "#FF0033"); // ytred
+        rg.addColorStop(1, "rgba(8, 8, 12, 0)");
+        bgCtx.fillStyle = rg;
+        bgCtx.fillRect(0, 0, cw, ch);
+      }
+      bgCtx.restore();
+
+      // Typography
+      bgCtx.fillStyle = "#ffffff";
+      bgCtx.textAlign = "center";
+      bgCtx.textBaseline = "middle";
+
+      const titleSize = Math.round(cw * 0.09);
+      bgCtx.font = `900 ${titleSize}px 'Bebas Neue', sans-serif`;
+      bgCtx.fillText("YOUTUBE", cw * 0.5, ch * 0.38);
+
+      const subSize = Math.round(cw * 0.016);
+      bgCtx.font = `500 ${subSize}px 'Space Grotesk', sans-serif`;
+      bgCtx.fillStyle = "rgba(255, 255, 255, 0.35)";
+      bgCtx.fillText("272K SUBS", cw * 0.5, ch * 0.38 + titleSize * 0.82);
+      bgTexture.needsUpdate = true;
+    }
+    drawBackground();
+
+    // Droplets setup
+    const droplets = [];
+    const MAX_DROPLETS = 40;
+    
+    // Spawn 15 initial floating drops
+    for (let i = 0; i < 15; i++) {
+      droplets.push({
+        x: 0.15 + Math.random() * 0.7,
+        y: 0.2 + Math.random() * 0.6,
+        vx: (Math.random() - 0.5) * 0.0012,
+        vy: (Math.random() - 0.5) * 0.0012,
+        r: 0.015 + Math.random() * 0.022
+      });
+    }
+
+    const uDroplets = new Float32Array(MAX_DROPLETS * 3);
+    function updateUniforms() {
+      for (let i = 0; i < MAX_DROPLETS; i++) {
+        const idx = i * 3;
+        if (i < droplets.length) {
+          uDroplets[idx] = droplets[i].x;
+          uDroplets[idx + 1] = droplets[i].y;
+          uDroplets[idx + 2] = droplets[i].r;
+        } else {
+          uDroplets[idx] = 0;
+          uDroplets[idx + 1] = 0;
+          uDroplets[idx + 2] = 0;
+        }
+      }
+    }
+
+    const VERT_GLASS = `
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = vec4(position, 1.0);
+      }
+    `;
+
+    const FRAG_GLASS = `
+      precision highp float;
+      varying vec2 vUv;
+      uniform vec2 uResolution;
+      uniform sampler2D uTexture;
+      uniform vec3 uDroplets[40];
+      uniform int uDropletCount;
+
+      void main() {
+        vec2 uv = vUv;
+        float aspect = uResolution.x / uResolution.y;
+        
+        float field = 0.0;
+        vec2 grad = vec2(0.0);
+        
+        for (int i = 0; i < 40; i++) {
+          if (i >= uDropletCount) break;
+          vec3 drop = uDroplets[i];
+          vec2 dPos = uv - drop.xy;
+          dPos.x *= aspect;
+          float dist = length(dPos);
+          float r = drop.z;
+          
+          if (dist > 0.0) {
+            float force = (r * r) / (dist * dist + 0.0001);
+            field += force;
+            grad -= (2.0 * r * r * dPos) / pow(dist * dist + 0.0001, 2.0);
+          }
+        }
+        
+        vec3 color;
+        float threshold = 1.0;
+        
+        if (field > threshold) {
+          vec2 refractOffset = grad * 0.015;
+          vec2 refractedUv = clamp(uv + refractOffset, 0.0, 1.0);
+          color = texture2D(uTexture, refractedUv).rgb;
+          
+          // Specular highlight
+          vec2 lightDir = normalize(vec2(-1.0, 1.0));
+          vec2 normal = normalize(grad);
+          float spec = max(0.0, dot(normal, lightDir));
+          spec = pow(spec, 18.0) * 0.4;
+          
+          color += vec3(spec);
+        } else {
+          color = texture2D(uTexture, uv).rgb;
+          
+          // Outer shadow
+          float shadow = smoothstep(threshold - 0.15, threshold, field);
+          color = mix(color, color * 0.6, shadow * 0.45);
+        }
+        
+        gl_FragColor = vec4(color, 1.0);
+      }
+    `;
+
+    updateUniforms();
+
+    const material = new THREE.ShaderMaterial({
+      vertexShader: VERT_GLASS,
+      fragmentShader: FRAG_GLASS,
+      uniforms: {
+        uResolution: { value: new THREE.Vector2(w, h) },
+        uTexture: { value: bgTexture },
+        uDroplets: { value: uDroplets },
+        uDropletCount: { value: droplets.length }
+      }
+    });
+
+    const quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
+    scene.add(quad);
+
+    const youtubeSection = document.getElementById('youtube');
+    let mouseActive = false;
+    let mouseIdx = 0;
+
+    function onMouseMove(e) {
+      const rect = container.getBoundingClientRect();
+      const mx = (e.clientX - rect.left) / rect.width;
+      const my = 1.0 - (e.clientY - rect.top) / rect.height;
+      
+      if (!mouseActive && droplets.length < MAX_DROPLETS) {
+        droplets.push({
+          x: mx,
+          y: my,
+          vx: 0,
+          vy: 0,
+          r: 0.035
+        });
+        mouseIdx = droplets.length - 1;
+        mouseActive = true;
+        material.uniforms.uDropletCount.value = droplets.length;
+      } else if (mouseActive) {
+        droplets[mouseIdx].x = mx;
+        droplets[mouseIdx].y = my;
+      }
+    }
+
+    youtubeSection.addEventListener('mousemove', onMouseMove, { passive: true });
+    youtubeSection.addEventListener('mouseleave', () => {
+      if (mouseActive) {
+        droplets.splice(mouseIdx, 1);
+        mouseActive = false;
+        material.uniforms.uDropletCount.value = droplets.length;
+      }
+    });
+
+    youtubeSection.addEventListener('click', (e) => {
+      const rect = container.getBoundingClientRect();
+      const mx = (e.clientX - rect.left) / rect.width;
+      const my = 1.0 - (e.clientY - rect.top) / rect.height;
+      
+      if (droplets.length < MAX_DROPLETS) {
+        droplets.push({
+          x: mx,
+          y: my,
+          vx: (Math.random() - 0.5) * 0.005,
+          vy: (Math.random() - 0.5) * 0.005,
+          r: 0.02 + Math.random() * 0.02
+        });
+        material.uniforms.uDropletCount.value = droplets.length;
+      }
+    });
+
+    let animId;
+    function animate() {
+      animId = requestAnimationFrame(animate);
+      
+      // Update physics
+      for (let i = 0; i < droplets.length; i++) {
+        if (mouseActive && i === mouseIdx) continue;
+        const drop = droplets[i];
+        drop.x += drop.vx;
+        drop.y += drop.vy;
+        
+        if (drop.x - drop.r < 0) { drop.x = drop.r; drop.vx *= -1; }
+        if (drop.x + drop.r > 1) { drop.x = 1 - drop.r; drop.vx *= -1; }
+        if (drop.y - drop.r < 0) { drop.y = drop.r; drop.vy *= -1; }
+        if (drop.y + drop.r > 1) { drop.y = 1 - drop.r; drop.vy *= -1; }
+      }
+      
+      updateUniforms();
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      const nw = container.clientWidth;
+      const nh = container.clientHeight;
+      renderer.setSize(nw, nh);
+      material.uniforms.uResolution.value.set(nw, nh);
+      drawBackground();
+    });
+  }
+
+  // ================== RETRO BIOS PRELOADER CONTROLLER (3D) ==================
+  (function initPreloader() {
+    const preloader = document.getElementById('preloader');
+    const bar = document.getElementById('preloader-bar');
+    const logBox = document.getElementById('boot-terminal-log');
+    const container3d = document.getElementById('preloader-3d');
+    
+    if (!preloader) return;
+
+    // Check if user already booted during session
+    if (sessionStorage.getItem('site_booted')) {
+      preloader.remove();
+      initLiquidGlass();
+      return;
+    }
+
+    if (!bar || !logBox || !container3d) {
+      preloader.remove();
+      return;
+    }
+
+    // BIOS Boot Text Sequence lines
+    const bootLines = [
+      "NIK OS BIOS v4.02 - EST. 2020",
+      "CPU: NIKITA NEXT @ 4.09GHz",
+      "RAM CHECK: 64MB OK",
+      "DETECTION: HDD SECTOR 0x00FFB2 FOUND",
+      "------------------------------------",
+      "LOADING SYSTEM FILE INTEGRITY CHECKS...",
+      "load_kernel.sys ... SUCCESS",
+      "load_ui_styles.css ... SUCCESS",
+      "load_youtube_stats.db ... SUCCESS (272K SUBS)",
+      "load_portals_interactivity.js ... SUCCESS",
+      "------------------------------------",
+      "INITIATING CONNECTION TO SITE HUB...",
+      "PORTAL SECURITY CHECK: SECURE",
+      "BOOT SEQUENCE: COMPLETE."
+    ];
+
+    let progress = 0;
+    let lineIndex = 0;
+
+    // Render boot lines
+    function printNextLine() {
+      if (lineIndex < bootLines.length) {
+        logBox.insertAdjacentHTML('beforeend', `<div class="leading-relaxed">$ ${bootLines[lineIndex]}</div>`);
+        logBox.scrollTop = logBox.scrollHeight;
+        lineIndex++;
+        setTimeout(printNextLine, 60 + Math.random() * 80);
+      }
+    }
+    setTimeout(printNextLine, 100);
+
+    // Update progress bar
+    let isBooted = false;
+    function updateProgress() {
+      if (progress < 100) {
+        progress += Math.floor(Math.random() * 6) + 1;
+        if (progress > 100) progress = 100;
+        bar.style.width = progress + '%';
+        bar.textContent = progress + '%';
+        setTimeout(updateProgress, 60 + Math.random() * 100);
+      } else {
+        // BIOS complete, trigger zoom animation
+        setTimeout(() => {
+          isZooming = true;
+        }, 300);
+      }
+    }
+    setTimeout(updateProgress, 200);
+
+    // --- THREE.JS 3D SCENE SETUP ---
+    function createProjectedFloor(width, depth, material, segments = 64) {
+      const geometry = new THREE.PlaneGeometry(width, depth, segments, segments);
+      geometry.rotateX(-Math.PI / 2);
+      return new THREE.Mesh(geometry, material);
+    }
+
+    function createKeyboard(material) {
+      const group = new THREE.Group();
+      const baseGeo = new THREE.BoxGeometry(1.15, 0.045, 0.42);
+      const base = new THREE.Mesh(baseGeo, material);
+      base.position.y = 0.0225;
+      group.add(base);
+
+      const cols = 10;
+      const rows = 3;
+      const keyW = 0.09;
+      const keyH = 0.072;
+      const keyD = 0.07;
+      const gapX = 0.012;
+      const gapZ = 0.01;
+      const startX = -((cols - 1) * (keyW + gapX)) / 2;
+      const startZ = -((rows - 1) * (keyD + gapZ)) / 2;
+      const keyGeo = new THREE.BoxGeometry(keyW, keyH, keyD);
+
+      for (let rz = 0; rz < rows; rz += 1) {
+        for (let cx = 0; cx < cols; cx += 1) {
+          const key = new THREE.Mesh(keyGeo, material);
+          key.position.set(
+            startX + cx * (keyW + gapX),
+            0.045 + keyH * 0.5 + 0.002,
+            startZ + rz * (keyD + gapZ)
+          );
+          group.add(key);
+        }
+      }
+      group.position.set(0, 0, 1.28);
+      return group;
+    }
+
+    const VERT = `
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = vec4(position.xy, 0.0, 1.0);
+      }
+    `;
+
+    const FRAG = `
+      precision highp float;
+      varying vec2 vUv;
+      uniform float uTime;
+      uniform float uProjectionIntensity;
+      uniform float uReflectionGain;
+      uniform float uHighlightBoost;
+      uniform float uLumaVisibilityThreshold;
+      uniform float uInvertColor;
+      uniform float uHalftone;
+      uniform float uToneCut;
+
+      vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+      vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+      vec3 permute(vec3 x) { return mod289(((x * 34.0) + 1.0) * x); }
+
+      float snoise(vec2 v) {
+        const vec4 C = vec4(
+          0.211324865405187,
+          0.366025403784439,
+          -0.577350269189626,
+          0.024390243902439
+        );
+        vec2 i = floor(v + dot(v, C.yy));
+        vec2 x0 = v - i + dot(i, C.xx);
+        vec2 i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+        vec4 x12 = x0.xyxy + C.xxzz;
+        x12.xy -= i1;
+        i = mod289(i);
+        vec3 p = permute(permute(i.y + vec3(0.0, i1.y, 1.0)) + i.x + vec3(0.0, i1.x, 1.0));
+        vec3 m = max(0.5 - vec3(dot(x0, x0), dot(x12.xy, x12.xy), dot(x12.zw, x12.zw)), 0.0);
+        m = m * m;
+        m = m * m;
+        vec3 x = 2.0 * fract(p * C.www) - 1.0;
+        vec3 h = abs(x) - 0.5;
+        vec3 ox = floor(x + 0.5);
+        vec3 a0 = x - ox;
+        m *= 1.79284291400159 - 0.85373472095314 * (a0 * a0 + h * h);
+        vec3 g;
+        g.x = a0.x * x0.x + h.x * x0.y;
+        g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+        return 130.0 * dot(m, g);
+      }
+
+      float fbm(vec2 p) {
+        float v = 0.0;
+        float a = 0.5;
+        for (int i = 0; i < 5; i++) {
+          v += a * snoise(p);
+          p = p * 2.0 + vec2(17.0, 31.0);
+          a *= 0.5;
+        }
+        return v;
+      }
+
+      void main() {
+        vec2 uv = vUv;
+        vec2 p = uv * 2.0 - 1.0;
+        float t = uTime;
+
+        vec2 flow = vec2(t * 0.19, t * 0.13);
+        vec2 q = vec2(
+          fbm(p * 1.05 + flow),
+          fbm(p * 1.05 + vec2(-flow.y * 1.1, flow.x * 0.9))
+        );
+        vec2 w = p + q * 0.62;
+
+        float nA = 0.5 + 0.5 * fbm(w * 2.15 + flow * 0.8);
+        float nB = 0.5 + 0.5 * fbm(w * 4.8 + vec2(-flow.x * 0.5, flow.y * 0.35));
+        float ridge = 1.0 - abs(2.0 * nB - 1.0);
+        float mask = clamp(0.18 + 1.12 * (0.58 * nA + 0.42 * ridge), 0.0, 1.0);
+        float edgeFade = 1.0 - clamp(length(p) * 0.7, 0.0, 1.0);
+        float intensity = pow(clamp(mask * (0.72 + edgeFade * 0.45), 0.0, 1.0), 1.05);
+
+        float base = nA * 0.82 + ridge * 0.18;
+        vec3 col = vec3(
+          0.18 + 0.86 * (0.5 + 0.5 * cos(6.28318 * (base + 0.02 + t * 0.07))),
+          0.14 + 0.9  * (0.5 + 0.5 * cos(6.28318 * (base + 0.37 + t * 0.06))),
+          0.2  + 0.9  * (0.5 + 0.5 * cos(6.28318 * (base + 0.72 + t * 0.065)))
+        );
+        col *= intensity;
+
+        float highlight = pow(clamp((nA * 1.1 + ridge * 0.75) - 1.1, 0.0, 1.0), 2.2);
+        col = mix(col, vec3(1.0, 0.96, 0.92), highlight * vec3(0.22, 0.16, 0.1));
+        vec3 tex = clamp(col, 0.0, 1.0);
+
+        if (uInvertColor > 0.5) {
+          tex = vec3(1.0) - tex;
+        }
+
+        if (uToneCut > 0.5) {
+          float toneLevels = 5.0;
+          tex = floor(tex * (toneLevels - 1.0) + 0.5) / (toneLevels - 1.0);
+        }
+
+        float lum = dot(tex, vec3(0.2126, 0.7152, 0.0722));
+        float lumaStart = clamp(uLumaVisibilityThreshold, 0.0, 1.0);
+        float lumaEnd = min(1.0, lumaStart + 0.1);
+        float darkMask = 1.0;
+        if (lumaStart > 1e-4) {
+          darkMask = smoothstep(lumaStart, lumaEnd, lum);
+        }
+
+        if (uHalftone > 0.5) {
+          vec2 hUv = vUv * vec2(180.0, 120.0);
+          vec2 hCell = fract(hUv) - 0.5;
+          float dotRadius = mix(0.02, 0.45, clamp(lum, 0.0, 1.0));
+          float dotMask = 1.0 - smoothstep(dotRadius, dotRadius + 0.035, length(hCell));
+          tex *= dotMask * darkMask;
+        }
+
+        float hi = smoothstep(0.5, 1.0, lum);
+        tex *= darkMask;
+        tex *= mix(1.0, uHighlightBoost, hi);
+        tex *= max(0.0, uProjectionIntensity) * max(0.0, uReflectionGain);
+
+        gl_FragColor = vec4(tex, 1.0);
+      }
+    `;
+
+    function createGradientRenderSource(width = 1024, height = 576) {
+      const w = Math.max(2, Math.floor(width));
+      const h = Math.max(2, Math.floor(height));
+      const sourceScene = new THREE.Scene();
+      const sourceCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+      const sourceMaterial = new THREE.ShaderMaterial({
+        vertexShader: VERT,
+        fragmentShader: FRAG,
+        uniforms: {
+          uTime: { value: 0 },
+          uProjectionIntensity: { value: 0.5 },
+          uReflectionGain: { value: 1.0 },
+          uHighlightBoost: { value: 1.65 },
+          uLumaVisibilityThreshold: { value: 0.3 },
+          uInvertColor: { value: 0 },
+          uHalftone: { value: 0 },
+          uToneCut: { value: 0 },
+        },
+        depthTest: false,
+        depthWrite: false,
+      });
+      const sourceQuad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), sourceMaterial);
+      sourceScene.add(sourceQuad);
+
+      const target = new THREE.WebGLRenderTarget(w, h, {
+        minFilter: THREE.LinearFilter,
+        magFilter: THREE.LinearFilter,
+        format: THREE.RGBAFormat,
+        type: THREE.UnsignedByteType,
+        colorSpace: THREE.SRGBColorSpace,
+        depthBuffer: false,
+        stencilBuffer: false,
+      });
+
+      return {
+        texture: target.texture,
+        render(renderer, timeSec) {
+          const prevTarget = renderer.getRenderTarget();
+          const prevXr = renderer.xr.enabled;
+          renderer.xr.enabled = false;
+          sourceMaterial.uniforms.uTime.value = timeSec;
+          renderer.setRenderTarget(target);
+          renderer.clear();
+          renderer.render(sourceScene, sourceCamera);
+          renderer.setRenderTarget(prevTarget);
+          renderer.xr.enabled = prevXr;
+        },
+        setEffects(effects) {
+          sourceMaterial.uniforms.uProjectionIntensity.value = effects.projectionIntensity;
+          sourceMaterial.uniforms.uReflectionGain.value = effects.reflectionGain;
+          sourceMaterial.uniforms.uHighlightBoost.value = effects.highlightBoost;
+          sourceMaterial.uniforms.uLumaVisibilityThreshold.value = effects.lumaVisibilityThreshold;
+          sourceMaterial.uniforms.uInvertColor.value = effects.invertColor ? 1 : 0;
+          sourceMaterial.uniforms.uHalftone.value = effects.halftone ? 1 : 0;
+          sourceMaterial.uniforms.uToneCut.value = effects.toneCut ? 1 : 0;
+        },
+        dispose() {
+          sourceQuad.geometry.dispose();
+          sourceMaterial.dispose();
+          target.dispose();
+        },
+      };
+    }
+
+    function createScreen(texture) {
+      const geometry = new THREE.PlaneGeometry(2, 1.3);
+      const material = new THREE.MeshBasicMaterial({
+        map: texture,
+        toneMapped: false,
+        side: THREE.DoubleSide,
+      });
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.position.set(0, 1.0, 0.5);
+      return { mesh };
+    }
+
+    function createBloomComposer(renderer, scene, camera) {
+      const composer = new EffectComposer(renderer);
+      composer.addPass(new RenderPass(scene, camera));
+      const bloomPass = new UnrealBloomPass(
+        new THREE.Vector2(window.innerWidth, window.innerHeight),
+        0.22,
+        0.42,
+        0.72
+      );
+      composer.addPass(bloomPass);
+      composer.addPass(new OutputPass());
+      return { composer, bloomPass };
+    }
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 0.78;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    container3d.appendChild(renderer.domElement);
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x101014);
+
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(0, 1.2, 5.5);
+    camera.lookAt(0, 0.8, 0);
+
+    const screenGradientSource = createGradientRenderSource(1024, 576);
+    const projectionGradientSource = createGradientRenderSource(1024, 576);
+    
+    const tune = {
+      projectionIntensity: 1.64,
+      reflectionGain: 1.0,
+      blurRadiusPx: 64,
+      highlightBoost: 1.65,
+      lumaVisibilityThreshold: 0.12,
+      invertColor: false,
+      halftone: true,
+      toneCut: false,
+    };
+
+    screenGradientSource.setEffects({
+      projectionIntensity: 1,
+      reflectionGain: 1,
+      highlightBoost: 1,
+      lumaVisibilityThreshold: 0,
+      invertColor: false,
+      halftone: false,
+      toneCut: false,
+    });
+    
+    screenGradientSource.render(renderer, 0);
+    projectionGradientSource.render(renderer, 0);
+    
+    const { mesh: screen } = createScreen(screenGradientSource.texture);
+
+    const floorKeyboardMat = new THREE.MeshStandardMaterial({
+      color: 0x1a1a22,
+      roughness: 0.88,
+      metalness: 0.06,
+    });
+
+    const floorMesh = createProjectedFloor(100, 100, floorKeyboardMat);
+    floorMesh.receiveShadow = true;
+
+    const keyboard = createKeyboard(floorKeyboardMat);
+    keyboard.traverse((obj) => {
+      if (obj instanceof THREE.Mesh) {
+        obj.receiveShadow = true;
+        obj.castShadow = true;
+      }
+    });
+
+    // Retro PC Bezel / Body
+    const bezelMat = new THREE.MeshStandardMaterial({ color: 0x181820, roughness: 0.85 });
+    const bezelGroup = new THREE.Group();
+    const bezelT = new THREE.Mesh(new THREE.BoxGeometry(2.14, 0.07, 0.1), bezelMat);
+    bezelT.position.set(0, 1.68, 0.5);
+    const bezelB = new THREE.Mesh(new THREE.BoxGeometry(2.14, 0.07, 0.1), bezelMat);
+    bezelB.position.set(0, 0.32, 0.5);
+    const bezelL = new THREE.Mesh(new THREE.BoxGeometry(0.07, 1.43, 0.1), bezelMat);
+    bezelL.position.set(-1.07, 1.0, 0.5);
+    const bezelR = new THREE.Mesh(new THREE.BoxGeometry(0.07, 1.43, 0.1), bezelMat);
+    bezelR.position.set(1.07, 1.0, 0.5);
+    const monitorBack = new THREE.Mesh(new THREE.BoxGeometry(2.1, 1.35, 0.5), bezelMat);
+    monitorBack.position.set(0, 1.0, 0.25);
+    bezelGroup.add(bezelT, bezelB, bezelL, bezelR, monitorBack);
+    bezelGroup.traverse(obj => {
+      if (obj instanceof THREE.Mesh) {
+        obj.castShadow = true;
+        obj.receiveShadow = true;
+      }
+    });
+
+    screen.castShadow = false;
+    scene.add(screen, floorMesh, keyboard, bezelGroup);
+
+    const spot = new THREE.SpotLight(0xffffff, 220);
+    spot.decay = 6;
+    spot.distance = 35;
+    spot.angle = Math.PI / 3.1;
+    spot.penumbra = 0.58;
+    spot.map = projectionGradientSource.texture;
+    spot.castShadow = true;
+    spot.shadow.mapSize.set(2048, 2048);
+    spot.shadow.bias = -0.0002;
+    spot.shadow.normalBias = 0.02;
+    spot.position.set(0, 1.0, 0.52);
+    spot.target.position.set(0, 0.02, 1.15);
+    scene.add(spot);
+    scene.add(spot.target);
+
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x060608, 0.04);
+    hemiLight.position.set(0, 10, 0);
+    scene.add(hemiLight);
+
+    const { composer, bloomPass } = createBloomComposer(renderer, scene, camera);
+
+    function syncProjectionFxFromTune() {
+      const blend = Math.max(0, tune.projectionIntensity) * Math.max(0, tune.reflectionGain);
+      spot.intensity = 220 * blend;
+      floorKeyboardMat.envMapIntensity = 0.35 * Math.max(0.1, tune.reflectionGain);
+      bloomPass.radius = THREE.MathUtils.clamp(tune.blurRadiusPx / 128, 0, 1);
+      bloomPass.strength = 0.22 * Math.max(0.2, tune.highlightBoost);
+      bloomPass.threshold = THREE.MathUtils.clamp(tune.lumaVisibilityThreshold, 0, 1);
+
+      projectionGradientSource.setEffects({
+        projectionIntensity: tune.projectionIntensity,
+        reflectionGain: tune.reflectionGain,
+        highlightBoost: tune.highlightBoost,
+        lumaVisibilityThreshold: tune.lumaVisibilityThreshold,
+        invertColor: tune.invertColor,
+        halftone: tune.halftone,
+        toneCut: tune.toneCut,
+      });
+    }
+
+    syncProjectionFxFromTune();
+
+    let isZooming = false;
+    let zoomProgress = 0;
+
+    let rafId = null;
+    function animate() {
+      rafId = requestAnimationFrame(animate);
+      const t = performance.now() * 0.001;
+      
+      screenGradientSource.render(renderer, t);
+      projectionGradientSource.render(renderer, t);
+      syncProjectionFxFromTune();
+
+      // Camera zoom animation
+      if (isZooming) {
+        zoomProgress += 0.012; // Zoom speed
+        if (zoomProgress > 1) zoomProgress = 1;
+        
+        // Cubic easing
+        const f = zoomProgress < 0.5 
+          ? 4 * zoomProgress * zoomProgress * zoomProgress 
+          : 1 - Math.pow(-2 * zoomProgress + 2, 3) / 2;
+        
+        camera.position.x = 0;
+        camera.position.y = 1.2 + (1.0 - 1.2) * f;
+        camera.position.z = 5.5 + (2.05 - 5.5) * f;
+        camera.lookAt(0, 1.0 - 0.2 * (1 - f), 0.5 * f);
+        
+        // Intensify glow
+        tune.projectionIntensity = 1.64 + 6.0 * f;
+        tune.reflectionGain = 1.0 + 3.0 * f;
+        tune.blurRadiusPx = 64 + 64 * f;
+        
+        // Fade out overlay
+        const overlay = document.getElementById('preloader-overlay');
+        if (overlay) overlay.style.opacity = (1 - f).toString();
+        
+        if (zoomProgress >= 1) {
+          isZooming = false;
+          // Fade out the entire container
+          preloader.style.opacity = '0';
+          preloader.style.transform = 'scale(1.2) rotateX(10deg)';
+          setTimeout(() => {
+            preloader.remove();
+            sessionStorage.setItem('site_booted', 'true');
+            // Clean up Three.js
+            cancelAnimationFrame(rafId);
+            screenGradientSource.dispose();
+            projectionGradientSource.dispose();
+            floorKeyboardMat.dispose();
+            floorMesh.geometry.dispose();
+            bezelMat.dispose();
+            bezelGroup.traverse(child => {
+              if (child instanceof THREE.Mesh) child.geometry.dispose();
+            });
+            renderer.dispose();
+            
+            // Launch Liquid Glass in YouTube section!
+            initLiquidGlass();
+          }, 1000);
+        }
+      }
+
+      composer.render();
+    }
+    animate();
+
+    function onResize() {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      composer.setSize(width, height);
+    }
+    window.addEventListener("resize", onResize);
+
+    window.addEventListener("beforeunload", () => {
+      cancelAnimationFrame(rafId);
+      screenGradientSource.dispose();
+      projectionGradientSource.dispose();
+      floorKeyboardMat.dispose();
+      floorMesh.geometry.dispose();
+      bezelMat.dispose();
+      renderer.dispose();
+    });
   })();
 </script>
 </body>

@@ -4,32 +4,223 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nik · Дизайн — превью YouTube, шапки каналов, логотипы</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <meta name="description" content="Дизайн от Nik: превью YouTube, шапки каналов, логотипы, оформление соцсетей.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700;9..144,900&family=Inter:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700;9..144,900&family=Inter:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&family=Bebas+Neue&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
-tailwind.config={theme:{extend:{
-  fontFamily:{
-    serif:['"Fraunces"','serif'],
-    sans:['"Inter"','sans-serif'],
-    mono:['"JetBrains Mono"','monospace']
-  },
-  colors:{
-    paper:'#FAF7F2',
-    ink:'#1A1A1A',
-    smoke:'#6B6B6B',
-    line:'#E5E0D6',
-    olive:'#3F4A35',
-    gold:'#A88752',
-    cream:'#F0EAD6'
-  }
-}}}
+tailwind.config={
+  darkMode: 'class',
+  theme:{extend:{
+    fontFamily:{
+      serif:['"Fraunces"','serif'],
+      sans:['"Inter"','sans-serif'],
+      mono:['"JetBrains Mono"','monospace'],
+      display:['"Bebas Neue"','sans-serif'],
+      dmmono:['"DM Mono"','monospace']
+    },
+    colors:{
+      paper:'var(--paper)',
+      ink:'var(--ink)',
+      smoke:'var(--smoke)',
+      line:'var(--line)',
+      olive:'var(--olive)',
+      gold:'var(--gold)',
+      cream:'var(--cream)'
+    }
+  }}
+}
 </script>
 <style>
-html{scroll-behavior:smooth}
-body{background:#FAF7F2;color:#1A1A1A;font-family:'Inter',sans-serif;font-feature-settings:"ss01","ss02";overflow-x:hidden}
-::selection{background:#1A1A1A;color:#FAF7F2}
+:root {
+  /* Фон секций — полупрозрачный */
+  --paper-rgb: 10, 10, 15;
+  --cream-rgb: 20, 20, 26;
+  --ink-rgb: 250, 247, 242;
+
+  --paper-opacity: 0.23;
+  --cream-opacity: 0.23;
+
+  --paper: rgba(var(--paper-rgb), var(--paper-opacity));
+  /* Текст — всегда белый */
+  --ink: #FAF7F2;
+  --smoke: #B0B0BF;
+  --line: rgba(255, 255, 255, 0.15);
+  --olive: #8C9A82;
+  --gold: #D4AF37;
+  --cream: rgba(var(--cream-rgb), var(--cream-opacity));
+  --html-bg: #0A0A0F;
+
+  --blur-base: 5px;
+  --blur-val: 5px;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--html-bg);
+  transition: background-color 0.3s ease;
+}
+
+body {
+  background: transparent;
+  color: var(--ink);
+  font-family: 'Inter', sans-serif;
+  font-feature-settings: "ss01", "ss02";
+  overflow-x: hidden;
+  transition: color 0.4s ease;
+}
+
+::selection {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* Glassmorphism for header, sections & cards */
+header {
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-bottom: 1px solid transparent !important;
+  transition: background-color 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease;
+}
+
+header.scrolled {
+  background-color: rgba(var(--paper-rgb), 0.25) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-bottom: 1px solid var(--line) !important;
+}
+
+#hero {
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-bottom: 1px solid transparent !important;
+}
+
+section {
+  background-color: var(--paper) !important;
+  backdrop-filter: blur(var(--blur-val)) !important;
+  -webkit-backdrop-filter: blur(var(--blur-val)) !important;
+  border-bottom: 1px solid var(--line) !important;
+  transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease;
+}
+
+.showcase-layer, .step-card {
+  background-color: rgba(var(--paper-rgb), 0.30) !important;
+  backdrop-filter: blur(var(--blur-val)) !important;
+  -webkit-backdrop-filter: blur(var(--blur-val)) !important;
+  border: 1px solid var(--line) !important;
+  transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease;
+}
+
+/* HUD styles */
+#hud {
+  position: fixed;
+  top: 6rem;
+  right: 2.5rem;
+  z-index: 40;
+  text-align: right;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--smoke);
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+#hud .progress-bar {
+  width: 7.5rem;
+  height: 1px;
+  background: var(--line);
+  margin-block-start: 0.5rem;
+  margin-inline-start: auto;
+  position: relative;
+  overflow: hidden;
+}
+
+#hud .progress-fill {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: 0%;
+  background: var(--gold);
+  transition: width 0.1s linear;
+}
+
+#hud .scene-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  color: var(--gold);
+  margin-block-start: 0.4rem;
+}
+
+#scene_strip {
+  position: fixed;
+  left: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.scene-dot {
+  width: 0.25rem;
+  height: 0.25rem;
+  border-radius: 50%;
+  background: var(--smoke);
+  transition: background 0.3s, transform 0.3s;
+}
+
+.scene-dot.active {
+  background: var(--gold);
+  transform: scale(1.8);
+}
+
+/* Theme toggle styles & transitions */
+#theme_toggle {
+  color: var(--gold);
+  border-color: var(--gold);
+  background: rgba(var(--paper-rgb), 0.5);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  cursor: pointer;
+  z-index: 60;
+  transition: all 0.3s ease;
+}
+#theme_toggle:hover {
+  background: var(--gold) !important;
+  color: var(--paper) !important;
+}
+#theme_toggle:hover svg {
+  color: var(--paper) !important;
+}
+#theme_toggle svg {
+  transition: opacity 0.3s ease, transform 0.3s ease, color 0.3s ease;
+}
+#theme_toggle .icon-sun {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+#theme_toggle .icon-moon {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.5);
+}
+.dark #theme_toggle {
+  background: rgba(var(--paper-rgb), 0.2);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.dark #theme_toggle .icon-sun {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.5);
+}
+.dark #theme_toggle .icon-moon {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
 
 /* Subtle paper texture */
 body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");opacity:.04;pointer-events:none;z-index:9990;mix-blend-mode:multiply}
@@ -84,10 +275,10 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 /* Subtle float on the photo container */
 @keyframes hero-float{
   0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-6px)}
+  50%{transform:translateY(-8px)}
 }
 .hero-image-wrap.visible .hero-photo-inner{
-  animation:hero-float 6s ease-in-out infinite;
+  animation:hero-float 7s ease-in-out infinite;
   animation-delay:1.5s;
 }
 
@@ -104,23 +295,28 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   animation-delay:0.5s;
 }
 
-/* Decorative frame stagger */
-.hero-frame,
-.hero-badge{opacity:0;transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
-.hero-frame{transform:translate(8px,8px)}
-.hero-badge{transform:translateY(-8px)}
-.hero-image-wrap.visible .hero-frame,
-.hero-image-wrap.visible .hero-badge{opacity:1;transform:translate(0)}
-.hero-image-wrap.visible .hero-frame{transition-delay:.6s}
-.hero-image-wrap.visible .hero-badge{transition-delay:.8s}
+/* Decorative badge stagger */
+.hero-badge{opacity:0;transform:translateY(-8px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.hero-image-wrap.visible .hero-badge{opacity:1;transform:translate(0);transition-delay:.8s}
 
 /* Hover tilt effect */
 .hero-photo-inner{
-  transition:transform .6s cubic-bezier(.2,.7,.2,1),box-shadow .6s cubic-bezier(.2,.7,.2,1);
+  transition:transform .6s cubic-bezier(.2,.7,.2,1),filter .6s cubic-bezier(.2,.7,.2,1);
+  filter: drop-shadow(0 20px 60px rgba(168,135,82,0.25)) drop-shadow(0 4px 20px rgba(0,0,0,0.35));
 }
 .hero-image-wrap:hover .hero-photo-inner{
-  transform:perspective(800px) rotateY(-1deg) rotateX(1deg) scale(1.01);
-  box-shadow:0 32px 64px rgba(0,0,0,.15);
+  transform:perspective(900px) rotateY(-2deg) rotateX(1.5deg) scale(1.02);
+  filter: drop-shadow(0 28px 80px rgba(168,135,82,0.38)) drop-shadow(0 6px 28px rgba(0,0,0,0.45));
+}
+
+/* Glow pulse on the photo */
+@keyframes hero-glow{
+  0%,100%{ filter: drop-shadow(0 20px 60px rgba(168,135,82,0.20)) drop-shadow(0 4px 20px rgba(0,0,0,0.30)); }
+  50%{ filter: drop-shadow(0 24px 72px rgba(168,135,82,0.38)) drop-shadow(0 6px 28px rgba(0,0,0,0.40)); }
+}
+.hero-image-wrap.visible .hero-photo-inner{
+  animation:hero-float 7s ease-in-out infinite, hero-glow 5s ease-in-out infinite;
+  animation-delay:1.5s, 2s;
 }
 
 /* ── Interactive Showcase Layers ── */
@@ -406,13 +602,44 @@ svg .delay-75 {
   from { stroke-dashoffset: 0; }
   to { stroke-dashoffset: -88; }
 }
+
+/* Scanner animation keyframes */
+@keyframes scan {
+  0% { top: 0%; }
+  50% { top: 100%; }
+  100% { top: 0%; }
+}
+.group-hover\/scanner\:animate-scan {
+  animation: scan 4s linear infinite;
+}
+@keyframes cube-marq-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
 </style>
-<base target="_blank">
 </head>
 <body>
 
+<canvas id="webgl_canvas" class="fixed inset-0 w-screen h-screen -z-10 pointer-events-none"></canvas>
+
+<div id="hud" class="hidden lg:block">
+  <div id="hud_pct">000%</div>
+  <div class="progress-bar">
+    <div class="progress-fill" id="prog_fill"></div>
+  </div>
+  <div class="scene-label" id="scene_name">DAWN</div>
+</div>
+
+<div id="scene_strip" class="hidden lg:flex">
+  <div class="scene-dot active"></div>
+  <div class="scene-dot"></div>
+  <div class="scene-dot"></div>
+  <div class="scene-dot"></div>
+  <div class="scene-dot"></div>
+</div>
+
 <!-- NAV -->
-<header class="px-6 md:px-10 py-5 flex items-center justify-between text-sm border-b border-line">
+<header class="px-6 md:px-10 py-5 flex items-center justify-between text-sm border-b border-line relative z-50">
   <a href="index.html" class="font-serif text-xl tracking-tight">Nik<span class="display-italic text-gold">·</span>Studio</a>
   <nav class="hidden md:flex gap-8 text-smoke">
     <a href="index.html"   class="hover:text-ink u-link">Hub</a>
@@ -420,11 +647,14 @@ svg .delay-75 {
     <a href="design.html"  class="text-ink">Дизайн</a>
     <a href="dev.html"     class="hover:text-ink u-link">Разработка</a>
   </nav>
-  <a href="#contact" class="hidden md:inline-block border border-ink px-4 py-2 hover:bg-ink hover:text-paper transition">Связаться</a>
+  <div class="flex items-center gap-4">
+    <a href="#contact" class="hidden md:inline-block border border-ink px-4 py-2 hover:bg-ink hover:text-paper transition">Связаться</a>
+  </div>
 </header>
 
+
 <!-- HERO -->
-<section class="px-6 md:px-10 pt-16 md:pt-28 pb-20 md:pb-32 border-b border-line">
+<section id="hero" class="px-6 md:px-10 pt-16 md:pt-28 pb-20 md:pb-32 border-b border-line">
   <div class="max-w-[1400px] mx-auto">
     <div class="flex items-baseline gap-4 mb-10 reveal">
       <span class="num-marker text-2xl">02</span>
@@ -434,7 +664,7 @@ svg .delay-75 {
     <!-- Hero with image -->
     <div class="grid md:grid-cols-12 gap-8 md:gap-12 items-center">
       <!-- Text -->
-      <div class="md:col-span-7">
+      <div class="md:col-span-6">
         <h1 class="display text-[8vw] md:text-[clamp(2.2rem,3.5vw,3.4rem)] leading-[1.05] reveal">
           Дизайн, который <span class="display-italic text-gold">кликают</span>, а не листают мимо.
         </h1>
@@ -477,10 +707,21 @@ svg .delay-75 {
                 <span class="px-3 py-1.5 text-xs font-serif font-semibold italic bg-gold/10 border border-gold/30 text-gold rounded-full transition-all duration-300 group-hover:bg-gold group-hover:text-paper group-hover:border-gold">Смотреть →</span>
               </div>
             </a>
-            <!-- Item 4: Socials -->
-            <a href="#contact" target="_self" class="service-item flex items-center justify-between border-b border-line pb-4 pt-3 cursor-pointer transition-all duration-300 group hover:border-gold px-3 hover:bg-gold/5 rounded hover:shadow-sm block" data-showcase="socials">
+            <!-- Item 4: Logos -->
+            <a href="#logos" target="_self" class="service-item flex items-center justify-between border-b border-line pb-4 pt-3 cursor-pointer transition-all duration-300 group hover:border-gold px-3 hover:bg-gold/5 rounded hover:shadow-sm block" data-showcase="logos">
               <div class="flex items-center gap-3">
                 <span class="num-marker text-xs opacity-50 group-hover:opacity-100 group-hover:text-gold transition">04</span>
+                <span class="text-base text-ink font-medium tracking-tight group-hover:translate-x-1 transition-transform duration-300">Логотипы и брендинг</span>
+              </div>
+              <div class="flex items-center gap-4 font-mono text-sm">
+                <span class="text-smoke group-hover:text-ink transition hidden sm:inline">от 1 000 ₽</span>
+                <span class="px-3 py-1.5 text-xs font-serif font-semibold italic bg-gold/10 border border-gold/30 text-gold rounded-full transition-all duration-300 group-hover:bg-gold group-hover:text-paper group-hover:border-gold">Смотреть →</span>
+              </div>
+            </a>
+            <!-- Item 5: Socials -->
+            <a href="#contact" target="_self" class="service-item flex items-center justify-between border-b border-line pb-4 pt-3 cursor-pointer transition-all duration-300 group hover:border-gold px-3 hover:bg-gold/5 rounded hover:shadow-sm block" data-showcase="socials">
+              <div class="flex items-center gap-3">
+                <span class="num-marker text-xs opacity-50 group-hover:opacity-100 group-hover:text-gold transition">05</span>
                 <span class="text-base text-ink font-medium tracking-tight group-hover:translate-x-1 transition-transform duration-300">Дизайн соцсетей</span>
               </div>
               <div class="flex items-center gap-4 font-mono text-sm">
@@ -493,16 +734,19 @@ svg .delay-75 {
       </div>
 
       <!-- Hero Image -->
-      <div class="md:col-span-5 reveal reveal-delay-1 hero-image-wrap">
+      <div class="md:col-span-6 reveal reveal-delay-1 hero-image-wrap">
         <div class="relative">
-          <div class="aspect-video overflow-hidden border border-line shadow-2xl hero-photo-inner relative" style="border-radius:2px;">
+          <!-- atmospheric glow ring -->
+          <div class="absolute inset-[-18px] rounded-[18px] pointer-events-none z-0"
+               style="background: radial-gradient(ellipse at 50% 60%, rgba(168,135,82,0.18) 0%, transparent 70%);"></div>
+          <div class="aspect-[4/3] overflow-hidden hero-photo-inner relative" style="border-radius:14px;">
             
             <!-- Default Layer: Nik Studio photo -->
-            <div class="showcase-layer showcase-default active">
+            <div class="showcase-layer showcase-default active relative overflow-hidden">
               <img src="https://i.postimg.cc/KjnvGrzj/Editor-session-(1).png"
                    alt="Nik — дизайнер"
                    class="w-full h-full object-cover hero-photo-img"
-                   style="filter: contrast(1.05) saturate(0.95);">
+                   style="filter: contrast(1.05) saturate(0.95); object-position: center top;">
             </div>
 
             <!-- YouTube Previews Layer (Collage) -->
@@ -527,11 +771,11 @@ svg .delay-75 {
               <div class="w-full space-y-4 max-w-[90%] relative z-10 select-none">
                 <div class="aspect-[21/4] w-full overflow-hidden border border-line shadow-lg rounded-sm transition-transform duration-500 hover:scale-102"
                      style="transform: rotate(-1.5deg);">
-                  <img src="https://i.ibb.co/n85sCXR8/1.png" class="w-full h-full object-cover">
+                  <img src="images/design/banners/загруженное%20(1).png" class="w-full h-full object-cover">
                 </div>
                 <div class="aspect-[21/4] w-full overflow-hidden border border-line shadow-lg rounded-sm transition-transform duration-500 hover:scale-102"
                      style="transform: rotate(2deg) translate(5px, 0);">
-                  <img src="https://i.ibb.co/bRghRSdZ/2.png" class="w-full h-full object-cover">
+                  <img src="images/design/banners/загруженное%20(2).png" class="w-full h-full object-cover">
                 </div>
               </div>
             </div>
@@ -540,13 +784,13 @@ svg .delay-75 {
             <div class="showcase-layer showcase-cards flex items-center justify-center bg-[#FAF7F2] p-4 overflow-hidden">
               <div class="blueprint-grid opacity-15 absolute inset-0"></div>
               <div class="relative w-full h-full flex items-center justify-center gap-4 select-none">
-                <img src="https://i.ibb.co/qL2pr841/imgi-180-acb822250434979-6a1f2cab018d5.png" 
+                <img src="images/design/cards/загруженное.jfif" 
                      class="w-[28%] aspect-[3/4] object-cover shadow-xl border border-line rounded transition-transform duration-500 hover:scale-105 z-20"
                      style="transform: translate(-10px, -15px) rotate(-3deg);">
-                <img src="https://i.ibb.co/VcmMw8Xr/imgi-189-e32db2249721611-6a0dd5ffc8fc5.jpg" 
+                <img src="images/design/cards/загруженное%20(4).jfif" 
                      class="w-[28%] aspect-[3/4] object-cover shadow-xl border border-line rounded transition-transform duration-500 hover:scale-105 z-10"
                      style="transform: translate(5px, 15px) rotate(4deg);">
-                <img src="https://i.ibb.co/HpDZ2j1d/Screenshot-20.jpg" 
+                <img src="images/design/cards/card_3.jpg" 
                      class="w-[28%] aspect-[3/4] object-cover shadow-xl border border-line rounded transition-transform duration-500 hover:scale-105 z-30"
                      style="transform: translate(15px, -20px) rotate(-1deg);">
               </div>
@@ -565,9 +809,24 @@ svg .delay-75 {
               </div>
             </div>
 
+            <!-- Logos Layer -->
+            <div class="showcase-layer showcase-logos flex items-center justify-center bg-[#FAF7F2] p-4 overflow-hidden">
+              <div class="blueprint-grid opacity-15 absolute inset-0"></div>
+              <div class="relative w-full h-full flex items-center justify-center select-none">
+                <img src="images/design/logos/Screenshot_20.jpg" 
+                     class="absolute w-[34%] aspect-square object-cover shadow-2xl border border-line rounded transition-transform duration-500 hover:scale-105 z-10"
+                     style="transform: translate(-22%, -12%) rotate(-4deg);">
+                <img src="images/design/logos/Screenshot_21.jpg" 
+                     class="absolute w-[34%] aspect-square object-cover shadow-2xl border border-line rounded transition-transform duration-500 hover:scale-105 z-20"
+                     style="transform: translate(20%, 10%) rotate(5deg);">
+                <img src="images/design/logos/Screenshot_22.jpg" 
+                     class="absolute w-[32%] aspect-square object-cover shadow-2xl border border-line rounded transition-transform duration-500 hover:scale-105 z-30"
+                     style="transform: translate(-10%, 20%) rotate(-2deg);">
+              </div>
+            </div>
+
           </div>
-          <!-- Decorative frame element -->
-          <div class="absolute -bottom-3 -left-3 w-full h-full border border-gold/30 -z-10 hero-frame" style="border-radius:2px;"></div>
+          <!-- Decorative badge -->
           <div class="absolute -top-3 -right-3 text-xs font-mono text-gold/60 tracking-wider hero-badge">2026</div>
         </div>
       </div>
@@ -744,6 +1003,30 @@ svg .delay-75 {
   </div>
 </div>
 
+<!-- LIQUID GLASS REFRACTION SECTION (TREND 2026) -->
+<section class="px-6 md:px-10 py-16 md:py-24 border-b border-line bg-cream/10 overflow-hidden select-none">
+  <div class="max-w-[1400px] mx-auto grid md:grid-cols-12 gap-10 items-center">
+    <div class="md:col-span-5 reveal">
+      <div class="text-xs uppercase tracking-[0.25em] text-smoke mb-3">— Тренды дизайна</div>
+      <h2 class="display text-4xl md:text-6xl leading-tight mb-6">
+        Жидкое <br/>
+        <span class="display-italic text-gold">стекло </span><br/>
+        — тренд 2026.
+      </h2>
+      <p class="text-smoke text-sm md:text-base leading-relaxed">
+        Эффект преломления (refraction) и динамические метаболлы создают невероятную иллюзию физического стекла поверх контента. Стиль, опережающий время и задающий новые стандарты визуального премиума.
+      </p>
+      <p class="text-xs font-mono text-gold/70 mt-6 hidden md:block">
+        * Проведите курсором по стеклу, чтобы разогнать капли
+      </p>
+    </div>
+    <div class="md:col-span-7 w-full h-[320px] md:h-[450px] relative overflow-hidden rounded-xl border border-line shadow-2xl reveal reveal-delay-1" id="liquid-glass-container">
+      <div id="app" class="w-full h-full"></div>
+      <div class="info absolute bottom-3 left-1/2 -translate-x-1/2 text-xs font-mono text-ink/30 pointer-events-none select-none tracking-widest">[ LIQUID_GLASS_ENGINE_2026 ]</div>
+    </div>
+  </div>
+</section>
+
 <!-- ПРЕВЬЮ ДЛЯ YOUTUBE -->
 <section id="previews" class="px-6 md:px-10 py-20 md:py-28">
   <div class="max-w-[1400px] mx-auto">
@@ -805,6 +1088,63 @@ svg .delay-75 {
         </div>
         <div class="mt-4 text-sm text-smoke group-hover:text-ink transition">YouTube превью · 2026</div>
       </article>
+
+      <!-- New YouTube Previews from Gallery -->
+      <article class="reveal group">
+        <div class="aspect-video overflow-hidden hover-img border border-line bg-ink shadow-lg transition-shadow hover:shadow-2xl cursor-zoom-in"
+             data-lb="images/design/previews/imgi_49_b0dacd203773469.669d8339ba70c.jpeg" data-lb-caption="YouTube превью · 2026">
+          <img src="images/design/previews/imgi_49_b0dacd203773469.669d8339ba70c.jpeg" alt="Превью 7" class="w-full h-full object-cover pointer-events-none" loading="lazy">
+        </div>
+        <div class="mt-4 text-sm text-smoke group-hover:text-ink transition">YouTube превью · 2026</div>
+      </article>
+
+      <article class="reveal reveal-delay-1 group">
+        <div class="aspect-video overflow-hidden hover-img border border-line bg-ink shadow-lg transition-shadow hover:shadow-2xl cursor-zoom-in"
+             data-lb="images/design/previews/imgi_51_25f626203773469.669d8339bb490.jpeg" data-lb-caption="YouTube превью · 2026">
+          <img src="images/design/previews/imgi_51_25f626203773469.669d8339bb490.jpeg" alt="Превью 8" class="w-full h-full object-cover pointer-events-none" loading="lazy">
+        </div>
+        <div class="mt-4 text-sm text-smoke group-hover:text-ink transition">YouTube превью · 2026</div>
+      </article>
+
+      <article class="reveal reveal-delay-2 group">
+        <div class="aspect-video overflow-hidden hover-img border border-line bg-ink shadow-lg transition-shadow hover:shadow-2xl cursor-zoom-in"
+             data-lb="images/design/previews/imgi_52_c8bd1e203773469.669d8339b966b.jpeg" data-lb-caption="YouTube превью · 2026">
+          <img src="images/design/previews/imgi_52_c8bd1e203773469.669d8339b966b.jpeg" alt="Превью 9" class="w-full h-full object-cover pointer-events-none" loading="lazy">
+        </div>
+        <div class="mt-4 text-sm text-smoke group-hover:text-ink transition">YouTube превью · 2026</div>
+      </article>
+
+      <article class="reveal group">
+        <div class="aspect-video overflow-hidden hover-img border border-line bg-ink shadow-lg transition-shadow hover:shadow-2xl cursor-zoom-in"
+             data-lb="images/design/previews/imgi_53_60b307203773469.669d8339b82bd.jpeg" data-lb-caption="YouTube превью · 2026">
+          <img src="images/design/previews/imgi_53_60b307203773469.669d8339b82bd.jpeg" alt="Превью 10" class="w-full h-full object-cover pointer-events-none" loading="lazy">
+        </div>
+        <div class="mt-4 text-sm text-smoke group-hover:text-ink transition">YouTube превью · 2026</div>
+      </article>
+
+      <article class="reveal reveal-delay-1 group">
+        <div class="aspect-video overflow-hidden hover-img border border-line bg-ink shadow-lg transition-shadow hover:shadow-2xl cursor-zoom-in"
+             data-lb="images/design/previews/imgi_55_29f3ea203773469.669d8339b8dbb.jpeg" data-lb-caption="YouTube превью · 2026">
+          <img src="images/design/previews/imgi_55_29f3ea203773469.669d8339b8dbb.jpeg" alt="Превью 11" class="w-full h-full object-cover pointer-events-none" loading="lazy">
+        </div>
+        <div class="mt-4 text-sm text-smoke group-hover:text-ink transition">YouTube превью · 2026</div>
+      </article>
+
+      <article class="reveal reveal-delay-2 group">
+        <div class="aspect-video overflow-hidden hover-img border border-line bg-ink shadow-lg transition-shadow hover:shadow-2xl cursor-zoom-in"
+             data-lb="images/design/previews/imgi_56_79fb2e203773469.669d8339b87d7.jpeg" data-lb-caption="YouTube превью · 2026">
+          <img src="images/design/previews/imgi_56_79fb2e203773469.669d8339b87d7.jpeg" alt="Превью 12" class="w-full h-full object-cover pointer-events-none" loading="lazy">
+        </div>
+        <div class="mt-4 text-sm text-smoke group-hover:text-ink transition">YouTube превью · 2026</div>
+      </article>
+
+      <article class="reveal group">
+        <div class="aspect-video overflow-hidden hover-img border border-line bg-ink shadow-lg transition-shadow hover:shadow-2xl cursor-zoom-in"
+             data-lb="images/design/previews/imgi_57_39dd79203773469.669d8339b9e0f.jpeg" data-lb-caption="YouTube превью · 2026">
+          <img src="images/design/previews/imgi_57_39dd79203773469.669d8339b9e0f.jpeg" alt="Превью 13" class="w-full h-full object-cover pointer-events-none" loading="lazy">
+        </div>
+        <div class="mt-4 text-sm text-smoke group-hover:text-ink transition">YouTube превью · 2026</div>
+      </article>
     </div>
   </div>
 </section>
@@ -825,34 +1165,110 @@ svg .delay-75 {
     <div class="space-y-8">
       <article class="reveal group">
         <div class="aspect-[16/3] md:aspect-[21/4] overflow-hidden hover-img border-2 border-line bg-ink shadow-xl transition-shadow hover:shadow-2xl rounded-lg cursor-zoom-in"
-             data-lb="https://i.ibb.co/n85sCXR8/1.png" data-lb-caption="Шапка YouTube · 2560×1440 · 2026">
-          <img src="https://i.ibb.co/n85sCXR8/1.png" alt="Шапка канала 1" class="w-full h-full object-cover pointer-events-none" loading="eager">
+             data-lb="images/design/banners/загруженное%20(1).png" data-lb-caption="Шапка YouTube · 2560×1440 · 2026">
+          <img src="images/design/banners/загруженное%20(1).png" alt="Шапка канала 1" class="w-full h-full object-cover pointer-events-none" loading="eager">
         </div>
         <div class="mt-4 text-sm text-smoke group-hover:text-ink transition">Шапка YouTube · 2560×1440 · 2026</div>
       </article>
 
       <article class="reveal reveal-delay-1 group">
         <div class="aspect-[16/3] md:aspect-[21/4] overflow-hidden hover-img border-2 border-line bg-ink shadow-xl transition-shadow hover:shadow-2xl rounded-lg cursor-zoom-in"
-             data-lb="https://i.ibb.co/bRghRSdZ/2.png" data-lb-caption="Шапка YouTube · 2560×1440 · 2026">
-          <img src="https://i.ibb.co/bRghRSdZ/2.png" alt="Шапка канала 2" class="w-full h-full object-cover pointer-events-none" loading="lazy">
+             data-lb="images/design/banners/загруженное%20(2).png" data-lb-caption="Шапка YouTube · 2560×1440 · 2026">
+          <img src="images/design/banners/загруженное%20(2).png" alt="Шапка канала 2" class="w-full h-full object-cover pointer-events-none" loading="lazy">
         </div>
         <div class="mt-4 text-sm text-smoke group-hover:text-ink transition">Шапка YouTube · 2560×1440 · 2026</div>
       </article>
 
       <article class="reveal reveal-delay-2 group">
         <div class="aspect-[16/3] md:aspect-[21/4] overflow-hidden hover-img border-2 border-line bg-ink shadow-xl transition-shadow hover:shadow-2xl rounded-lg cursor-zoom-in"
-             data-lb="https://i.ibb.co/DfCtgs5K/image.png" data-lb-caption="Шапка YouTube · 2560×1440 · 2026">
-          <img src="https://i.ibb.co/DfCtgs5K/image.png" alt="Шапка канала 3" class="w-full h-full object-cover pointer-events-none" loading="lazy">
+             data-lb="images/design/banners/Screenshot_7.jpg" data-lb-caption="Шапка YouTube · 2560×1440 · 2026">
+          <img src="images/design/banners/Screenshot_7.jpg" alt="Шапка канала 3" class="w-full h-full object-cover pointer-events-none" loading="lazy">
         </div>
         <div class="mt-4 text-sm text-smoke group-hover:text-ink transition">Шапка YouTube · 2560×1440 · 2026</div>
       </article>
 
       <article class="reveal group">
         <div class="aspect-[16/3] md:aspect-[21/4] overflow-hidden hover-img border-2 border-line bg-ink shadow-xl transition-shadow hover:shadow-2xl rounded-lg cursor-zoom-in"
-             data-lb="https://i.postimg.cc/3xTg7ntX/zagruzhennoe-(3).png" data-lb-caption="Шапка YouTube · 2560×1440 · 2026">
-          <img src="https://i.postimg.cc/3xTg7ntX/zagruzhennoe-(3).png" alt="Шапка канала 4" class="w-full h-full object-cover pointer-events-none" loading="lazy">
+             data-lb="images/design/banners/загруженное%20(3).png" data-lb-caption="Шапка YouTube · 2560×1440 · 2026">
+          <img src="images/design/banners/загруженное%20(3).png" alt="Шапка канала 4" class="w-full h-full object-cover pointer-events-none" loading="lazy">
         </div>
         <div class="mt-4 text-sm text-smoke group-hover:text-ink transition">Шапка YouTube · 2560×1440 · 2025</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ЛОГОТИПЫ -->
+<section id="logos" class="px-6 md:px-10 py-20 md:py-28 bg-paper border-b border-line">
+  <div class="max-w-[1400px] mx-auto">
+    <div class="flex items-end justify-between mb-12 reveal">
+      <div>
+        <div class="text-xs uppercase tracking-[0.25em] text-smoke mb-3">— Логотипы и брендинг</div>
+        <h2 class="display text-5xl md:text-7xl">Логотипы</h2>
+      </div>
+      <div class="hidden md:block text-sm">
+        <span class="text-smoke">от</span> <span class="font-mono text-ink text-xl">1 000 ₽</span>
+      </div>
+    </div>
+
+    <p class="text-lg text-ink/85 mb-10 max-w-3xl leading-relaxed reveal">
+      Разрабатываю уникальные логотипы под любой бизнес. Продумываю концепцию, которая отражает суть вашей компании, привлекает клиентов и отлично смотрится на любых носителях — от фавикона до вывески.
+    </p>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
+      <article class="reveal group">
+        <div class="aspect-square overflow-hidden border-2 border-line bg-white shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-gold hover:-translate-y-2 rounded-xl cursor-zoom-in"
+             data-lb="images/design/logos/Screenshot_20.jpg" data-lb-caption="Логотип · Разработка концепта · 2026">
+          <img src="images/design/logos/Screenshot_20.jpg" alt="Логотип 1" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 pointer-events-none" loading="lazy">
+        </div>
+        <div class="mt-3 text-center">
+          <div class="font-semibold text-ink group-hover:text-gold transition text-sm md:text-base">Разработка концепта</div>
+          <div class="text-xs text-smoke mt-1">2026</div>
+        </div>
+      </article>
+
+      <article class="reveal reveal-delay-1 group">
+        <div class="aspect-square overflow-hidden border-2 border-line bg-white shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-gold hover:-translate-y-2 rounded-xl cursor-zoom-in"
+             data-lb="images/design/logos/Screenshot_21.jpg" data-lb-caption="Логотип · Разработка концепта · 2026">
+          <img src="images/design/logos/Screenshot_21.jpg" alt="Логотип 2" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 pointer-events-none" loading="lazy">
+        </div>
+        <div class="mt-3 text-center">
+          <div class="font-semibold text-ink group-hover:text-gold transition text-sm md:text-base">Дизайн логотипа</div>
+          <div class="text-xs text-smoke mt-1">2026</div>
+        </div>
+      </article>
+
+      <article class="reveal reveal-delay-2 group">
+        <div class="aspect-square overflow-hidden border-2 border-line bg-white shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-gold hover:-translate-y-2 rounded-xl cursor-zoom-in"
+             data-lb="images/design/logos/Screenshot_22.jpg" data-lb-caption="Логотип · Разработка концепта · 2026">
+          <img src="images/design/logos/Screenshot_22.jpg" alt="Логотип 3" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 pointer-events-none" loading="lazy">
+        </div>
+        <div class="mt-3 text-center">
+          <div class="font-semibold text-ink group-hover:text-gold transition text-sm md:text-base">Бренд-айдентика</div>
+          <div class="text-xs text-smoke mt-1">2026</div>
+        </div>
+      </article>
+
+      <article class="reveal group">
+        <div class="aspect-square overflow-hidden border-2 border-line bg-white shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-gold hover:-translate-y-2 rounded-xl cursor-zoom-in"
+             data-lb="images/design/logos/Screenshot_7.jpg" data-lb-caption="Логотип · Разработка концепта · 2025">
+          <img src="images/design/logos/Screenshot_7.jpg" alt="Логотип 4" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 pointer-events-none" loading="lazy">
+        </div>
+        <div class="mt-3 text-center">
+          <div class="font-semibold text-ink group-hover:text-gold transition text-sm md:text-base">Дизайн логотипа</div>
+          <div class="text-xs text-smoke mt-1">2025</div>
+        </div>
+      </article>
+
+      <article class="reveal reveal-delay-1 group">
+        <div class="aspect-square overflow-hidden border-2 border-line bg-white shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-gold hover:-translate-y-2 rounded-xl cursor-zoom-in"
+             data-lb="images/design/logos/Screenshot_8.jpg" data-lb-caption="Логотип · Разработка концепта · 2025">
+          <img src="images/design/logos/Screenshot_8.jpg" alt="Логотип 5" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 pointer-events-none" loading="lazy">
+        </div>
+        <div class="mt-3 text-center">
+          <div class="font-semibold text-ink group-hover:text-gold transition text-sm md:text-base">Бренд-символ</div>
+          <div class="text-xs text-smoke mt-1">2025</div>
+        </div>
       </article>
     </div>
   </div>
@@ -874,8 +1290,8 @@ svg .delay-75 {
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
       <article class="reveal group">
         <div class="aspect-[3/4] overflow-hidden border-2 border-line bg-white shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-gold hover:-translate-y-2 rounded-xl cursor-zoom-in"
-             data-lb="https://i.ibb.co/qL2pr841/imgi-180-acb822250434979-6a1f2cab018d5.png" data-lb-caption="Карточка товара · Wildberries · 2026">
-          <img src="https://i.ibb.co/qL2pr841/imgi-180-acb822250434979-6a1f2cab018d5.png" alt="Карточка товара 1" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 pointer-events-none" loading="eager">
+             data-lb="images/design/cards/загруженное.jfif" data-lb-caption="Карточка товара · Wildberries · 2026">
+          <img src="images/design/cards/загруженное.jfif" alt="Карточка товара 1" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 pointer-events-none" loading="eager">
         </div>
         <div class="mt-3 text-center">
           <div class="font-semibold text-ink group-hover:text-gold transition text-sm md:text-base">Wildberries</div>
@@ -885,8 +1301,8 @@ svg .delay-75 {
 
       <article class="reveal reveal-delay-1 group">
         <div class="aspect-[3/4] overflow-hidden border-2 border-line bg-white shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-gold hover:-translate-y-2 rounded-xl cursor-zoom-in"
-             data-lb="https://i.ibb.co/VcmMw8Xr/imgi-189-e32db2249721611-6a0dd5ffc8fc5.jpg" data-lb-caption="Карточка товара · Wildberries · 2026">
-          <img src="https://i.ibb.co/VcmMw8Xr/imgi-189-e32db2249721611-6a0dd5ffc8fc5.jpg" alt="Карточка товара 2" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 pointer-events-none" loading="eager">
+             data-lb="images/design/cards/загруженное%20(4).jfif" data-lb-caption="Карточка товара · Wildberries · 2026">
+          <img src="images/design/cards/загруженное%20(4).jfif" alt="Карточка товара 2" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 pointer-events-none" loading="eager">
         </div>
         <div class="mt-3 text-center">
           <div class="font-semibold text-ink group-hover:text-gold transition text-sm md:text-base">Wildberries</div>
@@ -896,8 +1312,8 @@ svg .delay-75 {
 
       <article class="reveal reveal-delay-2 group">
         <div class="aspect-[3/4] overflow-hidden border-2 border-line bg-white shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-gold hover:-translate-y-2 rounded-xl cursor-zoom-in"
-             data-lb="https://i.ibb.co/HpDZ2j1d/Screenshot-20.jpg" data-lb-caption="Карточка товара · Ozon · 2026">
-          <img src="https://i.ibb.co/HpDZ2j1d/Screenshot-20.jpg" alt="Карточка товара 3" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 pointer-events-none" loading="lazy">
+             data-lb="images/design/cards/card_3.jpg" data-lb-caption="Карточка товара · Ozon · 2026">
+          <img src="images/design/cards/card_3.jpg" alt="Карточка товара 3" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 pointer-events-none" loading="lazy">
         </div>
         <div class="mt-3 text-center">
           <div class="font-semibold text-ink group-hover:text-gold transition text-sm md:text-base">Ozon</div>
@@ -907,8 +1323,8 @@ svg .delay-75 {
 
       <article class="reveal group">
         <div class="aspect-[3/4] overflow-hidden border-2 border-line bg-white shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-gold hover:-translate-y-2 rounded-xl cursor-zoom-in"
-             data-lb="https://i.ibb.co/TqmmX4G3/Screenshot-8.jpg" data-lb-caption="Карточка товара · Wildberries · 2025">
-          <img src="https://i.ibb.co/TqmmX4G3/Screenshot-8.jpg" alt="Карточка товара 4" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 pointer-events-none" loading="lazy">
+             data-lb="images/design/cards/card_4.jpg" data-lb-caption="Карточка товара · Wildberries · 2025">
+          <img src="images/design/cards/card_4.jpg" alt="Карточка товара 4" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 pointer-events-none" loading="lazy">
         </div>
         <div class="mt-3 text-center">
           <div class="font-semibold text-ink group-hover:text-gold transition text-sm md:text-base">Wildberries</div>
@@ -918,30 +1334,43 @@ svg .delay-75 {
 
       <article class="reveal reveal-delay-1 group">
         <div class="aspect-[3/4] overflow-hidden border-2 border-line bg-white shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-gold hover:-translate-y-2 rounded-xl cursor-zoom-in"
-             data-lb="https://i.ibb.co/ynWtS2TF/Screenshot-7.jpg" data-lb-caption="Карточка товара · Ozon · 2025">
-          <img src="https://i.ibb.co/ynWtS2TF/Screenshot-7.jpg" alt="Карточка товара 5" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 pointer-events-none" loading="lazy">
+             data-lb="images/design/cards/card_5.jpg" data-lb-caption="Карточка товара · Ozon · 2025">
+          <img src="images/design/cards/card_5.jpg" alt="Карточка товара 5" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 pointer-events-none" loading="lazy">
         </div>
         <div class="mt-3 text-center">
           <div class="font-semibold text-ink group-hover:text-gold transition text-sm md:text-base">Ozon</div>
           <div class="text-xs text-smoke mt-1">2025</div>
         </div>
       </article>
+
+      <!-- New Product Cards -->
+      <article class="reveal reveal-delay-2 group">
+        <div class="aspect-[3/4] overflow-hidden border-2 border-line bg-white shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-gold hover:-translate-y-2 rounded-xl cursor-zoom-in"
+             data-lb="images/design/cards/Screenshot_11%20(2).jpg" data-lb-caption="Карточка товара · Ozon · 2026">
+          <img src="images/design/cards/Screenshot_11%20(2).jpg" alt="Карточка товара 6" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 pointer-events-none" loading="lazy">
+        </div>
+        <div class="mt-3 text-center">
+          <div class="font-semibold text-ink group-hover:text-gold transition text-sm md:text-base">Ozon</div>
+          <div class="text-xs text-smoke mt-1">2026</div>
+        </div>
+      </article>
+
     </div>
   </div>
 </section>
 
 <!-- TESTIMONIAL -->
-<section class="px-6 md:px-10 py-24 md:py-36">
+<section class="px-6 md:px-10 py-24 md:py-36 bg-cream/20">
   <div class="max-w-[1100px] mx-auto reveal">
-    <div class="num-marker text-3xl mb-8">“</div>
+    <div class="num-marker text-5xl mb-6">“</div>
     <blockquote class="display text-3xl md:text-5xl leading-snug">
-      Никита собрал нам айдентику за&nbsp;две недели. Результат — продажи в&nbsp;первый месяц выросли в&nbsp;<span class="display-italic text-gold">три раза</span>. И это&nbsp;при&nbsp;том, что мы&nbsp;не&nbsp;меняли продукт.
+      Сотрудничаем по оформлению карточек товаров для Wildberries и Ozon. Никита сделал нам инфографику для новой линейки косметики. Карточки выглядят дорого и стильно, сразу выделились среди конкурентов. CTR вырос, а реальные продажи пошли вверх с первых же дней запуска рекламы. Спасибо за крутой дизайн и соблюдение сроков!
     </blockquote>
     <div class="mt-10 flex items-center gap-4">
-      <div class="w-10 h-10 rounded-full bg-olive"></div>
+      <div class="w-10 h-10 rounded-full bg-gold/30 flex items-center justify-center font-display text-gold text-lg font-bold">К</div>
       <div>
-        <div class="font-medium">Реальный отзыв клиента</div>
-        <div class="text-sm text-smoke">Брендинг-проект</div>
+        <div class="font-medium text-ink">Кристина</div>
+        <div class="text-sm text-smoke">Селлер Wildberries & Ozon (Линейка косметики)</div>
       </div>
     </div>
   </div>
@@ -1157,6 +1586,1313 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
     document.querySelectorAll('#works-grid .reveal').forEach(el => io.observe(el));
   } catch (e) { /* keep static fallback */ }
 })();
+
+// Cursor-tracking 3D Perspective Tilt on Hero Card (fixed-perspective-view)
+(function() {
+  const card = document.querySelector('.hero-photo-inner');
+  if (!card) return;
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    // Calculate rotation: max 12 degrees
+    const rotateX = -(y / rect.height) * 12;
+    const rotateY = (x / rect.width) * 12;
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
+    card.style.boxShadow = '0 32px 64px rgba(168, 135, 82, 0.25)';
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+    card.style.boxShadow = '';
+  });
+})();
 </script>
+
+<!-- Liquid Glass Refraction Script (Trend 2026) -->
+<script type="module">
+import * as THREE from "https://unpkg.com/three@0.160.1/build/three.module.js";
+
+const MAX_DROPLETS = 40;
+const FIXED_DT_MS = 8;
+const MAX_FRAME_DT_MS = 100;
+const MAX_CATCHUP = 6;
+
+const container = document.getElementById("liquid-glass-container");
+const app = document.getElementById("app");
+if (container && app) {
+  const renderer = new THREE.WebGLRenderer({ antialias: false });
+  renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+  renderer.setSize(container.clientWidth, container.clientHeight);
+  app.appendChild(renderer.domElement);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+
+  /* ── Background typography texture ──────────────────────── */
+  const bgCanvas = document.createElement("canvas");
+  const bgCtx = bgCanvas.getContext("2d");
+  const bgTexture = new THREE.CanvasTexture(bgCanvas);
+  bgTexture.minFilter = THREE.LinearFilter;
+  bgTexture.magFilter = THREE.LinearFilter;
+
+  function drawBackground() {
+    const w = renderer.domElement.width;
+    const h = renderer.domElement.height;
+    bgCanvas.width = w;
+    bgCanvas.height = h;
+
+    /* gradient background */
+    const grd = bgCtx.createLinearGradient(0, 0, w * 0.6, h);
+    grd.addColorStop(0, "#FAF7F2");
+    grd.addColorStop(0.35, "#F0EAD6");
+    grd.addColorStop(0.65, "#A88752");
+    grd.addColorStop(1, "#3F4A35");
+    bgCtx.fillStyle = grd;
+    bgCtx.fillRect(0, 0, w, h);
+
+    /* decorative colour waves */
+    bgCtx.save();
+    bgCtx.globalAlpha = 0.25;
+    for (let i = 0; i < 5; i++) {
+      const cx = w * (0.2 + i * 0.18);
+      const cy = h * (0.3 + Math.sin(i * 1.3) * 0.25);
+      const rg = bgCtx.createRadialGradient(cx, cy, 0, cx, cy, w * 0.35);
+      const hue = 35 + i * 15; // warm gold tones
+      rg.addColorStop(0, `hsla(${hue}, 40%, 65%, 0.6)`);
+      rg.addColorStop(1, `hsla(${hue}, 30%, 40%, 0)`);
+      bgCtx.fillStyle = rg;
+      bgCtx.fillRect(0, 0, w, h);
+    }
+    bgCtx.restore();
+
+    /* main title */
+    bgCtx.fillStyle = "#1A1A1A";
+    bgCtx.textAlign = "center";
+    bgCtx.textBaseline = "middle";
+
+    const titleSize = Math.round(w * 0.12);
+    bgCtx.font = `italic 300 ${titleSize}px 'Fraunces', serif`;
+    bgCtx.fillText("Liquid", w * 0.5, h * 0.38);
+    
+    bgCtx.fillStyle = "#A88752";
+    bgCtx.font = `normal 300 ${titleSize}px 'Fraunces', serif`;
+    bgCtx.fillText("Glass", w * 0.5, h * 0.38 + titleSize * 1.05);
+
+    /* subtitle */
+    const subSize = Math.round(w * 0.025);
+    bgCtx.font = `500 ${subSize}px 'Inter', sans-serif`;
+    bgCtx.fillStyle = "#1A1A1A";
+    bgCtx.globalAlpha = 0.55;
+    bgCtx.fillText(
+      "TREND OF 2026",
+      w * 0.5,
+      h * 0.38 + titleSize * 2.1,
+    );
+    bgCtx.globalAlpha = 1;
+
+    /* scattered small text */
+    const words = [
+      "refraction",
+      "goldmorphism",
+      "surface tension",
+      "metaballs",
+      "fresnel",
+      "chromatic",
+      "glass design",
+      "fluidity",
+      "2026 trend",
+    ];
+    bgCtx.globalAlpha = 0.06;
+    const scatterSize = Math.round(w * 0.016);
+    bgCtx.font = `italic 300 ${scatterSize}px 'Fraunces', serif`;
+    for (let i = 0; i < words.length; i++) {
+      bgCtx.fillText(
+        words[i],
+        w * (0.15 + (i % 3) * 0.35),
+        h * (0.1 + Math.floor(i / 3) * 0.35 + (i % 2) * 0.08),
+      );
+    }
+    bgCtx.globalAlpha = 1;
+
+    bgTexture.needsUpdate = true;
+  }
+
+  /* wait for fonts to load, then draw */
+  document.fonts.ready.then(() => {
+    drawBackground();
+  });
+  drawBackground();
+
+  /* ── Droplet data (main + ghost trailing blobs) ─────────── */
+  const MAX_ENTRIES = MAX_DROPLETS * 2;
+  const dropletBuf = new Float32Array(MAX_ENTRIES * 4);
+  const dropletTex = new THREE.DataTexture(
+    dropletBuf,
+    MAX_ENTRIES,
+    1,
+    THREE.RGBAFormat,
+    THREE.FloatType,
+  );
+  dropletTex.minFilter = THREE.NearestFilter;
+  dropletTex.magFilter = THREE.NearestFilter;
+  dropletTex.needsUpdate = true;
+
+  let drops = [];
+  let uid = 0;
+
+  function spawn(x, y, r, vx = 0, vy = 0) {
+    if (drops.length >= MAX_DROPLETS) return null;
+    const area = Math.PI * r * r;
+    const angle = Math.random() * Math.PI * 2;
+    const spd = 0.0003 + Math.random() * 0.0008;
+    const d = {
+      id: uid++,
+      x,
+      y,
+      r,
+      area,
+      vx: vx || Math.cos(angle) * spd,
+      vy: vy || Math.sin(angle) * spd,
+      alive: true,
+      wanderAngle: Math.random() * Math.PI * 2,
+      wanderSpeed: 0.3 + Math.random() * 0.5,
+      /* soft-body state */
+      softPrevX: x,
+      softPrevY: y,
+      softOffX: 0,
+      softOffY: 0,
+      softVelX: 0,
+      softVelY: 0,
+    };
+    drops.push(d);
+    return d;
+  }
+
+  /* seed */
+  for (let i = 0; i < 12; i++) {
+    spawn(
+      (Math.random() - 0.5) * 0.7,
+      (Math.random() - 0.5) * 0.5,
+      0.03 + Math.random() * 0.05,
+    );
+  }
+
+  /* ── Liquid Glass shader ────────────────────────────────── */
+  const vertSrc = `void main(){ gl_Position = vec4(position, 1.0); }`;
+
+  const fragSrc = `
+  precision highp float;
+  #define MAX_N ${MAX_ENTRIES}
+
+  uniform vec2      uRes;
+  uniform sampler2D uData;
+  uniform sampler2D uBg;
+  uniform int       uCount;
+  uniform float     uTime;
+
+  void main(){
+    vec2  uv  = gl_FragCoord.xy / uRes;
+    float asp = uRes.x / uRes.y;
+    vec2  p   = (uv - 0.5) * vec2(asp, 1.0);
+
+    /* ── Accumulate metaball field + lens displacement ── */
+    float field = 0.0;
+    vec2  grad  = vec2(0.0);
+    vec2  lens  = vec2(0.0);   /* weighted pull toward blob centres */
+    float lensW = 0.0;
+
+    for(int i = 0; i < MAX_N; i++){
+      if(i >= uCount) break;
+      vec4  d = texture2D(uData, vec2((float(i)+0.5)/float(MAX_N), 0.5));
+      vec2  c = d.xy;
+      float r = d.z;
+      if(r < 0.001) continue;
+      vec2  delta = p - c;
+      float dSq   = dot(delta, delta) + 1e-5;
+      float contrib = r * r / dSq;
+      field += contrib;
+      grad  += -2.0 * contrib / dSq * delta;
+
+      /* lens weight: smooth falloff from centre, no singularity */
+      float w = r * r / (dSq + r * r);
+      lens += (c - p) * w;
+      lensW += w;
+    }
+
+    /* normalise lens displacement */
+    lens /= (lensW + 0.001);
+    float lensLen = length(lens);
+
+    float thr  = 1.0;
+    float edge = smoothstep(thr - 0.08, thr + 0.03, field);
+
+    /* ── Lens-based refraction (no centre fold) ── */
+    float refractStrength = 0.035;
+    float mappedLens = atan(lensLen * 6.0) * refractStrength;
+    vec2  refractDir = (lensLen > 1e-5) ? lens / lensLen : vec2(0.0);
+    /* scale refraction by edge mask with wide soft ramp */
+    float refractMask = smoothstep(thr - 0.2, thr + 1.5, field);
+    vec2  refractedUV = clamp(uv + refractDir * mappedLens * refractMask, 0.001, 0.999);
+
+    /* sample background */
+    vec3  bgClean = texture2D(uBg, uv).rgb;
+
+    /* ── Glass normal from gradient (atan-compressed) ── */
+    float gradLen = length(grad);
+    float nScale = atan(gradLen * 0.5) * 0.3;
+    vec2  nGrad  = (gradLen > 1e-4) ? (grad / gradLen) * nScale : vec2(0.0);
+    vec3  N = normalize(vec3(-nGrad, 1.0));
+    vec3  L = normalize(vec3(0.3, 0.6, 1.0));
+    vec3  V = vec3(0.0, 0.0, 1.0);
+    vec3  H = normalize(L + V);
+    float diff = max(dot(N, L), 0.0);
+    float spec = pow(max(dot(N, H), 0.0), 180.0);
+
+    /* Fresnel (Schlick) */
+    float cosTheta = max(dot(N, V), 0.0);
+    float fresnel  = 0.04 + 0.96 * pow(1.0 - cosTheta, 4.0);
+
+    /* rim highlight at boundary */
+    float rim = smoothstep(thr + 0.6, thr, field) * edge;
+
+    /* subtle chromatic aberration */
+    float caStr = 0.0018 * edge;
+    vec3 bgCA;
+    bgCA.r = texture2D(uBg, refractedUV + vec2(caStr, caStr * 0.5)).r;
+    bgCA.g = texture2D(uBg, refractedUV).g;
+    bgCA.b = texture2D(uBg, refractedUV - vec2(caStr, caStr * 0.5)).b;
+
+    /* depth tint (subtle cream/gold tint inside drops) */
+    float depth = smoothstep(thr, thr + 3.0, field);
+    vec3  tint  = mix(vec3(1.0), vec3(0.97, 0.95, 0.90), depth * 0.35);
+
+    /* compose glass */
+    vec3 glassColor = bgCA * tint * (0.92 + 0.08 * diff)
+                    + vec3(1.0) * spec * 0.85
+                    + vec3(0.9, 0.95, 1.0) * rim * 0.22
+                    + vec3(1.0) * fresnel * 0.10;
+
+    /* soft shadow */
+    float shadowField = smoothstep(thr - 0.35, thr - 0.05, field);
+    vec3 bg = bgClean * (1.0 - shadowField * 0.08);
+
+    /* thin white border */
+    float borderOuter = smoothstep(thr - 0.10, thr - 0.01, field);
+    float borderInner = smoothstep(thr + 0.0, thr + 0.06, field);
+    float border = borderOuter * (1.0 - borderInner) * 0.28;
+
+    vec3  col = mix(bg, glassColor, edge);
+    col += vec3(1.0) * border;
+
+    gl_FragColor = vec4(col, 1.0);
+  }
+  `;
+
+  const mat = new THREE.ShaderMaterial({
+    vertexShader: vertSrc,
+    fragmentShader: fragSrc,
+    uniforms: {
+      uRes: {
+        value: new THREE.Vector2(
+          renderer.domElement.width,
+          renderer.domElement.height,
+        ),
+      },
+      uData: { value: dropletTex },
+      uBg: { value: bgTexture },
+      uCount: { value: 0 },
+      uTime: { value: 0 },
+    },
+  });
+  scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), mat));
+
+  /* ── Input ──────────────────────────────────────────────── */
+  let aspect = container.clientWidth / container.clientHeight;
+  const mouse = { x: 999, y: 999, active: false, down: false };
+  let spawnCD = 0;
+
+  renderer.domElement.addEventListener("pointermove", (e) => {
+    const rect = renderer.domElement.getBoundingClientRect();
+    mouse.x = ((e.clientX - rect.left) / rect.width - 0.5) * aspect;
+    mouse.y = 0.5 - (e.clientY - rect.top) / rect.height;
+    mouse.active = true;
+  });
+  renderer.domElement.addEventListener("pointerdown", () => {
+    mouse.down = true;
+  });
+  renderer.domElement.addEventListener("pointerup", () => {
+    mouse.down = false;
+  });
+  renderer.domElement.addEventListener("pointerleave", () => {
+    mouse.active = false;
+    mouse.down = false;
+  });
+
+  window.addEventListener("resize", () => {
+    const w = container.clientWidth;
+    const h = container.clientHeight;
+    renderer.setSize(w, h);
+    renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+    aspect = w / h;
+    mat.uniforms.uRes.value.set(
+      renderer.domElement.width,
+      renderer.domElement.height,
+    );
+    drawBackground();
+  });
+
+  /* ── Physics parameters ─────────────────────────────────── */
+  const DAMP = 0.993;
+  const MOUSE_R = 0.18;
+  const MOUSE_F = 0.004;
+  const TENSION_RANGE = 0.12;
+  const TENSION_F = 0.0004;
+  const MERGE_RATIO = 0.62;
+  const SPLIT_SPEED = 0.013;
+  const SPLIT_MIN_R = 0.04;
+  const MAX_SPEED = 0.015;
+  const BOUNCE = 0.4;
+  const WANDER_F = 0.00004;
+  const CENTER_PULL = 0.000008;
+
+  /* ── Forces (no gravity, random wander) ─────────────────── */
+  function applyForces(time) {
+    for (const d of drops) {
+      /* random wander */
+      d.wanderAngle += (Math.random() - 0.5) * d.wanderSpeed;
+      d.vx += Math.cos(d.wanderAngle) * WANDER_F;
+      d.vy += Math.sin(d.wanderAngle) * WANDER_F;
+
+      /* gentle pull toward center to keep them in view */
+      d.vx -= d.x * CENTER_PULL;
+      d.vy -= d.y * CENTER_PULL;
+
+      /* mouse repulsion */
+      if (mouse.active) {
+        const dx = d.x - mouse.x;
+        const dy = d.y - mouse.y;
+        const dSq = dx * dx + dy * dy;
+        const rr = MOUSE_R + d.r;
+        if (dSq < rr * rr && dSq > 1e-5) {
+          const dist = Math.sqrt(dSq);
+          const s = 1 - dist / rr;
+          const f = s * s * MOUSE_F;
+          d.vx += (dx / dist) * f;
+          d.vy += (dy / dist) * f;
+        }
+      }
+    }
+
+    /* pairwise surface tension */
+    for (let i = 0; i < drops.length; i++) {
+      const a = drops[i];
+      for (let j = i + 1; j < drops.length; j++) {
+        const b = drops[j];
+        const dx = b.x - a.x;
+        const dy = b.y - a.y;
+        const dSq = dx * dx + dy * dy;
+        const rng = TENSION_RANGE + a.r + b.r;
+        if (dSq < rng * rng && dSq > 1e-5) {
+          const dist = Math.sqrt(dSq);
+          const s = 1 - dist / rng;
+          const f = s * TENSION_F;
+          const fx = (dx / dist) * f;
+          const fy = (dy / dist) * f;
+          a.vx += fx;
+          a.vy += fy;
+          b.vx -= fx;
+          b.vy -= fy;
+        }
+      }
+    }
+  }
+
+  /* ── Integration + wall constraints ─────────────────────── */
+  function integrate() {
+    for (const d of drops) {
+      const sp = Math.sqrt(d.vx * d.vx + d.vy * d.vy);
+      if (sp > MAX_SPEED) {
+        const s = MAX_SPEED / sp;
+        d.vx *= s;
+        d.vy *= s;
+      }
+      d.x += d.vx;
+      d.y += d.vy;
+      d.vx *= DAMP;
+      d.vy *= DAMP;
+
+      const wx = aspect * 0.5;
+      const wy = 0.5;
+      if (d.x - d.r < -wx) {
+        d.x = -wx + d.r;
+        d.vx = Math.abs(d.vx) * BOUNCE;
+      }
+      if (d.x + d.r > wx) {
+        d.x = wx - d.r;
+        d.vx = -Math.abs(d.vx) * BOUNCE;
+      }
+      if (d.y - d.r < -wy) {
+        d.y = -wy + d.r;
+        d.vy = Math.abs(d.vy) * BOUNCE;
+      }
+      if (d.y + d.r > wy) {
+        d.y = wy - d.r;
+        d.vy = -Math.abs(d.vy) * BOUNCE;
+      }
+    }
+  }
+
+  /* ── Merge (area-conserving) ────────────────────────────── */
+  function mergeDroplets() {
+    for (let i = 0; i < drops.length; i++) {
+      const a = drops[i];
+      if (!a.alive) continue;
+      for (let j = i + 1; j < drops.length; j++) {
+        const b = drops[j];
+        if (!b.alive) continue;
+        const dx = b.x - a.x;
+        const dy = b.y - a.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < (a.r + b.r) * MERGE_RATIO) {
+          const na = a.area + b.area;
+          a.x = (a.x * a.area + b.x * b.area) / na;
+          a.y = (a.y * a.area + b.y * b.area) / na;
+          a.vx = (a.vx * a.area + b.vx * b.area) / na;
+          a.vy = (a.vy * a.area + b.vy * b.area) / na;
+          a.r = Math.sqrt(na / Math.PI);
+          a.area = na;
+          b.alive = false;
+        }
+      }
+    }
+    drops = drops.filter((d) => d.alive);
+  }
+
+  /* ── Split (momentum-driven) ────────────────────────────── */
+  function splitDroplets() {
+    const add = [];
+    for (const d of drops) {
+      if (d.r < SPLIT_MIN_R) continue;
+      const sp = Math.sqrt(d.vx * d.vx + d.vy * d.vy);
+      if (sp < SPLIT_SPEED) continue;
+
+      const ha = d.area * 0.5;
+      const nr = Math.sqrt(ha / Math.PI);
+      const nx = -d.vy / sp;
+      const ny = d.vx / sp;
+      const off = nr * 0.7;
+
+      d.r = nr;
+      d.area = ha;
+      d.x -= nx * off;
+      d.y -= ny * off;
+
+      add.push({
+        id: uid++,
+        x: d.x + nx * off * 2,
+        y: d.y + ny * off * 2,
+        r: nr,
+        area: ha,
+        vx: d.vx + nx * sp * 0.35,
+        vy: d.vy + ny * sp * 0.35,
+        alive: true,
+        wanderAngle: Math.random() * Math.PI * 2,
+        wanderSpeed: 0.3 + Math.random() * 0.5,
+        softPrevX: d.x + nx * off * 2,
+        softPrevY: d.y + ny * off * 2,
+        softOffX: 0,
+        softOffY: 0,
+        softVelX: 0,
+        softVelY: 0,
+      });
+    }
+    for (const a of add) if (drops.length < MAX_DROPLETS) drops.push(a);
+  }
+
+  /* ── Auto-spawn (random position, no top bias) ──────────── */
+  let autoTimer = 0;
+  function autoSpawn() {
+    autoTimer += FIXED_DT_MS;
+    if (autoTimer > 2000 && drops.length < 10) {
+      autoTimer = 0;
+      spawn(
+        (Math.random() - 0.5) * aspect * 0.6,
+        (Math.random() - 0.5) * 0.6,
+        0.025 + Math.random() * 0.03,
+      );
+    }
+  }
+
+  /* ── Click / drag spawn ─────────────────────────────────── */
+  function mouseSpawn() {
+    if (!mouse.down || !mouse.active) return;
+    spawnCD -= FIXED_DT_MS;
+    if (spawnCD <= 0 && drops.length < MAX_DROPLETS) {
+      spawnCD = 120;
+      spawn(
+        mouse.x + (Math.random() - 0.5) * 0.02,
+        mouse.y + (Math.random() - 0.5) * 0.02,
+        0.02 + Math.random() * 0.015,
+      );
+    }
+  }
+
+  /* ── Soft-body spring follow ── */
+  const SOFT_STIFFNESS = 0.22;
+  const SOFT_DAMPING = 0.6;
+
+  function updateSoftBodies() {
+    for (const d of drops) {
+      const dx = d.x - d.softPrevX;
+      const dy = d.y - d.softPrevY;
+
+      d.softVelX += (dx - d.softOffX) * SOFT_STIFFNESS;
+      d.softVelY += (dy - d.softOffY) * SOFT_STIFFNESS;
+      d.softVelX *= SOFT_DAMPING;
+      d.softVelY *= SOFT_DAMPING;
+      d.softOffX += d.softVelX;
+      d.softOffY += d.softVelY;
+
+      d.softPrevX = d.x;
+      d.softPrevY = d.y;
+    }
+  }
+
+  /* ── Fixed step ─────────────────────────────────────────── */
+  let simTime = 0;
+  function fixedUpdate() {
+    simTime += FIXED_DT_MS;
+    applyForces(simTime);
+    integrate();
+    mergeDroplets();
+    splitDroplets();
+    updateSoftBodies();
+    autoSpawn();
+    mouseSpawn();
+  }
+
+  /* ── Sync texture for shader ── */
+  function sync() {
+    dropletBuf.fill(0);
+    const n = Math.min(drops.length, MAX_DROPLETS);
+    for (let i = 0; i < n; i++) {
+      const d = drops[i];
+      /* main blob */
+      dropletBuf[i * 4] = d.x;
+      dropletBuf[i * 4 + 1] = d.y;
+      dropletBuf[i * 4 + 2] = d.r;
+      dropletBuf[i * 4 + 3] = 1;
+
+      /* ghost trailing blob */
+      const ghostScale = 0.7;
+      const trailStr = 3.5;
+      const gi = (n + i) * 4;
+      dropletBuf[gi] = d.x - d.softOffX * trailStr;
+      dropletBuf[gi + 1] = d.y - d.softOffY * trailStr;
+      dropletBuf[gi + 2] = d.r * ghostScale;
+      dropletBuf[gi + 3] = 1;
+    }
+    dropletTex.needsUpdate = true;
+    mat.uniforms.uCount.value = n * 2;
+  }
+
+  /* ── Main loop ──────────────────────────────────────────── */
+  let last = performance.now();
+  let acc = 0;
+  let paused = false;
+
+  document.addEventListener("visibilitychange", () => {
+    paused = document.hidden;
+    if (!paused) last = performance.now();
+  });
+
+  (function loop() {
+    if (paused) {
+      requestAnimationFrame(loop);
+      return;
+    }
+    const now = performance.now();
+    const dt = Math.min(now - last, MAX_FRAME_DT_MS);
+    last = now;
+    acc += dt;
+
+    let g = 0;
+    while (acc >= FIXED_DT_MS && g < MAX_CATCHUP) {
+      fixedUpdate();
+      acc -= FIXED_DT_MS;
+      g++;
+    }
+    if (g >= MAX_CATCHUP) acc = 0;
+
+    mat.uniforms.uTime.value = now * 0.001;
+    sync();
+    renderer.render(scene, camera);
+    requestAnimationFrame(loop);
+  })();
+}
+</script>
+
+<!-- WebGL Background Engine & Theme Controller -->
+<script type="module">
+const canvas = document.getElementById("webgl_canvas");
+if (canvas) {
+  const gl = canvas.getContext("webgl", {
+    alpha: false,
+    antialias: false,
+    depth: false,
+    stencil: false,
+    preserveDrawingBuffer: false,
+    powerPreference: "high-performance"
+  });
+
+  if (gl) {
+    const vs = `
+    attribute vec2 a;
+    void main() {
+      gl_Position = vec4(a, 0.0, 1.0);
+    }
+    `;
+
+    const fs = `
+    precision highp float;
+
+    uniform vec2  uR;
+    uniform float uT, uS, uSc, uBl;
+    uniform vec3  uBg;
+
+    #define PI 3.14159265359
+    #define TAU 6.28318530718
+    #define MARCH_STEPS 22
+    #define REFINE_STEPS 5
+
+    float sat(float x) {
+      return clamp(x, 0.0, 1.0);
+    }
+
+    float smoother(float x) {
+      x = sat(x);
+      return x * x * x * (x * (x * 6.0 - 15.0) + 10.0);
+    }
+
+    vec3 sCol(vec3 c0, vec3 c1, vec3 c2, vec3 c3, vec3 c4) {
+      int si = int(uSc);
+      vec3 a = c0;
+      vec3 b = c1;
+      if (si == 1) { a = c1; b = c2; }
+      else if (si == 2) { a = c2; b = c3; }
+      else if (si == 3) { a = c3; b = c4; }
+      return mix(a, b, uBl);
+    }
+
+    float sF(float c0, float c1, float c2, float c3, float c4) {
+      int si = int(uSc);
+      float a = c0;
+      float b = c1;
+      if (si == 1) { a = c1; b = c2; }
+      else if (si == 2) { a = c2; b = c3; }
+      else if (si == 3) { a = c3; b = c4; }
+      return mix(a, b, uBl);
+    }
+
+    mat2 rot(float a) {
+      float c = cos(a);
+      float s = sin(a);
+      return mat2(c, -s, s, c);
+    }
+
+    float hash(vec2 p) {
+      return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+    }
+
+    float noise(vec2 p) {
+      vec2 i = floor(p);
+      vec2 f = fract(p);
+      f = f * f * (3.0 - 2.0 * f);
+
+      float a = hash(i);
+      float b = hash(i + vec2(1.0, 0.0));
+      float c = hash(i + vec2(0.0, 1.0));
+      float d = hash(i + vec2(1.0, 1.0));
+
+      return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+    }
+
+    float waveH(vec2 p, float t, float amp, float storm) {
+      float h = 0.0;
+
+      vec2 swell1 = normalize(vec2(1.0, 0.28));
+      vec2 swell2 = normalize(vec2(-0.48, 0.88));
+      vec2 swell3 = normalize(vec2(0.82, -0.16));
+
+      swell2 = rot(storm * 0.18) * swell2;
+      swell3 = rot(-storm * 0.14) * swell3;
+
+      float d1 = dot(p, swell1);
+      float d2 = dot(p, swell2);
+      float d3 = dot(p, swell3);
+
+      h += amp * 0.66 * sin(d1 * 0.42 + t * 0.38);
+      h += amp * 0.22 * sin(d1 * 0.94 - t * 0.62);
+      h += amp * 0.14 * sin(d2 * 1.18 - t * 0.82);
+      h += amp * 0.09 * sin(d3 * 1.82 + t * 1.04);
+
+      h += amp * (0.11 + storm * 0.07) * sin(p.x * 1.45 - t * 0.76 + p.y * 0.66);
+      h += amp * (0.07 + storm * 0.05) * sin(p.x * 2.85 + t * 1.06 - p.y * 0.52);
+      h += amp * (0.04 + storm * 0.03) * sin(p.x * 4.60 - t * 1.50 + p.y * 1.02);
+
+      float micro = noise(p * 14.0 + vec2(t * 0.18, t * 0.06)) - 0.5;
+      h += micro * amp * (0.010 + storm * 0.008);
+
+      return h;
+    }
+
+    vec3 waveNorm(vec2 p, float t, float amp, float storm) {
+      float e = 0.018;
+      float hL = waveH(p - vec2(e, 0.0), t, amp, storm);
+      float hR = waveH(p + vec2(e, 0.0), t, amp, storm);
+      float hD = waveH(p - vec2(0.0, e), t, amp, storm);
+      float hU = waveH(p + vec2(0.0, e), t, amp, storm);
+      return normalize(vec3(-(hR - hL) / (2.0 * e), 1.0, -(hU - hD) / (2.0 * e)));
+    }
+
+    float starField(vec2 uv) {
+      vec2 gv = floor(uv);
+      vec2 lv = fract(uv) - 0.5;
+
+      float h = hash(gv);
+      float size = mix(0.012, 0.0025, h);
+      float d = length(lv + vec2(hash(gv + 3.1) - 0.5, hash(gv + 7.3) - 0.5) * 0.25);
+      float star = smoothstep(size, 0.0, d);
+      star *= smoothstep(0.82, 1.0, h);
+      return star;
+    }
+
+    void main() {
+      vec2 uv = (gl_FragCoord.xy - uR * 0.5) / uR.y;
+
+      float s = smoother(uS);
+
+      float camY = mix(1.14, 1.03, s);
+      camY += sin(s * PI * 1.4) * 0.028;
+      float camZ = mix(0.08, -0.18, s);
+      float pitch = mix(0.115, 0.088, s);
+
+      vec3 ro = vec3(0.0, camY, camZ);
+      vec3 rd = normalize(vec3(uv.x, uv.y - pitch, -1.4));
+
+      float storm = smoothstep(0.80, 1.0, s);
+      float night = smoothstep(0.56, 0.84, s);
+
+      vec3 skyTop = sCol(
+        vec3(0.18, 0.06, 0.24),
+        vec3(0.05, 0.24, 0.68),
+        vec3(0.26, 0.06, 0.04),
+        vec3(0.01, 0.01, 0.05),
+        vec3(0.04, 0.05, 0.09)
+      );
+
+      vec3 skyHori = sCol(
+        vec3(0.92, 0.48, 0.18),
+        vec3(0.42, 0.62, 0.90),
+        vec3(0.88, 0.32, 0.04),
+        vec3(0.03, 0.05, 0.14),
+        vec3(0.15, 0.17, 0.23)
+      );
+
+      vec3 sunCol = sCol(
+        vec3(1.0, 0.62, 0.22),
+        vec3(1.0, 0.96, 0.80),
+        vec3(1.0, 0.38, 0.05),
+        vec3(0.70, 0.75, 0.94),
+        vec3(0.26, 0.28, 0.34)
+      );
+
+      vec3 seaDeep = sCol(
+        vec3(0.08, 0.05, 0.12),
+        vec3(0.03, 0.14, 0.34),
+        vec3(0.10, 0.06, 0.04),
+        vec3(0.00, 0.01, 0.03),
+        vec3(0.03, 0.04, 0.07)
+      );
+
+      vec3 seaShlo = sCol(
+        vec3(0.28, 0.17, 0.24),
+        vec3(0.09, 0.38, 0.60),
+        vec3(0.24, 0.13, 0.06),
+        vec3(0.04, 0.06, 0.16),
+        vec3(0.07, 0.10, 0.14)
+      );
+
+      vec3 fogCol = sCol(
+        vec3(0.80, 0.50, 0.30),
+        vec3(0.58, 0.72, 0.90),
+        vec3(0.70, 0.28, 0.05),
+        vec3(0.02, 0.03, 0.08),
+        vec3(0.12, 0.14, 0.18)
+      );
+
+      float sunProgress = clamp(s / 0.58, 0.0, 1.0);
+      float sunAngle = sunProgress * PI;
+      float sunArcX = cos(sunAngle) * -0.75;
+      float sunArcY = sin(sunAngle) * 0.38 - 0.08;
+
+      vec3 sunDir = normalize(vec3(sunArcX, sunArcY, -1.0));
+      vec3 moonDir = normalize(vec3(-0.14, 0.42, -1.0));
+
+      float waveAmp = sF(0.082, 0.070, 0.100, 0.054, 0.30);
+      waveAmp += storm * 0.020;
+
+      float fogDen = sF(0.020, 0.010, 0.022, 0.034, 0.046);
+      float moonAmt = sF(0.0, 0.0, 0.05, 0.92, 0.06);
+
+      float sunAbove = step(0.0, sunDir.y);
+      float sunGlow = smoothstep(-0.10, 0.06, sunDir.y);
+
+      vec3 col;
+
+      if (rd.y < 0.0) {
+        float tFlat = ro.y / (-rd.y);
+        float stepSize = tFlat / float(MARCH_STEPS);
+        float t = stepSize;
+
+        for (int i = 0; i < MARCH_STEPS; i++) {
+          vec2 wpTest = ro.xz + rd.xz * t;
+          float wy = ro.y + rd.y * t;
+          if (wy < waveH(wpTest, uT, waveAmp, storm)) break;
+          t += stepSize;
+        }
+
+        float ta = t - stepSize;
+        float tb = t;
+
+        for (int i = 0; i < REFINE_STEPS; i++) {
+          float tm = (ta + tb) * 0.5;
+          vec2 wpm = ro.xz + rd.xz * tm;
+          if (ro.y + rd.y * tm < waveH(wpm, uT, waveAmp, storm)) tb = tm;
+          else ta = tm;
+        }
+
+        t = (ta + tb) * 0.5;
+
+        vec2 wp = ro.xz + rd.xz * t;
+        vec3 n = waveNorm(wp, uT, waveAmp, storm);
+        vec3 vDir = -rd;
+
+        float fres = pow(1.0 - clamp(dot(n, vDir), 0.0, 1.0), 4.0);
+
+        vec3 refl = reflect(rd, n);
+        float rh = clamp(refl.y, 0.0, 1.0);
+
+        vec3 reflSky = mix(skyHori, skyTop, pow(rh, 0.42));
+        reflSky = mix(reflSky, skyHori, 0.12);
+
+        float rSun = max(dot(refl, sunDir), 0.0);
+        reflSky += sunCol * pow(rSun, 120.0) * 2.0 * sunGlow;
+        reflSky += sunCol * pow(rSun, 18.0) * 0.07 * sunGlow;
+
+        if (moonAmt > 0.04) {
+          float rMoon = max(dot(refl, moonDir), 0.0);
+          reflSky += vec3(0.72, 0.80, 0.95) * pow(rMoon, 120.0) * 0.78 * moonAmt;
+        }
+
+        float depth = exp(-t * 0.40);
+        vec3 waterC = mix(seaDeep, seaShlo, depth * 0.5);
+
+        vec3 absorb = vec3(0.85, 0.92, 1.0);
+        waterC *= mix(vec3(1.0), absorb, clamp(t * 0.25, 0.0, 1.0));
+
+        col = mix(waterC, reflSky, 0.15 + fres * 0.34);
+
+        float spec = pow(max(dot(reflect(-sunDir, n), vDir), 0.0), 200.0);
+        col += sunCol * spec * 1.10 * sunAbove;
+
+        float broadSpec = pow(max(dot(reflect(-sunDir, n), vDir), 0.0), 32.0);
+        col += sunCol * broadSpec * 0.12 * sunGlow;
+
+        float sunLine = pow(max(dot(reflect(rd, n), sunDir), 0.0), 8.0);
+        col += sunCol * sunLine * 0.48 * smoothstep(0.0, 0.35, -rd.y) * sunGlow;
+
+        float sparkle = noise(wp * 18.0 + vec2(uT * 0.55, uT * 0.22));
+        sparkle = smoothstep(0.94, 1.0, sparkle);
+        col += sunCol * sparkle * 0.08 * sunGlow * sunAbove;
+
+        if (moonAmt > 0.04) {
+          float mSpec = pow(max(dot(reflect(-moonDir, n), vDir), 0.0), 520.0);
+          col += vec3(0.72, 0.80, 0.95) * mSpec * 0.09 * moonAmt;
+        }
+
+        float hC = waveH(wp, uT, waveAmp, storm);
+        float hL = waveH(wp - vec2(0.025, 0.0), uT, waveAmp, storm);
+        float hR = waveH(wp + vec2(0.025, 0.0), uT, waveAmp, storm);
+        float hD = waveH(wp - vec2(0.0, 0.025), uT, waveAmp, storm);
+        float hU = waveH(wp + vec2(0.0, 0.025), uT, waveAmp, storm);
+
+        float curvature = hR + hL + hU + hD - 4.0 * hC;
+        float foam = clamp(curvature * (24.0 + storm * 10.0), 0.0, 1.0);
+        col += foam * vec3(1.0) * (0.03 + storm * 0.10);
+
+        float fog = 1.0 - exp(-t * fogDen * 1.65);
+        col = mix(col, fogCol, fog);
+      } else {
+        float h = clamp(rd.y, 0.0, 1.0);
+        col = mix(skyHori, skyTop, pow(h, 0.38));
+      }
+
+      float horizonW = 0.008;
+      float skyMix = smoothstep(-horizonW, horizonW, rd.y);
+
+      vec3 skyCol;
+      {
+        float h = clamp(rd.y, 0.0, 1.0);
+        skyCol = mix(skyHori, skyTop, pow(h, 0.38));
+
+        float cloudBand = noise(rd.x * 5.5 + vec2(rd.y * 3.0, uT * 0.015));
+        float cloudBand2 = noise(rd.x * 8.0 - vec2(rd.y * 4.0, uT * 0.010));
+        float clouds = smoothstep(0.62, 0.86, cloudBand * 0.65 + cloudBand2 * 0.35);
+        clouds *= smoothstep(-0.02, 0.24, rd.y);
+        clouds *= 0.08 + storm * 0.18;
+
+        vec3 cloudCol = mix(
+          vec3(1.0, 0.82, 0.65),
+          vec3(0.42, 0.48, 0.56),
+          storm
+        );
+
+        skyCol = mix(skyCol, mix(skyCol * 0.97, cloudCol, 0.35), clouds);
+
+        float sd = max(dot(rd, sunDir), 0.0);
+        skyCol += sunCol * pow(sd, 380.0) * 6.8 * sunGlow;
+        skyCol += sunCol * pow(sd, 22.0)  * 0.20 * sunGlow;
+        skyCol += sunCol * pow(sd, 5.0)   * 0.09 * sunGlow;
+
+        float sunDisk = smoothstep(0.99925, 0.99995, dot(rd, sunDir));
+        skyCol += sunCol * sunDisk * 2.6 * sunGlow;
+
+        float horizonBand = exp(-abs(rd.y) * 24.0);
+        skyCol += sunCol * horizonBand * 0.11 * sunGlow;
+
+        float viewSun = max(dot(rd, sunDir), 0.0);
+        skyCol += sunCol * pow(viewSun, 3.0) * 0.035 * sunGlow;
+
+        if (moonAmt > 0.04) {
+          float md = max(dot(rd, moonDir), 0.0);
+          skyCol += vec3(0.88, 0.92, 1.0) * pow(md, 820.0) * 7.4 * moonAmt;
+          skyCol += vec3(0.88, 0.92, 1.0) * pow(md, 6.0)   * 0.045 * moonAmt;
+        }
+
+        if (night > 0.02) {
+          vec2 starUv = rd.xy / max(0.12, rd.z + 1.6);
+          starUv *= 140.0;
+          float stars = starField(starUv) + starField(starUv * 0.55 + 11.7) * 0.65;
+          stars *= smoothstep(0.02, 0.26, rd.y);
+          stars *= (1.0 - storm * 0.85);
+          skyCol += vec3(0.80, 0.88, 1.0) * stars * night * 0.82;
+        }
+
+        float horizonMist = exp(-abs(rd.y) * mix(38.0, 22.0, storm));
+        skyCol += fogCol * horizonMist * (0.09 + storm * 0.10);
+
+        skyCol = mix(skyCol, skyCol * vec3(0.91, 0.94, 0.98), storm * 0.22);
+      }
+
+      col = mix(col, skyCol, skyMix);
+
+      float hEdge = smoothstep(-0.008, 0.018, rd.y);
+      col = mix(fogCol, col, hEdge * 0.25 + 0.75);
+
+      float grain = hash(gl_FragCoord.xy * 0.5 + floor(uT * 12.0)) - 0.5;
+      col += grain * 0.006;
+
+      gl_FragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
+    }
+    `;
+
+    const mkShader = (type, src) => {
+      const s = gl.createShader(type);
+      gl.shaderSource(s, src);
+      gl.compileShader(s);
+
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+        console.error(gl.getShaderInfoLog(s));
+        gl.deleteShader(s);
+        return null;
+      }
+      return s;
+    };
+
+    const vert = mkShader(gl.VERTEX_SHADER, vs);
+    const frag = mkShader(gl.FRAGMENT_SHADER, fs);
+
+    if (vert && frag) {
+      const prog = gl.createProgram();
+      gl.attachShader(prog, vert);
+      gl.attachShader(prog, frag);
+      gl.linkProgram(prog);
+
+      if (gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+        gl.useProgram(prog);
+        gl.disable(gl.DEPTH_TEST);
+        gl.disable(gl.CULL_FACE);
+        gl.disable(gl.BLEND);
+        gl.disable(gl.DITHER);
+
+        const buf = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+        gl.bufferData(
+          gl.ARRAY_BUFFER,
+          new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]),
+          gl.STATIC_DRAW
+        );
+
+        const ap = gl.getAttribLocation(prog, "a");
+        gl.enableVertexAttribArray(ap);
+        gl.vertexAttribPointer(ap, 2, gl.FLOAT, false, 0, 0);
+
+        const uR = gl.getUniformLocation(prog, "uR");
+        const uTi = gl.getUniformLocation(prog, "uT");
+        const uScroll = gl.getUniformLocation(prog, "uS");
+        const uScene = gl.getUniformLocation(prog, "uSc");
+        const uBlend = gl.getUniformLocation(prog, "uBl");
+        const uBg = gl.getUniformLocation(prog, "uBg");
+
+        const hexToVec3 = (hex) => {
+          const n = parseInt(hex.replace("#", ""), 16);
+          return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
+        };
+
+        const bgColors = {
+          dark: "#0a0a0f",
+          light: "#faf7f2"
+        };
+
+        const updateBg = (theme) => {
+          const [r, g, b] = hexToVec3(bgColors[theme] ?? bgColors.dark);
+          gl.uniform3f(uBg, r, g, b);
+        };
+
+        const applyTheme = (theme) => {
+          if (theme === "dark") {
+            document.documentElement.classList.add("dark");
+            document.documentElement.setAttribute("data-theme", "dark");
+          } else {
+            document.documentElement.classList.remove("dark");
+            document.documentElement.setAttribute("data-theme", "light");
+          }
+          updateBg(theme);
+        };
+
+        // Theme initialization
+        const savedTheme = localStorage.getItem("theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        applyTheme(savedTheme);
+
+        const themeToggle = document.getElementById("theme_toggle");
+        if (themeToggle) {
+          themeToggle.addEventListener("click", () => {
+            const currentTheme = document.documentElement.classList.contains("dark") ? "light" : "dark";
+            localStorage.setItem("theme", currentTheme);
+            applyTheme(currentTheme);
+          });
+        }
+
+        const NAMES = ["DAWN", "MIDDAY", "DUSK", "NIGHT", "STORM"];
+        const N = NAMES.length;
+
+        let maxScroll = 1;
+        let tgt = 0;
+        let smooth = 0;
+        let velocity = 0;
+
+        const scrollEase = 0.1;
+
+        let qualityScale = 1.0;
+        const MAX_DPR = 1.5;
+        const MIN_QUALITY = 0.82;
+        const MAX_QUALITY = 1.0;
+
+        let resizeRAF = 0;
+        let lastViewportW = 0;
+        let lastViewportH = 0;
+
+        const headerEl = document.querySelector('header');
+        const updateScrollMetrics = () => {
+          const vh = lastViewportH || window.innerHeight;
+          maxScroll = Math.max(1, document.documentElement.scrollHeight - vh);
+          tgt = maxScroll > 0 ? Math.min(1, Math.max(0, window.scrollY / maxScroll)) : 0;
+          
+          if (headerEl) {
+            headerEl.classList.toggle('scrolled', window.scrollY > 20);
+          }
+        };
+
+        const resize = () => {
+          resizeRAF = 0;
+          const vp = window.visualViewport ?? {
+            width: window.innerWidth,
+            height: window.innerHeight
+          };
+
+          const cssW = Math.round(vp.width);
+          const cssH = Math.round(vp.height);
+
+          if (!cssW || !cssH) return;
+
+          lastViewportW = cssW;
+          lastViewportH = cssH;
+
+          const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
+          const renderScale = dpr * qualityScale;
+
+          const pixelW = Math.max(1, Math.round(cssW * renderScale));
+          const pixelH = Math.max(1, Math.round(cssH * renderScale));
+
+          canvas.style.width = `${cssW}px`;
+          canvas.style.height = `${cssH}px`;
+
+          if (canvas.width !== pixelW || canvas.height !== pixelH) {
+            canvas.width = pixelW;
+            canvas.height = pixelH;
+            gl.viewport(0, 0, pixelW, pixelH);
+            gl.uniform2f(uR, pixelW, pixelH);
+          }
+          updateScrollMetrics();
+        };
+
+        const requestResize = () => {
+          if (!resizeRAF) resizeRAF = requestAnimationFrame(resize);
+        };
+
+        resize();
+        window.addEventListener("resize", requestResize, { passive: true });
+        if (window.visualViewport) {
+          window.visualViewport.addEventListener("resize", requestResize, { passive: true });
+        }
+
+        window.addEventListener("scroll", updateScrollMetrics, { passive: true });
+        window.addEventListener("load", updateScrollMetrics, { passive: true });
+
+        const progFill = document.getElementById("prog_fill");
+        const hudPct = document.getElementById("hud_pct");
+        const sceneName = document.getElementById("scene_name");
+        const dots = document.querySelectorAll(".scene-dot");
+
+        let lastHUDPct = -1;
+        let lastHUDScene = -1;
+
+        const updateHUD = (s) => {
+          const p = Math.round(s * 100);
+          const si = Math.min(N - 1, Math.floor(s * N));
+
+          if (p !== lastHUDPct) {
+            lastHUDPct = p;
+            hudPct && (hudPct.textContent = String(p).padStart(3, "0") + "%");
+            progFill && (progFill.style.width = `${p}%`);
+          }
+
+          if (si !== lastHUDScene) {
+            lastHUDScene = si;
+            sceneName && (sceneName.textContent = NAMES[si]);
+            dots.forEach((d, i) => d.classList.toggle("active", i === si));
+
+            // Apply active scene class to HTML element for dynamic contrast adjustment
+            const classes = ["scene-dawn", "scene-midday", "scene-dusk", "scene-night", "scene-storm"];
+            classes.forEach((c, idx) => {
+              document.documentElement.classList.toggle(c, idx === si);
+            });
+          }
+        };
+
+        // Anchor links smooth scroll support
+        document.querySelectorAll('a[href^="#"]').forEach((a) => {
+          a.addEventListener("click", (e) => {
+            const id = a.getAttribute("href");
+            if (id === '#') return;
+            const target = document.querySelector(id);
+            if (!target) return;
+            e.preventDefault();
+            velocity = 0;
+            const y = Math.max(0, Math.min(target.offsetTop, maxScroll));
+            window.scrollTo({
+              top: y,
+              behavior: 'smooth'
+            });
+          });
+        });
+
+        const t0 = performance.now();
+        let lastNow = t0;
+        let fpsAccum = 0;
+        let fpsFrames = 0;
+        let lowFpsTime = 0;
+        let highFpsTime = 0;
+
+        const maybeAdjustQuality = (dt) => {
+          fpsAccum += dt;
+          fpsFrames++;
+
+          if (fpsAccum < 0.75) return;
+
+          const avgDt = fpsAccum / fpsFrames;
+          const fps = 1 / avgDt;
+
+          fpsAccum = 0;
+          fpsFrames = 0;
+
+          if (fps < 50) {
+            lowFpsTime += 0.75;
+            highFpsTime = 0;
+          } else if (fps > 57) {
+            highFpsTime += 0.75;
+            lowFpsTime = 0;
+          } else {
+            lowFpsTime = 0;
+            highFpsTime = 0;
+          }
+
+          if (lowFpsTime >= 1.5 && qualityScale > MIN_QUALITY) {
+            qualityScale = Math.max(MIN_QUALITY, +(qualityScale - 0.06).toFixed(2));
+            lowFpsTime = 0;
+            requestResize();
+          }
+
+          if (highFpsTime >= 3.0 && qualityScale < MAX_QUALITY) {
+            qualityScale = Math.min(MAX_QUALITY, +(qualityScale + 0.04).toFixed(2));
+            highFpsTime = 0;
+            requestResize();
+          }
+        };
+
+        const frame = (now) => {
+          requestAnimationFrame(frame);
+
+          const dt = Math.min((now - lastNow) / 1000, 0.05);
+          lastNow = now;
+
+          maybeAdjustQuality(dt);
+
+          smooth += (tgt - smooth) * (1 - Math.exp(-dt * 8));
+
+          const raw = smooth * (N - 1);
+          const si = Math.min(Math.floor(raw), N - 2);
+          const bl = raw - si;
+
+          updateHUD(smooth);
+
+          gl.uniform1f(uTi, (now - t0) / 1000);
+          gl.uniform1f(uScroll, smooth);
+          gl.uniform1f(uScene, si);
+          gl.uniform1f(uBlend, bl);
+
+          gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        };
+
+        requestAnimationFrame(frame);
+      }
+    }
+  }
+}
+</script>
+
+
+
 </body>
 </html>

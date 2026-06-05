@@ -5,69 +5,282 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nik · Разработка — сайты, лендинги, Telegram-боты</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <meta name="description" content="Веб-разработка от Nik: сайты для блогеров, лендинги, Telegram-боты на Python.">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link
-        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&family=Archivo+Black&display=swap"
-        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700;900&family=Archivo+Black&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = { theme: { extend: { fontFamily: { mono: ['"JetBrains Mono"', 'monospace'], poster: ['"Archivo Black"', 'sans-serif'], sans: ['"Space Grotesk"', 'sans-serif'] }, colors: { void: '#050810', neon: '#00FFB2', glow: '#00E5FF', amber: '#F5B82E', rec: '#FF3B30', bone: '#EDE6D6', purple: '#8B5CF6' } } } }
+        tailwind.config = { 
+            theme: { 
+                extend: { 
+                    fontFamily: { 
+                        mono: ['"JetBrains Mono"', 'monospace'], 
+                        poster: ['"Archivo Black"', 'sans-serif'], 
+                        sans: ['"Space Grotesk"', 'sans-serif'] 
+                    }, 
+                    colors: { 
+                        void: '#050810', 
+                        neon: '#00FFB2', 
+                        glow: '#00E5FF', 
+                        amber: '#F5B82E', 
+                        rec: '#FF3B30', 
+                        bone: '#EDE6D6', 
+                        purple: '#8B5CF6' 
+                    } 
+                } 
+            } 
+        }
     </script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+    
     <style>
-        html {
-            scroll-behavior: smooth
+        :root {
+            --bg: #050810;
+            --card-bg: rgba(5, 8, 16, 0.88);
+            --text: #EDE6D6;
+            --accent: #00FFB2;
+            --accent-2: #00E5FF;
+            --border: rgba(0, 255, 178, 0.15);
         }
 
         body {
-            background: #050810;
-            color: #00FFB2;
+            background: var(--bg);
+            color: var(--text);
             font-family: 'JetBrains Mono', monospace;
-            overflow-x: hidden
+            overflow-x: hidden;
+            width: 100vw;
+            margin: 0;
+            padding: 0;
         }
 
-        ::selection {
-            background: #00FFB2;
-            color: #050810
-        }
-
-        /* CRT scanlines */
-        .crt::after {
-            content: '';
+        /* Scanlines and Vignette overlay */
+        .scanlines {
             position: fixed;
             inset: 0;
-            background: repeating-linear-gradient(to bottom, rgba(0, 255, 178, 0.03) 0px, rgba(0, 255, 178, 0.03) 1px, transparent 1px, transparent 3px);
+            background: linear-gradient(to bottom,
+                    rgba(255, 255, 255, 0),
+                    rgba(255, 255, 255, 0) 50%,
+                    rgba(0, 0, 0, 0.15) 50%,
+                    rgba(0, 0, 0, 0.15));
+            background-size: 100% 4px;
             pointer-events: none;
-            z-index: 9989
+            z-index: 90;
         }
 
-        /* Grid bg */
+        .vignette {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle, transparent 35%, #020306 120%);
+            z-index: 91;
+            pointer-events: none;
+        }
+
+        /* 3D Viewport */
+        .viewport {
+            position: fixed;
+            inset: 0;
+            perspective: 1100px;
+            overflow: hidden;
+            z-index: 10;
+            pointer-events: none;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .world {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform-style: preserve-3d;
+            will-change: transform;
+            pointer-events: none;
+        }
+
+        .item {
+            position: absolute;
+            left: 0;
+            top: 0;
+            backface-visibility: hidden;
+            transform-origin: center center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        /* 3D Card Base styling - ENLARGED to 480x580px */
+        .card-3d {
+            width: 480px;
+            height: 580px;
+            background: var(--card-bg);
+            border: 2px solid var(--border);
+            position: relative;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            transform: translate(-50%, -50%);
+            border-radius: 12px;
+            pointer-events: auto; /* Allow interactions */
+            transition: border-color 0.4s, box-shadow 0.4s, background 0.4s, transform 0.4s;
+            overflow: hidden;
+        }
+
+        /* Neon glows based on card ID */
+        .card-3d[data-card-id="01"] {
+            box-shadow: 0 0 35px rgba(0, 229, 255, 0.12), inset 0 0 15px rgba(0, 229, 255, 0.03);
+            border-color: rgba(0, 229, 255, 0.25);
+        }
+        .card-3d[data-card-id="01"]:hover {
+            box-shadow: 0 0 65px rgba(0, 229, 255, 0.45), inset 0 0 25px rgba(0, 229, 255, 0.08);
+            border-color: #00E5FF;
+        }
+
+        .card-3d[data-card-id="02"] {
+            box-shadow: 0 0 35px rgba(0, 255, 178, 0.12), inset 0 0 15px rgba(0, 255, 178, 0.03);
+            border-color: rgba(0, 255, 178, 0.25);
+        }
+        .card-3d[data-card-id="02"]:hover {
+            box-shadow: 0 0 65px rgba(0, 255, 178, 0.45), inset 0 0 25px rgba(0, 255, 178, 0.08);
+            border-color: #00FFB2;
+        }
+
+        .card-3d[data-card-id="03"] {
+            box-shadow: 0 0 35px rgba(245, 184, 46, 0.12), inset 0 0 15px rgba(245, 184, 46, 0.03);
+            border-color: rgba(245, 184, 46, 0.25);
+        }
+        .card-3d[data-card-id="03"]:hover {
+            box-shadow: 0 0 65px rgba(245, 184, 46, 0.45), inset 0 0 25px rgba(245, 184, 46, 0.08);
+            border-color: #F5B82E;
+        }
+
+        /* Top neon border strip */
+        .card-glow-strip {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0.6;
+        }
+        .card-3d[data-card-id="01"] .card-glow-strip {
+            background: linear-gradient(90deg, transparent, #00E5FF, transparent);
+        }
+        .card-3d[data-card-id="03"] .card-glow-strip {
+            background: linear-gradient(90deg, transparent, #F5B82E, transparent);
+        }
+
+        /* Corner accents */
+        .card-3d::before,
+        .card-3d::after {
+            content: '';
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            border: 2px solid transparent;
+            transition: 0.4s;
+            z-index: 5;
+        }
+
+        .card-3d::before {
+            top: -1px;
+            left: -1px;
+            border-top-color: var(--text);
+            border-left-color: var(--text);
+        }
+
+        .card-3d::after {
+            bottom: -1px;
+            right: -1px;
+            border-bottom-color: var(--text);
+            border-right-color: var(--text);
+        }
+
+        .card-3d:hover::before,
+        .card-3d:hover::after {
+            width: 100%;
+            height: 100%;
+            border-color: var(--accent);
+        }
+        .card-3d[data-card-id="01"]:hover::before,
+        .card-3d[data-card-id="01"]:hover::after {
+            border-color: #00E5FF;
+        }
+        .card-3d[data-card-id="03"]:hover::before,
+        .card-3d[data-card-id="03"]:hover::after {
+            border-color: #F5B82E;
+        }
+
+        /* Big 3D Title */
+        .big-text-3d {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14vw;
+            font-weight: 900;
+            color: transparent;
+            -webkit-text-stroke: 1.5px rgba(0, 255, 178, 0.2);
+            text-transform: uppercase;
+            white-space: nowrap;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            letter-spacing: -0.3rem;
+            mix-blend-mode: screen;
+        }
+
+        /* Star particle */
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--accent-2);
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 4px var(--accent-2);
+        }
+
+        /* HUD Overlay */
+        .hud-overlay {
+            position: fixed;
+            inset: 1.5rem;
+            z-index: 40;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-size: 10px;
+            color: rgba(0, 255, 178, 0.5);
+            text-transform: uppercase;
+            font-family: monospace;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Grid Background */
         .gridbg::before {
             content: '';
-            position: fixed;
+            position: absolute;
             inset: 0;
             background: linear-gradient(rgba(0, 255, 178, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 178, 0.04) 1px, transparent 1px);
             background-size: 40px 40px;
             pointer-events: none;
-            z-index: 0
+            z-index: 0;
         }
 
-        /* Glow text */
+        /* Neon Glow Utility */
         .glow-text {
-            text-shadow: 0 0 10px rgba(0, 255, 178, 0.8), 0 0 40px rgba(0, 255, 178, 0.3)
+            text-shadow: 0 0 10px rgba(0, 255, 178, 0.8), 0 0 40px rgba(0, 255, 178, 0.3);
         }
 
         .glow-rec {
-            text-shadow: 0 0 10px rgba(255, 59, 48, 0.8), 0 0 40px rgba(255, 59, 48, 0.3)
+            text-shadow: 0 0 10px rgba(255, 59, 48, 0.8), 0 0 40px rgba(255, 59, 48, 0.3);
         }
 
-        /* Code rain */
+        /* Code Rain */
         .coderain {
-            position: fixed;
+            position: absolute;
             inset: 0;
             overflow: hidden;
             pointer-events: none;
-            z-index: 1
+            z-index: 1;
         }
 
         .coderain span {
@@ -75,25 +288,25 @@
             top: -20%;
             font-size: 14px;
             color: #00FFB2;
-            opacity: 0.4;
+            opacity: 0.25;
             writing-mode: vertical-rl;
             letter-spacing: 3px;
             animation: rain linear infinite;
-            text-shadow: 0 0 6px rgba(0, 255, 178, 0.6)
+            text-shadow: 0 0 6px rgba(0, 255, 178, 0.5);
         }
 
         @keyframes rain {
             to {
-                top: 110%
+                top: 110%;
             }
         }
 
         /* Terminal card */
         .terminal {
-            background: rgba(5, 8, 16, 0.9);
+            background: rgba(5, 8, 16, 0.95);
             border: 1px solid rgba(0, 255, 178, 0.3);
             border-radius: 8px;
-            box-shadow: 0 0 30px rgba(0, 255, 178, 0.1), inset 0 0 20px rgba(0, 255, 178, 0.02)
+            box-shadow: 0 0 35px rgba(0, 255, 178, 0.1), inset 0 0 20px rgba(0, 255, 178, 0.02)
         }
 
         .terminal-bar {
@@ -103,61 +316,45 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            border-radius: 8px 8px 0 0
+            border-radius: 8px 8px 0 0;
         }
 
         .terminal-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
         }
 
         /* Typing cursor */
         .cursor-blink::after {
             content: '_';
-            animation: blink 1s step-end infinite
+            animation: blink 1s step-end infinite;
         }
 
         @keyframes blink {
-
-            0%,
-            100% {
-                opacity: 1
-            }
-
-            50% {
-                opacity: 0
-            }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
 
-        /* Neon border card */
+        /* Neon card */
         .neon-card {
             border: 1px solid rgba(0, 255, 178, 0.25);
             background: rgba(5, 8, 16, 0.8);
-            transition: border-color .3s, box-shadow .3s, transform .3s
+            transition: border-color .3s, box-shadow .3s, transform .3s;
         }
 
         .neon-card:hover {
             border-color: #00FFB2;
-            box-shadow: 0 0 20px rgba(0, 255, 178, 0.3);
-            transform: translateY(-4px)
+            box-shadow: 0 0 25px rgba(0, 255, 178, 0.3);
+            transform: translateY(-4px);
         }
 
-        /* ASCII Art pre */
-        .ascii {
-            font-size: 8px;
-            line-height: 1.1;
-            letter-spacing: 1px;
-            color: #00FFB2;
-            opacity: .6
-        }
-
-        /* Progress bars */
+        /* Skill bars */
         .skill-bar {
             height: 6px;
             background: rgba(0, 255, 178, 0.15);
             border-radius: 3px;
-            overflow: hidden
+            overflow: hidden;
         }
 
         .skill-fill {
@@ -165,349 +362,1290 @@
             background: #00FFB2;
             border-radius: 3px;
             box-shadow: 0 0 6px rgba(0, 255, 178, 0.6);
-            transition: width 1.5s cubic-bezier(.2, .7, .2, 1)
+            width: 0%;
+            transition: width 1.5s cubic-bezier(.2, .7, .2, 1);
         }
 
-        /* Marquee */
+        /* Marquee speed */
         .marquee {
             display: flex;
             overflow: hidden;
-            gap: 3rem
+            gap: 3rem;
         }
 
         .marquee-track {
             display: flex;
             gap: 3rem;
             flex-shrink: 0;
-            animation: marquee 20s linear infinite
+            animation: marquee 20s linear infinite;
         }
 
         @keyframes marquee {
-            from {
-                transform: translateX(0)
-            }
-
-            to {
-                transform: translateX(-100%)
-            }
+            from { transform: translateX(0); }
+            to { transform: translateX(-100%); }
         }
 
-        /* Reveal */
+        /* Reveal animations */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
-            transition: all .8s cubic-bezier(.2, .7, .2, 1)
+            transition: all .8s cubic-bezier(.2, .7, .2, 1);
         }
 
         .reveal.visible {
             opacity: 1;
-            transform: translateY(0)
+            transform: translateY(0);
         }
 
-        /* rec dot */
-        .rec-dot {
-            width: 8px;
-            height: 8px;
-            background: #FF3B30;
-            border-radius: 50%;
-            animation: pulse 1s infinite
+        @keyframes msgFade {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 1;
-                box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.6)
-            }
-
-            50% {
-                opacity: .5;
-                box-shadow: 0 0 0 6px rgba(255, 59, 48, 0)
-            }
+        /* Custom Scroll Spacer */
+        #scroll-spacer {
+            height: 2200px;
+            width: 100%;
+            pointer-events: none;
         }
 
-        @media(prefers-reduced-motion:reduce) {
-
-            *,
-            *::before,
-            *::after {
-                animation: none !important;
-                transition: none !important
-            }
+        /* Speedometer transitions */
+        .speed-gauge {
+            stroke-dasharray: 220;
+            stroke-dashoffset: 220;
+            transition: stroke-dashoffset 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        .speed-needle {
+            transform-origin: 50px 50px;
+            transform: rotate(-120deg);
+            transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
     </style>
 </head>
 
-<body class="crt gridbg">
+<body class="bg-void">
 
-    <!-- Code Rain -->
-    <div class="coderain" id="coderain"></div>
+    <!-- OVERLAYS -->
+    <div class="scanlines"></div>
+    <div class="vignette"></div>
 
-    <!-- NAV -->
-    <header
-        class="fixed top-0 left-0 right-0 z-50 px-4 md:px-8 py-3 flex items-center justify-between text-xs uppercase tracking-widest backdrop-blur-md bg-void/80 border-b border-neon/10">
-        <a href="index.html" class="flex items-center gap-2"><span class="rec-dot"></span><span class="text-bone/80">NIK
-                · 272K</span></a>
-        <nav class="hidden md:flex gap-2">
-            <a href="index.html" class="px-3 py-1 text-bone/60 hover:text-neon">HUB</a>
-            <a href="montage.html" class="px-3 py-1 text-bone/60 hover:text-neon">МОНТАЖ</a>
-            <a href="design.html" class="px-3 py-1 text-bone/60 hover:text-neon">ДИЗАЙН</a>
-            <a href="dev.html" class="px-3 py-1 bg-neon text-void">КОД</a>
-        </nav>
-        <div class="text-neon/60">03 / 03</div>
-    </header>
-
-    <!-- HERO -->
-    <section class="relative min-h-screen flex items-center px-4 md:px-8 pt-24 pb-16 z-10">
-        <div class="max-w-6xl mx-auto w-full">
-
-            <div class="text-xs uppercase tracking-[0.3em] text-neon/50 mb-6">$ cat ./about.md</div>
-
-            <h1 class="text-[14vw] md:text-[9vw] font-poster leading-[0.85] text-bone glow-text">
-                &lt;WEB<br><span class="text-neon">DEV</span> /&gt;
-            </h1>
-
-            <div class="mt-10 terminal max-w-2xl">
-                <div class="terminal-bar">
-                    <span class="terminal-dot bg-rec"></span>
-                    <span class="terminal-dot bg-amber"></span>
-                    <span class="terminal-dot bg-neon"></span>
-                    <span class="text-neon/60 text-xs ml-2">artem@kadr:~/projects</span>
-                </div>
-                <div class="p-6 space-y-2 text-sm">
-                    <div><span class="text-neon/60">$</span> <span class="text-bone">whoami</span></div>
-                    <div class="text-neon">YouTube-блогер 272K · Веб-разработчик</div>
-                    <div class="mt-3"><span class="text-neon/60">$</span> <span class="text-bone">cat stack.json</span>
-                    </div>
-                    <div class="text-amber">{"html": true, "tailwind": true, "python": true, "telegram_bots": true}
-                    </div>
-                    <div class="mt-3"><span class="text-neon/60">$</span> <span class="text-bone">echo $MOTTO</span>
-                    </div>
-                    <div class="text-rec">"Сайты для блогеров и YouTube-каналов под ключ."</div>
-                    <div class="mt-3"><span class="text-neon/60">$</span> <span class="cursor-blink text-bone"></span>
-                    </div>
-                </div>
+    <!-- HUD OVERLAY (Only visible during 3D Tunnel) -->
+    <div class="hud-overlay" id="hud-overlay">
+        <div class="flex justify-between items-center">
+            <span>SYS.READY // 3D_SPACE</span>
+            <div class="flex-1 h-[1px] bg-neon/20 mx-4 relative">
+                <div class="absolute right-0 top-[-2px] w-1 h-1 bg-neon shadow-[0_0_8px_#00FFB2]"></div>
             </div>
-
-            <div class="mt-12 flex flex-wrap gap-4">
-                <a href="#projects"
-                    class="px-8 py-4 bg-neon text-void font-bold uppercase text-sm tracking-widest hover:bg-bone transition">Проекты
-                    →</a>
-                <a href="#contact"
-                    class="px-8 py-4 border border-neon/40 text-neon uppercase text-sm tracking-widest hover:border-neon hover:bg-neon/10 transition">Написать</a>
-            </div>
+            <span>FPS: <strong id="fps" class="text-glow">60</strong></span>
         </div>
-    </section>
-
-    <!-- MARQUEE -->
-    <div class="border-y border-neon/10 py-4 overflow-hidden z-10 relative">
-        <div class="marquee">
-            <div class="marquee-track font-poster text-4xl md:text-5xl whitespace-nowrap text-bone/50">
-                <span>REACT</span><span class="text-neon">·</span>
-                <span>NEXT.JS</span><span class="text-rec">·</span>
-                <span>TAILWIND</span><span class="text-neon">·</span>
-                <span>TYPESCRIPT</span><span class="text-amber">·</span>
-                <span>NODE.JS</span><span class="text-neon">·</span>
-                <span>FIGMA→CODE</span><span class="text-rec">·</span>
-            </div>
-            <div class="marquee-track font-poster text-4xl md:text-5xl whitespace-nowrap text-bone/50"
-                aria-hidden="true">
-                <span>REACT</span><span class="text-neon">·</span>
-                <span>NEXT.JS</span><span class="text-rec">·</span>
-                <span>TAILWIND</span><span class="text-neon">·</span>
-                <span>TYPESCRIPT</span><span class="text-amber">·</span>
-                <span>NODE.JS</span><span class="text-neon">·</span>
-                <span>FIGMA→CODE</span><span class="text-rec">·</span>
-            </div>
+        <div class="absolute right-6 top-1/2 -translate-y-1/2 flex flex-col items-end gap-1 font-mono text-[9px] text-neon/40 select-none">
+            <div>SCROLL VELOCITY</div>
+            <div class="text-[12px] font-bold text-glow" id="vel-readout" style="color: var(--accent-2);">0.00</div>
+        </div>
+        <div class="flex justify-between items-center">
+            <span>DEPTH: <strong id="coord" class="text-glow">0.00</strong></span>
+            <div class="flex-1 h-[1px] bg-neon/20 mx-4"></div>
+            <span>VER 3.2.0 [CYBER]</span>
         </div>
     </div>
 
-    <!-- SKILLS -->
-    <section class="px-4 md:px-8 py-20 z-10 relative">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-xs uppercase tracking-[0.3em] text-neon/50 mb-3 reveal">$ cat skills.log</div>
-            <h2 class="font-poster text-5xl md:text-7xl text-bone glow-text mb-12 reveal">СТЕК</h2>
+    <!-- FIXED 3D VIEWPORT -->
+    <div class="viewport" id="viewport">
+        <div class="world" id="world"></div>
+    </div>
 
-            <div class="grid md:grid-cols-2 gap-6">
-                <div class="neon-card p-6 reveal">
-                    <div class="flex justify-between text-sm mb-2"><span class="text-bone">React / Next.js</span><span
-                            class="text-neon">95%</span></div>
-                    <div class="skill-bar">
-                        <div class="skill-fill" style="width:95%"></div>
+    <!-- SPACER TO ALLOW SCROLLING FOR 3D STAGE -->
+    <div id="scroll-spacer"></div>
+
+    <!-- MAIN FLAT SITE (Reveals after 2200px) -->
+    <div id="main-site" class="opacity-0 invisible transition-all duration-1000 relative z-20 w-full min-h-screen bg-void gridbg pb-16">
+        
+        <!-- Code Rain -->
+        <div class="coderain" id="coderain"></div>
+
+        <!-- NAV -->
+        <header class="fixed top-0 left-0 right-0 z-50 px-4 md:px-8 py-3 flex items-center justify-between text-xs uppercase tracking-widest backdrop-blur-md bg-void/80 border-b border-neon/10">
+            <a href="index.html" class="flex items-center gap-2">
+                <span class="rec-dot"></span>
+                <span class="text-bone/80">NIK · 272K</span>
+            </a>
+            <nav class="flex gap-2">
+                <a href="index.html" class="px-3 py-1 text-bone/60 hover:text-neon transition">HUB</a>
+                <a href="montage.html" class="px-3 py-1 text-bone/60 hover:text-neon transition">МОНТАЖ</a>
+                <a href="design.html" class="px-3 py-1 text-bone/60 hover:text-neon transition">ДИЗАЙН</a>
+                <a href="dev.html" class="px-3 py-1 bg-neon text-void font-bold shadow-[0_0_10px_rgba(0,255,178,0.3)]">КОД</a>
+            </nav>
+            <div class="text-neon/60">03 / 03</div>
+        </header>
+
+        <!-- HERO -->
+        <section class="relative min-h-screen flex items-center px-4 md:px-8 pt-24 pb-16 z-10">
+            <div class="max-w-6xl mx-auto w-full">
+                <div class="text-xs uppercase tracking-[0.3em] text-neon/50 mb-6 font-mono">$ cat ./about.md</div>
+
+                <h1 class="text-[12vw] md:text-[9vw] font-poster leading-[0.85] text-bone glow-text uppercase">
+                    &lt;WEB<br><span class="text-neon">DEV</span> /&gt;
+                </h1>
+
+                <div class="mt-10 terminal max-w-2xl relative">
+                    <div class="terminal-bar">
+                        <span class="terminal-dot bg-rec shadow-[0_0_8px_#FF3B30]"></span>
+                        <span class="terminal-dot bg-amber shadow-[0_0_8px_#F5B82E]"></span>
+                        <span class="terminal-dot bg-neon shadow-[0_0_8px_#00FFB2]"></span>
+                        <span class="text-neon/60 text-xs ml-2 font-mono">artem@kadr:~/projects</span>
+                    </div>
+                    <div class="p-6 space-y-3 text-sm font-mono leading-relaxed">
+                        <div><span class="text-neon/60">$</span> <span class="text-bone">whoami</span></div>
+                        <div class="text-neon">YouTube-блогер 272K · Веб-разработчик</div>
+                        <div class="mt-3"><span class="text-neon/60">$</span> <span class="text-bone">cat stack.json</span></div>
+                        <div class="text-amber">{"html": true, "tailwind": true, "python": true, "telegram_bots": true}</div>
+                        <div class="mt-3"><span class="text-neon/60">$</span> <span class="text-bone">echo $MOTTO</span></div>
+                        <div class="text-rec">"Сайты для блогеров и YouTube-каналов под ключ."</div>
+                        <div class="mt-3"><span class="text-neon/60">$</span> <span class="cursor-blink text-bone"></span></div>
                     </div>
                 </div>
-                <div class="neon-card p-6 reveal">
-                    <div class="flex justify-between text-sm mb-2"><span class="text-bone">TypeScript</span><span
-                            class="text-neon">90%</span></div>
-                    <div class="skill-bar">
-                        <div class="skill-fill" style="width:90%"></div>
-                    </div>
+
+                <div class="mt-12 flex flex-wrap gap-4">
+                    <a href="#cases" class="px-8 py-4 bg-neon text-void font-bold uppercase text-xs tracking-widest hover:bg-bone shadow-[0_0_15px_rgba(0,255,178,0.2)] hover:shadow-[0_0_20px_rgba(237,230,214,0.4)] transition duration-300">Примеры Кейсов →</a>
+                    <a href="#contact" class="px-8 py-4 border border-neon/40 text-neon font-bold uppercase text-xs tracking-widest hover:border-neon hover:bg-neon/10 transition duration-300">Написать</a>
                 </div>
-                <div class="neon-card p-6 reveal">
-                    <div class="flex justify-between text-sm mb-2"><span class="text-bone">Tailwind CSS</span><span
-                            class="text-neon">98%</span></div>
-                    <div class="skill-bar">
-                        <div class="skill-fill" style="width:98%"></div>
-                    </div>
+            </div>
+        </section>
+
+        <!-- MARQUEE -->
+        <div class="border-y border-neon/10 py-5 overflow-hidden z-10 relative bg-void/50 backdrop-blur-sm">
+            <div class="marquee">
+                <div class="marquee-track font-poster text-4xl md:text-5xl whitespace-nowrap text-bone/55">
+                    <span>REACT</span><span class="text-neon">·</span>
+                    <span>NEXT.JS</span><span class="text-rec">·</span>
+                    <span>TAILWIND</span><span class="text-neon">·</span>
+                    <span>TYPESCRIPT</span><span class="text-amber">·</span>
+                    <span>NODE.JS</span><span class="text-neon">·</span>
+                    <span>FIGMA→CODE</span><span class="text-rec">·</span>
                 </div>
-                <div class="neon-card p-6 reveal">
-                    <div class="flex justify-between text-sm mb-2"><span class="text-bone">Node.js / API</span><span
-                            class="text-neon">80%</span></div>
-                    <div class="skill-bar">
-                        <div class="skill-fill" style="width:80%"></div>
-                    </div>
-                </div>
-                <div class="neon-card p-6 reveal">
-                    <div class="flex justify-between text-sm mb-2"><span class="text-bone">Figma → Code</span><span
-                            class="text-amber">92%</span></div>
-                    <div class="skill-bar">
-                        <div class="skill-fill" style="width:92%;background:#F5B82E"></div>
-                    </div>
-                </div>
-                <div class="neon-card p-6 reveal">
-                    <div class="flex justify-between text-sm mb-2"><span class="text-bone">Git / CI-CD</span><span
-                            class="text-neon">85%</span></div>
-                    <div class="skill-bar">
-                        <div class="skill-fill" style="width:85%"></div>
-                    </div>
+                <div class="marquee-track font-poster text-4xl md:text-5xl whitespace-nowrap text-bone/55" aria-hidden="true">
+                    <span>REACT</span><span class="text-neon">·</span>
+                    <span>NEXT.JS</span><span class="text-rec">·</span>
+                    <span>TAILWIND</span><span class="text-neon">·</span>
+                    <span>TYPESCRIPT</span><span class="text-amber">·</span>
+                    <span>NODE.JS</span><span class="text-neon">·</span>
+                    <span>FIGMA→CODE</span><span class="text-rec">·</span>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- SERVICES -->
-    <section class="px-4 md:px-8 py-20 z-10 relative border-t border-neon/10">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-xs uppercase tracking-[0.3em] text-neon/50 mb-3 reveal">$ ls ./services/</div>
-            <h2 class="font-poster text-5xl md:text-7xl text-bone glow-text mb-12 reveal">ЧТО ПИШУ</h2>
+        <!-- NEW SECTION: KEY CASES & INTERACTIVE SHOWCASE -->
+        <section id="cases" class="px-4 md:px-8 py-24 z-10 relative">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-xs uppercase tracking-[0.3em] text-neon/50 mb-3 reveal font-mono">$ cat cases_review.log</div>
+                <h2 class="font-poster text-5xl md:text-7xl text-bone glow-text mb-12 reveal">ПРИМЕРЫ РЕШЕНИЙ</h2>
 
-            <div class="grid md:grid-cols-3 gap-4">
-                <div class="neon-card p-8 reveal">
-                    <div class="text-4xl mb-4 glow-text">&lt;/&gt;</div>
-                    <h3 class="text-bone text-xl font-bold mb-3">Лендинги</h3>
-                    <p class="text-neon/70 text-sm">Pixel-perfect из Figma. Анимации, адаптив, SEO.</p>
-                    <div class="mt-6 text-xs text-neon/50">от 13 000 ₽</div>
-                </div>
-                <div class="neon-card p-8 reveal">
-                    <div class="text-4xl mb-4 text-amber" style="text-shadow:0 0 10px rgba(245,184,46,0.5)">{ }</div>
-                    <h3 class="text-bone text-xl font-bold mb-3">Веб-приложения</h3>
-                    <p class="text-neon/70 text-sm">SPA, дашборды, админки. React + TypeScript.</p>
-                    <div class="mt-6 text-xs text-neon/50">от 10 000 ₽</div>
-                </div>
-                <div class="neon-card p-8 reveal">
-                    <div class="text-4xl mb-4 text-rec glow-rec">⚡</div>
-                    <h3 class="text-bone text-xl font-bold mb-3">Интеграции</h3>
-                    <p class="text-neon/70 text-sm">API, Telegram-боты, автоматизации, деплой.</p>
-                    <div class="mt-6 text-xs text-neon/50">от 2 000 ₽</div>
+                <div class="space-y-16">
+                    
+                    <!-- CASE 1: MULTI-THREADED PARSERS -->
+                    <div class="grid md:grid-cols-12 gap-8 items-center reveal">
+                        <div class="md:col-span-5 space-y-4">
+                            <div class="text-[10px] text-amber font-mono">// CASE_01 // PYTHON PARSERS</div>
+                            <h3 class="text-bone text-3xl font-bold font-sans tracking-tight">Парсинг видео и каналов</h3>
+                            <p class="text-neon/70 text-sm leading-relaxed">
+                                Разрабатываю высокопроизводительные многопоточные парсеры контента с автоматическим обходом Cloudflare и лимитов платформ.
+                            </p>
+                            <ul class="text-xs space-y-2 text-slate-400 font-mono">
+                                <li class="flex items-center gap-2">
+                                    <span class="text-neon">✓</span> Сбор медиафайлов без водяных знаков (Shorts, Reels, TikTok)
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span class="text-neon">✓</span> Мониторинг новых постов в Telegram-каналах 24/7
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span class="text-neon">✓</span> Автоматический экспорт собранных данных в Google Таблицы/SQL
+                                </li>
+                            </ul>
+                            <button id="btn-run-parser" class="px-6 py-3 bg-void border border-neon/40 text-neon rounded text-xs font-bold font-mono tracking-wider hover:bg-neon/15 hover:border-neon transition active:scale-95" onclick="runChannelParser()">
+                                ЗАПУСТИТЬ ПАРСИНГ КАНАЛА
+                            </button>
+                        </div>
+                        <div class="md:col-span-7">
+                            <div class="terminal w-full h-[260px] flex flex-col">
+                                <div class="terminal-bar">
+                                    <span class="terminal-dot bg-rec"></span>
+                                    <span class="terminal-dot bg-amber"></span>
+                                    <span class="terminal-dot bg-neon"></span>
+                                    <span class="text-neon/50 text-[10px] ml-2 font-mono">console@parser-node:~</span>
+                                </div>
+                                <div id="parser-console-logs" class="flex-1 p-4 overflow-y-auto font-mono text-[10px] text-slate-400 space-y-1 bg-black/50 select-none">
+                                    <div class="text-slate-500">// Терминал готов. Нажми кнопку слева для запуска имитации парсера.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CASE 2: BUSINESS AUTOMATION & PostgreSQL CRM -->
+                    <div class="grid md:grid-cols-12 gap-8 items-center reveal pt-12 border-t border-neon/10">
+                        <div class="md:col-span-5 md:order-2 space-y-4">
+                            <div class="text-[10px] text-glow font-mono" style="color:#00E5FF">// CASE_02 // SYSTEM INTEGRATION</div>
+                            <h3 class="text-bone text-3xl font-bold font-sans tracking-tight">Автоматизация & Базы Данных</h3>
+                            <p class="text-neon/70 text-sm leading-relaxed">
+                                Связываю веб-интерфейсы, Telegram-ботов и распределенные БД (PostgreSQL / Redis). Полная автоматизация воронки продаж и учета.
+                            </p>
+                            <ul class="text-xs space-y-2 text-slate-400 font-mono">
+                                <li class="flex items-center gap-2">
+                                    <span class="text-glow" style="color:#00E5FF">✓</span> Интеграция эквайринга (ЮKassa, CryptoPay, Stripe)
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span class="text-glow" style="color:#00E5FF">✓</span> Автоматическая рассылка триггерных уведомлений
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span class="text-glow" style="color:#00E5FF">✓</span> Построение CRM-дашбордов реального времени
+                                </li>
+                            </ul>
+                            <button class="px-6 py-3 bg-void border border-glow/40 text-glow rounded text-xs font-bold font-mono tracking-wider hover:bg-glow/15 hover:border-glow transition active:scale-95" style="color:#00E5FF; border-color:rgba(0,229,255,0.4)" onclick="addCRMOrder()">
+                                ДОБАВИТЬ ЗАКАЗ В БД
+                            </button>
+                        </div>
+                        <div class="md:col-span-7 md:order-1">
+                            <div class="terminal w-full h-[260px] flex flex-col">
+                                <div class="terminal-bar flex justify-between items-center pr-4">
+                                    <div class="flex items-center gap-2">
+                                        <span class="terminal-dot bg-rec"></span>
+                                        <span class="terminal-dot bg-amber"></span>
+                                        <span class="terminal-dot bg-neon"></span>
+                                        <span class="text-glow text-[10px] ml-2 font-mono" style="color:#00E5FF">database: postgresql_crm</span>
+                                    </div>
+                                    <div class="text-[9px] text-gray-500 font-mono">Total profit: <strong class="text-neon" id="crm-profit-val">25 000 ₽</strong></div>
+                                </div>
+                                <div class="flex-1 p-2 overflow-auto bg-black/30 select-none">
+                                    <table class="w-full text-left border-collapse text-[10px] font-mono">
+                                        <thead>
+                                            <tr class="border-b border-slate-800 text-slate-500">
+                                                <th class="pb-2 px-3">ORDER_ID</th>
+                                                <th class="pb-2 px-3">CLIENT</th>
+                                                <th class="pb-2 px-3">SERVICE</th>
+                                                <th class="pb-2 px-3">AMOUNT</th>
+                                                <th class="pb-2 px-3">STATUS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="crm-table-body" class="divide-y divide-slate-900/40">
+                                            <tr class="border-b border-slate-900 text-slate-300">
+                                                <td class="py-2 px-3">#4003</td>
+                                                <td class="py-2 px-3 text-white font-bold">Никита</td>
+                                                <td class="py-2 px-3">Автоматизация CRM</td>
+                                                <td class="py-2 px-3 text-neon">10 000 ₽</td>
+                                                <td class="py-2 px-3"><span class="px-1.5 py-0.5 rounded bg-neon/10 text-neon font-bold">ОПЛАЧЕНО</span></td>
+                                            </tr>
+                                            <tr class="border-b border-slate-900 text-slate-300">
+                                                <td class="py-2 px-3">#4002</td>
+                                                <td class="py-2 px-3 text-white font-bold">Антон</td>
+                                                <td class="py-2 px-3">TG Бот + ИИ</td>
+                                                <td class="py-2 px-3 text-neon">12 000 ₽</td>
+                                                <td class="py-2 px-3"><span class="px-1.5 py-0.5 rounded bg-neon/10 text-neon font-bold">ОПЛАЧЕНО</span></td>
+                                            </tr>
+                                            <tr class="border-b border-slate-900 text-slate-300">
+                                                <td class="py-2 px-3">#4001</td>
+                                                <td class="py-2 px-3 text-white font-bold">Алексей</td>
+                                                <td class="py-2 px-3">Лендинг VPN</td>
+                                                <td class="py-2 px-3 text-neon">3 000 ₽</td>
+                                                <td class="py-2 px-3"><span class="px-1.5 py-0.5 rounded bg-neon/10 text-neon font-bold">ОПЛАЧЕНО</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CASE 3: CYBER VPN LANDING PROTOTYPE -->
+                    <div class="grid md:grid-cols-12 gap-8 items-center reveal pt-12 border-t border-neon/10">
+                        <div class="md:col-span-5 space-y-4">
+                            <div class="text-[10px] text-purple font-mono">// CASE_03 // FRONTEND EXTRA</div>
+                            <h3 class="text-bone text-3xl font-bold font-sans tracking-tight">VPN Лендинг (CyberVPN)</h3>
+                            <p class="text-neon/70 text-sm leading-relaxed">
+                                Разработка премиальных посадочных страниц (Landing Pages) для SaaS-продуктов. Живой пример интерактивного виджета VPN со спидометром.
+                            </p>
+                            <ul class="text-xs space-y-2 text-slate-400 font-mono">
+                                <li class="flex items-center gap-2">
+                                    <span class="text-purple" style="color:#8B5CF6">✓</span> Плавные SVG-анимации и WebGL компоненты
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span class="text-purple" style="color:#8B5CF6">✓</span> Реактивный отклик интерфейса на действия пользователя
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="md:col-span-7">
+                            <!-- Live interactive VPN mockup -->
+                            <div class="terminal w-full h-[320px] flex flex-col p-4 relative overflow-hidden" style="background:#0b0f19; border-color:rgba(139, 92, 246, 0.3)">
+                                <div class="flex justify-between items-center border-b border-slate-800 pb-3 mb-4">
+                                    <div class="text-[11px] font-bold font-sans tracking-[0.2em]" style="color:#8B5CF6">CYBER_VPN // CLIENT</div>
+                                    <div class="flex items-center gap-2 text-[9px] font-mono">
+                                        <span class="w-2 h-2 rounded-full bg-gray-600" id="vpn-status-dot"></span>
+                                        <span id="vpn-status-text" class="text-gray-500 font-bold">DISCONNECTED</span>
+                                    </div>
+                                </div>
+
+                                <div class="flex-1 grid grid-cols-2 gap-4 items-center">
+                                    <!-- Speedometer SVG -->
+                                    <div class="flex flex-col items-center relative">
+                                        <svg class="w-32 h-32" viewBox="0 0 100 100">
+                                            <!-- Background track -->
+                                            <path d="M 15,82 A 40,40 0 1,1 85,82" fill="none" stroke="#1e293b" stroke-width="6" stroke-linecap="round" />
+                                            <!-- Active gauge -->
+                                            <path class="speed-gauge" id="vpn-gauge" d="M 15,82 A 40,40 0 1,1 85,82" fill="none" stroke="#8B5CF6" stroke-width="6" stroke-linecap="round" style="stroke-dasharray: 220; stroke-dashoffset: 220;" />
+                                            <!-- Needle -->
+                                            <line class="speed-needle" id="vpn-needle" x1="50" y1="50" x2="50" y2="15" stroke="#EDE6D6" stroke-width="3" stroke-linecap="round" />
+                                            <circle cx="50" cy="50" r="5" fill="#8B5CF6" />
+                                        </svg>
+                                        <div class="absolute bottom-6 flex flex-col items-center">
+                                            <span class="text-[14px] font-bold text-white font-mono" id="vpn-speed-text">0 Mbps</span>
+                                            <span class="text-[7px] text-slate-500 font-mono">CURRENT SPEED</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Server location select -->
+                                    <div class="flex flex-col gap-3 font-mono">
+                                        <div class="text-[8px] text-slate-500">// SELECT NODE</div>
+                                        <div class="flex flex-col gap-2">
+                                            <button class="vpn-srv-btn py-1.5 px-3 border border-neon bg-neon text-void text-[8px] font-bold rounded text-left transition flex justify-between items-center" onclick="selectVPNServer('DE', this)">
+                                                <span>🇩🇪 GERMANY (Frankfurt)</span>
+                                                <span class="opacity-75">14ms</span>
+                                            </button>
+                                            <button class="vpn-srv-btn py-1.5 px-3 border border-neon/30 bg-void text-neon text-[8px] font-bold rounded text-left transition flex justify-between items-center" onclick="selectVPNServer('US', this)">
+                                                <span>🇺🇸 USA (New York)</span>
+                                                <span class="opacity-75">78ms</span>
+                                            </button>
+                                            <button class="vpn-srv-btn py-1.5 px-3 border border-neon/30 bg-void text-neon text-[8px] font-bold rounded text-left transition flex justify-between items-center" onclick="selectVPNServer('JP', this)">
+                                                <span>🇯🇵 JAPAN (Tokyo)</span>
+                                                <span class="opacity-75">145ms</span>
+                                            </button>
+                                        </div>
+                                        
+                                        <div class="text-[8px] text-slate-500 mt-2 flex justify-between">
+                                            <span>SELECTED: <strong class="text-white" id="vpn-srv-val">Germany (Frankfurt)</strong></span>
+                                            <span>PING: <strong class="text-neon" id="vpn-ping-val">14 ms</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4">
+                                    <button class="w-full py-3 bg-neon text-void font-bold rounded text-[9px] uppercase tracking-wider transition duration-300 hover:bg-white shadow-[0_0_15px_rgba(0,255,178,0.2)]" id="btn-vpn-connect" onclick="connectVPN(this)">
+                                        CONNECT VPN
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- PROJECTS -->
-    <section id="projects" class="px-4 md:px-8 py-20 z-10 relative border-t border-neon/10">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-xs uppercase tracking-[0.3em] text-neon/50 mb-3 reveal">$ git log --oneline</div>
-            <h2 class="font-poster text-5xl md:text-7xl text-bone glow-text mb-12 reveal">ПРОЕКТЫ</h2>
+        <!-- SKILLS / STEK -->
+        <section class="px-4 md:px-8 py-20 z-10 relative border-t border-neon/10">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-xs uppercase tracking-[0.3em] text-neon/50 mb-3 reveal font-mono">$ cat skills.log</div>
+                <h2 class="font-poster text-5xl md:text-7xl text-bone glow-text mb-12 reveal">СТЕК</h2>
 
-            <div class="space-y-4">
-                <div class="neon-card p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-6 reveal">
-                    <div class="flex-1">
-                        <div class="text-xs text-neon/50 mb-2">commit a3f2d1c · 2025</div>
-                        <h3 class="text-bone text-2xl font-bold">FLUX OS — SaaS Dashboard</h3>
-                        <p class="text-neon/60 text-sm mt-2">Next.js 14 · App Router · shadcn/ui · Vercel</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="neon-card p-6 rounded-md reveal">
+                        <div class="flex justify-between text-sm mb-2 font-mono"><span class="text-bone">React / Next.js</span><span class="text-neon font-bold">95%</span></div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" data-width="95%"></div>
+                        </div>
                     </div>
-                    <div class="font-poster text-5xl text-neon/20">01</div>
-                </div>
-
-                <div class="neon-card p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-6 reveal">
-                    <div class="flex-1">
-                        <div class="text-xs text-neon/50 mb-2">commit 7b91e4a · 2025</div>
-                        <h3 class="text-bone text-2xl font-bold">SOLAR CO — корпоративный сайт</h3>
-                        <p class="text-neon/60 text-sm mt-2">React · Tailwind · Framer Motion · Sanity CMS</p>
+                    <div class="neon-card p-6 rounded-md reveal">
+                        <div class="flex justify-between text-sm mb-2 font-mono"><span class="text-bone">TypeScript</span><span class="text-neon font-bold">90%</span></div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" data-width="90%"></div>
+                        </div>
                     </div>
-                    <div class="font-poster text-5xl text-neon/20">02</div>
-                </div>
-
-                <div class="neon-card p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-6 reveal">
-                    <div class="flex-1">
-                        <div class="text-xs text-neon/50 mb-2">commit e5c8f30 · 2024</div>
-                        <h3 class="text-bone text-2xl font-bold">NEYRO — Telegram бот</h3>
-                        <p class="text-neon/60 text-sm mt-2">Python · Telethon · SQLite · auto-responder</p>
+                    <div class="neon-card p-6 rounded-md reveal">
+                        <div class="flex justify-between text-sm mb-2 font-mono"><span class="text-bone">Tailwind CSS</span><span class="text-neon font-bold">98%</span></div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" data-width="98%"></div>
+                        </div>
                     </div>
-                    <div class="font-poster text-5xl text-neon/20">03</div>
-                </div>
-
-                <div class="neon-card p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-6 reveal">
-                    <div class="flex-1">
-                        <div class="text-xs text-neon/50 mb-2">commit 1d4a7f2 · 2024</div>
-                        <h3 class="text-bone text-2xl font-bold">PARSER BOT — ПАРСЕР ВИДЕО</h3>
-                        <p class="text-neon/60 text-sm mt-2">Next.js · MDX · Tailwind · YouTube API</p>
+                    <div class="neon-card p-6 rounded-md reveal">
+                        <div class="flex justify-between text-sm mb-2 font-mono"><span class="text-bone">Node.js / API</span><span class="text-neon font-bold">80%</span></div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" data-width="80%"></div>
+                        </div>
                     </div>
-                    <div class="font-poster text-5xl text-neon/20">04</div>
+                    <div class="neon-card p-6 rounded-md reveal">
+                        <div class="flex justify-between text-sm mb-2 font-mono"><span class="text-bone">Figma → Code</span><span class="text-amber font-bold">92%</span></div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" data-width="92%" style="background:#F5B82E; box-shadow:0 0 6px rgba(245,184,46,0.6)"></div>
+                        </div>
+                    </div>
+                    <div class="neon-card p-6 rounded-md reveal">
+                        <div class="flex justify-between text-sm mb-2 font-mono"><span class="text-bone">Git / CI-CD</span><span class="text-neon font-bold">85%</span></div>
+                        <div class="skill-bar">
+                            <div class="skill-fill" data-width="85%"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- CONTACT -->
-    <section id="contact" class="px-4 md:px-8 py-24 z-10 relative border-t border-neon/10">
-        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12">
-            <div class="reveal">
-                <div class="text-xs uppercase tracking-[0.3em] text-neon/50 mb-4">$ echo "let's build"</div>
-                <h2 class="font-poster text-6xl md:text-8xl text-bone glow-text leading-none">
-                    ДАВАЙ<br>ЗАПУСТИМ<br><span class="text-neon">ПРОЕКТ.</span>
-                </h2>
-                <p class="text-neon/70 mt-6 max-w-md">Опиши задачу — отвечу за сутки с оценкой и планом.</p>
+        <!-- SERVICES -->
+        <section class="px-4 md:px-8 py-24 z-10 relative border-t border-neon/10 bg-void/30">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-xs uppercase tracking-[0.3em] text-neon/50 mb-3 reveal font-mono">$ ls ./services/</div>
+                <h2 class="font-poster text-5xl md:text-7xl text-bone glow-text mb-12 reveal">ЧТО ПИШУ</h2>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="neon-card p-8 rounded-md reveal flex flex-col justify-between h-[300px]">
+                        <div>
+                            <div class="text-4xl mb-4 glow-text font-bold">&lt;/&gt;</div>
+                            <h3 class="text-bone text-xl font-bold mb-3 font-sans">Лендинги</h3>
+                            <p class="text-neon/70 text-xs leading-relaxed font-mono">Pixel-perfect верстка из Figma. Анимации, адаптивный дизайн, высокая SEO-оптимизация.</p>
+                        </div>
+                        <div class="border-t border-neon/15 pt-4 text-xs text-neon/50 font-mono flex justify-between items-center">
+                            <span>ПРАЙС</span>
+                            <span class="text-neon font-bold">от 13 000 ₽</span>
+                        </div>
+                    </div>
+                    <div class="neon-card p-8 rounded-md reveal flex flex-col justify-between h-[300px]">
+                        <div>
+                            <div class="text-4xl mb-4 text-amber font-bold" style="text-shadow:0 0 10px rgba(245,184,46,0.5)">{ }</div>
+                            <h3 class="text-bone text-xl font-bold mb-3 font-sans">Веб-приложения</h3>
+                            <p class="text-neon/70 text-xs leading-relaxed font-mono">SPA, дашборды управления, админ-панели. Современный стек на React + TypeScript.</p>
+                        </div>
+                        <div class="border-t border-neon/15 pt-4 text-xs text-neon/50 font-mono flex justify-between items-center">
+                            <span>ПРАЙС</span>
+                            <span class="text-amber font-bold" style="text-shadow: 0 0 8px rgba(245,184,46,0.4)">от 10 000 ₽</span>
+                        </div>
+                    </div>
+                    <div class="neon-card p-8 rounded-md reveal flex flex-col justify-between h-[300px]">
+                        <div>
+                            <div class="text-4xl mb-4 text-rec glow-rec font-bold">⚡</div>
+                            <h3 class="text-bone text-xl font-bold mb-3 font-sans">Автоматизации</h3>
+                            <p class="text-neon/70 text-xs leading-relaxed font-mono">Интеграции с API, umные Telegram-боты, автоматические парсеры и автоматизация процессов.</p>
+                        </div>
+                        <div class="border-t border-neon/15 pt-4 text-xs text-neon/50 font-mono flex justify-between items-center">
+                            <span>ПРАЙС</span>
+                            <span class="text-neon font-bold">от 2 000 ₽</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="space-y-4 reveal">
-                <a href="mailto:typonik@vk.com" class="block neon-card p-6">
-                    <div class="text-xs text-neon/50 mb-1">// EMAIL</div>
-                    <div class="text-bone text-2xl font-bold">typonik@vk.com</div>
-                </a>
-                <a href="https://t.me/pythonvoin" class="block neon-card p-6">
-                    <div class="text-xs text-neon/50 mb-1">// TELEGRAM</div>
-                    <div class="text-bone text-2xl font-bold">@pythonvoin</div>
-                </a>
-                <a href="https://kwork.ru/user/nikitanext2002" target="_blank" class="block neon-card p-6">
-                    <div class="text-xs text-neon/50 mb-1">// KWORK</div>
-                    <div class="text-bone text-2xl font-bold">kwork.ru/user/nikitanext2002</div>
-                </a>
+        </section>
+
+        <!-- PROJECTS -->
+        <section id="projects" class="px-4 md:px-8 py-24 z-10 relative border-t border-neon/10">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-xs uppercase tracking-[0.3em] text-neon/50 mb-3 reveal font-mono">$ git log --oneline</div>
+                <h2 class="font-poster text-5xl md:text-7xl text-bone glow-text mb-12 reveal">ПРОЕКТЫ</h2>
+
+                <div class="space-y-4">
+                    <div class="neon-card p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-6 rounded-md reveal transition-all duration-300">
+                        <div class="flex-1 font-mono">
+                            <div class="text-xs text-neon/50 mb-2">// commit a3f2d1c · 2025</div>
+                            <h3 class="text-bone text-2xl font-bold font-sans">FLUX OS — SaaS Dashboard</h3>
+                            <p class="text-neon/60 text-xs mt-2">Next.js 14 · App Router · shadcn/ui · Vercel</p>
+                        </div>
+                        <div class="font-poster text-5xl text-neon/10 select-none">01</div>
+                    </div>
+
+                    <div class="neon-card p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-6 rounded-md reveal transition-all duration-300">
+                        <div class="flex-1 font-mono">
+                            <div class="text-xs text-neon/50 mb-2">// commit 7b91e4a · 2025</div>
+                            <h3 class="text-bone text-2xl font-bold font-sans">SOLAR CO — корпоративный сайт</h3>
+                            <p class="text-neon/60 text-xs mt-2">React · Tailwind · Framer Motion · Sanity CMS</p>
+                        </div>
+                        <div class="font-poster text-5xl text-neon/10 select-none">02</div>
+                    </div>
+
+                    <div class="neon-card p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-6 rounded-md reveal transition-all duration-300">
+                        <div class="flex-1 font-mono">
+                            <div class="text-xs text-neon/50 mb-2">// commit e5c8f30 · 2024</div>
+                            <h3 class="text-bone text-2xl font-bold font-sans">NEYRO — Telegram бот</h3>
+                            <p class="text-neon/60 text-xs mt-2">Python · Telethon · SQLite · auto-responder</p>
+                        </div>
+                        <div class="font-poster text-5xl text-neon/10 select-none">03</div>
+                    </div>
+
+                    <div class="neon-card p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-6 rounded-md reveal transition-all duration-300">
+                        <div class="flex-1 font-mono">
+                            <div class="text-xs text-neon/50 mb-2">// commit 1d4a7f2 · 2024</div>
+                            <h3 class="text-bone text-2xl font-bold font-sans">PARSER BOT — ПАРСЕР ВИДЕО</h3>
+                            <p class="text-neon/60 text-xs mt-2">Next.js · MDX · Tailwind · YouTube API</p>
+                        </div>
+                        <div class="font-poster text-5xl text-neon/10 select-none">04</div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- FOOTER -->
-    <footer
-        class="px-4 md:px-8 py-6 border-t border-neon/10 text-xs uppercase tracking-widest text-neon/40 flex justify-between z-10 relative">
-        <div>© 2026 NIK · DEV</div>
-        <div class="flex gap-6">
-            <a href="/admin/" class="hover:text-amber">ADMIN</a>
-            <span>process.exit(0)</span>
-        </div>
-    </footer>
+        <!-- CONTACT -->
+        <section id="contact" class="px-4 md:px-8 py-24 z-10 relative border-t border-neon/10 bg-void/10">
+            <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12">
+                <div class="reveal">
+                    <div class="text-xs uppercase tracking-[0.3em] text-neon/50 mb-4 font-mono">$ echo "let's build"</div>
+                    <h2 class="font-poster text-5xl md:text-7xl text-bone glow-text leading-none uppercase">
+                        ДАВАЙ<br>ЗАПУСТИМ<br><span class="text-neon">ПРОЕКТ.</span>
+                    </h2>
+                    <p class="text-neon/70 mt-6 max-w-md text-sm leading-relaxed">Опиши задачу в Telegram или на почту — я отвечу в течение суток с оценкой стоимости и планом разработки.</p>
+                </div>
+                <div class="space-y-4 reveal font-mono">
+                    <a href="https://t.me/pythonvoin" target="_blank" class="block neon-card p-6 rounded-md group">
+                        <div class="text-xs text-neon/50 mb-1 group-hover:text-neon transition">// TELEGRAM</div>
+                        <div class="text-bone text-xl md:text-2xl font-bold">@pythonvoin</div>
+                    </a>
+                    <a href="mailto:typonik@vk.com" class="block neon-card p-6 rounded-md group">
+                        <div class="text-xs text-neon/50 mb-1 group-hover:text-neon transition">// EMAIL</div>
+                        <div class="text-bone text-xl md:text-2xl font-bold">typonik@vk.com</div>
+                    </a>
+                    <a href="https://kwork.ru/user/nikitanext2002" target="_blank" class="block neon-card p-6 rounded-md group">
+                        <div class="text-xs text-neon/50 mb-1 group-hover:text-neon transition">// KWORK</div>
+                        <div class="text-bone text-xl md:text-2xl font-bold">kwork.ru/user/nikitanext2002</div>
+                    </a>
+                </div>
+            </div>
+        </section>
 
+        <!-- FOOTER -->
+        <footer class="px-4 md:px-8 pt-12 pb-6 border-t border-neon/10 text-[10px] uppercase tracking-widest text-neon/40 flex justify-between z-10 relative font-mono">
+            <div>© 2026 NIK · DEV</div>
+            <div class="flex gap-6">
+                <a href="/admin/" class="hover:text-amber transition">ADMIN</a>
+                <span>process.exit(0)</span>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- SCRIPTS -->
     <script>
-            // Code Rain
-            (function () {
-                const r = document.getElementById('coderain');
-                const chars = 'アイウエオカキクケコ01ABCDEF{}[]<>/=+;()const let var function return async await import export';
-                for (let i = 0; i < 30; i++) {
-                    const s = document.createElement('span');
-                    let t = ''; for (let j = 0; j < 20 + Math.floor(Math.random() * 12); j++)t += chars[Math.floor(Math.random() * chars.length)];
-                    s.textContent = t;
-                    s.style.left = (i / 30 * 100 + Math.random() * 2) + '%';
-                    s.style.animationDuration = (4 + Math.random() * 8) + 's';
-                    s.style.animationDelay = (Math.random() * 6) + 's';
-                    s.style.opacity = (0.15 + Math.random() * 0.4).toString();
-                    r.appendChild(s);
-                }
-            })();
+        // --- 3D SCENE DATA ---
+        const CONFIG = {
+            zGap: 900,
+            starCount: 120,
+            camSpeed: 2.2,
+            colors: ['#00FFB2', '#00E5FF', '#EDE6D6']
+        };
 
-        // Reveal
-        const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target) } }), { threshold: 0.1 });
+        const itemsData = [
+            { type: 'text', text: 'NIK DEV' },
+            { type: 'card', id: '01', category: 'LANDING', title: 'УНИКАЛЬНЫЕ ЛЕНДИНГИ' },
+            { type: 'card', id: '02', category: 'BOTS', title: 'СОЗДАНИЕ БОТОВ' },
+            { type: 'card', id: '03', category: 'AUTOMATION', title: 'АВТОМАТИЗАЦИЯ БИЗНЕСА' }
+        ];
+
+        // --- STATE MANAGEMENT ---
+        const state = {
+            scroll: 0,
+            velocity: 0,
+            targetSpeed: 0,
+            mouseX: 0,
+            mouseY: 0
+        };
+
+        const world = document.getElementById('world');
+        const viewport = document.getElementById('viewport');
+        const hudOverlay = document.getElementById('hud-overlay');
+        const mainSite = document.getElementById('main-site');
+        const items = [];
+        let is3DActive = true;
+
+        // HTML templates generator for interactive cards - DESIGN SCALE UP
+        function getCardHTML(id, title, category) {
+            if (id === '01') {
+                return `
+                    <div class="mini-landing h-full flex flex-col justify-between p-6 text-left relative overflow-hidden" style="background: linear-gradient(135deg, #020617 0%, #0f172a 100%); border-radius: 10px;">
+                        <div class="card-glow-strip"></div>
+                        <div class="relative z-10">
+                            <div class="flex justify-between items-center">
+                                <div class="text-[12px] font-bold tracking-[0.2em] font-sans" style="color:#00E5FF; text-shadow:0 0 10px rgba(0,229,255,0.5)">CRYPTO.IO</div>
+                                <span class="text-[6px] text-gray-500 uppercase tracking-widest font-mono">BUILD_V1.1</span>
+                            </div>
+                            <div class="text-[8px] text-gray-400 mt-1 uppercase tracking-wider font-mono">DeFi Landing Platform</div>
+                            
+                            <div class="w-full h-[90px] bg-slate-950/90 border border-slate-800 rounded mt-4 p-3 relative overflow-hidden flex flex-col justify-between shadow-inner">
+                                <div class="flex justify-between text-[7px] text-slate-500 font-mono">
+                                    <span>BTC/USDT 24h</span>
+                                    <span class="text-neon" id="mini-btc-change">+4.12%</span>
+                                </div>
+                                <div class="text-[15px] text-neon font-bold font-mono tracking-tight" id="mini-btc-price" style="text-shadow: 0 0 8px rgba(0,255,178,0.3)">$67,492.10</div>
+                                <div class="w-full h-[35px] flex items-end gap-[3px] mt-2 border-t border-slate-900 pt-1">
+                                    <div class="flex-1 bg-neon/10 h-[10px] rounded-sm"></div>
+                                    <div class="flex-1 bg-neon/20 h-[18px] rounded-sm"></div>
+                                    <div class="flex-1 bg-neon/30 h-[14px] rounded-sm"></div>
+                                    <div class="flex-1 bg-neon/50 h-[22px] rounded-sm"></div>
+                                    <div class="flex-1 bg-neon/70 h-[18px] rounded-sm"></div>
+                                    <div class="flex-1 bg-neon/90 h-[28px] rounded-sm"></div>
+                                    <div class="flex-1 bg-neon h-[32px] rounded-sm shadow-[0_0_5px_#00FFB2]"></div>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-2 mt-4 text-[7px] font-mono text-slate-400">
+                                <div class="p-2 border border-slate-800/60 rounded bg-slate-950/40">
+                                    <div class="text-slate-500 mb-0.5">SPEED</div>
+                                    <div class="text-white font-bold">100 / 100</div>
+                                </div>
+                                <div class="p-2 border border-slate-800/60 rounded bg-slate-950/40">
+                                    <div class="text-slate-500 mb-0.5">SEO LOAD</div>
+                                    <div class="text-glow font-bold" style="color:#00E5FF">A+ GRADE</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-[10px] text-slate-300 relative z-10 leading-relaxed font-sans mt-2">
+                            Абсолютно уникальный дизайн с WebGL эффектами, преломлениями и реактивной скоростью загрузки.
+                        </div>
+                        <button class="w-full py-3 bg-neon text-void font-bold text-[9px] uppercase tracking-widest rounded-md mt-4 transition hover:bg-white active:scale-95 relative z-10 shadow-[0_0_15px_rgba(0,255,178,0.2)]" id="btn-mini-wallet" onclick="event.stopPropagation(); connectMiniWallet(this)">
+                            CONNECT WALLET
+                        </button>
+                    </div>
+                `;
+            } else if (id === '02') {
+                return `
+                    <div class="mini-chat h-full flex flex-col justify-between p-5 text-left relative" style="background:#070b12; border-radius: 10px;">
+                        <div class="card-glow-strip"></div>
+                        <div class="flex items-center gap-3 border-b border-slate-800 pb-3 mb-3 relative z-10">
+                            <div class="w-8 h-8 rounded-full bg-neon/10 border border-neon flex items-center justify-center text-[12px] shadow-[0_0_10px_rgba(0,255,178,0.2)]">🤖</div>
+                            <div>
+                                <div class="text-[11px] font-bold text-white font-mono leading-none">NEYRO_BOT // TG</div>
+                                <div class="text-[7px] text-neon uppercase mt-1 font-mono tracking-widest">status: active // thread_0</div>
+                            </div>
+                        </div>
+                        <div class="flex-1 overflow-y-auto flex flex-col gap-2 p-2 font-mono text-[9px] bg-black/40 rounded border border-slate-900/60" id="mini-chat-box">
+                            <div class="self-start bg-slate-800/70 text-slate-200 p-2.5 rounded-lg rounded-bl-none max-w-[85%] leading-relaxed border border-slate-700/20">
+                                Привет! Я Telegram-бот, разработанный Никитой. Какую задачу нам нужно автоматизировать?
+                            </div>
+                        </div>
+                        <div class="mt-3 relative z-10">
+                            <div class="text-[7px] text-slate-500 font-mono mb-2">// QUICK OPTIONS</div>
+                            <div class="flex gap-2">
+                                <button class="flex-1 py-2 bg-neon/10 border border-neon/30 text-neon rounded text-[8px] font-bold transition hover:bg-neon hover:text-void hover:shadow-[0_0_10px_rgba(0,255,178,0.3)]" onclick="event.stopPropagation(); sendMiniMsg('parser')">ПАРСИНГ ВИДЕО</button>
+                                <button class="flex-1 py-2 bg-neon/10 border border-neon/30 text-neon rounded text-[8px] font-bold transition hover:bg-neon hover:text-void hover:shadow-[0_0_10px_rgba(0,255,178,0.3)]" onclick="event.stopPropagation(); sendMiniMsg('ai')">ИИ-ПОМОЩНИК</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (id === '03') {
+                return `
+                    <div class="mini-dash h-full flex flex-col justify-between p-5 text-left relative" style="background:#04060c; border-radius: 10px;">
+                        <div class="card-glow-strip"></div>
+                        <div class="flex justify-between items-center border-b border-slate-900 pb-3 mb-3 relative z-10">
+                            <div class="text-[9px] font-bold text-amber font-mono tracking-wider">CRON_MONITOR // NODE_01</div>
+                            <div class="flex items-center gap-1.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-neon animate-pulse shadow-[0_0_5px_#00FFB2]"></span>
+                                <span class="text-[7px] text-slate-500 font-mono">LIVE</span>
+                            </div>
+                        </div>
+                        
+                        <div class="h-[75px] bg-slate-950/80 border border-slate-900 rounded overflow-hidden relative shadow-inner">
+                            <svg class="w-full h-full" viewBox="0 0 100 40" preserveAspectRatio="none">
+                                <path id="dash-svg-path" d="M0 35 L10 32 L20 38 L30 25 L40 28 L50 15 L60 22 L70 12 L80 18 L90 5 L100 8 L100 40 L0 40 Z" fill="rgba(245, 184, 46, 0.12)" stroke="#F5B82E" stroke-width="1.5"></path>
+                            </svg>
+                        </div>
+
+                        <div class="h-[75px] bg-slate-950 rounded border border-slate-900/60 p-2.5 font-mono text-[7px] text-slate-400 flex flex-col gap-1.5 overflow-hidden mt-3" id="dash-mini-logs">
+                            <div class="log-row text-neon">[OK] Database connection initialized</div>
+                            <div class="log-row">[INFO] Cron daemon listener started</div>
+                            <div class="log-row text-amber">[WARN] API rate limits at 12% total load</div>
+                        </div>
+
+                        <div class="flex flex-col gap-2.5 border-t border-slate-900 pt-3 mt-3 text-[8px] font-mono text-slate-300 relative z-10">
+                            <div class="flex justify-between items-center">
+                                <span>DAEMON AUTOMATION (CRON)</span>
+                                <button class="w-8 h-4.5 rounded-full bg-neon relative transition-colors duration-200" id="btn-toggle-cron" onclick="event.stopPropagation(); toggleMiniCron(this)">
+                                    <span class="absolute top-[2.5px] left-[3px] w-3 h-3 rounded-full bg-void transition-transform duration-200 translate-x-3.5" id="btn-toggle-cron-dot"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // --- INITIALIZE 3D ELEMENTS ---
+        function init3D() {
+            // Build tunnel objects
+            itemsData.forEach((data, i) => {
+                const el = document.createElement('div');
+                el.className = 'item';
+
+                if (data.type === 'text') {
+                    const txt = document.createElement('div');
+                    txt.className = 'big-text-3d';
+                    txt.innerText = data.text;
+                    el.appendChild(txt);
+                    items.push({
+                        el, type: 'text',
+                        x: 0, y: 0, rot: 0,
+                        baseZ: 0
+                    });
+                } else {
+                    const card = document.createElement('div');
+                    card.className = 'card-3d';
+                    card.setAttribute('data-card-id', data.id);
+                    card.innerHTML = getCardHTML(data.id, data.title, data.category);
+                    el.appendChild(card);
+
+                    // Adjusted ZIG-ZAG positioning offsets for larger cards
+                    let x = 0;
+                    let y = 0;
+                    if (data.id === '01') {
+                        x = -window.innerWidth * 0.22;
+                        y = -window.innerHeight * 0.06;
+                    } else if (data.id === '02') {
+                        x = window.innerWidth * 0.22;
+                        y = window.innerHeight * 0.06;
+                    } else if (data.id === '03') {
+                        x = -window.innerWidth * 0.02;
+                        y = -window.innerHeight * 0.12;
+                    }
+
+                    items.push({
+                        el, type: 'card',
+                        x, y, rot: (Math.random() - 0.5) * 6,
+                        baseZ: -i * CONFIG.zGap
+                    });
+                }
+                world.appendChild(el);
+            });
+
+            // Build starry background
+            for (let i = 0; i < CONFIG.starCount; i++) {
+                const el = document.createElement('div');
+                el.className = 'star';
+                world.appendChild(el);
+                items.push({
+                    el, type: 'star',
+                    x: (Math.random() - 0.5) * 3500,
+                    y: (Math.random() - 0.5) * 3500,
+                    baseZ: -Math.random() * 4000
+                });
+            }
+
+            // Parallax mouse movements
+            window.addEventListener('mousemove', (e) => {
+                state.mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+                state.mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+            }, { passive: true });
+        }
+        init3D();
+
+        // --- LENIS SMOOTH SCROLL ---
+        const lenis = new Lenis({
+            smooth: true,
+            lerp: 0.08,
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smoothTouch: true
+        });
+
+        lenis.on('scroll', ({ scroll, velocity }) => {
+            state.scroll = scroll;
+            state.targetSpeed = velocity;
+        });
+
+        // --- RAF LOOP ---
+        const velReadout = document.getElementById('vel-readout');
+        const fpsCounter = document.getElementById('fps');
+        const coordReadout = document.getElementById('coord');
+        let lastTime = 0;
+
+        function raf(time) {
+            lenis.raf(time);
+
+            // Calculate FPS
+            const delta = time - lastTime;
+            lastTime = time;
+            if (time % 10 < 1 && delta > 0) {
+                fpsCounter.innerText = Math.round(1000 / delta);
+            }
+
+            // Smooth Velocity lerp
+            state.velocity += (state.targetSpeed - state.velocity) * 0.1;
+
+            // Transition logic between 3D scene and 2D website with HYSTERESIS
+            const limitOut = 2200; // threshold to leave 3D
+            const limitIn = 1900;  // threshold to enter 3D back
+            
+            if (is3DActive && state.scroll >= limitOut) {
+                // Disable 3D completely
+                viewport.style.opacity = 0;
+                viewport.style.display = 'none';
+                hudOverlay.style.opacity = 0;
+                hudOverlay.style.display = 'none';
+                
+                mainSite.style.opacity = 1;
+                mainSite.style.visibility = 'visible';
+                is3DActive = false;
+            } else if (!is3DActive && state.scroll < limitIn) {
+                // Enable 3D back
+                viewport.style.display = 'block';
+                hudOverlay.style.display = 'flex';
+                is3DActive = true;
+            }
+
+            if (is3DActive) {
+                // Opacity blending calculations
+                let opacity3D = 1;
+                let opacity2D = 0;
+
+                if (state.scroll > 1500) {
+                    opacity3D = Math.max(0, (limitOut - state.scroll) / 700);
+                    opacity2D = Math.min(1, (state.scroll - 1500) / 700);
+                }
+
+                viewport.style.opacity = opacity3D;
+                hudOverlay.style.opacity = opacity3D;
+                
+                mainSite.style.opacity = opacity2D;
+                if (opacity2D > 0) {
+                    mainSite.style.visibility = 'visible';
+                } else {
+                    mainSite.style.visibility = 'hidden';
+                }
+
+                // --- 3D RENDER ANIMATION ---
+                // Camera tilt and shake based on mouse and scroll velocity
+                const tiltX = state.mouseY * 6 - state.velocity * 0.4;
+                const tiltY = state.mouseX * 6;
+
+                world.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+
+                // Compress FOV at high speeds (warp effect)
+                const fov = 1100 - Math.min(Math.abs(state.velocity) * 10, 500);
+                viewport.style.perspective = `${fov}px`;
+
+                // Calculate camera Z movement
+                const cameraZ = state.scroll * CONFIG.camSpeed;
+
+                // Animate stars & cards
+                items.forEach(item => {
+                    let relZ = item.baseZ + cameraZ;
+
+                    if (item.type === 'star') {
+                        // Infinite wrap loop for stars
+                        const modZ = 4000;
+                        let vizZ = ((relZ % modZ) + modZ) % modZ;
+                        vizZ -= 3800; // Position behind / in front
+
+                        const stretch = Math.max(1, Math.min(1 + Math.abs(state.velocity) * 0.15, 10));
+                        item.el.style.transform = `translate3d(${item.x}px, ${item.y}px, ${vizZ}px) scale3d(1, 1, ${stretch})`;
+                        item.el.style.opacity = vizZ > 100 ? 0 : 0.3;
+                    } else {
+                        // Precise non-looping flight for texts & cards
+                        let alpha = 1;
+                        if (relZ > 200) {
+                            alpha = 0;
+                        } else if (relZ > 0) {
+                            alpha = 1 - (relZ / 200);
+                        } else if (relZ < -2500) {
+                            alpha = (relZ + 3000) / 500;
+                        }
+
+                        if (alpha < 0) alpha = 0;
+                        item.el.style.opacity = alpha;
+
+                        if (alpha > 0) {
+                            let trans = `translate3d(${item.x}px, ${item.y}px, ${relZ}px)`;
+
+                            if (item.type === 'text') {
+                                trans += ` rotateZ(${item.rot}deg)`;
+                                // Chromatic aberration
+                                if (Math.abs(state.velocity) > 1.2) {
+                                    const offset = state.velocity * 3;
+                                    item.el.style.textShadow = `${offset}px 0 rgba(255, 0, 60, 0.7), ${-offset}px 0 rgba(0, 243, 255, 0.7)`;
+                                } else {
+                                    item.el.style.textShadow = 'none';
+                                }
+                            } else {
+                                // Floating animation
+                                const t = time * 0.001;
+                                const float = Math.sin(t + item.x) * 5;
+                                trans += ` rotateZ(${item.rot}deg) rotateY(${float}deg)`;
+                            }
+                            item.el.style.transform = trans;
+                        }
+                    }
+                });
+
+                // Update HUD texts
+                velReadout.innerText = Math.abs(state.velocity).toFixed(2);
+                coordReadout.innerText = `${state.scroll.toFixed(0)}`;
+
+                // Oscillate Business Automation card SVG graph points
+                updateMiniChart(time);
+            }
+
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+
+        // --- INTERACTIVE CARD ACTIONS ---
+
+        // Card 1: Wallet Connector simulation
+        function connectMiniWallet(btn) {
+            if (btn.innerText === 'CONNECT WALLET') {
+                btn.innerText = 'CONNECTING...';
+                btn.style.background = '#F5B82E';
+                btn.style.boxShadow = '0 0 10px rgba(245, 184, 46, 0.4)';
+                
+                setTimeout(() => {
+                    btn.innerText = 'CONNECTED: 0x71...3A9';
+                    btn.style.background = '#00FFB2';
+                    btn.style.boxShadow = '0 0 12px rgba(0, 255, 178, 0.6)';
+                    
+                    const price = document.getElementById('mini-btc-price');
+                    const change = document.getElementById('mini-btc-change');
+                    if (price) {
+                        price.innerText = '$68,142.50';
+                        price.style.color = '#00E5FF';
+                    }
+                    if (change) {
+                        change.innerText = '+5.18%';
+                        change.style.color = '#00E5FF';
+                    }
+                }, 1000);
+            } else {
+                btn.innerText = 'CONNECT WALLET';
+                btn.style.background = '#00FFB2';
+                btn.style.boxShadow = '0 0 10px rgba(0, 255, 178, 0.3)';
+                
+                const price = document.getElementById('mini-btc-price');
+                const change = document.getElementById('mini-btc-change');
+                if (price) {
+                    price.innerText = '$67,492.10';
+                    price.style.color = '#00FFB2';
+                }
+                if (change) {
+                    change.innerText = '+4.12%';
+                    change.style.color = '#00FFB2';
+                }
+            }
+        }
+
+        // Card 2: Telegram Chat Bot simulation
+        const botAnswers = {
+            parser: [
+                { sender: 'user', text: 'Нужен парсер контента' },
+                { sender: 'bot', text: 'Понял! Напишем на Python (BeautifulSoup / Playwright).' },
+                { sender: 'bot', text: 'Интегрируем авто-выгрузку в Telegram-канал или Google Таблицы. Срок: 1-2 дня. Стоимость: от 2 000 ₽.' }
+            ],
+            ai: [
+                { sender: 'user', text: 'Интеграция с ИИ' },
+                { sender: 'bot', text: 'Подключим GPT-4 API для умной обработки сообщений и автоответов клиентам.' },
+                { sender: 'bot', text: 'Настроим персональный контекст, логгирование и базу знаний. Срок: 2-3 дня. Стоимость: от 5 000 ₽.' }
+            ]
+        };
+
+        function sendMiniMsg(type) {
+            const box = document.getElementById('mini-chat-box');
+            if (!box) return;
+            box.innerHTML = '';
+            
+            const msgs = botAnswers[type];
+            let delay = 0;
+            
+            msgs.forEach((msg, idx) => {
+                setTimeout(() => {
+                    const div = document.createElement('div');
+                    if (msg.sender === 'user') {
+                        div.className = 'self-end bg-neon/20 text-neon p-2.5 rounded-lg rounded-br-none max-w-[85%]';
+                        div.style.animation = 'msgFade 0.25s ease-out forwards';
+                    } else {
+                        div.className = 'self-start bg-slate-800/80 text-slate-200 p-2.5 rounded-lg rounded-bl-none max-w-[85%] border border-slate-700/20';
+                        div.style.animation = 'msgFade 0.25s ease-out forwards';
+                    }
+                    div.innerText = msg.text;
+                    box.appendChild(div);
+                    box.scrollTop = box.scrollHeight;
+                }, delay);
+                delay += idx === 0 ? 300 : 1000;
+            });
+        }
+
+        // Card 3: Dashboard Oscillations & Cron simulation
+        let dashPoints = [35, 32, 38, 25, 28, 15, 22, 12, 18, 5, 8];
+        function updateMiniChart(time) {
+            const path = document.getElementById('dash-svg-path');
+            if (!path) return;
+            let d = 'M0 ' + (30 + Math.sin(time * 0.004) * 4);
+            for (let i = 1; i <= 10; i++) {
+                let x = i * 10;
+                let val = dashPoints[i] + Math.sin(time * 0.003 + i) * 3;
+                d += ` L${x} ${Math.max(2, Math.min(38, val))}`;
+            }
+            d += ' L100 40 L0 40 Z';
+            path.setAttribute('d', d);
+        }
+
+        const logsTemplates = [
+            '[OK] Parser node active',
+            '[INFO] DB Sync: 100%',
+            '[WARN] API limit at 82%',
+            '[OK] Webhook response: 200',
+            '[INFO] Log pruned: 142B',
+            '[OK] Exporter sheets updated',
+            '[OK] Auto-backup completed',
+            '[INFO] Worker thread CPU: 8%'
+        ];
+
+        function rotateMiniLogs() {
+            const container = document.getElementById('dash-mini-logs');
+            if (!container) return;
+            const text = logsTemplates[Math.floor(Math.random() * logsTemplates.length)];
+            const row = document.createElement('div');
+            row.className = 'log-row';
+            if (text.includes('[OK]')) row.classList.add('text-neon');
+            if (text.includes('[WARN]')) row.classList.add('text-amber');
+            row.innerText = text;
+            container.appendChild(row);
+            if (container.children.length > 5) {
+                container.removeChild(container.firstChild);
+            }
+            container.scrollTop = container.scrollHeight;
+        }
+        setInterval(rotateMiniLogs, 2500);
+
+        function toggleMiniCron(btn) {
+            const dot = document.getElementById('btn-toggle-cron-dot');
+            const container = document.getElementById('dash-mini-logs');
+            if (!dot || !container) return;
+
+            if (btn.classList.contains('bg-neon')) {
+                // Turn off
+                btn.classList.remove('bg-neon');
+                btn.classList.add('bg-slate-700');
+                dot.style.transform = 'translateX(0)';
+                
+                const row = document.createElement('div');
+                row.className = 'log-row text-red-500 font-bold';
+                row.innerText = '[SYSTEM] CRON DISABLED';
+                container.appendChild(row);
+            } else {
+                // Turn on
+                btn.classList.remove('bg-slate-700');
+                btn.classList.add('bg-neon');
+                dot.style.transform = 'translateX(14px)';
+                
+                const row = document.createElement('div');
+                row.className = 'log-row text-neon font-bold';
+                row.innerText = '[SYSTEM] CRON ENABLED';
+                container.appendChild(row);
+            }
+            if (container.children.length > 5) {
+                container.removeChild(container.firstChild);
+            }
+        }
+
+
+        // --- FLAT SITE SCRIPTS (Code rain & IntersectionObserver) ---
+        
+        // Code Rain generator
+        (function () {
+            const r = document.getElementById('coderain');
+            if (!r) return;
+            const chars = 'アイウエオカキクケコ01ABCDEF{}[]<>/=+;()const let var function return async await import export';
+            for (let i = 0; i < 30; i++) {
+                const s = document.createElement('span');
+                let t = ''; 
+                for (let j = 0; j < 20 + Math.floor(Math.random() * 12); j++) {
+                    t += chars[Math.floor(Math.random() * chars.length)];
+                }
+                s.textContent = t;
+                s.style.left = (i / 30 * 100 + Math.random() * 2) + '%';
+                s.style.animationDuration = (4 + Math.random() * 8) + 's';
+                s.style.animationDelay = (Math.random() * 6) + 's';
+                s.style.opacity = (0.12 + Math.random() * 0.3).toString();
+                r.appendChild(s);
+            }
+        })();
+
+        // Reveal animations on scroll
+        const io = new IntersectionObserver(es => es.forEach(e => { 
+            if (e.isIntersecting) { 
+                e.target.classList.add('visible'); 
+                
+                // Animate progress bar fill width when skills reveal
+                const bar = e.target.querySelector('.skill-fill');
+                if (bar) {
+                    bar.style.width = bar.getAttribute('data-width');
+                }
+                io.unobserve(e.target); 
+            } 
+        }), { threshold: 0.1 });
+        
         document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+
+        // --- NEW CASE STUDY INTERACTIVE LOGIC ---
+
+        // Case 1: Telegram / Media Parser Simulation
+        let parserRunning = false;
+        function runChannelParser() {
+            if (parserRunning) return;
+            parserRunning = true;
+            const logs = document.getElementById('parser-console-logs');
+            const btn = document.getElementById('btn-run-parser');
+            if (!logs || !btn) return;
+            
+            btn.innerText = 'ПАРСЕР ЗАПУЩЕН...';
+            btn.classList.add('opacity-50', 'pointer-events-none');
+            logs.innerHTML = '<div class="text-slate-500">$ python parser.py --target @competitor_channel</div>';
+            
+            const lines = [
+                '[INFO] Инициализация Pyrogram TelegramClient...',
+                '[INFO] Подключение к серверам MTProto... Успешно.',
+                '[INFO] Сканирование ленты канала @competitor_channel...',
+                '[DATA] Найдено 230 постов за последние 30 дней.',
+                '[DATA] Пост #123 спарсен: просмотры=45K, репосты=180, вложения=видео.',
+                '[DATA] Пост #124 спарсен: просмотры=98K (Вирусный!), репосты=1.2K.',
+                '[INFO] Запуск загрузчика медиафайлов...',
+                '[DATA] Загрузка: видео mp4 сохранено на диск без водяных знаков.',
+                '[DB] Синхронизация данных с СУБД PostgreSQL...',
+                '[DB] Записано 230 строк. Время выполнения: 0.14s.',
+                '[SUCCESS] Парсинг завершен. Скрипт остановлен (exit code: 0).'
+            ];
+            
+            let idx = 0;
+            function printNextLine() {
+                if (idx < lines.length) {
+                    const div = document.createElement('div');
+                    const txt = lines[idx];
+                    if (txt.includes('[INFO]')) div.className = 'text-glow';
+                    if (txt.includes('[DATA]')) div.className = 'text-amber';
+                    if (txt.includes('[SUCCESS]')) div.className = 'text-neon font-bold';
+                    div.innerText = txt;
+                    logs.appendChild(div);
+                    logs.scrollTop = logs.scrollHeight;
+                    idx++;
+                    setTimeout(printNextLine, 350 + Math.random() * 200);
+                } else {
+                    parserRunning = false;
+                    btn.innerText = 'ЗАПУСТИТЬ ПАРСИНГ КАНАЛА';
+                    btn.classList.remove('opacity-50', 'pointer-events-none');
+                }
+            }
+            setTimeout(printNextLine, 500);
+        }
+
+        // Case 2: Business CRM Database Simulation
+        let orderCount = 3;
+        let crmProfit = 25000;
+        function addCRMOrder() {
+            const table = document.getElementById('crm-table-body');
+            const profitEl = document.getElementById('crm-profit-val');
+            if (!table || !profitEl) return;
+            
+            orderCount++;
+            const names = ['Даниил', 'Александр', 'Дмитрий', 'Мария', 'Екатерина'];
+            const services = ['Лендинг VPN', 'TG Бот + ИИ', 'Парсер YouTube', 'Автоматизация CRM'];
+            const prices = [13000, 10000, 5000, 8000];
+            
+            const randIdx = Math.floor(Math.random() * names.length);
+            const name = names[randIdx];
+            const service = services[Math.floor(Math.random() * services.length)];
+            const price = prices[Math.floor(Math.random() * prices.length)];
+            
+            crmProfit += price;
+            profitEl.innerText = crmProfit.toLocaleString('ru-RU') + ' ₽';
+            
+            const tr = document.createElement('tr');
+            tr.className = 'border-b border-slate-900 bg-neon/5 text-[10px] text-slate-300 font-mono';
+            tr.style.animation = 'msgFade 0.3s ease-out forwards';
+            tr.innerHTML = `
+                <td class="py-2 px-3">#40${orderCount}</td>
+                <td class="py-2 px-3 text-white font-bold">${name}</td>
+                <td class="py-2 px-3">${service}</td>
+                <td class="py-2 px-3 text-neon">${price.toLocaleString('ru-RU')} ₽</td>
+                <td class="py-2 px-3"><span class="px-1.5 py-0.5 rounded bg-neon/15 text-neon font-bold">ОПЛАЧЕНО</span></td>
+            `;
+            
+            table.insertBefore(tr, table.firstChild);
+        }
+
+        // Case 3: CyberVPN Speedometer Demo Logic
+        let vpnState = {
+            connected: false,
+            server: 'DE',
+            speed: 0,
+            ping: 14
+        };
+        const vpnServers = {
+            DE: { name: 'Germany (Frankfurt)', speed: 940, ping: 14 },
+            US: { name: 'USA (New York)', speed: 620, ping: 78 },
+            JP: { name: 'Japan (Tokyo)', speed: 310, ping: 145 }
+        };
+
+        function selectVPNServer(srv, el) {
+            if (vpnState.connected) return;
+            vpnState.server = srv;
+            
+            document.querySelectorAll('.vpn-srv-btn').forEach(btn => {
+                btn.classList.remove('bg-neon', 'text-void', 'border-neon');
+                btn.classList.add('bg-void', 'text-neon', 'border-neon/30');
+            });
+            el.classList.add('bg-neon', 'text-void', 'border-neon');
+            el.classList.remove('bg-void', 'text-neon', 'border-neon/30');
+            
+            document.getElementById('vpn-ping-val').innerText = vpnServers[srv].ping + ' ms';
+            document.getElementById('vpn-srv-val').innerText = vpnServers[srv].name;
+        }
+
+        function connectVPN(btn) {
+            const needle = document.getElementById('vpn-needle');
+            const speedText = document.getElementById('vpn-speed-text');
+            const statusDot = document.getElementById('vpn-status-dot');
+            const statusText = document.getElementById('vpn-status-text');
+            const gauge = document.getElementById('vpn-gauge');
+            
+            if (!vpnState.connected) {
+                vpnState.connected = true;
+                btn.innerText = 'CONNECTING...';
+                btn.className = 'w-full py-3 bg-amber text-void font-bold rounded text-[9px] uppercase tracking-wider transition duration-300';
+                statusText.innerText = 'CONNECTING';
+                statusText.className = 'text-amber font-bold';
+                statusDot.className = 'w-2 h-2 rounded-full bg-amber animate-ping';
+                
+                let targetSpeed = vpnServers[vpnState.server].speed;
+                
+                setTimeout(() => {
+                    if (!vpnState.connected) return;
+                    btn.innerText = 'DISCONNECT';
+                    btn.className = 'w-full py-3 bg-red-600 text-white font-bold rounded text-[9px] uppercase tracking-wider transition duration-300 hover:bg-red-700';
+                    statusText.innerText = 'CONNECTED';
+                    statusText.className = 'text-neon font-bold';
+                    statusDot.className = 'w-2 h-2 rounded-full bg-neon shadow-[0_0_8px_#00FFB2]';
+                    
+                    let angle = -120 + (targetSpeed / 1000) * 240;
+                    if (needle) needle.style.transform = `rotate(${angle}deg)`;
+                    
+                    let offset = 220 - (targetSpeed / 1000) * 220;
+                    if (gauge) gauge.style.strokeDashoffset = offset;
+                    
+                    let currSpeed = 0;
+                    let interval = setInterval(() => {
+                        if (!vpnState.connected) {
+                            clearInterval(interval);
+                            return;
+                        }
+                        currSpeed += Math.floor(targetSpeed / 15);
+                        if (currSpeed >= targetSpeed) {
+                            currSpeed = targetSpeed;
+                            clearInterval(interval);
+                        }
+                        if (speedText) speedText.innerText = currSpeed + ' Mbps';
+                    }, 30);
+                }, 1200);
+            } else {
+                vpnState.connected = false;
+                btn.innerText = 'CONNECT VPN';
+                btn.className = 'w-full py-3 bg-neon text-void font-bold rounded text-[9px] uppercase tracking-wider transition duration-300 hover:bg-white shadow-[0_0_15px_rgba(0,255,178,0.2)]';
+                statusText.innerText = 'DISCONNECTED';
+                statusText.className = 'text-gray-500 font-bold';
+                statusDot.className = 'w-2 h-2 rounded-full bg-gray-600';
+                
+                if (needle) needle.style.transform = 'rotate(-120deg)';
+                if (gauge) gauge.style.strokeDashoffset = '220';
+                if (speedText) speedText.innerText = '0 Mbps';
+            }
+        }
     </script>
 </body>
 

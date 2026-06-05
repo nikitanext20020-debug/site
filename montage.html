@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nik · Монтаж YouTube · Превью · Reels</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <meta name="description" content="Монтаж YouTube-роликов, превью, Reels и Shorts. Заказы от блогера 272K." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -362,7 +363,6 @@
       }
     }
   </style>
-  <base target="_blank">
 </head>
 
 <body class="grain scanlines">
@@ -501,7 +501,7 @@
 
       <div class="grid grid-cols-12 gap-3">
         <!-- 01 Music videos: col-span-12 md:col-span-6 -->
-        <div class="cell p-6 md:p-8 col-span-12 md:col-span-6 reveal relative">
+        <div class="cell p-6 md:p-8 col-span-12 md:col-span-6 reveal relative cursor-pointer" data-clip-id="music-clip">
           <video class="absolute inset-0 w-full h-full object-cover opacity-20 z-0" autoplay muted loop playsinline>
             <source src="videos/MUSIC.mp4" type="video/mp4">
           </video>
@@ -524,7 +524,7 @@
         </div>
 
         <!-- 02 YouTube & Reels: col-span-12 md:col-span-6 -->
-        <div class="cell p-6 md:p-8 col-span-12 md:col-span-6 reveal relative">
+        <div class="cell p-6 md:p-8 col-span-12 md:col-span-6 reveal relative cursor-pointer" data-clip-id="reel-3">
           <video class="absolute inset-0 w-full h-full object-cover opacity-20 z-0" autoplay muted loop playsinline>
             <source src="videos/reel_03.mp4" type="video/mp4">
           </video>
@@ -548,7 +548,8 @@
 
         <!-- 03 AI Video - SUPER ACCENT BLOCK: col-span-12 -->
         <div
-          class="cell p-6 md:p-8 col-span-12 reveal relative overflow-hidden border border-amber/40 hover:border-amber transition-all duration-500">
+          class="cell p-6 md:p-8 col-span-12 reveal relative overflow-hidden border border-amber/40 hover:border-amber transition-all duration-500 cursor-pointer"
+          data-clip-id="reel-5">
           <video class="absolute inset-0 w-full h-full object-cover opacity-20 z-0" autoplay muted loop playsinline>
             <source src="videos/AI MULT.mp4" type="video/mp4">
           </video>
@@ -604,7 +605,11 @@
         </div>
 
         <!-- 04 Promo & Advertising: col-span-12 md:col-span-4 -->
-        <div class="cell p-6 md:p-8 col-span-12 md:col-span-4 reveal relative">
+        <div class="cell p-6 md:p-8 col-span-12 md:col-span-4 reveal relative cursor-pointer" data-clip-id="logo-clip">
+          <video class="absolute inset-0 w-full h-full object-cover opacity-20 z-0" autoplay muted loop playsinline>
+            <source src="videos/LOGO.mp4" type="video/mp4">
+          </video>
+          <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/65 to-ink/35 z-[1]"></div>
           <div class="flex items-start justify-between h-full flex-col relative z-[2]">
             <div>
               <div class="font-mono text-xs text-bone/40 mb-3">04 / ADVERTISING</div>
@@ -623,7 +628,11 @@
         </div>
 
         <!-- 05 VFX & Effects: col-span-12 md:col-span-4 -->
-        <div class="cell p-6 md:p-8 col-span-12 md:col-span-4 reveal relative">
+        <div class="cell p-6 md:p-8 col-span-12 md:col-span-4 reveal relative cursor-pointer" data-clip-id="vfx-clip">
+          <video class="absolute inset-0 w-full h-full object-cover opacity-20 z-0" autoplay muted loop playsinline>
+            <source src="videos/VFX.mp4" type="video/mp4">
+          </video>
+          <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/65 to-ink/35 z-[1]"></div>
           <div class="flex items-start justify-between h-full flex-col relative z-[2]">
             <div>
               <div class="font-mono text-xs text-bone/40 mb-3">05 / VFX & POST</div>
@@ -661,7 +670,11 @@
         </div>
 
         <!-- 07 Color Correction: col-span-12 md:col-span-6 -->
-        <div class="cell p-6 md:p-8 col-span-12 md:col-span-6 reveal relative">
+        <div class="cell p-6 md:p-8 col-span-12 md:col-span-6 reveal relative cursor-pointer" data-clip-id="color-clip">
+          <video class="absolute inset-0 w-full h-full object-cover opacity-20 z-0" autoplay muted loop playsinline>
+            <source src="videos/Color.mp4" type="video/mp4">
+          </video>
+          <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/65 to-ink/35 z-[1]"></div>
           <div class="flex items-start justify-between h-full flex-col relative z-[2]">
             <div>
               <div class="font-mono text-xs text-amber mb-3">07 / COLOR GRADING</div>
@@ -698,8 +711,6 @@
           </div>
         </div>
       </div>
-    </div>
-    </div>
   </section>
 
   <!-- ============ PROCESS / TIMELINE ============ -->
@@ -874,20 +885,20 @@
               </div>
             </div>
 
-            <!-- The actual Video Container (vertical aspect for reels) -->
+            <!-- The actual Video Container (vertical aspect for reels or dynamic monitor for widescreen) -->
             <div id="monitor-iframe-wrapper"
               class="w-full h-full opacity-0 pointer-events-none transition-opacity duration-500 flex items-center justify-center p-2 relative z-25">
-              <div
-                class="relative w-full max-w-[280px] h-full max-h-[500px] aspect-[9/16] border border-bone/20 rounded bg-black overflow-hidden shadow-2xl">
+              <div id="monitor-screen-container"
+                class="relative w-full max-w-[280px] h-full max-h-[500px] aspect-[9/16] border border-bone/20 rounded bg-black overflow-hidden shadow-2xl transition-all duration-300">
                 <!-- Smartphone bezel mockup -->
-                <div
-                  class="absolute top-2 left-1/2 -translate-x-1/2 w-16 h-4 bg-ink rounded-full z-30 opacity-70 flex items-center justify-center">
+                <div id="monitor-phone-bezel"
+                  class="absolute top-2 left-1/2 -translate-x-1/2 w-16 h-4 bg-ink rounded-full z-30 opacity-70 flex items-center justify-center transition-all duration-300">
                   <div class="w-2 h-2 rounded-full bg-zinc-800"></div>
                 </div>
                 <video id="monitor-video" class="w-full h-full object-cover" playsinline loop></video>
-                <!-- CRT TV scanlines inside smartphone screen -->
+                <!-- CRT TV scanlines inside monitor screen -->
                 <div
-                  class="absolute inset-0 pointer-events-none crt-scanlines bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.45)_100%)]">
+                  class="absolute inset-0 pointer-events-none crt-scanlines bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.45)_100%)] z-28">
                 </div>
               </div>
             </div>
@@ -1029,7 +1040,7 @@
           <div
             class="font-mono text-[10px] uppercase tracking-widest text-bone/50 border-b border-bone/10 pb-3 mb-4 flex justify-between select-none">
             <span>БИБЛИОТЕКА ФАЙЛОВ / ИСХОДНИКИ</span>
-            <span>6 ФАЙЛОВ</span>
+            <span>10 ФАЙЛОВ</span>
           </div>
 
           <!-- Clip list -->
@@ -1039,7 +1050,7 @@
             <div
               class="bin-item group cursor-pointer border border-bone/10 bg-black/20 hover:bg-rec/5 p-3 rounded flex items-center gap-4 transition"
               data-id="reel-1" data-url="videos/reel_01.mp4" data-name="REEL_001_LIFESTYLE.mp4" data-duration="15"
-              data-color="rec">
+              data-color="rec" data-aspect="9:16">
               <div
                 class="w-16 h-20 bg-zinc-900 border border-bone/10 group-hover:border-rec flex flex-col justify-between p-1.5 relative overflow-hidden flex-shrink-0 transition">
                 <div class="flex flex-col gap-1 w-full opacity-30">
@@ -1076,7 +1087,7 @@
             <div
               class="bin-item group cursor-pointer border border-bone/10 bg-black/20 hover:bg-amber/5 p-3 rounded flex items-center gap-4 transition"
               data-id="reel-2" data-url="videos/reel_02.mp4" data-name="REEL_002_DYNAMICS.mp4" data-duration="12"
-              data-color="amber">
+              data-color="amber" data-aspect="9:16">
               <div
                 class="w-16 h-20 bg-zinc-900 border border-bone/10 group-hover:border-amber flex flex-col justify-between p-1.5 relative overflow-hidden flex-shrink-0 transition">
                 <div class="flex flex-col gap-1 w-full opacity-30">
@@ -1113,7 +1124,7 @@
             <div
               class="bin-item group cursor-pointer border border-bone/10 bg-black/20 hover:bg-rec/5 p-3 rounded flex items-center gap-4 transition"
               data-id="reel-3" data-url="videos/reel_03.mp4" data-name="REEL_003_CINEMATIC.mp4" data-duration="18"
-              data-color="rec">
+              data-color="rec" data-aspect="9:16">
               <div
                 class="w-16 h-20 bg-zinc-900 border border-bone/10 group-hover:border-rec flex flex-col justify-between p-1.5 relative overflow-hidden flex-shrink-0 transition">
                 <div class="flex flex-col gap-1 w-full opacity-30">
@@ -1150,7 +1161,7 @@
             <div
               class="bin-item group cursor-pointer border border-bone/10 bg-black/20 hover:bg-amber/5 p-3 rounded flex items-center gap-4 transition"
               data-id="reel-4" data-url="videos/reel_04.mp4" data-name="REEL_004_PROMO.mp4" data-duration="14"
-              data-color="amber">
+              data-color="amber" data-aspect="9:16">
               <div
                 class="w-16 h-20 bg-zinc-900 border border-bone/10 group-hover:border-amber flex flex-col justify-between p-1.5 relative overflow-hidden flex-shrink-0 transition">
                 <div class="flex flex-col gap-1 w-full opacity-30">
@@ -1187,7 +1198,7 @@
             <div
               class="bin-item group cursor-pointer border border-rec/40 bg-rec/10 hover:bg-rec/20 p-3 rounded flex items-center gap-4 transition"
               data-id="reel-5" data-url="videos/AI MULT.mp4" data-name="AI_MULT_CARTOON.mp4" data-duration="14"
-              data-color="rec">
+              data-color="rec" data-aspect="9:16">
               <div
                 class="w-16 h-20 bg-zinc-900 border border-rec group-hover:border-rec flex flex-col justify-between p-1.5 relative overflow-hidden flex-shrink-0 transition">
                 <div class="flex flex-col gap-1 w-full opacity-35">
@@ -1224,7 +1235,7 @@
             <div
               class="bin-item group cursor-pointer border border-amber/40 bg-amber/10 hover:bg-amber/20 p-3 rounded flex items-center gap-4 transition"
               data-id="reel-6" data-url="videos/AI VIDEO.mp4" data-name="AI_VIDEO_CREATIVE.mp4" data-duration="22"
-              data-color="amber">
+              data-color="amber" data-aspect="9:16">
               <div
                 class="w-16 h-20 bg-zinc-900 border border-amber group-hover:border-amber flex flex-col justify-between p-1.5 relative overflow-hidden flex-shrink-0 transition">
                 <div class="flex flex-col gap-1 w-full opacity-35">
@@ -1257,6 +1268,154 @@
               </div>
             </div>
 
+            <!-- Clip item 7 (Music Video) -->
+            <div
+              class="bin-item group cursor-pointer border border-bone/10 bg-black/20 hover:bg-rec/5 p-3 rounded flex items-center gap-4 transition"
+              data-id="music-clip" data-url="videos/MUSIC.mp4" data-name="MUSIC_VIDEO.mp4" data-duration="15"
+              data-color="rec" data-aspect="16:9">
+              <div
+                class="w-16 h-20 bg-zinc-900 border border-bone/10 group-hover:border-rec flex flex-col justify-between p-1.5 relative overflow-hidden flex-shrink-0 transition">
+                <div class="flex flex-col gap-1 w-full opacity-35">
+                  <div class="h-1 bg-bone"></div>
+                  <div class="h-1 bg-bone"></div>
+                  <div class="h-1 bg-bone"></div>
+                </div>
+                <div class="text-[9px] font-mono text-center text-bone/60">КАССЕТА 07</div>
+                <div
+                  class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition bg-black/60">
+                  <svg class="w-5 h-5 fill-rec" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="flex-1 min-w-0 font-mono">
+                <div class="text-bone font-medium text-xs truncate group-hover:text-rec transition">
+                  MUSIC_VIDEO.mp4</div>
+                <div class="text-[10px] text-bone/40 mt-1 flex flex-wrap gap-x-2 gap-y-0.5 uppercase">
+                  <span>16:9</span>
+                  <span>•</span>
+                  <span>1920x1080</span>
+                  <span>•</span>
+                  <span>15с</span>
+                </div>
+                <div class="text-[9px] text-rec/70 mt-2 flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 bg-rec rounded-full inline-block animate-pulse"></span>
+                  <span>ГОТОВ К МОНТАЖУ</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Clip item 8 (Promo Logo) -->
+            <div
+              class="bin-item group cursor-pointer border border-bone/10 bg-black/20 hover:bg-amber/5 p-3 rounded flex items-center gap-4 transition"
+              data-id="logo-clip" data-url="videos/LOGO.mp4" data-name="PROMO_LOGO.mp4" data-duration="10"
+              data-color="amber" data-aspect="16:9">
+              <div
+                class="w-16 h-20 bg-zinc-900 border border-bone/10 group-hover:border-amber flex flex-col justify-between p-1.5 relative overflow-hidden flex-shrink-0 transition">
+                <div class="flex flex-col gap-1 w-full opacity-35">
+                  <div class="h-1 bg-bone"></div>
+                  <div class="h-1 bg-bone"></div>
+                  <div class="h-1 bg-bone"></div>
+                </div>
+                <div class="text-[9px] font-mono text-center text-bone/60">КАССЕТА 08</div>
+                <div
+                  class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition bg-black/60">
+                  <svg class="w-5 h-5 fill-amber" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="flex-1 min-w-0 font-mono">
+                <div class="text-bone font-medium text-xs truncate group-hover:text-amber transition">
+                  PROMO_LOGO.mp4</div>
+                <div class="text-[10px] text-bone/40 mt-1 flex flex-wrap gap-x-2 gap-y-0.5 uppercase">
+                  <span>16:9</span>
+                  <span>•</span>
+                  <span>1920x1080</span>
+                  <span>•</span>
+                  <span>10с</span>
+                </div>
+                <div class="text-[9px] text-amber/70 mt-2 flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 bg-amber rounded-full inline-block animate-pulse"></span>
+                  <span>ГОТОВ К МОНТАЖУ</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Clip item 9 (VFX) -->
+            <div
+              class="bin-item group cursor-pointer border border-bone/10 bg-black/20 hover:bg-rec/5 p-3 rounded flex items-center gap-4 transition"
+              data-id="vfx-clip" data-url="videos/VFX.mp4" data-name="VFX_POST.mp4" data-duration="15" data-color="rec"
+              data-aspect="16:9">
+              <div
+                class="w-16 h-20 bg-zinc-900 border border-bone/10 group-hover:border-rec flex flex-col justify-between p-1.5 relative overflow-hidden flex-shrink-0 transition">
+                <div class="flex flex-col gap-1 w-full opacity-35">
+                  <div class="h-1 bg-bone"></div>
+                  <div class="h-1 bg-bone"></div>
+                  <div class="h-1 bg-bone"></div>
+                </div>
+                <div class="text-[9px] font-mono text-center text-bone/60">КАССЕТА 09</div>
+                <div
+                  class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition bg-black/60">
+                  <svg class="w-5 h-5 fill-rec" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="flex-1 min-w-0 font-mono">
+                <div class="text-bone font-medium text-xs truncate group-hover:text-rec transition">
+                  VFX_POST.mp4</div>
+                <div class="text-[10px] text-bone/40 mt-1 flex flex-wrap gap-x-2 gap-y-0.5 uppercase">
+                  <span>16:9</span>
+                  <span>•</span>
+                  <span>1920x1080</span>
+                  <span>•</span>
+                  <span>15с</span>
+                </div>
+                <div class="text-[9px] text-rec/70 mt-2 flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 bg-rec rounded-full inline-block animate-pulse"></span>
+                  <span>ГОТОВ К МОНТАЖУ</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Clip item 10 (Color) -->
+            <div
+              class="bin-item group cursor-pointer border border-bone/10 bg-black/20 hover:bg-amber/5 p-3 rounded flex items-center gap-4 transition"
+              data-id="color-clip" data-url="videos/Color.mp4" data-name="COLOR_GRADING.mp4" data-duration="20"
+              data-color="amber" data-aspect="16:9">
+              <div
+                class="w-16 h-20 bg-zinc-900 border border-bone/10 group-hover:border-amber flex flex-col justify-between p-1.5 relative overflow-hidden flex-shrink-0 transition">
+                <div class="flex flex-col gap-1 w-full opacity-35">
+                  <div class="h-1 bg-bone"></div>
+                  <div class="h-1 bg-bone"></div>
+                  <div class="h-1 bg-bone"></div>
+                </div>
+                <div class="text-[9px] font-mono text-center text-bone/60">КАССЕТА 10</div>
+                <div
+                  class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition bg-black/60">
+                  <svg class="w-5 h-5 fill-amber" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="flex-1 min-w-0 font-mono">
+                <div class="text-bone font-medium text-xs truncate group-hover:text-amber transition">
+                  COLOR_GRADING.mp4</div>
+                <div class="text-[10px] text-bone/40 mt-1 flex flex-wrap gap-x-2 gap-y-0.5 uppercase">
+                  <span>16:9</span>
+                  <span>•</span>
+                  <span>1920x1080</span>
+                  <span>•</span>
+                  <span>20с</span>
+                </div>
+                <div class="text-[9px] text-amber/70 mt-2 flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 bg-amber rounded-full inline-block animate-pulse"></span>
+                  <span>ГОТОВ К МОНТАЖУ</span>
+                </div>
+              </div>
+            </div>
+
           </div>
 
           <!-- Retro Instruction Panel -->
@@ -1278,14 +1437,13 @@
   <!-- ============ TESTIMONIAL ============ -->
   <section class="px-4 md:px-8 py-24">
     <div class="max-w-5xl mx-auto reveal">
-      <div class="font-mono text-xs uppercase tracking-[0.3em] text-bone/50 mb-6">// QUOTE</div>
-      <blockquote class="font-display text-3xl md:text-6xl leading-tight">
-        «Никита за <span class="text-rec">3 дня</span> собрал из 12 часов сырца ролик, который собрал
-        <span class="text-amber">2.4M просмотров</span>. Чувствует ритм, как режиссёр.»
+      <div class="font-mono text-xs uppercase tracking-[0.3em] text-bone/50 mb-6">// ОТЗЫВ КЛИЕНТА</div>
+      <blockquote class="font-display text-3xl md:text-5xl leading-snug">
+        «Монтируем с Никитой ролики для моего YouTube-канала на постоянной основе. Раньше уходило куча времени на объяснения монтажёрам, а здесь человек сам ведёт канал на 272K подписчиков и с полуслова понимает, где удержать внимание зрителя, где добавить мем или графику. Удержание аудитории выросло на <span class="text-rec">15%</span>. Работаем дальше!»
       </blockquote>
       <div class="mt-8 flex items-center gap-4 font-mono text-xs uppercase tracking-widest text-bone/60">
         <span class="w-12 h-px bg-rec"></span>
-        Реальный отзыв клиента
+        Кирилл · YouTube-блогер (Тематика: Технологии и Игры)
       </div>
     </div>
   </section>
@@ -1310,7 +1468,7 @@
             <div class="font-mono text-xs text-bone/50 mb-1">EMAIL</div>
             <div class="font-display text-3xl group-hover:text-rec transition">typonik@vk.com</div>
           </a>
-          <a href="https://t.me/pythonvoin" class="block cell p-6 group">
+          <a href="https://t.me/pythonvoin" target="_blank" rel="noopener" class="block cell p-6 group">
             <div class="font-mono text-xs text-bone/50 mb-1">TELEGRAM</div>
             <div class="font-display text-3xl group-hover:text-amber transition">@pythonvoin</div>
           </a>
@@ -1323,7 +1481,7 @@
               class="flex-1 cell p-4 text-center font-mono text-xs uppercase tracking-widest hover:text-amber">YouTube</a>
             <a href="https://kwork.ru/user/nikitanext2002" target="_blank"
               class="flex-1 cell p-4 text-center font-mono text-xs uppercase tracking-widest hover:text-amber">Kwork</a>
-            <a href="https://t.me/pythonvoin"
+            <a href="https://t.me/pythonvoin" target="_blank" rel="noopener"
               class="flex-1 cell p-4 text-center font-mono text-xs uppercase tracking-widest hover:text-amber">Telegram</a>
           </div>
         </div>
@@ -1447,6 +1605,7 @@
           const name = item.dataset.name;
           const duration = parseInt(item.dataset.duration, 10);
           const color = item.dataset.color || 'rec';
+          const aspect = item.dataset.aspect || '9:16';
 
           // Update active class in media bin
           binItems.forEach(bi => {
@@ -1458,13 +1617,28 @@
             item.classList.add('active-amber');
           }
 
-          loadClip({ id, url, name, duration, color });
+          loadClip({ id, url, name, duration, color, aspect });
         });
       });
 
       function loadClip(clip) {
         activeClip = clip;
         clipNameLabel.textContent = clip.name;
+
+        // Dynamic Aspect Ratio Switch for TV Player
+        const container = document.getElementById('monitor-screen-container');
+        const phoneBezel = document.getElementById('monitor-phone-bezel');
+        if (container) {
+          if (clip.aspect === '16:9') {
+            container.classList.remove('max-w-[280px]', 'aspect-[9/16]', 'max-h-[500px]');
+            container.classList.add('max-w-[560px]', 'aspect-[16/9]', 'max-h-[315px]');
+            if (phoneBezel) phoneBezel.classList.add('opacity-0', 'pointer-events-none');
+          } else {
+            container.classList.remove('max-w-[560px]', 'aspect-[16/9]', 'max-h-[315px]');
+            container.classList.add('max-w-[280px]', 'aspect-[9/16]', 'max-h-[500px]');
+            if (phoneBezel) phoneBezel.classList.remove('opacity-0', 'pointer-events-none');
+          }
+        }
 
         // Load video source
         monitorVideo.src = clip.url;
@@ -1496,6 +1670,15 @@
         monitorVideo.pause();
         monitorVideo.src = '';
         activeClip = null;
+
+        // Reset aspect ratio to default vertical phone
+        const container = document.getElementById('monitor-screen-container');
+        const phoneBezel = document.getElementById('monitor-phone-bezel');
+        if (container) {
+          container.classList.remove('max-w-[560px]', 'aspect-[16/9]', 'max-h-[315px]');
+          container.classList.add('max-w-[280px]', 'aspect-[9/16]', 'max-h-[500px]');
+          if (phoneBezel) phoneBezel.classList.remove('opacity-0', 'pointer-events-none');
+        }
 
         // Reset bin selection
         binItems.forEach(bi => {
@@ -1674,6 +1857,26 @@
           ledsR[i].className = 'h-2 w-full bg-zinc-900 transition-colors duration-75';
         }
       }
+
+      // Link services bento cells to the interactive editing desk
+      document.querySelectorAll('#services .cell[data-clip-id]').forEach(cell => {
+        cell.addEventListener('click', (e) => {
+          // If clicked a link like "Узнать цену", don't trigger the monitor scroll
+          if (e.target.closest('a')) return;
+
+          const clipId = cell.dataset.clipId;
+          const binItem = document.querySelector(`.bin-item[data-id="${clipId}"]`);
+          if (binItem) {
+            binItem.click(); // Trigger clip loading
+
+            // Smooth scroll to the monitor section
+            const worksSection = document.getElementById('works');
+            if (worksSection) {
+              worksSection.scrollIntoView({ behavior: 'smooth' });
+            }
+          }
+        });
+      });
     })();
   </script>
 </body>
