@@ -341,6 +341,46 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     linear-gradient(90deg, rgba(168, 135, 82, 0.08) 1px, transparent 1px);
   background-size: 20px 20px;
 }
+
+/* Showcase items responsive positioning */
+.showcase-yt-1 { transform: translate(-6%, -6%) rotate(-2deg); width: 62% !important; }
+.showcase-yt-2 { transform: translate(12%, 8%) rotate(3deg); width: 58% !important; }
+.showcase-yt-3 { transform: translate(-12%, 12%) rotate(-1deg); width: 54% !important; }
+
+.showcase-banner-item-1 { transform: rotate(-1deg); aspect-ratio: 21/6.5; }
+.showcase-banner-item-2 { transform: rotate(1.5deg) translate(2px, 0); aspect-ratio: 21/6.5; }
+
+.showcase-card-1 { width: 31% !important; transform: translate(-4px, -6px) rotate(-1.5deg); }
+.showcase-card-2 { width: 31% !important; transform: translate(2px, 6px) rotate(2deg); }
+.showcase-card-3 { width: 31% !important; transform: translate(6px, -8px) rotate(-0.5deg); }
+
+.showcase-social-1 { width: 56% !important; transform: translate(-8%, -4%) rotate(-2deg); }
+.showcase-social-2 { width: 56% !important; transform: translate(8%, 6%) rotate(2deg); }
+
+.showcase-logo-1 { width: 40% !important; transform: translate(-10%, -6%) rotate(-2deg); }
+.showcase-logo-2 { width: 40% !important; transform: translate(10%, 4%) rotate(3deg); }
+.showcase-logo-3 { width: 38% !important; transform: translate(-4%, 10%) rotate(-1deg); }
+
+@media (min-width: 768px) {
+  .showcase-yt-1 { transform: translate(-15%, -15%) rotate(-4deg); width: 52% !important; }
+  .showcase-yt-2 { transform: translate(25%, 15%) rotate(5deg); width: 48% !important; }
+  .showcase-yt-3 { transform: translate(-25%, 25%) rotate(-2deg); width: 44% !important; }
+
+  .showcase-banner-item-1 { transform: rotate(-1.5deg); aspect-ratio: 21/4; }
+  .showcase-banner-item-2 { transform: rotate(2deg) translate(5px, 0); aspect-ratio: 21/4; }
+
+  .showcase-card-1 { width: 28% !important; transform: translate(-10px, -15px) rotate(-3deg); }
+  .showcase-card-2 { width: 28% !important; transform: translate(5px, 15px) rotate(4deg); }
+  .showcase-card-3 { width: 28% !important; transform: translate(15px, -20px) rotate(-1deg); }
+
+  .showcase-social-1 { width: 46% !important; transform: translate(-20%, -10%) rotate(-5deg); }
+  .showcase-social-2 { width: 46% !important; transform: translate(20%, 15%) rotate(3deg); }
+
+  .showcase-logo-1 { width: 34% !important; transform: translate(-22%, -12%) rotate(-4deg); }
+  .showcase-logo-2 { width: 34% !important; transform: translate(20%, 10%) rotate(5deg); }
+  .showcase-logo-3 { width: 32% !important; transform: translate(-10%, 20%) rotate(-2deg); }
+}
+
 .service-item {
   transition: all 0.3s cubic-bezier(.2,.7,.2,1);
 }
@@ -675,7 +715,7 @@ svg .delay-75 {
           </p>
           <div class="space-y-2.5" id="services-list">
             <!-- Item 1: YouTube previews -->
-            <a href="#previews" target="_self" class="service-item flex items-center justify-between border-b border-line pb-4 pt-3 cursor-pointer transition-all duration-300 group hover:border-gold px-3 hover:bg-gold/5 rounded hover:shadow-sm block" data-showcase="youtube">
+            <a href="#previews" target="_self" class="service-item flex items-center justify-between border-b border-line pb-4 pt-3 cursor-pointer transition-all duration-300 group hover:border-gold px-3 hover:bg-gold/5 rounded hover:shadow-sm" data-showcase="youtube">
               <div class="flex items-center gap-3">
                 <span class="num-marker text-xs opacity-50 group-hover:opacity-100 group-hover:text-gold transition">01</span>
                 <span class="text-base text-ink font-medium tracking-tight group-hover:translate-x-1 transition-transform duration-300">Превью YouTube</span>
@@ -686,7 +726,7 @@ svg .delay-75 {
               </div>
             </a>
             <!-- Item 2: Banners -->
-            <a href="#banners" target="_self" class="service-item flex items-center justify-between border-b border-line pb-4 pt-3 cursor-pointer transition-all duration-300 group hover:border-gold px-3 hover:bg-gold/5 rounded hover:shadow-sm block" data-showcase="banner">
+            <a href="#banners" target="_self" class="service-item flex items-center justify-between border-b border-line pb-4 pt-3 cursor-pointer transition-all duration-300 group hover:border-gold px-3 hover:bg-gold/5 rounded hover:shadow-sm" data-showcase="banner">
               <div class="flex items-center gap-3">
                 <span class="num-marker text-xs opacity-50 group-hover:opacity-100 group-hover:text-gold transition">02</span>
                 <span class="text-base text-ink font-medium tracking-tight group-hover:translate-x-1 transition-transform duration-300">Шапка канала</span>
@@ -697,7 +737,7 @@ svg .delay-75 {
               </div>
             </a>
             <!-- Item 3: Marketplace cards -->
-            <a href="#marketplaces" target="_self" class="service-item flex items-center justify-between border-b border-line pb-4 pt-3 cursor-pointer transition-all duration-300 group hover:border-gold px-3 hover:bg-gold/5 rounded hover:shadow-sm block" data-showcase="cards">
+            <a href="#marketplaces" target="_self" class="service-item flex items-center justify-between border-b border-line pb-4 pt-3 cursor-pointer transition-all duration-300 group hover:border-gold px-3 hover:bg-gold/5 rounded hover:shadow-sm" data-showcase="cards">
               <div class="flex items-center gap-3">
                 <span class="num-marker text-xs opacity-50 group-hover:opacity-100 group-hover:text-gold transition">03</span>
                 <span class="text-base text-ink font-medium tracking-tight group-hover:translate-x-1 transition-transform duration-300">Карточки товаров</span>
@@ -708,7 +748,7 @@ svg .delay-75 {
               </div>
             </a>
             <!-- Item 4: Logos -->
-            <a href="#logos" target="_self" class="service-item flex items-center justify-between border-b border-line pb-4 pt-3 cursor-pointer transition-all duration-300 group hover:border-gold px-3 hover:bg-gold/5 rounded hover:shadow-sm block" data-showcase="logos">
+            <a href="#logos" target="_self" class="service-item flex items-center justify-between border-b border-line pb-4 pt-3 cursor-pointer transition-all duration-300 group hover:border-gold px-3 hover:bg-gold/5 rounded hover:shadow-sm" data-showcase="logos">
               <div class="flex items-center gap-3">
                 <span class="num-marker text-xs opacity-50 group-hover:opacity-100 group-hover:text-gold transition">04</span>
                 <span class="text-base text-ink font-medium tracking-tight group-hover:translate-x-1 transition-transform duration-300">Логотипы и брендинг</span>
@@ -719,7 +759,7 @@ svg .delay-75 {
               </div>
             </a>
             <!-- Item 5: Socials -->
-            <a href="#contact" target="_self" class="service-item flex items-center justify-between border-b border-line pb-4 pt-3 cursor-pointer transition-all duration-300 group hover:border-gold px-3 hover:bg-gold/5 rounded hover:shadow-sm block" data-showcase="socials">
+            <a href="#contact" target="_self" class="service-item flex items-center justify-between border-b border-line pb-4 pt-3 cursor-pointer transition-all duration-300 group hover:border-gold px-3 hover:bg-gold/5 rounded hover:shadow-sm" data-showcase="socials">
               <div class="flex items-center gap-3">
                 <span class="num-marker text-xs opacity-50 group-hover:opacity-100 group-hover:text-gold transition">05</span>
                 <span class="text-base text-ink font-medium tracking-tight group-hover:translate-x-1 transition-transform duration-300">Дизайн соцсетей</span>
@@ -745,14 +785,11 @@ svg .delay-75 {
               <div class="blueprint-grid opacity-15 absolute inset-0"></div>
               <div class="relative w-full h-full flex items-center justify-center select-none">
                 <img src="https://i.ibb.co/rGXrG7cf/imgi-143-b9f790244922525-69a1cf2c177de.jpg" 
-                     class="absolute w-[52%] aspect-video object-cover shadow-2xl border border-line rounded transition-transform duration-500 hover:scale-105 z-20"
-                     style="transform: translate(-15%, -15%) rotate(-4deg); transform-origin: center;">
+                     class="absolute showcase-yt-1 aspect-video object-cover shadow-2xl border border-line rounded transition-transform duration-500 hover:scale-105 z-20">
                 <img src="https://i.ibb.co/0yT0ZDhT/imgi-38-ebcf5b244922525-69a1cf285e209.jpg" 
-                     class="absolute w-[48%] aspect-video object-cover shadow-2xl border border-line rounded transition-transform duration-500 hover:scale-105 z-10"
-                     style="transform: translate(25%, 15%) rotate(5deg); transform-origin: center;">
+                     class="absolute showcase-yt-2 aspect-video object-cover shadow-2xl border border-line rounded transition-transform duration-500 hover:scale-105 z-10">
                 <img src="https://i.ibb.co/tpr1fRjB/imgi-39-d7422e244922525-69a1cf285e97d.jpg" 
-                     class="absolute w-[44%] aspect-video object-cover shadow-2xl border border-line rounded transition-transform duration-500 hover:scale-105 z-30"
-                     style="transform: translate(-25%, 25%) rotate(-2deg); transform-origin: center;">
+                     class="absolute showcase-yt-3 aspect-video object-cover shadow-2xl border border-line rounded transition-transform duration-500 hover:scale-105 z-30">
               </div>
             </div>
 
@@ -760,12 +797,10 @@ svg .delay-75 {
             <div class="showcase-layer showcase-banner flex flex-col justify-center items-center bg-[#FAF7F2] p-6 overflow-hidden">
               <div class="blueprint-grid opacity-15 absolute inset-0"></div>
               <div class="w-full space-y-4 max-w-[90%] relative z-10 select-none">
-                <div class="aspect-[21/4] w-full overflow-hidden border border-line shadow-lg rounded-sm transition-transform duration-500 hover:scale-102"
-                     style="transform: rotate(-1.5deg);">
+                <div class="showcase-banner-item-1 w-full overflow-hidden border border-line shadow-lg rounded-sm transition-transform duration-500 hover:scale-102">
                   <img src="images/design/banners/загруженное%20(1).png" class="w-full h-full object-cover">
                 </div>
-                <div class="aspect-[21/4] w-full overflow-hidden border border-line shadow-lg rounded-sm transition-transform duration-500 hover:scale-102"
-                     style="transform: rotate(2deg) translate(5px, 0);">
+                <div class="showcase-banner-item-2 w-full overflow-hidden border border-line shadow-lg rounded-sm transition-transform duration-500 hover:scale-102">
                   <img src="images/design/banners/загруженное%20(2).png" class="w-full h-full object-cover">
                 </div>
               </div>
@@ -776,14 +811,11 @@ svg .delay-75 {
               <div class="blueprint-grid opacity-15 absolute inset-0"></div>
               <div class="relative w-full h-full flex items-center justify-center gap-4 select-none">
                 <img src="images/design/cards/загруженное.jfif" 
-                     class="w-[28%] aspect-[3/4] object-cover shadow-xl border border-line rounded transition-transform duration-500 hover:scale-105 z-20"
-                     style="transform: translate(-10px, -15px) rotate(-3deg);">
+                     class="showcase-card-1 aspect-[3/4] object-cover shadow-xl border border-line rounded transition-transform duration-500 hover:scale-105 z-20">
                 <img src="images/design/cards/загруженное%20(4).jfif" 
-                     class="w-[28%] aspect-[3/4] object-cover shadow-xl border border-line rounded transition-transform duration-500 hover:scale-105 z-10"
-                     style="transform: translate(5px, 15px) rotate(4deg);">
+                     class="showcase-card-2 aspect-[3/4] object-cover shadow-xl border border-line rounded transition-transform duration-500 hover:scale-105 z-10">
                 <img src="images/design/cards/card_3.jpg" 
-                     class="w-[28%] aspect-[3/4] object-cover shadow-xl border border-line rounded transition-transform duration-500 hover:scale-105 z-30"
-                     style="transform: translate(15px, -20px) rotate(-1deg);">
+                     class="showcase-card-3 aspect-[3/4] object-cover shadow-xl border border-line rounded transition-transform duration-500 hover:scale-105 z-30">
               </div>
             </div>
 
@@ -792,11 +824,9 @@ svg .delay-75 {
               <div class="blueprint-grid opacity-15 absolute inset-0"></div>
               <div class="relative w-full h-full flex items-center justify-center select-none">
                 <img src="https://i.ibb.co/VpHQX7zV/imgi-43-0ed169244922525-69a1cf299ce4d.jpg" 
-                     class="absolute w-[46%] aspect-video object-cover shadow-2xl border border-line rounded transition-transform duration-500 hover:scale-105 z-10"
-                     style="transform: translate(-20%, -10%) rotate(-5deg);">
+                     class="absolute showcase-social-1 aspect-video object-cover shadow-2xl border border-line rounded transition-transform duration-500 hover:scale-105 z-10">
                 <img src="https://i.ibb.co/vCVrVXG1/imgi-45-adeff4244922525-69a1cf2b3855b.jpg" 
-                     class="absolute w-[46%] aspect-video object-cover shadow-2xl border border-line rounded transition-transform duration-500 hover:scale-105 z-20"
-                     style="transform: translate(20%, 15%) rotate(3deg);">
+                     class="absolute showcase-social-2 aspect-video object-cover shadow-2xl border border-line rounded transition-transform duration-500 hover:scale-105 z-20">
               </div>
             </div>
 
@@ -805,14 +835,11 @@ svg .delay-75 {
               <div class="blueprint-grid opacity-15 absolute inset-0"></div>
               <div class="relative w-full h-full flex items-center justify-center select-none">
                 <img src="images/design/logos/Screenshot_20.jpg" 
-                     class="absolute w-[34%] aspect-square object-cover shadow-2xl border border-line rounded transition-transform duration-500 hover:scale-105 z-10"
-                     style="transform: translate(-22%, -12%) rotate(-4deg);">
+                     class="absolute showcase-logo-1 aspect-square object-cover shadow-2xl border border-line rounded transition-transform duration-500 hover:scale-105 z-10">
                 <img src="images/design/logos/Screenshot_21.jpg" 
-                     class="absolute w-[34%] aspect-square object-cover shadow-2xl border border-line rounded transition-transform duration-500 hover:scale-105 z-20"
-                     style="transform: translate(20%, 10%) rotate(5deg);">
+                     class="absolute showcase-logo-2 aspect-square object-cover shadow-2xl border border-line rounded transition-transform duration-500 hover:scale-105 z-20">
                 <img src="images/design/logos/Screenshot_22.jpg" 
-                     class="absolute w-[32%] aspect-square object-cover shadow-2xl border border-line rounded transition-transform duration-500 hover:scale-105 z-30"
-                     style="transform: translate(-10%, 20%) rotate(-2deg);">
+                     class="absolute showcase-logo-3 aspect-square object-cover shadow-2xl border border-line rounded transition-transform duration-500 hover:scale-105 z-30">
               </div>
             </div>
 
@@ -1130,15 +1157,15 @@ svg .delay-75 {
     <div class="md:col-span-6 space-y-4 reveal reveal-delay-1">
       <a href="mailto:typonik@vk.com" class="block border border-ink p-6 hover:bg-ink hover:text-paper transition group">
         <div class="text-xs uppercase tracking-[0.25em] opacity-60 mb-1">Email</div>
-        <div class="display text-3xl">typonik@vk.com</div>
+        <div class="display text-xl sm:text-2xl md:text-3xl break-all">typonik@vk.com</div>
       </a>
       <a href="https://t.me/pythonvoin" class="block border border-ink p-6 hover:bg-ink hover:text-paper transition">
         <div class="text-xs uppercase tracking-[0.25em] opacity-60 mb-1">Telegram</div>
-        <div class="display text-3xl">@pythonvoin</div>
+        <div class="display text-xl sm:text-2xl md:text-3xl break-all">@pythonvoin</div>
       </a>
       <a href="https://kwork.ru/user/nikitanext2002" target="_blank" class="block border border-ink p-6 hover:bg-ink hover:text-paper transition">
         <div class="text-xs uppercase tracking-[0.25em] opacity-60 mb-1">Kwork · заказать сразу</div>
-        <div class="display text-3xl">kwork.ru/user/nikitanext2002</div>
+        <div class="display text-xl sm:text-2xl md:text-3xl break-all">kwork.ru/user/nikitanext2002</div>
       </a>
     </div>
   </div>
@@ -1310,7 +1337,7 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
       servicesList.innerHTML = designServices.map((s, idx) => {
         const showcaseType = showcaseMap[s.id] || 'youtube';
         return `
-          <a href="${s.link || '#contact'}" target="_self" class="service-item flex items-center justify-between border-b border-line pb-4 pt-3 cursor-pointer transition-all duration-300 group hover:border-gold px-3 hover:bg-gold/5 rounded hover:shadow-sm block" data-showcase="${showcaseType}">
+          <a href="${s.link || '#contact'}" target="_self" class="service-item flex items-center justify-between border-b border-line pb-4 pt-3 cursor-pointer transition-all duration-300 group hover:border-gold px-3 hover:bg-gold/5 rounded hover:shadow-sm" data-showcase="${showcaseType}">
             <div class="flex items-center gap-3">
               <span class="num-marker text-xs opacity-50 group-hover:opacity-100 group-hover:text-gold transition">${String(idx + 1).padStart(2, '0')}</span>
               <span class="text-base text-ink font-medium tracking-tight group-hover:translate-x-1 transition-transform duration-300">${s.title}</span>

@@ -1,656 +1,737 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>CMS · Панель Управления Nik Site</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-  tailwind.config = {
-    darkMode: 'class',
-    theme: {
-      extend: {
-        fontFamily: {
-          sans: ['"Inter"', 'sans-serif'],
-          mono: ['"JetBrains Mono"', 'monospace'],
-          display: ['"Space Grotesk"', 'sans-serif']
-        },
-        colors: {
-          cyber: {
-            bg: '#08080C',
-            card: 'rgba(20, 20, 28, 0.45)',
-            border: 'rgba(255, 255, 255, 0.08)',
-            neon: '#00FFB2',
-            glow: '#00E5FF',
-            amber: '#F5B82E',
-            rec: '#FF3B30',
-            text: '#EDE6D6'
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CMS · Панель Управления Nik Site</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Inter"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+            display: ['"Space Grotesk"', 'sans-serif']
+          },
+          colors: {
+            cyber: {
+              bg: '#08080C',
+              card: 'rgba(20, 20, 28, 0.45)',
+              border: 'rgba(255, 255, 255, 0.08)',
+              neon: '#00FFB2',
+              glow: '#00E5FF',
+              amber: '#F5B82E',
+              rec: '#FF3B30',
+              text: '#EDE6D6'
+            }
           }
         }
       }
     }
-  }
-</script>
-<style>
-  body {
-    background-color: #08080C;
-    background-image: 
-      radial-gradient(at 0% 0%, rgba(0, 229, 255, 0.05) 0px, transparent 50%),
-      radial-gradient(at 100% 100%, rgba(255, 59, 48, 0.05) 0px, transparent 50%),
-      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-    color: #EDE6D6;
-    min-height: 100vh;
-  }
-  .glass {
-    background: rgba(20, 20, 28, 0.45);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-  }
-  .glass:hover {
-    border-color: rgba(255, 255, 255, 0.15);
-  }
-  .input {
-    background: rgba(10, 10, 15, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 10px 14px;
-    border-radius: 8px;
-    color: #EDE6D6;
-    font-size: 14px;
-    width: 100%;
-    transition: all .2s ease-in-out;
-  }
-  .input:focus {
-    outline: none;
-    border-color: #00E5FF;
-    box-shadow: 0 0 10px rgba(0, 229, 255, 0.15);
-  }
-  textarea.input {
-    font-family: 'JetBrains Mono', monospace;
-    min-height: 80px;
-  }
-  .label {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: rgba(237, 230, 214, 0.45);
-    margin-bottom: 6px;
-    display: block;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .btn {
-    padding: 10px 18px;
-    border-radius: 8px;
-    font-weight: 500;
-    font-size: 14px;
-    transition: all .2s ease-in-out;
-    cursor: pointer;
-    border: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-  }
-  .btn-primary {
-    background: #00E5FF;
-    color: #08080C;
-    box-shadow: 0 4px 14px rgba(0, 229, 255, 0.2);
-  }
-  .btn-primary:hover {
-    background: #00B4D8;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(0, 229, 255, 0.3);
-  }
-  .btn-success {
-    background: #00FFB2;
-    color: #08080C;
-  }
-  .btn-success:hover {
-    background: #00D494;
-    transform: translateY(-1px);
-  }
-  .btn-ghost {
-    background: transparent;
-    color: #EDE6D6;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-  }
-  .btn-ghost:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: #EDE6D6;
-  }
-  .btn-danger {
-    background: rgba(255, 59, 48, 0.1);
-    color: #FF6660;
-    border: 1px solid rgba(255, 59, 48, 0.2);
-  }
-  .btn-danger:hover {
-    background: #FF3B30;
-    color: #fff;
-    border-color: #FF3B30;
-  }
-  .btn-sort {
-    width: 28px;
-    height: 28px;
-    border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    background: rgba(10, 10, 15, 0.4);
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .btn-sort:hover {
-    border-color: #00E5FF;
-    color: #00E5FF;
-  }
-  .pill {
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: 999px;
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: .08em;
-  }
-  .pill-rec { background: rgba(255, 59, 48, 0.1); color: #FF6660; border: 1px solid rgba(255, 59, 48, 0.2); }
-  .pill-amber { background: rgba(245, 184, 46, 0.1); color: #F5B82E; border: 1px solid rgba(245, 184, 46, 0.2); }
-  .pill-neon { background: rgba(0, 255, 178, 0.1); color: #00FFB2; border: 1px solid rgba(0, 255, 178, 0.2); }
-  
-  .tab {
-    padding: 12px 20px;
-    border-bottom: 2px solid transparent;
-    cursor: pointer;
-    color: rgba(237, 230, 214, 0.4);
-    font-weight: 500;
-    font-family: 'Space Grotesk', sans-serif;
-    transition: all .2s ease-in-out;
-  }
-  .tab:hover {
-    color: #EDE6D6;
-  }
-  .tab.active {
-    color: #00E5FF;
-    border-color: #00E5FF;
-    text-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
-  }
-  .toast {
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    z-index: 9999;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    animation: toast-in 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-  }
-  @keyframes toast-in {
-    from { opacity: 0; transform: translate(-50%, 20px) scale(0.95); }
-    to { opacity: 1; transform: translate(-50%, 0) scale(1); }
-  }
-</style>
+  </script>
+  <style>
+    body {
+      background-color: #08080C;
+      background-image:
+        radial-gradient(at 0% 0%, rgba(0, 229, 255, 0.05) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(255, 59, 48, 0.05) 0px, transparent 50%),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      color: #EDE6D6;
+      min-height: 100vh;
+    }
+
+    .glass {
+      background: rgba(20, 20, 28, 0.45);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .glass:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .input {
+      background: rgba(10, 10, 15, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 10px 14px;
+      border-radius: 8px;
+      color: #EDE6D6;
+      font-size: 14px;
+      width: 100%;
+      transition: all .2s ease-in-out;
+    }
+
+    .input:focus {
+      outline: none;
+      border-color: #00E5FF;
+      box-shadow: 0 0 10px rgba(0, 229, 255, 0.15);
+    }
+
+    textarea.input {
+      font-family: 'JetBrains Mono', monospace;
+      min-height: 80px;
+    }
+
+    .label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: rgba(237, 230, 214, 0.45);
+      margin-bottom: 6px;
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .btn {
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 14px;
+      transition: all .2s ease-in-out;
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: #00E5FF;
+      color: #08080C;
+      box-shadow: 0 4px 14px rgba(0, 229, 255, 0.2);
+    }
+
+    .btn-primary:hover {
+      background: #00B4D8;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0, 229, 255, 0.3);
+    }
+
+    .btn-success {
+      background: #00FFB2;
+      color: #08080C;
+    }
+
+    .btn-success:hover {
+      background: #00D494;
+      transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: #EDE6D6;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: #EDE6D6;
+    }
+
+    .btn-danger {
+      background: rgba(255, 59, 48, 0.1);
+      color: #FF6660;
+      border: 1px solid rgba(255, 59, 48, 0.2);
+    }
+
+    .btn-danger:hover {
+      background: #FF3B30;
+      color: #fff;
+      border-color: #FF3B30;
+    }
+
+    .btn-sort {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      background: rgba(10, 10, 15, 0.4);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-sort:hover {
+      border-color: #00E5FF;
+      color: #00E5FF;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .pill-rec {
+      background: rgba(255, 59, 48, 0.1);
+      color: #FF6660;
+      border: 1px solid rgba(255, 59, 48, 0.2);
+    }
+
+    .pill-amber {
+      background: rgba(245, 184, 46, 0.1);
+      color: #F5B82E;
+      border: 1px solid rgba(245, 184, 46, 0.2);
+    }
+
+    .pill-neon {
+      background: rgba(0, 255, 178, 0.1);
+      color: #00FFB2;
+      border: 1px solid rgba(0, 255, 178, 0.2);
+    }
+
+    .tab {
+      padding: 12px 20px;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      color: rgba(237, 230, 214, 0.4);
+      font-weight: 500;
+      font-family: 'Space Grotesk', sans-serif;
+      transition: all .2s ease-in-out;
+    }
+
+    .tab:hover {
+      color: #EDE6D6;
+    }
+
+    .tab.active {
+      color: #00E5FF;
+      border-color: #00E5FF;
+      text-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      z-index: 9999;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      animation: toast-in 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    }
+
+    @keyframes toast-in {
+      from {
+        opacity: 0;
+        transform: translate(-50%, 20px) scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: translate(-50%, 0) scale(1);
+      }
+    }
+  </style>
 </head>
+
 <body class="flex flex-col min-h-screen">
 
-<!-- ============ LOGIN SCREEN ============ -->
-<section id="login-screen" class="min-h-screen flex items-center justify-center px-4 py-12 relative z-10">
-  <div class="max-w-md w-full">
-    <div class="text-center mb-8">
-      <div class="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-cyan-400 mb-3">
-        <span class="w-2.5 h-2.5 bg-[#00E5FF] rounded-full animate-ping"></span>
-        Nikitanext CMS Engine
+  <!-- ============ LOGIN SCREEN ============ -->
+  <section id="login-screen" class="min-h-screen flex items-center justify-center px-4 py-12 relative z-10">
+    <div class="max-w-md w-full">
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-cyan-400 mb-3">
+          <span class="w-2.5 h-2.5 bg-[#00E5FF] rounded-full animate-ping"></span>
+          Nikitanext CMS Engine
+        </div>
+        <h1 class="text-4xl font-display font-bold tracking-tight text-white">Панель Управления</h1>
+        <p class="text-neutral-400 mt-3 text-sm">Визуальное управление услугами, портфолио и данными без единой строчки
+          кода.</p>
       </div>
-      <h1 class="text-4xl font-display font-bold tracking-tight text-white">Панель Управления</h1>
-      <p class="text-neutral-400 mt-3 text-sm">Визуальное управление услугами, портфолио и данными без единой строчки кода.</p>
-    </div>
 
-    <div class="glass p-8 rounded-xl space-y-5">
-      <div>
-        <label class="label">GitHub Personal Access Token</label>
-        <input type="password" id="token" class="input font-mono" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" />
-      </div>
-      <div class="grid grid-cols-2 gap-3">
+      <div class="glass p-8 rounded-xl space-y-5">
         <div>
-          <label class="label">Владелец репозитория</label>
-          <input type="text" id="owner" class="input font-mono" value="nikitanext20020-debug" />
+          <label class="label">GitHub Personal Access Token</label>
+          <input type="password" id="token" class="input font-mono" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" />
         </div>
-        <div>
-          <label class="label">Имя репозитория</label>
-          <input type="text" id="repo" class="input font-mono" value="site" />
-        </div>
-      </div>
-      <div class="grid grid-cols-2 gap-3">
-        <div>
-          <label class="label">Ветка</label>
-          <input type="text" id="branch" class="input font-mono" value="main" />
-        </div>
-        <div>
-          <label class="label">Путь к JSON файлу</label>
-          <input type="text" id="path" class="input font-mono" value="data/portfolio.json" />
-        </div>
-      </div>
-
-      <button class="btn btn-primary w-full mt-2" onclick="login()">Войти в CMS →</button>
-
-      <details class="text-xs text-neutral-400 mt-2">
-        <summary class="hover:text-neutral-200 cursor-pointer select-none"><span class="mr-1 text-[10px]">▶</span> Как получить токен доступа?</summary>
-        <div class="mt-3 space-y-2 leading-relaxed pl-2 border-l border-white/10">
-          <p>1. Открой <a href="https://github.com/settings/tokens/new?scopes=repo&description=Nik%20CMS" target="_blank" class="text-cyan-400 hover:underline">эту ссылку на GitHub</a></p>
-          <p>2. Укажи описание (например, <code class="bg-white/10 px-1 rounded">Nik CMS</code>)</p>
-          <p>3. Срок действия (Expiration): желательно <code class="bg-white/10 px-1 rounded">No expiration</code></p>
-          <p>4. Галочка: ✅ <code class="bg-white/10 px-1 rounded">repo</code> (полный доступ к коммитам)</p>
-          <p>5. Нажми Generate token и скопируй токен сюда</p>
-          <p class="text-neutral-500 font-mono text-[9px] mt-2">Токен сохраняется исключительно в вашем браузере (localStorage) и не улетает на сторонние сервера.</p>
-        </div>
-      </details>
-    </div>
-  </div>
-</section>
-
-<!-- ============ MAIN ADMIN PANEL ============ -->
-<main id="main" class="hidden flex-1 flex flex-col">
-  <header class="border-b border-white/5 px-6 py-4 flex items-center justify-between sticky top-0 bg-[#08080C]/90 backdrop-blur-md z-50">
-    <div class="flex items-center gap-4">
-      <div class="flex items-center gap-2">
-        <span class="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse"></span>
-        <span class="font-display font-bold text-lg tracking-tight text-white">CMS Engine</span>
-      </div>
-      <span class="text-xs text-neutral-500 font-mono hidden md:inline bg-white/5 px-2.5 py-1 rounded" id="repo-info"></span>
-    </div>
-    <div class="flex gap-2.5">
-      <a href="../index.html" target="_blank" class="btn btn-ghost text-xs">Предпросмотр сайта ↗</a>
-      <button class="btn bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs" onclick="downloadJSON()" title="Скачать измененный portfolio.json для ручного сохранения">💾 Скачать JSON</button>
-      <button class="btn btn-primary text-xs" onclick="save()">💾 Опубликовать изменения</button>
-      <button class="btn btn-ghost text-xs" onclick="logout()">Выйти</button>
-    </div>
-  </header>
-
-  <!-- Navigation Tabs -->
-  <nav class="flex border-b border-white/5 bg-[#0a0a0f] px-6 overflow-x-auto select-none sticky top-[69px] z-40">
-    <div class="tab active" data-tab="hub">HUB (Главная)</div>
-    <div class="tab" data-tab="montage">Монтаж</div>
-    <div class="tab" data-tab="design">Дизайн</div>
-    <div class="tab" data-tab="dev">Код (Dev)</div>
-    <div class="tab" data-tab="testimonials">Отзывы</div>
-  </nav>
-
-  <div class="p-6 max-w-5xl w-full mx-auto flex-1 pb-24">
-
-    <!-- ============ TAB: HUB ============ -->
-    <div class="tab-pane space-y-8" data-tab="hub">
-      <div class="flex items-center justify-between">
-        <div>
-          <h2 class="text-2xl font-display font-bold text-white">HUB / Главная страница</h2>
-          <p class="text-xs text-neutral-400 mt-1">Основная информация профиля, счетчики статистики и ролики с канала.</p>
-        </div>
-      </div>
-
-      <!-- Profile Section -->
-      <div class="glass p-6 rounded-xl space-y-4">
-        <h3 class="text-sm font-semibold uppercase tracking-wider text-cyan-400 font-mono mb-4 border-b border-white/5 pb-2">Профиль</h3>
-        <div class="grid md:grid-cols-2 gap-4">
-          <div><label class="label">Имя (короткое)</label><input class="input" id="f-name" /></div>
-          <div><label class="label">Полное имя</label><input class="input" id="f-fullname" /></div>
-        </div>
-        <div><label class="label">Слоган (Tagline)</label><input class="input" id="f-tagline" /></div>
-        <div><label class="label">О себе (Био)</label><textarea class="input" id="f-bio" rows="3"></textarea></div>
-        <div class="grid md:grid-cols-3 gap-4">
-          <div><label class="label">Email</label><input class="input" id="f-email" /></div>
-          <div><label class="label">Telegram</label><input class="input" id="f-telegram" /></div>
-          <div><label class="label">Телефон</label><input class="input" id="f-phone" /></div>
-        </div>
-        <h3 class="text-xs font-semibold uppercase tracking-wider text-cyan-400 font-mono pt-4 border-t border-white/5">Ссылки на соцсети</h3>
-        <div class="grid md:grid-cols-2 gap-4">
-          <div><label class="label">YouTube URL</label><input class="input" id="f-youtube" /></div>
-          <div><label class="label">YouTube Handle</label><input class="input font-mono" id="f-yt-handle" placeholder="@username" /></div>
-          <div><label class="label">Kwork URL</label><input class="input" id="f-kwork" /></div>
-          <div><label class="label">Instagram</label><input class="input" id="f-instagram" /></div>
-          <div><label class="label">VK URL</label><input class="input" id="f-vk" /></div>
-          <div><label class="label">GitHub URL</label><input class="input" id="f-github" /></div>
-        </div>
-      </div>
-
-      <!-- Stats Section -->
-      <div class="glass p-6 rounded-xl space-y-4">
-        <h3 class="text-sm font-semibold uppercase tracking-wider text-amber-400 font-mono mb-4 border-b border-white/5 pb-2">Цифры / Статистика</h3>
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-          <div><label class="label">Подписчики (кратко)</label><input class="input font-mono" id="s-subs" placeholder="272K" /></div>
-          <div><label class="label">Подписчики (полностью)</label><input class="input font-mono" id="s-subs-full" placeholder="272 000" /></div>
-          <div><label class="label">Видео-проектов</label><input class="input font-mono" id="s-videos" type="number" /></div>
-          <div><label class="label">Брендов</label><input class="input font-mono" id="s-brands" type="number" /></div>
-          <div><label class="label">Сайтов</label><input class="input font-mono" id="s-sites" type="number" /></div>
-          <div><label class="label">Лет опыта</label><input class="input font-mono" id="s-years" type="number" /></div>
-        </div>
-      </div>
-
-      <!-- YouTube Videos Section -->
-      <div class="glass p-6 rounded-xl space-y-4">
-        <div class="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
-          <h3 class="text-sm font-semibold uppercase tracking-wider text-rose-500 font-mono">Мой канал (Видеоролики)</h3>
-          <button class="btn btn-primary py-1.5 px-3 text-xs" onclick="addVideo()">+ Добавить видео</button>
-        </div>
-        
-        <div class="text-xs text-neutral-400 bg-white/5 p-3 rounded-md mb-2 flex items-center gap-2">
-          <span class="text-cyan-400 font-bold">💡 Лайфхак:</span>
-          Просто вставьте ссылку на ролик YouTube в поле «YouTube ID или URL» — CMS автоматически подгрузит название и обложку через oEmbed!
-        </div>
-
-        <div id="videos-list" class="space-y-3"></div>
-      </div>
-    </div>
-
-    <!-- ============ TAB: MONTAGE ============ -->
-    <div class="tab-pane hidden space-y-8" data-tab="montage">
-      <div>
-        <h2 class="text-2xl font-display font-bold text-white">Страница Монтажа</h2>
-        <p class="text-xs text-neutral-400 mt-1">Редактирование Bento-услуг монтажа и библиотеки кассет для интерактивного стола.</p>
-      </div>
-
-      <!-- Services -->
-      <div class="glass p-6 rounded-xl space-y-4">
-        <div class="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
-          <h3 class="text-sm font-semibold uppercase tracking-wider text-emerald-400 font-mono">Услуги монтажа</h3>
-          <button class="btn btn-primary py-1.5 px-3 text-xs" onclick="addService('montage')">+ Добавить услугу</button>
-        </div>
-        <div id="montage-services-list" class="space-y-4"></div>
-      </div>
-
-      <!-- Montage Clips Gallery -->
-      <div class="glass p-6 rounded-xl space-y-4">
-        <div class="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
-          <h3 class="text-sm font-semibold uppercase tracking-wider text-rose-500 font-mono">Библиотека кассет (Исходники)</h3>
-          <button class="btn btn-primary py-1.5 px-3 text-xs" onclick="addMontageClip()">+ Добавить кассету</button>
-        </div>
-        <div id="montage-clips-list" class="space-y-4"></div>
-      </div>
-    </div>
-
-    <!-- ============ TAB: DESIGN ============ -->
-    <div class="tab-pane hidden space-y-8" data-tab="design">
-      <div>
-        <h2 class="text-2xl font-display font-bold text-white">Страница Дизайна</h2>
-        <p class="text-xs text-neutral-400 mt-1">Редактирование списка услуг дизайна и сетки работ (галереи) по категориям.</p>
-      </div>
-
-      <!-- Services -->
-      <div class="glass p-6 rounded-xl space-y-4">
-        <div class="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
-          <h3 class="text-sm font-semibold uppercase tracking-wider text-emerald-400 font-mono">Услуги дизайна</h3>
-          <button class="btn btn-primary py-1.5 px-3 text-xs" onclick="addService('design')">+ Добавить услугу</button>
-        </div>
-        <div id="design-services-list" class="space-y-4"></div>
-      </div>
-
-      <!-- Design Gallery Grid -->
-      <div class="glass p-6 rounded-xl space-y-4">
-        <div class="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
+        <div class="grid grid-cols-2 gap-3">
           <div>
-            <h3 class="text-sm font-semibold uppercase tracking-wider text-amber-400 font-mono">Галерея работ</h3>
+            <label class="label">Владелец репозитория</label>
+            <input type="text" id="owner" class="input font-mono" value="nikitanext20020-debug" />
           </div>
-          <div class="flex gap-2">
-            <select class="input py-1 px-3 text-xs font-mono" id="filter-design-gallery" onchange="renderDesignGallery()" style="width:auto">
-              <option value="previews">Превью (previews)</option>
-              <option value="banners">Шапки/Баннеры (banners)</option>
-              <option value="logos">Логотипы (logos)</option>
-              <option value="cards">Карточки маркетплейсов (cards)</option>
-            </select>
-            <button class="btn btn-primary py-1.5 px-3 text-xs" onclick="addDesignWork()">+ Добавить работу</button>
+          <div>
+            <label class="label">Имя репозитория</label>
+            <input type="text" id="repo" class="input font-mono" value="site" />
           </div>
         </div>
-        <div id="design-gallery-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="label">Ветка</label>
+            <input type="text" id="branch" class="input font-mono" value="main" />
+          </div>
+          <div>
+            <label class="label">Путь к JSON файлу</label>
+            <input type="text" id="path" class="input font-mono" value="data/portfolio.json" />
+          </div>
+        </div>
+
+        <button class="btn btn-primary w-full mt-2" onclick="login()">Войти в CMS →</button>
+
+        <details class="text-xs text-neutral-400 mt-2">
+          <summary class="hover:text-neutral-200 cursor-pointer select-none"><span class="mr-1 text-[10px]">▶</span> Как
+            получить токен доступа?</summary>
+          <div class="mt-3 space-y-2 leading-relaxed pl-2 border-l border-white/10">
+            <p>1. Открой <a href="https://github.com/settings/tokens/new?scopes=repo&description=Nik%20CMS"
+                target="_blank" class="text-cyan-400 hover:underline">эту ссылку на GitHub</a></p>
+            <p>2. Укажи описание (например, <code class="bg-white/10 px-1 rounded">Nik CMS</code>)</p>
+            <p>3. Срок действия (Expiration): желательно <code class="bg-white/10 px-1 rounded">No expiration</code></p>
+            <p>4. Галочка: ✅ <code class="bg-white/10 px-1 rounded">repo</code> (полный доступ к коммитам)</p>
+            <p>5. Нажми Generate token и скопируй токен сюда</p>
+            <p class="text-neutral-500 font-mono text-[9px] mt-2">Токен сохраняется исключительно в вашем браузере
+              (localStorage) и не улетает на сторонние сервера.</p>
+          </div>
+        </details>
       </div>
     </div>
+  </section>
 
-    <!-- ============ TAB: DEV ============ -->
-    <div class="tab-pane hidden space-y-8" data-tab="dev">
-      <div>
-        <h2 class="text-2xl font-display font-bold text-white">Страница Разработки</h2>
-        <p class="text-xs text-neutral-400 mt-1">Управление услугами по разработке сайтов/ботов и списком завершенных проектов.</p>
-      </div>
-
-      <!-- Services -->
-      <div class="glass p-6 rounded-xl space-y-4">
-        <div class="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
-          <h3 class="text-sm font-semibold uppercase tracking-wider text-emerald-400 font-mono">Услуги разработки (Стек)</h3>
-          <button class="btn btn-primary py-1.5 px-3 text-xs" onclick="addService('dev')">+ Добавить услугу</button>
+  <!-- ============ MAIN ADMIN PANEL ============ -->
+  <main id="main" class="hidden flex-1 flex flex-col">
+    <header
+      class="border-b border-white/5 px-4 md:px-6 py-4 flex flex-col sm:flex-row items-center gap-4 justify-between sticky top-0 bg-[#08080C]/90 backdrop-blur-md z-50">
+      <div class="flex items-center justify-between w-full sm:w-auto">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse"></span>
+          <span class="font-display font-bold text-lg tracking-tight text-white">CMS Engine</span>
         </div>
-        <div id="dev-services-list" class="space-y-4"></div>
+        <span class="text-[10px] text-neutral-500 font-mono sm:hidden bg-white/5 px-2 py-0.5 rounded"
+          id="repo-info-mobile"></span>
       </div>
+      <div class="flex flex-wrap gap-2 justify-center sm:justify-end w-full sm:w-auto">
+        <a href="../index.html" target="_blank" class="btn btn-ghost text-[10px] sm:text-xs px-2 py-1 sm:px-3 sm:py-1.5">Предпросмотр ↗</a>
+        <button class="btn bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-[10px] sm:text-xs px-2 py-1 sm:px-3 sm:py-1.5" onclick="downloadJSON()"
+          title="Скачать измененный portfolio.json для ручного сохранения">💾 Скачать JSON</button>
+        <button class="btn btn-primary text-[10px] sm:text-xs px-2 py-1 sm:px-3 sm:py-1.5" onclick="save()">💾 Опубликовать</button>
+        <button class="btn btn-ghost text-[10px] sm:text-xs px-2 py-1 sm:px-3 sm:py-1.5" onclick="logout()">Выйти</button>
+      </div>
+      <span class="text-xs text-neutral-500 font-mono hidden sm:inline bg-white/5 px-2.5 py-1 rounded"
+        id="repo-info"></span>
+    </header>
 
-      <!-- Projects -->
-      <div class="glass p-6 rounded-xl space-y-4">
-        <div class="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
-          <h3 class="text-sm font-semibold uppercase tracking-wider text-cyan-400 font-mono">Проекты разработки</h3>
-          <button class="btn btn-primary py-1.5 px-3 text-xs" onclick="addDevProject()">+ Добавить проект</button>
+    <!-- Navigation Tabs -->
+    <nav class="flex border-b border-white/5 bg-[#0a0a0f] px-6 overflow-x-auto select-none sticky top-[69px] z-40">
+      <div class="tab active" data-tab="hub">HUB (Главная)</div>
+      <div class="tab" data-tab="montage">Монтаж</div>
+      <div class="tab" data-tab="design">Дизайн</div>
+      <div class="tab" data-tab="dev">Код (Dev)</div>
+      <div class="tab" data-tab="testimonials">Отзывы</div>
+    </nav>
+
+    <div class="p-6 max-w-5xl w-full mx-auto flex-1 pb-24">
+
+      <!-- ============ TAB: HUB ============ -->
+      <div class="tab-pane space-y-8" data-tab="hub">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-2xl font-display font-bold text-white">HUB / Главная страница</h2>
+            <p class="text-xs text-neutral-400 mt-1">Основная информация профиля, счетчики статистики и ролики с канала.
+            </p>
+          </div>
         </div>
-        <div id="dev-projects-list" class="space-y-4"></div>
-      </div>
-    </div>
 
-    <!-- ============ TAB: TESTIMONIALS ============ -->
-    <div class="tab-pane hidden space-y-8" data-tab="testimonials">
-      <div class="flex items-center justify-between">
+        <!-- Profile Section -->
+        <div class="glass p-6 rounded-xl space-y-4">
+          <h3
+            class="text-sm font-semibold uppercase tracking-wider text-cyan-400 font-mono mb-4 border-b border-white/5 pb-2">
+            Профиль</h3>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div><label class="label">Имя (короткое)</label><input class="input" id="f-name" /></div>
+            <div><label class="label">Полное имя</label><input class="input" id="f-fullname" /></div>
+          </div>
+          <div><label class="label">Слоган (Tagline)</label><input class="input" id="f-tagline" /></div>
+          <div><label class="label">О себе (Био)</label><textarea class="input" id="f-bio" rows="3"></textarea></div>
+          <div class="grid md:grid-cols-3 gap-4">
+            <div><label class="label">Email</label><input class="input" id="f-email" /></div>
+            <div><label class="label">Telegram</label><input class="input" id="f-telegram" /></div>
+            <div><label class="label">Телефон</label><input class="input" id="f-phone" /></div>
+          </div>
+          <h3
+            class="text-xs font-semibold uppercase tracking-wider text-cyan-400 font-mono pt-4 border-t border-white/5">
+            Ссылки на соцсети</h3>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div><label class="label">YouTube URL</label><input class="input" id="f-youtube" /></div>
+            <div><label class="label">YouTube Handle</label><input class="input font-mono" id="f-yt-handle"
+                placeholder="@username" /></div>
+            <div><label class="label">Kwork URL</label><input class="input" id="f-kwork" /></div>
+            <div><label class="label">Instagram</label><input class="input" id="f-instagram" /></div>
+            <div><label class="label">VK URL</label><input class="input" id="f-vk" /></div>
+            <div><label class="label">GitHub URL</label><input class="input" id="f-github" /></div>
+          </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="glass p-6 rounded-xl space-y-4">
+          <h3
+            class="text-sm font-semibold uppercase tracking-wider text-amber-400 font-mono mb-4 border-b border-white/5 pb-2">
+            Цифры / Статистика</h3>
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div><label class="label">Подписчики (кратко)</label><input class="input font-mono" id="s-subs"
+                placeholder="272K" /></div>
+            <div><label class="label">Подписчики (полностью)</label><input class="input font-mono" id="s-subs-full"
+                placeholder="272 000" /></div>
+            <div><label class="label">Видео-проектов</label><input class="input font-mono" id="s-videos"
+                type="number" /></div>
+            <div><label class="label">Брендов</label><input class="input font-mono" id="s-brands" type="number" /></div>
+            <div><label class="label">Сайтов</label><input class="input font-mono" id="s-sites" type="number" /></div>
+            <div><label class="label">Лет опыта</label><input class="input font-mono" id="s-years" type="number" />
+            </div>
+          </div>
+        </div>
+
+        <!-- YouTube Videos Section -->
+        <div class="glass p-6 rounded-xl space-y-4">
+          <div class="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
+            <h3 class="text-sm font-semibold uppercase tracking-wider text-rose-500 font-mono">Мой канал (Видеоролики)
+            </h3>
+            <button class="btn btn-primary py-1.5 px-3 text-xs" onclick="addVideo()">+ Добавить видео</button>
+          </div>
+
+          <div class="text-xs text-neutral-400 bg-white/5 p-3 rounded-md mb-2 flex items-center gap-2">
+            <span class="text-cyan-400 font-bold">💡 Лайфхак:</span>
+            Просто вставьте ссылку на ролик YouTube в поле «YouTube ID или URL» — CMS автоматически подгрузит название и
+            обложку через oEmbed!
+          </div>
+
+          <div id="videos-list" class="space-y-3"></div>
+        </div>
+      </div>
+
+      <!-- ============ TAB: MONTAGE ============ -->
+      <div class="tab-pane hidden space-y-8" data-tab="montage">
         <div>
-          <h2 class="text-2xl font-display font-bold text-white">Отзывы клиентов</h2>
-          <p class="text-xs text-neutral-400 mt-1">Добавление, удаление и сортировка отзывов с сайтов.</p>
+          <h2 class="text-2xl font-display font-bold text-white">Страница Монтажа</h2>
+          <p class="text-xs text-neutral-400 mt-1">Редактирование Bento-услуг монтажа и библиотеки кассет для
+            интерактивного стола.</p>
         </div>
-        <button class="btn btn-primary" onclick="addTestimonial()">+ Добавить отзыв</button>
+
+        <!-- Services -->
+        <div class="glass p-6 rounded-xl space-y-4">
+          <div class="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
+            <h3 class="text-sm font-semibold uppercase tracking-wider text-emerald-400 font-mono">Услуги монтажа</h3>
+            <button class="btn btn-primary py-1.5 px-3 text-xs" onclick="addService('montage')">+ Добавить
+              услугу</button>
+          </div>
+          <div id="montage-services-list" class="space-y-4"></div>
+        </div>
+
+        <!-- Montage Clips Gallery -->
+        <div class="glass p-6 rounded-xl space-y-4">
+          <div class="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
+            <h3 class="text-sm font-semibold uppercase tracking-wider text-rose-500 font-mono">Библиотека кассет
+              (Исходники)</h3>
+            <button class="btn btn-primary py-1.5 px-3 text-xs" onclick="addMontageClip()">+ Добавить кассету</button>
+          </div>
+          <div id="montage-clips-list" class="space-y-4"></div>
+        </div>
       </div>
-      <div id="testimonials-list" class="space-y-4"></div>
+
+      <!-- ============ TAB: DESIGN ============ -->
+      <div class="tab-pane hidden space-y-8" data-tab="design">
+        <div>
+          <h2 class="text-2xl font-display font-bold text-white">Страница Дизайна</h2>
+          <p class="text-xs text-neutral-400 mt-1">Редактирование списка услуг дизайна и сетки работ (галереи) по
+            категориям.</p>
+        </div>
+
+        <!-- Services -->
+        <div class="glass p-6 rounded-xl space-y-4">
+          <div class="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
+            <h3 class="text-sm font-semibold uppercase tracking-wider text-emerald-400 font-mono">Услуги дизайна</h3>
+            <button class="btn btn-primary py-1.5 px-3 text-xs" onclick="addService('design')">+ Добавить
+              услугу</button>
+          </div>
+          <div id="design-services-list" class="space-y-4"></div>
+        </div>
+
+        <!-- Design Gallery Grid -->
+        <div class="glass p-6 rounded-xl space-y-4">
+          <div class="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
+            <div>
+              <h3 class="text-sm font-semibold uppercase tracking-wider text-amber-400 font-mono">Галерея работ</h3>
+            </div>
+            <div class="flex gap-2">
+              <select class="input py-1 px-3 text-xs font-mono" id="filter-design-gallery"
+                onchange="renderDesignGallery()" style="width:auto">
+                <option value="previews">Превью (previews)</option>
+                <option value="banners">Шапки/Баннеры (banners)</option>
+                <option value="logos">Логотипы (logos)</option>
+                <option value="cards">Карточки маркетплейсов (cards)</option>
+              </select>
+              <button class="btn btn-primary py-1.5 px-3 text-xs" onclick="addDesignWork()">+ Добавить работу</button>
+            </div>
+          </div>
+          <div id="design-gallery-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </div>
+      </div>
+
+      <!-- ============ TAB: DEV ============ -->
+      <div class="tab-pane hidden space-y-8" data-tab="dev">
+        <div>
+          <h2 class="text-2xl font-display font-bold text-white">Страница Разработки</h2>
+          <p class="text-xs text-neutral-400 mt-1">Управление услугами по разработке сайтов/ботов и списком завершенных
+            проектов.</p>
+        </div>
+
+        <!-- Services -->
+        <div class="glass p-6 rounded-xl space-y-4">
+          <div class="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
+            <h3 class="text-sm font-semibold uppercase tracking-wider text-emerald-400 font-mono">Услуги разработки
+              (Стек)</h3>
+            <button class="btn btn-primary py-1.5 px-3 text-xs" onclick="addService('dev')">+ Добавить услугу</button>
+          </div>
+          <div id="dev-services-list" class="space-y-4"></div>
+        </div>
+
+        <!-- Projects -->
+        <div class="glass p-6 rounded-xl space-y-4">
+          <div class="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
+            <h3 class="text-sm font-semibold uppercase tracking-wider text-cyan-400 font-mono">Проекты разработки</h3>
+            <button class="btn btn-primary py-1.5 px-3 text-xs" onclick="addDevProject()">+ Добавить проект</button>
+          </div>
+          <div id="dev-projects-list" class="space-y-4"></div>
+        </div>
+      </div>
+
+      <!-- ============ TAB: TESTIMONIALS ============ -->
+      <div class="tab-pane hidden space-y-8" data-tab="testimonials">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-2xl font-display font-bold text-white">Отзывы клиентов</h2>
+            <p class="text-xs text-neutral-400 mt-1">Добавление, удаление и сортировка отзывов с сайтов.</p>
+          </div>
+          <button class="btn btn-primary" onclick="addTestimonial()">+ Добавить отзыв</button>
+        </div>
+        <div id="testimonials-list" class="space-y-4"></div>
+      </div>
+
     </div>
+  </main>
 
-  </div>
-</main>
+  <div id="toast"></div>
 
-<div id="toast"></div>
+  <!-- ============ JS CMS LOGIC ============ -->
+  <script>
+    // ============ STATE ============
+    let DATA = null;
+    let CFG = {
+      token: '',
+      owner: 'nikitanext20020-debug',
+      repo: 'site',
+      branch: 'main',
+      path: 'data/portfolio.json',
+      sha: ''
+    };
 
-<!-- ============ JS CMS LOGIC ============ -->
-<script>
-// ============ STATE ============
-let DATA = null;
-let CFG = {
-  token: '',
-  owner: 'nikitanext20020-debug',
-  repo: 'site',
-  branch: 'main',
-  path: 'data/portfolio.json',
-  sha: ''
-};
+    // ============ AUTH ============
+    window.addEventListener('DOMContentLoaded', () => {
+      // Auto-detect owner and repo based on domain
+      const hostname = window.location.hostname;
+      const pathParts = window.location.pathname.split('/').filter(Boolean);
 
-// ============ AUTH ============
-window.addEventListener('DOMContentLoaded', () => {
-  // Auto-detect owner and repo based on domain
-  const hostname = window.location.hostname;
-  const pathParts = window.location.pathname.split('/').filter(Boolean);
-  
-  if (hostname.endsWith('github.io')) {
-    CFG.owner = hostname.split('.')[0];
-    CFG.repo = pathParts[0] || 'site';
-  } else if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
-    // Custom domain placeholder (user's custom domain mapping handles this)
-    CFG.owner = 'nikitanext20020-debug';
-    CFG.repo = 'site';
-  }
+      if (hostname.endsWith('github.io')) {
+        CFG.owner = hostname.split('.')[0];
+        CFG.repo = pathParts[0] || 'site';
+      } else if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
+        // Custom domain placeholder (user's custom domain mapping handles this)
+        CFG.owner = 'nikitanext20020-debug';
+        CFG.repo = 'site';
+      }
 
-  document.getElementById('owner').value = CFG.owner;
-  document.getElementById('repo').value = CFG.repo;
+      document.getElementById('owner').value = CFG.owner;
+      document.getElementById('repo').value = CFG.repo;
 
-  const saved = localStorage.getItem('nik-cms-cfg');
-  if (saved) {
-    const c = JSON.parse(saved);
-    document.getElementById('token').value = c.token || '';
-    document.getElementById('owner').value = c.owner || CFG.owner;
-    document.getElementById('repo').value = c.repo || CFG.repo;
-    document.getElementById('branch').value = c.branch || CFG.branch;
-    document.getElementById('path').value = c.path || CFG.path;
-    if (c.token) login();
-  }
-});
-
-async function login() {
-  CFG.token = document.getElementById('token').value.trim();
-  CFG.owner = document.getElementById('owner').value.trim().replace(/^\/|\/$/g, '');
-  CFG.repo = document.getElementById('repo').value.trim().replace(/^\/|\/$/g, '');
-  CFG.branch = document.getElementById('branch').value.trim();
-  CFG.path = document.getElementById('path').value.trim().replace(/^\//, '');
-  if (!CFG.token) return showToast('Введите токен доступа GitHub', 'error');
-
-  showToast('Загрузка данных из GitHub...', 'info');
-  try {
-    const url = `https://api.github.com/repos/${CFG.owner}/${CFG.repo}/contents/${CFG.path}?ref=${CFG.branch}&t=${Date.now()}`;
-    const res = await fetch(url, { 
-      headers: { 
-        Authorization: `Bearer ${CFG.token}`, 
-        Accept: 'application/vnd.github+json'
-      } 
+      const saved = localStorage.getItem('nik-cms-cfg');
+      if (saved) {
+        const c = JSON.parse(saved);
+        document.getElementById('token').value = c.token || '';
+        document.getElementById('owner').value = c.owner || CFG.owner;
+        document.getElementById('repo').value = c.repo || CFG.repo;
+        document.getElementById('branch').value = c.branch || CFG.branch;
+        document.getElementById('path').value = c.path || CFG.path;
+        if (c.token) login();
+      }
     });
-    if (!res.ok) {
-      if (res.status === 401) return showToast('Неверный токен доступа', 'error');
-      if (res.status === 404) return showToast('Файл базы данных не найден. Проверьте путь.', 'error');
-      return showToast(`Ошибка загрузки: ${res.status}`, 'error');
+
+    async function login() {
+      CFG.token = document.getElementById('token').value.trim();
+      CFG.owner = document.getElementById('owner').value.trim().replace(/^\/|\/$/g, '');
+      CFG.repo = document.getElementById('repo').value.trim().replace(/^\/|\/$/g, '');
+      CFG.branch = document.getElementById('branch').value.trim();
+      CFG.path = document.getElementById('path').value.trim().replace(/^\//, '');
+      if (!CFG.token) return showToast('Введите токен доступа GitHub', 'error');
+
+      showToast('Загрузка данных из GitHub...', 'info');
+      try {
+        const url = `https://api.github.com/repos/${CFG.owner}/${CFG.repo}/contents/${CFG.path}?ref=${CFG.branch}&t=${Date.now()}`;
+        const res = await fetch(url, {
+          headers: {
+            Authorization: `Bearer ${CFG.token}`,
+            Accept: 'application/vnd.github+json'
+          }
+        });
+        if (!res.ok) {
+          if (res.status === 401) return showToast('Неверный токен доступа', 'error');
+          if (res.status === 404) return showToast('Файл базы данных не найден. Проверьте путь.', 'error');
+          return showToast(`Ошибка загрузки: ${res.status}`, 'error');
+        }
+        const json = await res.json();
+        CFG.sha = json.sha;
+        DATA = JSON.parse(decodeBase64Utf8(json.content));
+
+        // Ensure dev_projects structure is initialized
+        if (!DATA.dev_projects) DATA.dev_projects = [];
+        if (!DATA.design_gallery) DATA.design_gallery = [];
+        if (!DATA.montage_gallery) DATA.montage_gallery = [];
+
+        localStorage.setItem('nik-cms-cfg', JSON.stringify(CFG));
+        document.getElementById('login-screen').classList.add('hidden');
+        document.getElementById('main').classList.remove('hidden');
+        const repoText = `${CFG.owner}/${CFG.repo} (${CFG.branch})`;
+        if (document.getElementById('repo-info')) document.getElementById('repo-info').textContent = repoText;
+        if (document.getElementById('repo-info-mobile')) document.getElementById('repo-info-mobile').textContent = repoText;
+
+        fillForm();
+        showToast('Вход успешно выполнен!', 'success');
+      } catch (e) {
+        console.error(e);
+        let errMsg = e.message;
+        if (errMsg === 'Failed to fetch') {
+          errMsg = 'Failed to fetch (сеть заблокирована. Если вы в РФ — обязательно включите VPN!)';
+        }
+        showToast('Ошибка сети: ' + errMsg, 'error');
+      }
     }
-    const json = await res.json();
-    CFG.sha = json.sha;
-    DATA = JSON.parse(decodeBase64Utf8(json.content));
 
-    // Ensure dev_projects structure is initialized
-    if (!DATA.dev_projects) DATA.dev_projects = [];
-    if (!DATA.design_gallery) DATA.design_gallery = [];
-    if (!DATA.montage_gallery) DATA.montage_gallery = [];
-
-    localStorage.setItem('nik-cms-cfg', JSON.stringify(CFG));
-    document.getElementById('login-screen').classList.add('hidden');
-    document.getElementById('main').classList.remove('hidden');
-    document.getElementById('repo-info').textContent = `${CFG.owner}/${CFG.repo} (${CFG.branch})`;
-    
-    fillForm();
-    showToast('Вход успешно выполнен!', 'success');
-  } catch (e) {
-    console.error(e);
-    let errMsg = e.message;
-    if (errMsg === 'Failed to fetch') {
-      errMsg = 'Failed to fetch (сеть заблокирована. Если вы в РФ — обязательно включите VPN!)';
+    function logout() {
+      if (!confirm('Вы уверены, что хотите выйти из CMS? Все несохраненные изменения будут потеряны.')) return;
+      localStorage.removeItem('nik-cms-cfg');
+      location.reload();
     }
-    showToast('Ошибка сети: ' + errMsg, 'error');
-  }
-}
 
-function logout() {
-  if (!confirm('Вы уверены, что хотите выйти из CMS? Все несохраненные изменения будут потеряны.')) return;
-  localStorage.removeItem('nik-cms-cfg');
-  location.reload();
-}
+    function decodeBase64Utf8(b64) {
+      const cleaned = b64.replace(/\n/g, '');
+      return decodeURIComponent(escape(atob(cleaned)));
+    }
+    function encodeBase64Utf8(str) {
+      return btoa(unescape(encodeURIComponent(str)));
+    }
 
-function decodeBase64Utf8(b64) {
-  const cleaned = b64.replace(/\n/g, '');
-  return decodeURIComponent(escape(atob(cleaned)));
-}
-function encodeBase64Utf8(str) {
-  return btoa(unescape(encodeURIComponent(str)));
-}
+    // ============ TABS ============
+    document.querySelectorAll('.tab').forEach(t => {
+      t.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+        document.querySelectorAll('.tab-pane').forEach(x => x.classList.add('hidden'));
+        t.classList.add('active');
+        document.querySelector(`.tab-pane[data-tab="${t.dataset.tab}"]`).classList.remove('hidden');
+      });
+    });
 
-// ============ TABS ============
-document.querySelectorAll('.tab').forEach(t => {
-  t.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
-    document.querySelectorAll('.tab-pane').forEach(x => x.classList.add('hidden'));
-    t.classList.add('active');
-    document.querySelector(`.tab-pane[data-tab="${t.dataset.tab}"]`).classList.remove('hidden');
-  });
-});
+    // ============ FILL FORMS ============
+    function fillForm() {
+      const s = DATA.site || {};
+      document.getElementById('f-name').value = s.name || '';
+      document.getElementById('f-fullname').value = s.fullname || '';
+      document.getElementById('f-tagline').value = s.tagline || '';
+      document.getElementById('f-bio').value = s.bio || '';
+      document.getElementById('f-email').value = s.email || '';
+      document.getElementById('f-telegram').value = s.telegram || '';
+      document.getElementById('f-phone').value = s.phone || '';
+      document.getElementById('f-yt-handle').value = s.youtube_handle || '';
 
-// ============ FILL FORMS ============
-function fillForm() {
-  const s = DATA.site || {};
-  document.getElementById('f-name').value = s.name || '';
-  document.getElementById('f-fullname').value = s.fullname || '';
-  document.getElementById('f-tagline').value = s.tagline || '';
-  document.getElementById('f-bio').value = s.bio || '';
-  document.getElementById('f-email').value = s.email || '';
-  document.getElementById('f-telegram').value = s.telegram || '';
-  document.getElementById('f-phone').value = s.phone || '';
-  document.getElementById('f-yt-handle').value = s.youtube_handle || '';
-  
-  const so = s.social || {};
-  document.getElementById('f-youtube').value = so.youtube || '';
-  document.getElementById('f-kwork').value = so.kwork || '';
-  document.getElementById('f-instagram').value = so.instagram || '';
-  document.getElementById('f-vk').value = so.vk || '';
-  document.getElementById('f-github').value = so.github || '';
+      const so = s.social || {};
+      document.getElementById('f-youtube').value = so.youtube || '';
+      document.getElementById('f-kwork').value = so.kwork || '';
+      document.getElementById('f-instagram').value = so.instagram || '';
+      document.getElementById('f-vk').value = so.vk || '';
+      document.getElementById('f-github').value = so.github || '';
 
-  const st = DATA.stats || {};
-  document.getElementById('s-subs').value = st.subscribers || '';
-  document.getElementById('s-subs-full').value = st.subscribers_full || '';
-  document.getElementById('s-videos').value = st.video_projects ?? '';
-  document.getElementById('s-brands').value = st.brands ?? '';
-  document.getElementById('s-sites').value = st.websites ?? '';
-  document.getElementById('s-years').value = st.years ?? '';
+      const st = DATA.stats || {};
+      document.getElementById('s-subs').value = st.subscribers || '';
+      document.getElementById('s-subs-full').value = st.subscribers_full || '';
+      document.getElementById('s-videos').value = st.video_projects ?? '';
+      document.getElementById('s-brands').value = st.brands ?? '';
+      document.getElementById('s-sites').value = st.websites ?? '';
+      document.getElementById('s-years').value = st.years ?? '';
 
-  renderVideos();
-  renderServices();
-  renderMontageClips();
-  renderDesignGallery();
-  renderDevProjects();
-  renderTestimonials();
-}
+      renderVideos();
+      renderServices();
+      renderMontageClips();
+      renderDesignGallery();
+      renderDevProjects();
+      renderTestimonials();
+    }
 
-function collectForm() {
-  DATA.site = DATA.site || {};
-  DATA.site.name = v('f-name');
-  DATA.site.fullname = v('f-fullname');
-  DATA.site.tagline = v('f-tagline');
-  DATA.site.bio = v('f-bio');
-  DATA.site.email = v('f-email');
-  DATA.site.telegram = v('f-telegram');
-  DATA.site.phone = v('f-phone');
-  DATA.site.youtube_handle = v('f-yt-handle');
-  DATA.site.social = {
-    youtube: v('f-youtube'),
-    kwork: v('f-kwork'),
-    instagram: v('f-instagram'),
-    vk: v('f-vk'),
-    github: v('f-github'),
-  };
-  
-  DATA.stats = DATA.stats || {};
-  DATA.stats.subscribers = v('s-subs');
-  DATA.stats.subscribers_full = v('s-subs-full');
-  DATA.stats.video_projects = +v('s-videos') || 0;
-  DATA.stats.brands = +v('s-brands') || 0;
-  DATA.stats.websites = +v('s-sites') || 0;
-  DATA.stats.years = +v('s-years') || 0;
-}
-const v = id => document.getElementById(id).value.trim();
+    function collectForm() {
+      DATA.site = DATA.site || {};
+      DATA.site.name = v('f-name');
+      DATA.site.fullname = v('f-fullname');
+      DATA.site.tagline = v('f-tagline');
+      DATA.site.bio = v('f-bio');
+      DATA.site.email = v('f-email');
+      DATA.site.telegram = v('f-telegram');
+      DATA.site.phone = v('f-phone');
+      DATA.site.youtube_handle = v('f-yt-handle');
+      DATA.site.social = {
+        youtube: v('f-youtube'),
+        kwork: v('f-kwork'),
+        instagram: v('f-instagram'),
+        vk: v('f-vk'),
+        github: v('f-github'),
+      };
 
-// ============ SORTING UTILITIES ============
-function swapItems(arr, i, j) {
-  if (i < 0 || i >= arr.length || j < 0 || j >= arr.length) return;
-  const temp = arr[i];
-  arr[i] = arr[j];
-  arr[j] = temp;
-}
+      DATA.stats = DATA.stats || {};
+      DATA.stats.subscribers = v('s-subs');
+      DATA.stats.subscribers_full = v('s-subs-full');
+      DATA.stats.video_projects = +v('s-videos') || 0;
+      DATA.stats.brands = +v('s-brands') || 0;
+      DATA.stats.websites = +v('s-sites') || 0;
+      DATA.stats.years = +v('s-years') || 0;
+    }
+    const v = id => document.getElementById(id).value.trim();
 
-// ============ SECTION: VIDEOS ============
-function renderVideos() {
-  const container = document.getElementById('videos-list');
-  container.innerHTML = '';
-  if (!DATA.videos || !DATA.videos.length) {
-    container.innerHTML = '<div class="text-center py-6 text-neutral-500">Список видеороликов пуст</div>';
-    return;
-  }
-  DATA.videos.forEach((vid, idx) => {
-    const card = document.createElement('div');
-    card.className = 'glass p-4 rounded-lg flex flex-col md:flex-row gap-4 items-start';
-    
-    const thumbUrl = vid.thumb ? `https://external-content.duckduckgo.com/iu/?u=${encodeURIComponent(vid.thumb)}` : '';
-    
-    card.innerHTML = `
+    // ============ SORTING UTILITIES ============
+    function swapItems(arr, i, j) {
+      if (i < 0 || i >= arr.length || j < 0 || j >= arr.length) return;
+      const temp = arr[i];
+      arr[i] = arr[j];
+      arr[j] = temp;
+    }
+
+    // ============ SECTION: VIDEOS ============
+    function renderVideos() {
+      const container = document.getElementById('videos-list');
+      container.innerHTML = '';
+      if (!DATA.videos || !DATA.videos.length) {
+        container.innerHTML = '<div class="text-center py-6 text-neutral-500">Список видеороликов пуст</div>';
+        return;
+      }
+      DATA.videos.forEach((vid, idx) => {
+        const card = document.createElement('div');
+        card.className = 'glass p-4 rounded-lg flex flex-col md:flex-row gap-4 items-start';
+
+        const thumbUrl = vid.thumb ? `https://external-content.duckduckgo.com/iu/?u=${encodeURIComponent(vid.thumb)}` : '';
+
+        card.innerHTML = `
       <div class="w-full md:w-32 aspect-video bg-neutral-900 rounded overflow-hidden relative flex-shrink-0 border border-white/5">
         ${thumbUrl ? `<img src="${thumbUrl}" class="w-full h-full object-cover" />` : `<div class="w-full h-full flex items-center justify-center font-mono text-[9px] text-neutral-500">НЕТ ОБЛОЖКИ</div>`}
       </div>
@@ -685,79 +766,79 @@ function renderVideos() {
       </div>
     `;
 
-    // Listeners for auto-fill & data sync
-    const idInp = card.querySelector('.val-id');
-    idInp.addEventListener('change', async (e) => {
-      let val = e.target.value.trim();
-      const m = val.match(/(?:v=|youtu\.be\/|youtube\.com\/(?:embed\/|shorts\/))([a-zA-Z0-9_-]{11})/);
-      if (m) val = m[1];
-      
-      vid.id = val;
-      vid.url = `https://www.youtube.com/watch?v=${val}`;
-      vid.thumb = `https://i.ytimg.com/vi/${val}/hqdefault.jpg`;
-      
-      // Auto-fetch title via oEmbed
-      if (val.length === 11) {
-        showToast('Загрузка информации о видео...', 'info');
-        try {
-          const res = await fetch(`https://noembed.com/embed?url=https://www.youtube.com/watch?v=${val}`);
-          if (res.ok) {
-            const rData = await res.json();
-            if (rData.title) {
-              vid.title = rData.title;
-              showToast('Информация подгружена!', 'success');
-            }
+        // Listeners for auto-fill & data sync
+        const idInp = card.querySelector('.val-id');
+        idInp.addEventListener('change', async (e) => {
+          let val = e.target.value.trim();
+          const m = val.match(/(?:v=|youtu\.be\/|youtube\.com\/(?:embed\/|shorts\/))([a-zA-Z0-9_-]{11})/);
+          if (m) val = m[1];
+
+          vid.id = val;
+          vid.url = `https://www.youtube.com/watch?v=${val}`;
+          vid.thumb = `https://i.ytimg.com/vi/${val}/hqdefault.jpg`;
+
+          // Auto-fetch title via oEmbed
+          if (val.length === 11) {
+            showToast('Загрузка информации о видео...', 'info');
+            try {
+              const res = await fetch(`https://noembed.com/embed?url=https://www.youtube.com/watch?v=${val}`);
+              if (res.ok) {
+                const rData = await res.json();
+                if (rData.title) {
+                  vid.title = rData.title;
+                  showToast('Информация подгружена!', 'success');
+                }
+              }
+            } catch (err) { console.warn(err); }
           }
-        } catch (err) { console.warn(err); }
-      }
+          renderVideos();
+        });
+
+        card.querySelector('.val-title').addEventListener('change', e => { vid.title = e.target.value.trim(); });
+        card.querySelector('.val-tag').addEventListener('change', e => { vid.tag = e.target.value.trim(); });
+        card.querySelector('.val-views').addEventListener('change', e => { vid.views = e.target.value.trim(); });
+        card.querySelector('.val-year').addEventListener('change', e => { vid.year = +e.target.value || 2026; });
+
+        card.querySelector('.btn-up').addEventListener('click', () => { swapItems(DATA.videos, idx, idx - 1); renderVideos(); });
+        card.querySelector('.btn-down').addEventListener('click', () => { swapItems(DATA.videos, idx, idx + 1); renderVideos(); });
+
+        container.appendChild(card);
+      });
+    }
+    function addVideo() {
+      DATA.videos = DATA.videos || [];
+      DATA.videos.unshift({ id: '', title: 'Новое видео', tag: 'Обучение', views: '0', year: 2026, url: '', thumb: '' });
       renderVideos();
-    });
+    }
+    function deleteVideo(idx) {
+      if (!confirm('Удалить этот видеоролик?')) return;
+      DATA.videos.splice(idx, 1);
+      renderVideos();
+    }
 
-    card.querySelector('.val-title').addEventListener('change', e => { vid.title = e.target.value.trim(); });
-    card.querySelector('.val-tag').addEventListener('change', e => { vid.tag = e.target.value.trim(); });
-    card.querySelector('.val-views').addEventListener('change', e => { vid.views = e.target.value.trim(); });
-    card.querySelector('.val-year').addEventListener('change', e => { vid.year = +e.target.value || 2026; });
+    // ============ SECTION: SERVICES ============
+    function renderServices() {
+      const montageList = document.getElementById('montage-services-list');
+      const designList = document.getElementById('design-services-list');
+      const devList = document.getElementById('dev-services-list');
 
-    card.querySelector('.btn-up').addEventListener('click', () => { swapItems(DATA.videos, idx, idx - 1); renderVideos(); });
-    card.querySelector('.btn-down').addEventListener('click', () => { swapItems(DATA.videos, idx, idx + 1); renderVideos(); });
+      montageList.innerHTML = '';
+      designList.innerHTML = '';
+      devList.innerHTML = '';
 
-    container.appendChild(card);
-  });
-}
-function addVideo() {
-  DATA.videos = DATA.videos || [];
-  DATA.videos.unshift({ id: '', title: 'Новое видео', tag: 'Обучение', views: '0', year: 2026, url: '', thumb: '' });
-  renderVideos();
-}
-function deleteVideo(idx) {
-  if (!confirm('Удалить этот видеоролик?')) return;
-  DATA.videos.splice(idx, 1);
-  renderVideos();
-}
+      const sList = DATA.services || [];
+      if (!sList.length) {
+        const emptyMsg = '<div class="text-center py-6 text-neutral-500">Услуг в этой категории пока нет</div>';
+        montageList.innerHTML = emptyMsg;
+        designList.innerHTML = emptyMsg;
+        devList.innerHTML = emptyMsg;
+        return;
+      }
 
-// ============ SECTION: SERVICES ============
-function renderServices() {
-  const montageList = document.getElementById('montage-services-list');
-  const designList = document.getElementById('design-services-list');
-  const devList = document.getElementById('dev-services-list');
-
-  montageList.innerHTML = '';
-  designList.innerHTML = '';
-  devList.innerHTML = '';
-
-  const sList = DATA.services || [];
-  if (!sList.length) {
-    const emptyMsg = '<div class="text-center py-6 text-neutral-500">Услуг в этой категории пока нет</div>';
-    montageList.innerHTML = emptyMsg;
-    designList.innerHTML = emptyMsg;
-    devList.innerHTML = emptyMsg;
-    return;
-  }
-
-  sList.forEach((srv, idx) => {
-    const card = document.createElement('div');
-    card.className = 'glass p-4 rounded-lg flex flex-col md:flex-row gap-4 items-stretch';
-    card.innerHTML = `
+      sList.forEach((srv, idx) => {
+        const card = document.createElement('div');
+        card.className = 'glass p-4 rounded-lg flex flex-col md:flex-row gap-4 items-stretch';
+        card.innerHTML = `
       <div class="flex-grow grid md:grid-cols-2 gap-3">
         <div class="md:col-span-2">
           <label class="label">Заголовок услуги</label>
@@ -783,66 +864,66 @@ function renderServices() {
       </div>
     `;
 
-    card.querySelector('.val-title').addEventListener('change', e => { srv.title = e.target.value.trim(); });
-    card.querySelector('.val-tag').addEventListener('change', e => { srv.tag = e.target.value.trim(); });
-    card.querySelector('.val-price').addEventListener('change', e => { srv.price = e.target.value.trim(); });
-    card.querySelector('.val-desc').addEventListener('change', e => { srv.description = e.target.value.trim(); });
+        card.querySelector('.val-title').addEventListener('change', e => { srv.title = e.target.value.trim(); });
+        card.querySelector('.val-tag').addEventListener('change', e => { srv.tag = e.target.value.trim(); });
+        card.querySelector('.val-price').addEventListener('change', e => { srv.price = e.target.value.trim(); });
+        card.querySelector('.val-desc').addEventListener('change', e => { srv.description = e.target.value.trim(); });
 
-    card.querySelector('.btn-up').addEventListener('click', () => {
-      // Find previous service of same category
-      let prevIdx = -1;
-      for (let i = idx - 1; i >= 0; i--) {
-        if (DATA.services[i].category === srv.category) { prevIdx = i; break; }
+        card.querySelector('.btn-up').addEventListener('click', () => {
+          // Find previous service of same category
+          let prevIdx = -1;
+          for (let i = idx - 1; i >= 0; i--) {
+            if (DATA.services[i].category === srv.category) { prevIdx = i; break; }
+          }
+          if (prevIdx !== -1) { swapItems(DATA.services, idx, prevIdx); renderServices(); }
+        });
+
+        card.querySelector('.btn-down').addEventListener('click', () => {
+          // Find next service of same category
+          let nextIdx = -1;
+          for (let i = idx + 1; i < DATA.services.length; i++) {
+            if (DATA.services[i].category === srv.category) { nextIdx = i; break; }
+          }
+          if (nextIdx !== -1) { swapItems(DATA.services, idx, nextIdx); renderServices(); }
+        });
+
+        if (srv.category === 'montage') montageList.appendChild(card);
+        else if (srv.category === 'design') designList.appendChild(card);
+        else if (srv.category === 'dev') devList.appendChild(card);
+      });
+    }
+    function addService(category) {
+      DATA.services = DATA.services || [];
+      DATA.services.push({
+        id: category[0] + '_srv_' + Date.now(),
+        category: category,
+        title: 'Новая услуга',
+        tag: 'Описание тега',
+        price: 'от 1 000 ₽',
+        link: '#contact',
+        description: 'Короткое описание услуги.'
+      });
+      renderServices();
+    }
+    function deleteService(idx) {
+      if (!confirm('Удалить эту услугу?')) return;
+      DATA.services.splice(idx, 1);
+      renderServices();
+    }
+
+    // ============ SECTION: MONTAGE CLIPS ============
+    function renderMontageClips() {
+      const container = document.getElementById('montage-clips-list');
+      container.innerHTML = '';
+      const list = DATA.montage_gallery || [];
+      if (!list.length) {
+        container.innerHTML = '<div class="text-center py-6 text-neutral-500">Библиотека кассет пуста</div>';
+        return;
       }
-      if (prevIdx !== -1) { swapItems(DATA.services, idx, prevIdx); renderServices(); }
-    });
-    
-    card.querySelector('.btn-down').addEventListener('click', () => {
-      // Find next service of same category
-      let nextIdx = -1;
-      for (let i = idx + 1; i < DATA.services.length; i++) {
-        if (DATA.services[i].category === srv.category) { nextIdx = i; break; }
-      }
-      if (nextIdx !== -1) { swapItems(DATA.services, idx, nextIdx); renderServices(); }
-    });
-
-    if (srv.category === 'montage') montageList.appendChild(card);
-    else if (srv.category === 'design') designList.appendChild(card);
-    else if (srv.category === 'dev') devList.appendChild(card);
-  });
-}
-function addService(category) {
-  DATA.services = DATA.services || [];
-  DATA.services.push({
-    id: category[0] + '_srv_' + Date.now(),
-    category: category,
-    title: 'Новая услуга',
-    tag: 'Описание тега',
-    price: 'от 1 000 ₽',
-    link: '#contact',
-    description: 'Короткое описание услуги.'
-  });
-  renderServices();
-}
-function deleteService(idx) {
-  if (!confirm('Удалить эту услугу?')) return;
-  DATA.services.splice(idx, 1);
-  renderServices();
-}
-
-// ============ SECTION: MONTAGE CLIPS ============
-function renderMontageClips() {
-  const container = document.getElementById('montage-clips-list');
-  container.innerHTML = '';
-  const list = DATA.montage_gallery || [];
-  if (!list.length) {
-    container.innerHTML = '<div class="text-center py-6 text-neutral-500">Библиотека кассет пуста</div>';
-    return;
-  }
-  list.forEach((clip, idx) => {
-    const card = document.createElement('div');
-    card.className = 'glass p-4 rounded-lg flex flex-col md:flex-row gap-4 items-stretch';
-    card.innerHTML = `
+      list.forEach((clip, idx) => {
+        const card = document.createElement('div');
+        card.className = 'glass p-4 rounded-lg flex flex-col md:flex-row gap-4 items-stretch';
+        card.innerHTML = `
       <div class="flex-grow grid md:grid-cols-2 gap-3">
         <div>
           <label class="label">Название файла (кассеты)</label>
@@ -852,7 +933,7 @@ function renderMontageClips() {
           <label class="label">URL Видеоролика (.mp4 / youtube)</label>
           <input class="input font-mono text-xs val-url" value="${escapeAttr(clip.url || '')}" placeholder="videos/filename.mp4" />
         </div>
-        <div class="grid grid-cols-3 gap-2">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
           <div>
             <label class="label">Длительность (сек)</label>
             <input class="input font-mono text-xs val-duration" type="number" value="${clip.duration || ''}" />
@@ -860,22 +941,22 @@ function renderMontageClips() {
           <div>
             <label class="label">Формат сторон</label>
             <select class="input text-xs val-aspect">
-              <option value="9:16" ${clip.aspect === '9:16'?'selected':''}>9:16 (Vertical)</option>
-              <option value="16:9" ${clip.aspect === '16:9'?'selected':''}>16:9 (Landscape)</option>
+              <option value="9:16" ${clip.aspect === '9:16' ? 'selected' : ''}>9:16 (Vertical)</option>
+              <option value="16:9" ${clip.aspect === '16:9' ? 'selected' : ''}>16:9 (Landscape)</option>
             </select>
           </div>
           <div>
             <label class="label">Цвет кассеты</label>
             <select class="input text-xs val-color">
-              <option value="rec" ${clip.color === 'rec'?'selected':''}>Красный (Rec)</option>
-              <option value="amber" ${clip.color === 'amber'?'selected':''}>Оранжевый (Amber)</option>
+              <option value="rec" ${clip.color === 'rec' ? 'selected' : ''}>Красный (Rec)</option>
+              <option value="amber" ${clip.color === 'amber' ? 'selected' : ''}>Оранжевый (Amber)</option>
             </select>
           </div>
         </div>
         <div class="flex items-center">
           <!-- Video preview container -->
           <div class="w-full h-[60px] bg-neutral-900 rounded overflow-hidden flex items-center justify-center border border-white/5">
-            ${clip.url ? `<video src="${clip.url}" class="h-full" muted autoplay loop></video>` : '<span class="text-[9px] text-neutral-500 font-mono">ПЛЕЕР</span>'}
+            ${clip.url ? `<video src="${getAdminImageUrl(clip.url)}" class="h-full" muted autoplay loop></video>` : '<span class="text-[9px] text-neutral-500 font-mono">ПЛЕЕР</span>'}
           </div>
         </div>
       </div>
@@ -886,64 +967,64 @@ function renderMontageClips() {
       </div>
     `;
 
-    card.querySelector('.val-name').addEventListener('change', e => { clip.name = e.target.value.trim(); });
-    
-    const urlInp = card.querySelector('.val-url');
-    urlInp.addEventListener('change', e => {
-      clip.url = e.target.value.trim();
+        card.querySelector('.val-name').addEventListener('change', e => { clip.name = e.target.value.trim(); });
+
+        const urlInp = card.querySelector('.val-url');
+        urlInp.addEventListener('change', e => {
+          clip.url = e.target.value.trim();
+          renderMontageClips();
+        });
+
+        card.querySelector('.val-duration').addEventListener('change', e => { clip.duration = +e.target.value || 10; });
+        card.querySelector('.val-aspect').addEventListener('change', e => { clip.aspect = e.target.value; });
+        card.querySelector('.val-color').addEventListener('change', e => { clip.color = e.target.value; });
+
+        card.querySelector('.btn-up').addEventListener('click', () => { swapItems(DATA.montage_gallery, idx, idx - 1); renderMontageClips(); });
+        card.querySelector('.btn-down').addEventListener('click', () => { swapItems(DATA.montage_gallery, idx, idx + 1); renderMontageClips(); });
+
+        container.appendChild(card);
+      });
+    }
+    function addMontageClip() {
+      DATA.montage_gallery = DATA.montage_gallery || [];
+      DATA.montage_gallery.push({
+        id: 'reel-' + (DATA.montage_gallery.length + 1),
+        url: '',
+        name: 'NEW_REEL.mp4',
+        duration: 15,
+        color: 'rec',
+        aspect: '9:16'
+      });
       renderMontageClips();
-    });
+    }
+    function deleteMontageClip(idx) {
+      if (!confirm('Удалить эту кассету?')) return;
+      DATA.montage_gallery.splice(idx, 1);
+      renderMontageClips();
+    }
 
-    card.querySelector('.val-duration').addEventListener('change', e => { clip.duration = +e.target.value || 10; });
-    card.querySelector('.val-aspect').addEventListener('change', e => { clip.aspect = e.target.value; });
-    card.querySelector('.val-color').addEventListener('change', e => { clip.color = e.target.value; });
+    // ============ SECTION: DESIGN GALLERY ============
+    function renderDesignGallery() {
+      const container = document.getElementById('design-gallery-list');
+      const catFilter = document.getElementById('filter-design-gallery').value;
+      container.innerHTML = '';
 
-    card.querySelector('.btn-up').addEventListener('click', () => { swapItems(DATA.montage_gallery, idx, idx - 1); renderMontageClips(); });
-    card.querySelector('.btn-down').addEventListener('click', () => { swapItems(DATA.montage_gallery, idx, idx + 1); renderMontageClips(); });
+      const list = DATA.design_gallery || [];
+      const filtered = list.filter(w => w.category === catFilter);
 
-    container.appendChild(card);
-  });
-}
-function addMontageClip() {
-  DATA.montage_gallery = DATA.montage_gallery || [];
-  DATA.montage_gallery.push({
-    id: 'reel-' + (DATA.montage_gallery.length + 1),
-    url: '',
-    name: 'NEW_REEL.mp4',
-    duration: 15,
-    color: 'rec',
-    aspect: '9:16'
-  });
-  renderMontageClips();
-}
-function deleteMontageClip(idx) {
-  if (!confirm('Удалить эту кассету?')) return;
-  DATA.montage_gallery.splice(idx, 1);
-  renderMontageClips();
-}
+      if (!filtered.length) {
+        container.innerHTML = '<div class="col-span-full text-center py-6 text-neutral-500">Галерея в этой категории пуста</div>';
+        return;
+      }
 
-// ============ SECTION: DESIGN GALLERY ============
-function renderDesignGallery() {
-  const container = document.getElementById('design-gallery-list');
-  const catFilter = document.getElementById('filter-design-gallery').value;
-  container.innerHTML = '';
+      filtered.forEach(work => {
+        const idx = DATA.design_gallery.indexOf(work);
+        const card = document.createElement('div');
+        card.className = 'glass p-4 rounded-lg flex flex-col gap-3';
 
-  const list = DATA.design_gallery || [];
-  const filtered = list.filter(w => w.category === catFilter);
-
-  if (!filtered.length) {
-    container.innerHTML = '<div class="col-span-full text-center py-6 text-neutral-500">Галерея в этой категории пуста</div>';
-    return;
-  }
-
-  filtered.forEach(work => {
-    const idx = DATA.design_gallery.indexOf(work);
-    const card = document.createElement('div');
-    card.className = 'glass p-4 rounded-lg flex flex-col gap-3';
-    
-    card.innerHTML = `
+        card.innerHTML = `
       <div class="w-full aspect-video bg-neutral-900 rounded overflow-hidden relative border border-white/5 flex items-center justify-center">
-        ${work.image ? `<img src="${work.image}" class="w-full h-full object-cover" />` : `<span class="text-xs text-neutral-500 font-mono">ПРЕВЬЮ</span>`}
+        ${work.image ? `<img src="${getAdminImageUrl(work.image)}" class="w-full h-full object-cover" />` : `<span class="text-xs text-neutral-500 font-mono">ПРЕВЬЮ</span>`}
       </div>
       <div>
         <label class="label">Изображение (URL)</label>
@@ -962,62 +1043,62 @@ function renderDesignGallery() {
       </div>
     `;
 
-    const imgInp = card.querySelector('.val-img');
-    imgInp.addEventListener('change', e => {
-      work.image = e.target.value.trim();
+        const imgInp = card.querySelector('.val-img');
+        imgInp.addEventListener('change', e => {
+          work.image = e.target.value.trim();
+          renderDesignGallery();
+        });
+
+        card.querySelector('.val-caption').addEventListener('change', e => { work.caption = e.target.value.trim(); });
+
+        card.querySelector('.btn-up').addEventListener('click', () => {
+          let prevIdx = -1;
+          for (let i = idx - 1; i >= 0; i--) {
+            if (DATA.design_gallery[i].category === catFilter) { prevIdx = i; break; }
+          }
+          if (prevIdx !== -1) { swapItems(DATA.design_gallery, idx, prevIdx); renderDesignGallery(); }
+        });
+
+        card.querySelector('.btn-down').addEventListener('click', () => {
+          let nextIdx = -1;
+          for (let i = idx + 1; i < DATA.design_gallery.length; i++) {
+            if (DATA.design_gallery[i].category === catFilter) { nextIdx = i; break; }
+          }
+          if (nextIdx !== -1) { swapItems(DATA.design_gallery, idx, nextIdx); renderDesignGallery(); }
+        });
+
+        container.appendChild(card);
+      });
+    }
+    function addDesignWork() {
+      const cat = document.getElementById('filter-design-gallery').value;
+      DATA.design_gallery = DATA.design_gallery || [];
+      DATA.design_gallery.push({
+        category: cat,
+        image: '',
+        caption: 'Работа дизайна · 2026'
+      });
       renderDesignGallery();
-    });
+    }
+    function deleteDesignWork(idx) {
+      if (!confirm('Удалить эту работу из дизайна?')) return;
+      DATA.design_gallery.splice(idx, 1);
+      renderDesignGallery();
+    }
 
-    card.querySelector('.val-caption').addEventListener('change', e => { work.caption = e.target.value.trim(); });
-
-    card.querySelector('.btn-up').addEventListener('click', () => {
-      let prevIdx = -1;
-      for (let i = idx - 1; i >= 0; i--) {
-        if (DATA.design_gallery[i].category === catFilter) { prevIdx = i; break; }
+    // ============ SECTION: DEV PROJECTS ============
+    function renderDevProjects() {
+      const container = document.getElementById('dev-projects-list');
+      container.innerHTML = '';
+      const list = DATA.dev_projects || [];
+      if (!list.length) {
+        container.innerHTML = '<div class="text-center py-6 text-neutral-500">Список проектов пуст</div>';
+        return;
       }
-      if (prevIdx !== -1) { swapItems(DATA.design_gallery, idx, prevIdx); renderDesignGallery(); }
-    });
-
-    card.querySelector('.btn-down').addEventListener('click', () => {
-      let nextIdx = -1;
-      for (let i = idx + 1; i < DATA.design_gallery.length; i++) {
-        if (DATA.design_gallery[i].category === catFilter) { nextIdx = i; break; }
-      }
-      if (nextIdx !== -1) { swapItems(DATA.design_gallery, idx, nextIdx); renderDesignGallery(); }
-    });
-
-    container.appendChild(card);
-  });
-}
-function addDesignWork() {
-  const cat = document.getElementById('filter-design-gallery').value;
-  DATA.design_gallery = DATA.design_gallery || [];
-  DATA.design_gallery.push({
-    category: cat,
-    image: '',
-    caption: 'Работа дизайна · 2026'
-  });
-  renderDesignGallery();
-}
-function deleteDesignWork(idx) {
-  if (!confirm('Удалить эту работу из дизайна?')) return;
-  DATA.design_gallery.splice(idx, 1);
-  renderDesignGallery();
-}
-
-// ============ SECTION: DEV PROJECTS ============
-function renderDevProjects() {
-  const container = document.getElementById('dev-projects-list');
-  container.innerHTML = '';
-  const list = DATA.dev_projects || [];
-  if (!list.length) {
-    container.innerHTML = '<div class="text-center py-6 text-neutral-500">Список проектов пуст</div>';
-    return;
-  }
-  list.forEach((proj, idx) => {
-    const card = document.createElement('div');
-    card.className = 'glass p-4 rounded-lg flex flex-col md:flex-row gap-4 items-stretch';
-    card.innerHTML = `
+      list.forEach((proj, idx) => {
+        const card = document.createElement('div');
+        card.className = 'glass p-4 rounded-lg flex flex-col md:flex-row gap-4 items-stretch';
+        card.innerHTML = `
       <div class="flex-grow grid md:grid-cols-2 gap-3">
         <div>
           <label class="label">Название проекта</label>
@@ -1045,47 +1126,47 @@ function renderDevProjects() {
       </div>
     `;
 
-    card.querySelector('.val-title').addEventListener('change', e => { proj.title = e.target.value.trim(); });
-    card.querySelector('.val-tag').addEventListener('change', e => { proj.tag = e.target.value.trim(); });
-    card.querySelector('.val-commit').addEventListener('change', e => { proj.commit = e.target.value.trim(); });
-    card.querySelector('.val-year').addEventListener('change', e => { proj.year = +e.target.value || 2026; });
+        card.querySelector('.val-title').addEventListener('change', e => { proj.title = e.target.value.trim(); });
+        card.querySelector('.val-tag').addEventListener('change', e => { proj.tag = e.target.value.trim(); });
+        card.querySelector('.val-commit').addEventListener('change', e => { proj.commit = e.target.value.trim(); });
+        card.querySelector('.val-year').addEventListener('change', e => { proj.year = +e.target.value || 2026; });
 
-    card.querySelector('.btn-up').addEventListener('click', () => { swapItems(DATA.dev_projects, idx, idx - 1); renderDevProjects(); });
-    card.querySelector('.btn-down').addEventListener('click', () => { swapItems(DATA.dev_projects, idx, idx + 1); renderDevProjects(); });
+        card.querySelector('.btn-up').addEventListener('click', () => { swapItems(DATA.dev_projects, idx, idx - 1); renderDevProjects(); });
+        card.querySelector('.btn-down').addEventListener('click', () => { swapItems(DATA.dev_projects, idx, idx + 1); renderDevProjects(); });
 
-    container.appendChild(card);
-  });
-}
-function addDevProject() {
-  DATA.dev_projects = DATA.dev_projects || [];
-  DATA.dev_projects.push({
-    id: 'dev-p' + (DATA.dev_projects.length + 1),
-    title: 'Новый проект разработки',
-    tag: 'HTML · JavaScript · CSS',
-    year: 2026,
-    commit: 'b7c8f9d'
-  });
-  renderDevProjects();
-}
-function deleteDevProject(idx) {
-  if (!confirm('Удалить этот проект?')) return;
-  DATA.dev_projects.splice(idx, 1);
-  renderDevProjects();
-}
+        container.appendChild(card);
+      });
+    }
+    function addDevProject() {
+      DATA.dev_projects = DATA.dev_projects || [];
+      DATA.dev_projects.push({
+        id: 'dev-p' + (DATA.dev_projects.length + 1),
+        title: 'Новый проект разработки',
+        tag: 'HTML · JavaScript · CSS',
+        year: 2026,
+        commit: 'b7c8f9d'
+      });
+      renderDevProjects();
+    }
+    function deleteDevProject(idx) {
+      if (!confirm('Удалить этот проект?')) return;
+      DATA.dev_projects.splice(idx, 1);
+      renderDevProjects();
+    }
 
-// ============ SECTION: TESTIMONIALS ============
-function renderTestimonials() {
-  const container = document.getElementById('testimonials-list');
-  container.innerHTML = '';
-  const list = DATA.testimonials || [];
-  if (!list.length) {
-    container.innerHTML = '<div class="text-center py-6 text-neutral-500">Список отзывов пуст</div>';
-    return;
-  }
-  list.forEach((t, idx) => {
-    const card = document.createElement('div');
-    card.className = 'glass p-5 rounded-lg space-y-4';
-    card.innerHTML = `
+    // ============ SECTION: TESTIMONIALS ============
+    function renderTestimonials() {
+      const container = document.getElementById('testimonials-list');
+      container.innerHTML = '';
+      const list = DATA.testimonials || [];
+      if (!list.length) {
+        container.innerHTML = '<div class="text-center py-6 text-neutral-500">Список отзывов пуст</div>';
+        return;
+      }
+      list.forEach((t, idx) => {
+        const card = document.createElement('div');
+        card.className = 'glass p-5 rounded-lg space-y-4';
+        card.innerHTML = `
       <div class="flex justify-between items-center border-b border-white/5 pb-2">
         <span class="text-xs uppercase tracking-widest text-neutral-500 font-mono">Отзыв #${idx + 1}</span>
         <div class="flex gap-2 items-center">
@@ -1110,91 +1191,99 @@ function renderTestimonials() {
       </div>
     `;
 
-    card.querySelector('.val-text').addEventListener('change', e => { t.text = e.target.value.trim(); });
-    card.querySelector('.val-author').addEventListener('change', e => { t.author = e.target.value.trim(); });
-    card.querySelector('.val-role').addEventListener('change', e => { t.role = e.target.value.trim(); });
+        card.querySelector('.val-text').addEventListener('change', e => { t.text = e.target.value.trim(); });
+        card.querySelector('.val-author').addEventListener('change', e => { t.author = e.target.value.trim(); });
+        card.querySelector('.val-role').addEventListener('change', e => { t.role = e.target.value.trim(); });
 
-    card.querySelector('.btn-up').addEventListener('click', () => { swapItems(DATA.testimonials, idx, idx - 1); renderTestimonials(); });
-    card.querySelector('.btn-down').addEventListener('click', () => { swapItems(DATA.testimonials, idx, idx + 1); renderTestimonials(); });
+        card.querySelector('.btn-up').addEventListener('click', () => { swapItems(DATA.testimonials, idx, idx - 1); renderTestimonials(); });
+        card.querySelector('.btn-down').addEventListener('click', () => { swapItems(DATA.testimonials, idx, idx + 1); renderTestimonials(); });
 
-    container.appendChild(card);
-  });
-}
-function addTestimonial() {
-  DATA.testimonials = DATA.testimonials || [];
-  DATA.testimonials.unshift({ text: 'Новый отзыв', author: 'Имя Клиента', role: 'Заказчик' });
-  renderTestimonials();
-}
-function deleteTestimonial(idx) {
-  if (!confirm('Удалить этот отзыв?')) return;
-  DATA.testimonials.splice(idx, 1);
-  renderTestimonials();
-}
-
-// ============ SAVE TO GITHUB ============
-async function save() {
-  collectForm();
-  showToast('Публикация коммита на GitHub...', 'info');
-  try {
-    const jsonStr = JSON.stringify(DATA, null, 2);
-    const url = `https://api.github.com/repos/${CFG.owner}/${CFG.repo}/contents/${CFG.path}`;
-    const res = await fetch(url, {
-      method: 'PUT',
-      headers: {
-        Authorization: `Bearer ${CFG.token}`,
-        Accept: 'application/vnd.github+json',
-      },
-      body: JSON.stringify({
-        message: 'admin: dynamic cms update of portfolio',
-        content: encodeBase64Utf8(jsonStr),
-        sha: CFG.sha,
-        branch: CFG.branch
-      })
-    });
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      return showToast('Не удалось опубликовать: ' + (err.message || res.status), 'error');
+        container.appendChild(card);
+      });
     }
-    const result = await res.json();
-    CFG.sha = result.content.sha;
-    showToast('✓ Все изменения успешно применены и опубликованы!', 'success');
-  } catch (e) {
-    console.error(e);
-    showToast('Ошибка публикации: ' + e.message, 'error');
-  }
-}
+    function addTestimonial() {
+      DATA.testimonials = DATA.testimonials || [];
+      DATA.testimonials.unshift({ text: 'Новый отзыв', author: 'Имя Клиента', role: 'Заказчик' });
+      renderTestimonials();
+    }
+    function deleteTestimonial(idx) {
+      if (!confirm('Удалить этот отзыв?')) return;
+      DATA.testimonials.splice(idx, 1);
+      renderTestimonials();
+    }
 
-// ============ HELPERS ============
-function escapeAttr(s) {
-  return String(s || '').replace(/"/g, '&quot;').replace(/</g, '&lt;');
-}
-function showToast(msg, type = 'info') {
-  const t = document.getElementById('toast');
-  const colors = {
-    success: 'linear-gradient(135deg, #00FFB2 0%, #00C888 100%)',
-    error: 'linear-gradient(135deg, #FF3B30 0%, #D62828 100%)',
-    info: 'linear-gradient(135deg, #00E5FF 0%, #0086D4 100%)'
-  };
-  t.innerHTML = `<div class="toast" style="background:${colors[type]};color:#08080C;font-family:'Space Grotesk',sans-serif;">${msg}</div>`;
-  clearTimeout(window._toastT);
-  window._toastT = setTimeout(() => { t.innerHTML = ''; }, 3500);
-}
+    // ============ SAVE TO GITHUB ============
+    async function save() {
+      collectForm();
+      showToast('Публикация коммита на GitHub...', 'info');
+      try {
+        const jsonStr = JSON.stringify(DATA, null, 2);
+        const url = `https://api.github.com/repos/${CFG.owner}/${CFG.repo}/contents/${CFG.path}`;
+        const res = await fetch(url, {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${CFG.token}`,
+            Accept: 'application/vnd.github+json',
+          },
+          body: JSON.stringify({
+            message: 'admin: dynamic cms update of portfolio',
+            content: encodeBase64Utf8(jsonStr),
+            sha: CFG.sha,
+            branch: CFG.branch
+          })
+        });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          return showToast('Не удалось опубликовать: ' + (err.message || res.status), 'error');
+        }
+        const result = await res.json();
+        CFG.sha = result.content.sha;
+        showToast('✓ Все изменения успешно применены и опубликованы!', 'success');
+      } catch (e) {
+        console.error(e);
+        showToast('Ошибка публикации: ' + e.message, 'error');
+      }
+    }
 
-function downloadJSON() {
-  if (!DATA) return showToast('Данные не загружены', 'error');
-  collectForm();
-  const jsonString = JSON.stringify(DATA, null, 2);
-  const blob = new Blob([jsonString], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'portfolio.json';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  showToast('✓ Файл portfolio.json скачан! Замените им файл в data/ на вашем ПК.', 'success');
-}
-</script>
+    // ============ HELPERS ============
+    function getAdminImageUrl(url) {
+      if (!url) return '';
+      if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('/') || url.startsWith('data:')) {
+        return url;
+      }
+      return '../' + url;
+    }
+    function escapeAttr(s) {
+      return String(s || '').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+    }
+    function showToast(msg, type = 'info') {
+      const t = document.getElementById('toast');
+      const colors = {
+        success: 'linear-gradient(135deg, #00FFB2 0%, #00C888 100%)',
+        error: 'linear-gradient(135deg, #FF3B30 0%, #D62828 100%)',
+        info: 'linear-gradient(135deg, #00E5FF 0%, #0086D4 100%)'
+      };
+      t.innerHTML = `<div class="toast" style="background:${colors[type]};color:#08080C;font-family:'Space Grotesk',sans-serif;">${msg}</div>`;
+      clearTimeout(window._toastT);
+      window._toastT = setTimeout(() => { t.innerHTML = ''; }, 3500);
+    }
+
+    function downloadJSON() {
+      if (!DATA) return showToast('Данные не загружены', 'error');
+      collectForm();
+      const jsonString = JSON.stringify(DATA, null, 2);
+      const blob = new Blob([jsonString], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'portfolio.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('✓ Файл portfolio.json скачан! Замените им файл в data/ на вашем ПК.', 'success');
+    }
+  </script>
 </body>
+
 </html>
