@@ -374,7 +374,7 @@ function videoCard(vid, i) {
   div.innerHTML = `
     <div class="flex gap-4">
       <div class="w-32 flex-shrink-0">
-        ${vid.thumb ? `<img src="https://images.weserv.nl/?url=${encodeURIComponent(vid.thumb)}" class="w-full aspect-video object-cover rounded" />` : '<div class="w-full aspect-video bg-neutral-800 rounded"></div>'}
+        ${vid.thumb ? `<img src="https://images.weserv.nl/?url=${vid.thumb}" class="w-full aspect-video object-cover rounded" />` : '<div class="w-full aspect-video bg-neutral-800 rounded"></div>'}
       </div>
       <div class="flex-1 grid md:grid-cols-2 gap-3">
         <div><label class="label">YouTube ID или URL</label><input class="input mono" value="${vid.id || ''}" data-f="id" /></div>

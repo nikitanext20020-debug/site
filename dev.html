@@ -6,37 +6,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nik · Разработка — сайты, лендинги, Telegram-боты</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <meta name="description" content="Веб-разработка от Nik: сайты для блогеров, лендинги, Telegram-боты на Python.">
-    
+    <meta name="description" content="Веб-разработка от Nik: сайты для бизнеса, лендинги, Telegram-боты на Python.">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700;900&family=Archivo+Black&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700;900&family=Archivo+Black&display=swap"
+        rel="stylesheet">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = { 
-            theme: { 
-                extend: { 
-                    fontFamily: { 
-                        mono: ['"JetBrains Mono"', 'monospace'], 
-                        poster: ['"Archivo Black"', 'sans-serif'], 
-                        sans: ['"Space Grotesk"', 'sans-serif'] 
-                    }, 
-                    colors: { 
-                        void: '#050810', 
-                        neon: '#00FFB2', 
-                        glow: '#00E5FF', 
-                        amber: '#F5B82E', 
-                        rec: '#FF3B30', 
-                        bone: '#EDE6D6', 
-                        purple: '#8B5CF6' 
-                    } 
-                } 
-            } 
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                        poster: ['"Archivo Black"', 'sans-serif'],
+                        sans: ['"Space Grotesk"', 'sans-serif']
+                    },
+                    colors: {
+                        void: '#050810',
+                        neon: '#00FFB2',
+                        glow: '#00E5FF',
+                        amber: '#F5B82E',
+                        rec: '#FF3B30',
+                        bone: '#EDE6D6',
+                        purple: '#8B5CF6'
+                    }
+                }
+            }
         }
     </script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
-    
+
     <style>
         :root {
             --bg: #050810;
@@ -122,7 +124,8 @@
             -webkit-backdrop-filter: blur(16px);
             transform: translate(-50%, -50%);
             border-radius: 12px;
-            pointer-events: auto; /* Allow interactions */
+            pointer-events: auto;
+            /* Allow interactions */
             transition: border-color 0.4s, box-shadow 0.4s, background 0.4s, transform 0.4s;
             overflow: hidden;
         }
@@ -132,6 +135,7 @@
             box-shadow: 0 0 35px rgba(0, 229, 255, 0.12), inset 0 0 15px rgba(0, 229, 255, 0.03);
             border-color: rgba(0, 229, 255, 0.25);
         }
+
         .card-3d[data-card-id="01"]:hover {
             box-shadow: 0 0 65px rgba(0, 229, 255, 0.45), inset 0 0 25px rgba(0, 229, 255, 0.08);
             border-color: #00E5FF;
@@ -141,6 +145,7 @@
             box-shadow: 0 0 35px rgba(0, 255, 178, 0.12), inset 0 0 15px rgba(0, 255, 178, 0.03);
             border-color: rgba(0, 255, 178, 0.25);
         }
+
         .card-3d[data-card-id="02"]:hover {
             box-shadow: 0 0 65px rgba(0, 255, 178, 0.45), inset 0 0 25px rgba(0, 255, 178, 0.08);
             border-color: #00FFB2;
@@ -150,6 +155,7 @@
             box-shadow: 0 0 35px rgba(245, 184, 46, 0.12), inset 0 0 15px rgba(245, 184, 46, 0.03);
             border-color: rgba(245, 184, 46, 0.25);
         }
+
         .card-3d[data-card-id="03"]:hover {
             box-shadow: 0 0 65px rgba(245, 184, 46, 0.45), inset 0 0 25px rgba(245, 184, 46, 0.08);
             border-color: #F5B82E;
@@ -165,9 +171,11 @@
             background: linear-gradient(90deg, transparent, var(--accent), transparent);
             opacity: 0.6;
         }
+
         .card-3d[data-card-id="01"] .card-glow-strip {
             background: linear-gradient(90deg, transparent, #00E5FF, transparent);
         }
+
         .card-3d[data-card-id="03"] .card-glow-strip {
             background: linear-gradient(90deg, transparent, #F5B82E, transparent);
         }
@@ -204,10 +212,12 @@
             height: 100%;
             border-color: var(--accent);
         }
+
         .card-3d[data-card-id="01"]:hover::before,
         .card-3d[data-card-id="01"]:hover::after {
             border-color: #00E5FF;
         }
+
         .card-3d[data-card-id="03"]:hover::before,
         .card-3d[data-card-id="03"]:hover::after {
             border-color: #F5B82E;
@@ -332,8 +342,15 @@
         }
 
         @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
         }
 
         /* Neon card */
@@ -381,8 +398,13 @@
         }
 
         @keyframes marquee {
-            from { transform: translateX(0); }
-            to { transform: translateX(-100%); }
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-100%);
+            }
         }
 
         /* Reveal animations */
@@ -398,8 +420,15 @@
         }
 
         @keyframes msgFade {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Custom Scroll Spacer */
@@ -415,7 +444,7 @@
             stroke-dashoffset: 220;
             transition: stroke-dashoffset 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        
+
         .speed-needle {
             transform-origin: 50px 50px;
             transform: rotate(-120deg);
@@ -439,7 +468,8 @@
             </div>
             <span>FPS: <strong id="fps" class="text-glow">60</strong></span>
         </div>
-        <div class="absolute right-6 top-1/2 -translate-y-1/2 flex flex-col items-end gap-1 font-mono text-[9px] text-neon/40 select-none">
+        <div
+            class="absolute right-6 top-1/2 -translate-y-1/2 flex flex-col items-end gap-1 font-mono text-[9px] text-neon/40 select-none">
             <div>SCROLL VELOCITY</div>
             <div class="text-[12px] font-bold text-glow" id="vel-readout" style="color: var(--accent-2);">0.00</div>
         </div>
@@ -459,13 +489,15 @@
     <div id="scroll-spacer"></div>
 
     <!-- MAIN FLAT SITE (Reveals after 2200px) -->
-    <div id="main-site" class="opacity-0 invisible transition-all duration-1000 relative z-20 w-full min-h-screen bg-void gridbg pb-16">
-        
+    <div id="main-site"
+        class="opacity-0 invisible transition-all duration-1000 relative z-20 w-full min-h-screen bg-void gridbg pb-16">
+
         <!-- Code Rain -->
         <div class="coderain" id="coderain"></div>
 
         <!-- NAV -->
-        <header class="fixed top-0 left-0 right-0 z-50 px-4 md:px-8 py-3 flex items-center justify-between text-xs uppercase tracking-widest backdrop-blur-md bg-void/80 border-b border-neon/10">
+        <header
+            class="fixed top-0 left-0 right-0 z-50 px-4 md:px-8 py-3 flex items-center justify-between text-xs uppercase tracking-widest backdrop-blur-md bg-void/80 border-b border-neon/10">
             <a href="index.html" class="flex items-center gap-2">
                 <span class="rec-dot"></span>
                 <span class="text-bone/80">NIK · 272K</span>
@@ -474,7 +506,8 @@
                 <a href="index.html" class="px-3 py-1 text-bone/60 hover:text-neon transition">HUB</a>
                 <a href="montage.html" class="px-3 py-1 text-bone/60 hover:text-neon transition">МОНТАЖ</a>
                 <a href="design.html" class="px-3 py-1 text-bone/60 hover:text-neon transition">ДИЗАЙН</a>
-                <a href="dev.html" class="px-3 py-1 bg-neon text-void font-bold shadow-[0_0_10px_rgba(0,255,178,0.3)]">КОД</a>
+                <a href="dev.html"
+                    class="px-3 py-1 bg-neon text-void font-bold shadow-[0_0_10px_rgba(0,255,178,0.3)]">КОД</a>
             </nav>
             <div class="text-neon/60">03 / 03</div>
         </header>
@@ -498,17 +531,24 @@
                     <div class="p-6 space-y-3 text-sm font-mono leading-relaxed">
                         <div><span class="text-neon/60">$</span> <span class="text-bone">whoami</span></div>
                         <div class="text-neon">YouTube-блогер 272K · Веб-разработчик</div>
-                        <div class="mt-3"><span class="text-neon/60">$</span> <span class="text-bone">cat stack.json</span></div>
-                        <div class="text-amber">{"html": true, "tailwind": true, "python": true, "telegram_bots": true}</div>
-                        <div class="mt-3"><span class="text-neon/60">$</span> <span class="text-bone">echo $MOTTO</span></div>
+                        <div class="mt-3"><span class="text-neon/60">$</span> <span class="text-bone">cat
+                                stack.json</span></div>
+                        <div class="text-amber">{"html": true, "tailwind": true, "python": true, "telegram_bots": true}
+                        </div>
+                        <div class="mt-3"><span class="text-neon/60">$</span> <span class="text-bone">echo $MOTTO</span>
+                        </div>
                         <div class="text-rec">"Сайты для блогеров и YouTube-каналов под ключ."</div>
-                        <div class="mt-3"><span class="text-neon/60">$</span> <span class="cursor-blink text-bone"></span></div>
+                        <div class="mt-3"><span class="text-neon/60">$</span> <span
+                                class="cursor-blink text-bone"></span></div>
                     </div>
                 </div>
 
                 <div class="mt-12 flex flex-wrap gap-4">
-                    <a href="#cases" class="px-8 py-4 bg-neon text-void font-bold uppercase text-xs tracking-widest hover:bg-bone shadow-[0_0_15px_rgba(0,255,178,0.2)] hover:shadow-[0_0_20px_rgba(237,230,214,0.4)] transition duration-300">Примеры Кейсов →</a>
-                    <a href="#contact" class="px-8 py-4 border border-neon/40 text-neon font-bold uppercase text-xs tracking-widest hover:border-neon hover:bg-neon/10 transition duration-300">Написать</a>
+                    <a href="#cases"
+                        class="px-8 py-4 bg-neon text-void font-bold uppercase text-xs tracking-widest hover:bg-bone shadow-[0_0_15px_rgba(0,255,178,0.2)] hover:shadow-[0_0_20px_rgba(237,230,214,0.4)] transition duration-300">Примеры
+                        Кейсов →</a>
+                    <a href="#contact"
+                        class="px-8 py-4 border border-neon/40 text-neon font-bold uppercase text-xs tracking-widest hover:border-neon hover:bg-neon/10 transition duration-300">Написать</a>
                 </div>
             </div>
         </section>
@@ -524,7 +564,8 @@
                     <span>NODE.JS</span><span class="text-neon">·</span>
                     <span>FIGMA→CODE</span><span class="text-rec">·</span>
                 </div>
-                <div class="marquee-track font-poster text-4xl md:text-5xl whitespace-nowrap text-bone/55" aria-hidden="true">
+                <div class="marquee-track font-poster text-4xl md:text-5xl whitespace-nowrap text-bone/55"
+                    aria-hidden="true">
                     <span>REACT</span><span class="text-neon">·</span>
                     <span>NEXT.JS</span><span class="text-rec">·</span>
                     <span>TAILWIND</span><span class="text-neon">·</span>
@@ -538,31 +579,38 @@
         <!-- NEW SECTION: KEY CASES & INTERACTIVE SHOWCASE -->
         <section id="cases" class="px-4 md:px-8 py-24 z-10 relative">
             <div class="max-w-6xl mx-auto">
-                <div class="text-xs uppercase tracking-[0.3em] text-neon/50 mb-3 reveal font-mono">$ cat cases_review.log</div>
+                <div class="text-xs uppercase tracking-[0.3em] text-neon/50 mb-3 reveal font-mono">$ cat
+                    cases_review.log</div>
                 <h2 class="font-poster text-5xl md:text-7xl text-bone glow-text mb-12 reveal">ПРИМЕРЫ РЕШЕНИЙ</h2>
 
                 <div class="space-y-16">
-                    
+
                     <!-- CASE 1: MULTI-THREADED PARSERS -->
                     <div class="grid md:grid-cols-12 gap-8 items-center reveal">
                         <div class="md:col-span-5 space-y-4">
                             <div class="text-[10px] text-amber font-mono">// CASE_01 // PYTHON PARSERS</div>
-                            <h3 class="text-bone text-3xl font-bold font-sans tracking-tight">Парсинг видео и каналов</h3>
+                            <h3 class="text-bone text-3xl font-bold font-sans tracking-tight">Парсинг видео и каналов
+                            </h3>
                             <p class="text-neon/70 text-sm leading-relaxed">
-                                Разрабатываю высокопроизводительные многопоточные парсеры контента с автоматическим обходом Cloudflare и лимитов платформ.
+                                Разрабатываю высокопроизводительные многопоточные парсеры контента с автоматическим
+                                обходом Cloudflare и лимитов платформ.
                             </p>
                             <ul class="text-xs space-y-2 text-slate-400 font-mono">
                                 <li class="flex items-center gap-2">
-                                    <span class="text-neon">✓</span> Сбор медиафайлов без водяных знаков (Shorts, Reels, TikTok)
+                                    <span class="text-neon">✓</span> Сбор медиафайлов без водяных знаков (Shorts, Reels,
+                                    TikTok)
                                 </li>
                                 <li class="flex items-center gap-2">
                                     <span class="text-neon">✓</span> Мониторинг новых постов в Telegram-каналах 24/7
                                 </li>
                                 <li class="flex items-center gap-2">
-                                    <span class="text-neon">✓</span> Автоматический экспорт собранных данных в Google Таблицы/SQL
+                                    <span class="text-neon">✓</span> Автоматический экспорт собранных данных в Google
+                                    Таблицы/SQL
                                 </li>
                             </ul>
-                            <button id="btn-run-parser" class="px-6 py-3 bg-void border border-neon/40 text-neon rounded text-xs font-bold font-mono tracking-wider hover:bg-neon/15 hover:border-neon transition active:scale-95" onclick="runChannelParser()">
+                            <button id="btn-run-parser"
+                                class="px-6 py-3 bg-void border border-neon/40 text-neon rounded text-xs font-bold font-mono tracking-wider hover:bg-neon/15 hover:border-neon transition active:scale-95"
+                                onclick="runChannelParser()">
                                 ЗАПУСТИТЬ ПАРСИНГ КАНАЛА
                             </button>
                         </div>
@@ -574,8 +622,10 @@
                                     <span class="terminal-dot bg-neon"></span>
                                     <span class="text-neon/50 text-[10px] ml-2 font-mono">console@parser-node:~</span>
                                 </div>
-                                <div id="parser-console-logs" class="flex-1 p-4 overflow-y-auto font-mono text-[10px] text-slate-400 space-y-1 bg-black/50 select-none">
-                                    <div class="text-slate-500">// Терминал готов. Нажми кнопку слева для запуска имитации парсера.</div>
+                                <div id="parser-console-logs"
+                                    class="flex-1 p-4 overflow-y-auto font-mono text-[10px] text-slate-400 space-y-1 bg-black/50 select-none">
+                                    <div class="text-slate-500">// Терминал готов. Нажми кнопку слева для запуска
+                                        имитации парсера.</div>
                                 </div>
                             </div>
                         </div>
@@ -584,23 +634,31 @@
                     <!-- CASE 2: BUSINESS AUTOMATION & PostgreSQL CRM -->
                     <div class="grid md:grid-cols-12 gap-8 items-center reveal pt-12 border-t border-neon/10">
                         <div class="md:col-span-5 md:order-2 space-y-4">
-                            <div class="text-[10px] text-glow font-mono" style="color:#00E5FF">// CASE_02 // SYSTEM INTEGRATION</div>
-                            <h3 class="text-bone text-3xl font-bold font-sans tracking-tight">Автоматизация & Базы Данных</h3>
+                            <div class="text-[10px] text-glow font-mono" style="color:#00E5FF">// CASE_02 // SYSTEM
+                                INTEGRATION</div>
+                            <h3 class="text-bone text-3xl font-bold font-sans tracking-tight">Автоматизация & Базы
+                                Данных</h3>
                             <p class="text-neon/70 text-sm leading-relaxed">
-                                Связываю веб-интерфейсы, Telegram-ботов и распределенные БД (PostgreSQL / Redis). Полная автоматизация воронки продаж и учета.
+                                Связываю веб-интерфейсы, Telegram-ботов и распределенные БД (PostgreSQL / Redis). Полная
+                                автоматизация воронки продаж и учета.
                             </p>
                             <ul class="text-xs space-y-2 text-slate-400 font-mono">
                                 <li class="flex items-center gap-2">
-                                    <span class="text-glow" style="color:#00E5FF">✓</span> Интеграция эквайринга (ЮKassa, CryptoPay, Stripe)
+                                    <span class="text-glow" style="color:#00E5FF">✓</span> Интеграция эквайринга
+                                    (ЮKassa, CryptoPay, Stripe)
                                 </li>
                                 <li class="flex items-center gap-2">
-                                    <span class="text-glow" style="color:#00E5FF">✓</span> Автоматическая рассылка триггерных уведомлений
+                                    <span class="text-glow" style="color:#00E5FF">✓</span> Автоматическая рассылка
+                                    триггерных уведомлений
                                 </li>
                                 <li class="flex items-center gap-2">
-                                    <span class="text-glow" style="color:#00E5FF">✓</span> Построение CRM-дашбордов реального времени
+                                    <span class="text-glow" style="color:#00E5FF">✓</span> Построение CRM-дашбордов
+                                    реального времени
                                 </li>
                             </ul>
-                            <button class="px-6 py-3 bg-void border border-glow/40 text-glow rounded text-xs font-bold font-mono tracking-wider hover:bg-glow/15 hover:border-glow transition active:scale-95" style="color:#00E5FF; border-color:rgba(0,229,255,0.4)" onclick="addCRMOrder()">
+                            <button
+                                class="px-6 py-3 bg-void border border-glow/40 text-glow rounded text-xs font-bold font-mono tracking-wider hover:bg-glow/15 hover:border-glow transition active:scale-95"
+                                style="color:#00E5FF; border-color:rgba(0,229,255,0.4)" onclick="addCRMOrder()">
                                 ДОБАВИТЬ ЗАКАЗ В БД
                             </button>
                         </div>
@@ -611,9 +669,11 @@
                                         <span class="terminal-dot bg-rec"></span>
                                         <span class="terminal-dot bg-amber"></span>
                                         <span class="terminal-dot bg-neon"></span>
-                                        <span class="text-glow text-[10px] ml-2 font-mono" style="color:#00E5FF">database: postgresql_crm</span>
+                                        <span class="text-glow text-[10px] ml-2 font-mono"
+                                            style="color:#00E5FF">database: postgresql_crm</span>
                                     </div>
-                                    <div class="text-[9px] text-gray-500 font-mono">Total profit: <strong class="text-neon" id="crm-profit-val">25 000 ₽</strong></div>
+                                    <div class="text-[9px] text-gray-500 font-mono">Total profit: <strong
+                                            class="text-neon" id="crm-profit-val">25 000 ₽</strong></div>
                                 </div>
                                 <div class="flex-1 p-2 overflow-auto bg-black/30 select-none">
                                     <table class="w-full text-left border-collapse text-[10px] font-mono">
@@ -632,21 +692,27 @@
                                                 <td class="py-2 px-3 text-white font-bold">Никита</td>
                                                 <td class="py-2 px-3">Автоматизация CRM</td>
                                                 <td class="py-2 px-3 text-neon">10 000 ₽</td>
-                                                <td class="py-2 px-3"><span class="px-1.5 py-0.5 rounded bg-neon/10 text-neon font-bold">ОПЛАЧЕНО</span></td>
+                                                <td class="py-2 px-3"><span
+                                                        class="px-1.5 py-0.5 rounded bg-neon/10 text-neon font-bold">ОПЛАЧЕНО</span>
+                                                </td>
                                             </tr>
                                             <tr class="border-b border-slate-900 text-slate-300">
                                                 <td class="py-2 px-3">#4002</td>
                                                 <td class="py-2 px-3 text-white font-bold">Антон</td>
                                                 <td class="py-2 px-3">TG Бот + ИИ</td>
                                                 <td class="py-2 px-3 text-neon">12 000 ₽</td>
-                                                <td class="py-2 px-3"><span class="px-1.5 py-0.5 rounded bg-neon/10 text-neon font-bold">ОПЛАЧЕНО</span></td>
+                                                <td class="py-2 px-3"><span
+                                                        class="px-1.5 py-0.5 rounded bg-neon/10 text-neon font-bold">ОПЛАЧЕНО</span>
+                                                </td>
                                             </tr>
                                             <tr class="border-b border-slate-900 text-slate-300">
                                                 <td class="py-2 px-3">#4001</td>
                                                 <td class="py-2 px-3 text-white font-bold">Алексей</td>
                                                 <td class="py-2 px-3">Лендинг VPN</td>
                                                 <td class="py-2 px-3 text-neon">3 000 ₽</td>
-                                                <td class="py-2 px-3"><span class="px-1.5 py-0.5 rounded bg-neon/10 text-neon font-bold">ОПЛАЧЕНО</span></td>
+                                                <td class="py-2 px-3"><span
+                                                        class="px-1.5 py-0.5 rounded bg-neon/10 text-neon font-bold">ОПЛАЧЕНО</span>
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -659,24 +725,30 @@
                     <div class="grid md:grid-cols-12 gap-8 items-center reveal pt-12 border-t border-neon/10">
                         <div class="md:col-span-5 space-y-4">
                             <div class="text-[10px] text-purple font-mono">// CASE_03 // FRONTEND EXTRA</div>
-                            <h3 class="text-bone text-3xl font-bold font-sans tracking-tight">VPN Лендинг (CyberVPN)</h3>
+                            <h3 class="text-bone text-3xl font-bold font-sans tracking-tight">VPN Лендинг (CyberVPN)
+                            </h3>
                             <p class="text-neon/70 text-sm leading-relaxed">
-                                Разработка премиальных посадочных страниц (Landing Pages) для SaaS-продуктов. Живой пример интерактивного виджета VPN со спидометром.
+                                Разработка премиальных посадочных страниц (Landing Pages) для SaaS-продуктов. Живой
+                                пример интерактивного виджета VPN со спидометром.
                             </p>
                             <ul class="text-xs space-y-2 text-slate-400 font-mono">
                                 <li class="flex items-center gap-2">
-                                    <span class="text-purple" style="color:#8B5CF6">✓</span> Плавные SVG-анимации и WebGL компоненты
+                                    <span class="text-purple" style="color:#8B5CF6">✓</span> Плавные SVG-анимации и
+                                    WebGL компоненты
                                 </li>
                                 <li class="flex items-center gap-2">
-                                    <span class="text-purple" style="color:#8B5CF6">✓</span> Реактивный отклик интерфейса на действия пользователя
+                                    <span class="text-purple" style="color:#8B5CF6">✓</span> Реактивный отклик
+                                    интерфейса на действия пользователя
                                 </li>
                             </ul>
                         </div>
                         <div class="md:col-span-7">
                             <!-- Live interactive VPN mockup -->
-                            <div class="terminal w-full h-[320px] flex flex-col p-4 relative overflow-hidden" style="background:#0b0f19; border-color:rgba(139, 92, 246, 0.3)">
+                            <div class="terminal w-full h-[320px] flex flex-col p-4 relative overflow-hidden"
+                                style="background:#0b0f19; border-color:rgba(139, 92, 246, 0.3)">
                                 <div class="flex justify-between items-center border-b border-slate-800 pb-3 mb-4">
-                                    <div class="text-[11px] font-bold font-sans tracking-[0.2em]" style="color:#8B5CF6">CYBER_VPN // CLIENT</div>
+                                    <div class="text-[11px] font-bold font-sans tracking-[0.2em]" style="color:#8B5CF6">
+                                        CYBER_VPN // CLIENT</div>
                                     <div class="flex items-center gap-2 text-[9px] font-mono">
                                         <span class="w-2 h-2 rounded-full bg-gray-600" id="vpn-status-dot"></span>
                                         <span id="vpn-status-text" class="text-gray-500 font-bold">DISCONNECTED</span>
@@ -688,15 +760,20 @@
                                     <div class="flex flex-col items-center relative">
                                         <svg class="w-32 h-32" viewBox="0 0 100 100">
                                             <!-- Background track -->
-                                            <path d="M 15,82 A 40,40 0 1,1 85,82" fill="none" stroke="#1e293b" stroke-width="6" stroke-linecap="round" />
+                                            <path d="M 15,82 A 40,40 0 1,1 85,82" fill="none" stroke="#1e293b"
+                                                stroke-width="6" stroke-linecap="round" />
                                             <!-- Active gauge -->
-                                            <path class="speed-gauge" id="vpn-gauge" d="M 15,82 A 40,40 0 1,1 85,82" fill="none" stroke="#8B5CF6" stroke-width="6" stroke-linecap="round" style="stroke-dasharray: 220; stroke-dashoffset: 220;" />
+                                            <path class="speed-gauge" id="vpn-gauge" d="M 15,82 A 40,40 0 1,1 85,82"
+                                                fill="none" stroke="#8B5CF6" stroke-width="6" stroke-linecap="round"
+                                                style="stroke-dasharray: 220; stroke-dashoffset: 220;" />
                                             <!-- Needle -->
-                                            <line class="speed-needle" id="vpn-needle" x1="50" y1="50" x2="50" y2="15" stroke="#EDE6D6" stroke-width="3" stroke-linecap="round" />
+                                            <line class="speed-needle" id="vpn-needle" x1="50" y1="50" x2="50" y2="15"
+                                                stroke="#EDE6D6" stroke-width="3" stroke-linecap="round" />
                                             <circle cx="50" cy="50" r="5" fill="#8B5CF6" />
                                         </svg>
                                         <div class="absolute bottom-6 flex flex-col items-center">
-                                            <span class="text-[14px] font-bold text-white font-mono" id="vpn-speed-text">0 Mbps</span>
+                                            <span class="text-[14px] font-bold text-white font-mono"
+                                                id="vpn-speed-text">0 Mbps</span>
                                             <span class="text-[7px] text-slate-500 font-mono">CURRENT SPEED</span>
                                         </div>
                                     </div>
@@ -705,29 +782,39 @@
                                     <div class="flex flex-col gap-3 font-mono">
                                         <div class="text-[8px] text-slate-500">// SELECT NODE</div>
                                         <div class="flex flex-col gap-2">
-                                            <button class="vpn-srv-btn py-1.5 px-3 border border-neon bg-neon text-void text-[8px] font-bold rounded text-left transition flex justify-between items-center" onclick="selectVPNServer('DE', this)">
+                                            <button
+                                                class="vpn-srv-btn py-1.5 px-3 border border-neon bg-neon text-void text-[8px] font-bold rounded text-left transition flex justify-between items-center"
+                                                onclick="selectVPNServer('DE', this)">
                                                 <span>🇩🇪 GERMANY (Frankfurt)</span>
                                                 <span class="opacity-75">14ms</span>
                                             </button>
-                                            <button class="vpn-srv-btn py-1.5 px-3 border border-neon/30 bg-void text-neon text-[8px] font-bold rounded text-left transition flex justify-between items-center" onclick="selectVPNServer('US', this)">
+                                            <button
+                                                class="vpn-srv-btn py-1.5 px-3 border border-neon/30 bg-void text-neon text-[8px] font-bold rounded text-left transition flex justify-between items-center"
+                                                onclick="selectVPNServer('US', this)">
                                                 <span>🇺🇸 USA (New York)</span>
                                                 <span class="opacity-75">78ms</span>
                                             </button>
-                                            <button class="vpn-srv-btn py-1.5 px-3 border border-neon/30 bg-void text-neon text-[8px] font-bold rounded text-left transition flex justify-between items-center" onclick="selectVPNServer('JP', this)">
+                                            <button
+                                                class="vpn-srv-btn py-1.5 px-3 border border-neon/30 bg-void text-neon text-[8px] font-bold rounded text-left transition flex justify-between items-center"
+                                                onclick="selectVPNServer('JP', this)">
                                                 <span>🇯🇵 JAPAN (Tokyo)</span>
                                                 <span class="opacity-75">145ms</span>
                                             </button>
                                         </div>
-                                        
+
                                         <div class="text-[8px] text-slate-500 mt-2 flex justify-between">
-                                            <span>SELECTED: <strong class="text-white" id="vpn-srv-val">Germany (Frankfurt)</strong></span>
-                                            <span>PING: <strong class="text-neon" id="vpn-ping-val">14 ms</strong></span>
+                                            <span>SELECTED: <strong class="text-white" id="vpn-srv-val">Germany
+                                                    (Frankfurt)</strong></span>
+                                            <span>PING: <strong class="text-neon" id="vpn-ping-val">14
+                                                    ms</strong></span>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="mt-4">
-                                    <button class="w-full py-3 bg-neon text-void font-bold rounded text-[9px] uppercase tracking-wider transition duration-300 hover:bg-white shadow-[0_0_15px_rgba(0,255,178,0.2)]" id="btn-vpn-connect" onclick="connectVPN(this)">
+                                    <button
+                                        class="w-full py-3 bg-neon text-void font-bold rounded text-[9px] uppercase tracking-wider transition duration-300 hover:bg-white shadow-[0_0_15px_rgba(0,255,178,0.2)]"
+                                        id="btn-vpn-connect" onclick="connectVPN(this)">
                                         CONNECT VPN
                                     </button>
                                 </div>
@@ -742,42 +829,50 @@
         <!-- SKILLS / STEK -->
         <section class="px-4 md:px-8 py-20 z-10 relative border-t border-neon/10">
             <div class="max-w-6xl mx-auto">
-                <div class="text-xs uppercase tracking-[0.3em] text-neon/50 mb-3 reveal font-mono">$ cat skills.log</div>
+                <div class="text-xs uppercase tracking-[0.3em] text-neon/50 mb-3 reveal font-mono">$ cat skills.log
+                </div>
                 <h2 class="font-poster text-5xl md:text-7xl text-bone glow-text mb-12 reveal">СТЕК</h2>
 
                 <div class="grid md:grid-cols-2 gap-6">
                     <div class="neon-card p-6 rounded-md reveal">
-                        <div class="flex justify-between text-sm mb-2 font-mono"><span class="text-bone">React / Next.js</span><span class="text-neon font-bold">95%</span></div>
+                        <div class="flex justify-between text-sm mb-2 font-mono"><span class="text-bone">React /
+                                Next.js</span><span class="text-neon font-bold">95%</span></div>
                         <div class="skill-bar">
                             <div class="skill-fill" data-width="95%"></div>
                         </div>
                     </div>
                     <div class="neon-card p-6 rounded-md reveal">
-                        <div class="flex justify-between text-sm mb-2 font-mono"><span class="text-bone">TypeScript</span><span class="text-neon font-bold">90%</span></div>
+                        <div class="flex justify-between text-sm mb-2 font-mono"><span
+                                class="text-bone">TypeScript</span><span class="text-neon font-bold">90%</span></div>
                         <div class="skill-bar">
                             <div class="skill-fill" data-width="90%"></div>
                         </div>
                     </div>
                     <div class="neon-card p-6 rounded-md reveal">
-                        <div class="flex justify-between text-sm mb-2 font-mono"><span class="text-bone">Tailwind CSS</span><span class="text-neon font-bold">98%</span></div>
+                        <div class="flex justify-between text-sm mb-2 font-mono"><span class="text-bone">Tailwind
+                                CSS</span><span class="text-neon font-bold">98%</span></div>
                         <div class="skill-bar">
                             <div class="skill-fill" data-width="98%"></div>
                         </div>
                     </div>
                     <div class="neon-card p-6 rounded-md reveal">
-                        <div class="flex justify-between text-sm mb-2 font-mono"><span class="text-bone">Node.js / API</span><span class="text-neon font-bold">80%</span></div>
+                        <div class="flex justify-between text-sm mb-2 font-mono"><span class="text-bone">Node.js /
+                                API</span><span class="text-neon font-bold">80%</span></div>
                         <div class="skill-bar">
                             <div class="skill-fill" data-width="80%"></div>
                         </div>
                     </div>
                     <div class="neon-card p-6 rounded-md reveal">
-                        <div class="flex justify-between text-sm mb-2 font-mono"><span class="text-bone">Figma → Code</span><span class="text-amber font-bold">92%</span></div>
+                        <div class="flex justify-between text-sm mb-2 font-mono"><span class="text-bone">Figma →
+                                Code</span><span class="text-amber font-bold">92%</span></div>
                         <div class="skill-bar">
-                            <div class="skill-fill" data-width="92%" style="background:#F5B82E; box-shadow:0 0 6px rgba(245,184,46,0.6)"></div>
+                            <div class="skill-fill" data-width="92%"
+                                style="background:#F5B82E; box-shadow:0 0 6px rgba(245,184,46,0.6)"></div>
                         </div>
                     </div>
                     <div class="neon-card p-6 rounded-md reveal">
-                        <div class="flex justify-between text-sm mb-2 font-mono"><span class="text-bone">Git / CI-CD</span><span class="text-neon font-bold">85%</span></div>
+                        <div class="flex justify-between text-sm mb-2 font-mono"><span class="text-bone">Git /
+                                CI-CD</span><span class="text-neon font-bold">85%</span></div>
                         <div class="skill-bar">
                             <div class="skill-fill" data-width="85%"></div>
                         </div>
@@ -789,7 +884,8 @@
         <!-- SERVICES -->
         <section class="px-4 md:px-8 py-24 z-10 relative border-t border-neon/10 bg-void/30">
             <div class="max-w-6xl mx-auto">
-                <div class="text-xs uppercase tracking-[0.3em] text-neon/50 mb-3 reveal font-mono">$ ls ./services/</div>
+                <div class="text-xs uppercase tracking-[0.3em] text-neon/50 mb-3 reveal font-mono">$ ls ./services/
+                </div>
                 <h2 class="font-poster text-5xl md:text-7xl text-bone glow-text mb-12 reveal">ЧТО ПИШУ</h2>
 
                 <div class="grid md:grid-cols-3 gap-6">
@@ -797,31 +893,39 @@
                         <div>
                             <div class="text-4xl mb-4 glow-text font-bold">&lt;/&gt;</div>
                             <h3 class="text-bone text-xl font-bold mb-3 font-sans">Лендинги</h3>
-                            <p class="text-neon/70 text-xs leading-relaxed font-mono">Pixel-perfect верстка из Figma. Анимации, адаптивный дизайн, высокая SEO-оптимизация.</p>
+                            <p class="text-neon/70 text-xs leading-relaxed font-mono">Pixel-perfect верстка из Figma.
+                                Анимации, адаптивный дизайн, высокая SEO-оптимизация.</p>
                         </div>
-                        <div class="border-t border-neon/15 pt-4 text-xs text-neon/50 font-mono flex justify-between items-center">
+                        <div
+                            class="border-t border-neon/15 pt-4 text-xs text-neon/50 font-mono flex justify-between items-center">
                             <span>ПРАЙС</span>
                             <span class="text-neon font-bold">от 13 000 ₽</span>
                         </div>
                     </div>
                     <div class="neon-card p-8 rounded-md reveal flex flex-col justify-between h-[300px]">
                         <div>
-                            <div class="text-4xl mb-4 text-amber font-bold" style="text-shadow:0 0 10px rgba(245,184,46,0.5)">{ }</div>
+                            <div class="text-4xl mb-4 text-amber font-bold"
+                                style="text-shadow:0 0 10px rgba(245,184,46,0.5)">{ }</div>
                             <h3 class="text-bone text-xl font-bold mb-3 font-sans">Веб-приложения</h3>
-                            <p class="text-neon/70 text-xs leading-relaxed font-mono">SPA, дашборды управления, админ-панели. Современный стек на React + TypeScript.</p>
+                            <p class="text-neon/70 text-xs leading-relaxed font-mono">SPA, дашборды управления,
+                                админ-панели. Современный стек на React + TypeScript.</p>
                         </div>
-                        <div class="border-t border-neon/15 pt-4 text-xs text-neon/50 font-mono flex justify-between items-center">
+                        <div
+                            class="border-t border-neon/15 pt-4 text-xs text-neon/50 font-mono flex justify-between items-center">
                             <span>ПРАЙС</span>
-                            <span class="text-amber font-bold" style="text-shadow: 0 0 8px rgba(245,184,46,0.4)">от 10 000 ₽</span>
+                            <span class="text-amber font-bold" style="text-shadow: 0 0 8px rgba(245,184,46,0.4)">от 10
+                                000 ₽</span>
                         </div>
                     </div>
                     <div class="neon-card p-8 rounded-md reveal flex flex-col justify-between h-[300px]">
                         <div>
                             <div class="text-4xl mb-4 text-rec glow-rec font-bold">⚡</div>
                             <h3 class="text-bone text-xl font-bold mb-3 font-sans">Автоматизации</h3>
-                            <p class="text-neon/70 text-xs leading-relaxed font-mono">Интеграции с API, umные Telegram-боты, автоматические парсеры и автоматизация процессов.</p>
+                            <p class="text-neon/70 text-xs leading-relaxed font-mono">Интеграции с API, umные
+                                Telegram-боты, автоматические парсеры и автоматизация процессов.</p>
                         </div>
-                        <div class="border-t border-neon/15 pt-4 text-xs text-neon/50 font-mono flex justify-between items-center">
+                        <div
+                            class="border-t border-neon/15 pt-4 text-xs text-neon/50 font-mono flex justify-between items-center">
                             <span>ПРАЙС</span>
                             <span class="text-neon font-bold">от 2 000 ₽</span>
                         </div>
@@ -833,11 +937,13 @@
         <!-- PROJECTS -->
         <section id="projects" class="px-4 md:px-8 py-24 z-10 relative border-t border-neon/10">
             <div class="max-w-6xl mx-auto">
-                <div class="text-xs uppercase tracking-[0.3em] text-neon/50 mb-3 reveal font-mono">$ git log --oneline</div>
+                <div class="text-xs uppercase tracking-[0.3em] text-neon/50 mb-3 reveal font-mono">$ git log --oneline
+                </div>
                 <h2 class="font-poster text-5xl md:text-7xl text-bone glow-text mb-12 reveal">ПРОЕКТЫ</h2>
 
                 <div class="space-y-4">
-                    <div class="neon-card p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-6 rounded-md reveal transition-all duration-300">
+                    <div
+                        class="neon-card p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-6 rounded-md reveal transition-all duration-300">
                         <div class="flex-1 font-mono">
                             <div class="text-xs text-neon/50 mb-2">// commit a3f2d1c · 2025</div>
                             <h3 class="text-bone text-2xl font-bold font-sans">FLUX OS — SaaS Dashboard</h3>
@@ -846,7 +952,8 @@
                         <div class="font-poster text-5xl text-neon/10 select-none">01</div>
                     </div>
 
-                    <div class="neon-card p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-6 rounded-md reveal transition-all duration-300">
+                    <div
+                        class="neon-card p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-6 rounded-md reveal transition-all duration-300">
                         <div class="flex-1 font-mono">
                             <div class="text-xs text-neon/50 mb-2">// commit 7b91e4a · 2025</div>
                             <h3 class="text-bone text-2xl font-bold font-sans">SOLAR CO — корпоративный сайт</h3>
@@ -855,7 +962,8 @@
                         <div class="font-poster text-5xl text-neon/10 select-none">02</div>
                     </div>
 
-                    <div class="neon-card p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-6 rounded-md reveal transition-all duration-300">
+                    <div
+                        class="neon-card p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-6 rounded-md reveal transition-all duration-300">
                         <div class="flex-1 font-mono">
                             <div class="text-xs text-neon/50 mb-2">// commit e5c8f30 · 2024</div>
                             <h3 class="text-bone text-2xl font-bold font-sans">NEYRO — Telegram бот</h3>
@@ -864,7 +972,8 @@
                         <div class="font-poster text-5xl text-neon/10 select-none">03</div>
                     </div>
 
-                    <div class="neon-card p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-6 rounded-md reveal transition-all duration-300">
+                    <div
+                        class="neon-card p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-6 rounded-md reveal transition-all duration-300">
                         <div class="flex-1 font-mono">
                             <div class="text-xs text-neon/50 mb-2">// commit 1d4a7f2 · 2024</div>
                             <h3 class="text-bone text-2xl font-bold font-sans">PARSER BOT — ПАРСЕР ВИДЕО</h3>
@@ -880,11 +989,13 @@
         <section id="contact" class="px-4 md:px-8 py-24 z-10 relative border-t border-neon/10 bg-void/10">
             <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12">
                 <div class="reveal">
-                    <div class="text-xs uppercase tracking-[0.3em] text-neon/50 mb-4 font-mono">$ echo "let's build"</div>
+                    <div class="text-xs uppercase tracking-[0.3em] text-neon/50 mb-4 font-mono">$ echo "let's build"
+                    </div>
                     <h2 class="font-poster text-5xl md:text-7xl text-bone glow-text leading-none uppercase">
                         ДАВАЙ<br>ЗАПУСТИМ<br><span class="text-neon">ПРОЕКТ.</span>
                     </h2>
-                    <p class="text-neon/70 mt-6 max-w-md text-sm leading-relaxed">Опиши задачу в Telegram или на почту — я отвечу в течение суток с оценкой стоимости и планом разработки.</p>
+                    <p class="text-neon/70 mt-6 max-w-md text-sm leading-relaxed">Опиши задачу в Telegram или на почту —
+                        я отвечу в течение суток с оценкой стоимости и планом разработки.</p>
                 </div>
                 <div class="space-y-4 reveal font-mono">
                     <a href="https://t.me/pythonvoin" target="_blank" class="block neon-card p-6 rounded-md group">
@@ -895,7 +1006,8 @@
                         <div class="text-xs text-neon/50 mb-1 group-hover:text-neon transition">// EMAIL</div>
                         <div class="text-bone text-xl md:text-2xl font-bold">typonik@vk.com</div>
                     </a>
-                    <a href="https://kwork.ru/user/nikitanext2002" target="_blank" class="block neon-card p-6 rounded-md group">
+                    <a href="https://kwork.ru/user/nikitanext2002" target="_blank"
+                        class="block neon-card p-6 rounded-md group">
                         <div class="text-xs text-neon/50 mb-1 group-hover:text-neon transition">// KWORK</div>
                         <div class="text-bone text-xl md:text-2xl font-bold">kwork.ru/user/nikitanext2002</div>
                     </a>
@@ -904,7 +1016,8 @@
         </section>
 
         <!-- FOOTER -->
-        <footer class="px-4 md:px-8 pt-12 pb-6 border-t border-neon/10 text-[10px] uppercase tracking-widest text-neon/40 flex justify-between z-10 relative font-mono">
+        <footer
+            class="px-4 md:px-8 pt-12 pb-6 border-t border-neon/10 text-[10px] uppercase tracking-widest text-neon/40 flex justify-between z-10 relative font-mono">
             <div>© 2026 NIK · DEV</div>
             <div class="flex gap-6">
                 <a href="/admin/" class="hover:text-amber transition">ADMIN</a>
@@ -1162,14 +1275,14 @@
             // Transition logic between 3D scene and 2D website with HYSTERESIS
             const limitOut = 2200; // threshold to leave 3D
             const limitIn = 1900;  // threshold to enter 3D back
-            
+
             if (is3DActive && state.scroll >= limitOut) {
                 // Disable 3D completely
                 viewport.style.opacity = 0;
                 viewport.style.display = 'none';
                 hudOverlay.style.opacity = 0;
                 hudOverlay.style.display = 'none';
-                
+
                 mainSite.style.opacity = 1;
                 mainSite.style.visibility = 'visible';
                 is3DActive = false;
@@ -1192,7 +1305,7 @@
 
                 viewport.style.opacity = opacity3D;
                 hudOverlay.style.opacity = opacity3D;
-                
+
                 mainSite.style.opacity = opacity2D;
                 if (opacity2D > 0) {
                     mainSite.style.visibility = 'visible';
@@ -1285,12 +1398,12 @@
                 btn.innerText = 'CONNECTING...';
                 btn.style.background = '#F5B82E';
                 btn.style.boxShadow = '0 0 10px rgba(245, 184, 46, 0.4)';
-                
+
                 setTimeout(() => {
                     btn.innerText = 'CONNECTED: 0x71...3A9';
                     btn.style.background = '#00FFB2';
                     btn.style.boxShadow = '0 0 12px rgba(0, 255, 178, 0.6)';
-                    
+
                     const price = document.getElementById('mini-btc-price');
                     const change = document.getElementById('mini-btc-change');
                     if (price) {
@@ -1306,7 +1419,7 @@
                 btn.innerText = 'CONNECT WALLET';
                 btn.style.background = '#00FFB2';
                 btn.style.boxShadow = '0 0 10px rgba(0, 255, 178, 0.3)';
-                
+
                 const price = document.getElementById('mini-btc-price');
                 const change = document.getElementById('mini-btc-change');
                 if (price) {
@@ -1338,10 +1451,10 @@
             const box = document.getElementById('mini-chat-box');
             if (!box) return;
             box.innerHTML = '';
-            
+
             const msgs = botAnswers[type];
             let delay = 0;
-            
+
             msgs.forEach((msg, idx) => {
                 setTimeout(() => {
                     const div = document.createElement('div');
@@ -1413,7 +1526,7 @@
                 btn.classList.remove('bg-neon');
                 btn.classList.add('bg-slate-700');
                 dot.style.transform = 'translateX(0)';
-                
+
                 const row = document.createElement('div');
                 row.className = 'log-row text-red-500 font-bold';
                 row.innerText = '[SYSTEM] CRON DISABLED';
@@ -1423,7 +1536,7 @@
                 btn.classList.remove('bg-slate-700');
                 btn.classList.add('bg-neon');
                 dot.style.transform = 'translateX(14px)';
-                
+
                 const row = document.createElement('div');
                 row.className = 'log-row text-neon font-bold';
                 row.innerText = '[SYSTEM] CRON ENABLED';
@@ -1436,7 +1549,7 @@
 
 
         // --- FLAT SITE SCRIPTS (Code rain & IntersectionObserver) ---
-        
+
         // Code Rain generator
         (function () {
             const r = document.getElementById('coderain');
@@ -1444,7 +1557,7 @@
             const chars = 'アイウエオカキクケコ01ABCDEF{}[]<>/=+;()const let var function return async await import export';
             for (let i = 0; i < 30; i++) {
                 const s = document.createElement('span');
-                let t = ''; 
+                let t = '';
                 for (let j = 0; j < 20 + Math.floor(Math.random() * 12); j++) {
                     t += chars[Math.floor(Math.random() * chars.length)];
                 }
@@ -1458,19 +1571,19 @@
         })();
 
         // Reveal animations on scroll
-        const io = new IntersectionObserver(es => es.forEach(e => { 
-            if (e.isIntersecting) { 
-                e.target.classList.add('visible'); 
-                
+        const io = new IntersectionObserver(es => es.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('visible');
+
                 // Animate progress bar fill width when skills reveal
                 const bar = e.target.querySelector('.skill-fill');
                 if (bar) {
                     bar.style.width = bar.getAttribute('data-width');
                 }
-                io.unobserve(e.target); 
-            } 
+                io.unobserve(e.target);
+            }
         }), { threshold: 0.1 });
-        
+
         document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
 
@@ -1484,11 +1597,11 @@
             const logs = document.getElementById('parser-console-logs');
             const btn = document.getElementById('btn-run-parser');
             if (!logs || !btn) return;
-            
+
             btn.innerText = 'ПАРСЕР ЗАПУЩЕН...';
             btn.classList.add('opacity-50', 'pointer-events-none');
             logs.innerHTML = '<div class="text-slate-500">$ python parser.py --target @competitor_channel</div>';
-            
+
             const lines = [
                 '[INFO] Инициализация Pyrogram TelegramClient...',
                 '[INFO] Подключение к серверам MTProto... Успешно.',
@@ -1502,7 +1615,7 @@
                 '[DB] Записано 230 строк. Время выполнения: 0.14s.',
                 '[SUCCESS] Парсинг завершен. Скрипт остановлен (exit code: 0).'
             ];
-            
+
             let idx = 0;
             function printNextLine() {
                 if (idx < lines.length) {
@@ -1532,20 +1645,20 @@
             const table = document.getElementById('crm-table-body');
             const profitEl = document.getElementById('crm-profit-val');
             if (!table || !profitEl) return;
-            
+
             orderCount++;
             const names = ['Даниил', 'Александр', 'Дмитрий', 'Мария', 'Екатерина'];
             const services = ['Лендинг VPN', 'TG Бот + ИИ', 'Парсер YouTube', 'Автоматизация CRM'];
             const prices = [13000, 10000, 5000, 8000];
-            
+
             const randIdx = Math.floor(Math.random() * names.length);
             const name = names[randIdx];
             const service = services[Math.floor(Math.random() * services.length)];
             const price = prices[Math.floor(Math.random() * prices.length)];
-            
+
             crmProfit += price;
             profitEl.innerText = crmProfit.toLocaleString('ru-RU') + ' ₽';
-            
+
             const tr = document.createElement('tr');
             tr.className = 'border-b border-slate-900 bg-neon/5 text-[10px] text-slate-300 font-mono';
             tr.style.animation = 'msgFade 0.3s ease-out forwards';
@@ -1556,7 +1669,7 @@
                 <td class="py-2 px-3 text-neon">${price.toLocaleString('ru-RU')} ₽</td>
                 <td class="py-2 px-3"><span class="px-1.5 py-0.5 rounded bg-neon/15 text-neon font-bold">ОПЛАЧЕНО</span></td>
             `;
-            
+
             table.insertBefore(tr, table.firstChild);
         }
 
@@ -1576,14 +1689,14 @@
         function selectVPNServer(srv, el) {
             if (vpnState.connected) return;
             vpnState.server = srv;
-            
+
             document.querySelectorAll('.vpn-srv-btn').forEach(btn => {
                 btn.classList.remove('bg-neon', 'text-void', 'border-neon');
                 btn.classList.add('bg-void', 'text-neon', 'border-neon/30');
             });
             el.classList.add('bg-neon', 'text-void', 'border-neon');
             el.classList.remove('bg-void', 'text-neon', 'border-neon/30');
-            
+
             document.getElementById('vpn-ping-val').innerText = vpnServers[srv].ping + ' ms';
             document.getElementById('vpn-srv-val').innerText = vpnServers[srv].name;
         }
@@ -1594,7 +1707,7 @@
             const statusDot = document.getElementById('vpn-status-dot');
             const statusText = document.getElementById('vpn-status-text');
             const gauge = document.getElementById('vpn-gauge');
-            
+
             if (!vpnState.connected) {
                 vpnState.connected = true;
                 btn.innerText = 'CONNECTING...';
@@ -1602,9 +1715,9 @@
                 statusText.innerText = 'CONNECTING';
                 statusText.className = 'text-amber font-bold';
                 statusDot.className = 'w-2 h-2 rounded-full bg-amber animate-ping';
-                
+
                 let targetSpeed = vpnServers[vpnState.server].speed;
-                
+
                 setTimeout(() => {
                     if (!vpnState.connected) return;
                     btn.innerText = 'DISCONNECT';
@@ -1612,13 +1725,13 @@
                     statusText.innerText = 'CONNECTED';
                     statusText.className = 'text-neon font-bold';
                     statusDot.className = 'w-2 h-2 rounded-full bg-neon shadow-[0_0_8px_#00FFB2]';
-                    
+
                     let angle = -120 + (targetSpeed / 1000) * 240;
                     if (needle) needle.style.transform = `rotate(${angle}deg)`;
-                    
+
                     let offset = 220 - (targetSpeed / 1000) * 220;
                     if (gauge) gauge.style.strokeDashoffset = offset;
-                    
+
                     let currSpeed = 0;
                     let interval = setInterval(() => {
                         if (!vpnState.connected) {
@@ -1640,22 +1753,27 @@
                 statusText.innerText = 'DISCONNECTED';
                 statusText.className = 'text-gray-500 font-bold';
                 statusDot.className = 'w-2 h-2 rounded-full bg-gray-600';
-                
+
                 if (needle) needle.style.transform = 'rotate(-120deg)';
                 if (gauge) gauge.style.strokeDashoffset = '220';
                 if (speedText) speedText.innerText = '0 Mbps';
             }
         }
     </script>
-  <!-- Floating Mobile Navigation -->
-  <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 md:hidden flex items-center justify-center">
-    <nav class="flex items-center gap-1 bg-black/80 backdrop-blur-lg border border-white/10 rounded-full p-1.5 shadow-[0_12px_40px_rgba(0,0,0,0.6)] text-[10px] font-mono tracking-wider font-bold">
-      <a href="index.html" class="px-4 py-2 rounded-full transition-all duration-300 text-white/60 hover:text-white">HUB</a>
-      <a href="montage.html" class="px-4 py-2 rounded-full transition-all duration-300 text-white/60 hover:text-white">МОНТАЖ</a>
-      <a href="design.html" class="px-4 py-2 rounded-full transition-all duration-300 text-white/60 hover:text-white">ДИЗАЙН</a>
-      <a href="dev.html" class="px-4 py-2 rounded-full transition-all duration-300 bg-white/10 text-[#00FFB2]">КОД</a>
-    </nav>
-  </div>
+    <!-- Floating Mobile Navigation -->
+    <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 md:hidden flex items-center justify-center">
+        <nav
+            class="flex items-center gap-1 bg-black/80 backdrop-blur-lg border border-white/10 rounded-full p-1.5 shadow-[0_12px_40px_rgba(0,0,0,0.6)] text-[10px] font-mono tracking-wider font-bold">
+            <a href="index.html"
+                class="px-4 py-2 rounded-full transition-all duration-300 text-white/60 hover:text-white">HUB</a>
+            <a href="montage.html"
+                class="px-4 py-2 rounded-full transition-all duration-300 text-white/60 hover:text-white">МОНТАЖ</a>
+            <a href="design.html"
+                class="px-4 py-2 rounded-full transition-all duration-300 text-white/60 hover:text-white">ДИЗАЙН</a>
+            <a href="dev.html"
+                class="px-4 py-2 rounded-full transition-all duration-300 bg-white/10 text-[#00FFB2]">КОД</a>
+        </nav>
+    </div>
 </body>
 
 </html>
