@@ -595,7 +595,7 @@ const <span class="text-amber">stack</span> = [
       const grid = document.getElementById('yt-grid');
       if (!grid || !data.videos) return;
       grid.innerHTML = data.videos.map(v => {
-        const thumbUrl = v.thumb ? 'https://images.weserv.nl/?url=' + v.thumb : '';
+        const thumbUrl = v.thumb ? 'https://external-content.duckduckgo.com/iu/?u=' + encodeURIComponent(v.thumb) : '';
         return `
         <a href="${v.url}" target="_blank" rel="noopener" class="yt-card relative overflow-hidden block reveal">
           <div class="aspect-video relative">
