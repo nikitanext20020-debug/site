@@ -594,10 +594,12 @@ const <span class="text-amber">stack</span> = [
       const data = await res.json();
       const grid = document.getElementById('yt-grid');
       if (!grid || !data.videos) return;
-      grid.innerHTML = data.videos.map(v => `
+      grid.innerHTML = data.videos.map(v => {
+        const thumbUrl = v.thumb ? 'https://images.weserv.nl/?url=' + encodeURIComponent(v.thumb) : '';
+        return `
         <a href="${v.url}" target="_blank" rel="noopener" class="yt-card relative overflow-hidden block reveal">
           <div class="aspect-video relative">
-            <img src="${v.thumb}" alt="${v.title}" loading="lazy" class="w-full h-full object-cover" />
+            <img src="${thumbUrl}" alt="${v.title}" loading="lazy" class="w-full h-full object-cover" />
             <div class="play">
               <div class="w-14 h-14 rounded-full bg-ytred flex items-center justify-center">
                 <span class="w-0 h-0 border-l-[12px] border-l-bone border-y-[8px] border-y-transparent ml-1"></span>
@@ -612,7 +614,7 @@ const <span class="text-amber">stack</span> = [
             <div class="font-mono text-[10px] text-bone/50 mt-2 uppercase">${v.tag}</div>
           </div>
         </a>
-      `).join('');
+      `; }).join('');
       grid.querySelectorAll('.reveal').forEach(el => io.observe(el));
     } catch(e) { console.warn(e); }
   })();
@@ -1427,5 +1429,14 @@ const <span class="text-amber">stack</span> = [
     });
   })();
 </script>
+  <!-- Floating Mobile Navigation -->
+  <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 md:hidden flex items-center justify-center">
+    <nav class="flex items-center gap-1 bg-black/80 backdrop-blur-lg border border-white/10 rounded-full p-1.5 shadow-[0_12px_40px_rgba(0,0,0,0.6)] text-[10px] font-mono tracking-wider font-bold">
+      <a href="index.html" class="px-4 py-2 rounded-full transition-all duration-300 bg-white/10 text-[#FF3B30]">HUB</a>
+      <a href="montage.html" class="px-4 py-2 rounded-full transition-all duration-300 text-white/60 hover:text-white">МОНТАЖ</a>
+      <a href="design.html" class="px-4 py-2 rounded-full transition-all duration-300 text-white/60 hover:text-white">ДИЗАЙН</a>
+      <a href="dev.html" class="px-4 py-2 rounded-full transition-all duration-300 text-white/60 hover:text-white">КОД</a>
+    </nav>
+  </div>
 </body>
 </html>

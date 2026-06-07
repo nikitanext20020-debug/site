@@ -2736,6 +2736,16 @@ if (canvas) {
 
           if (!cssW || !cssH) return;
 
+          const widthChanged = lastViewportW === 0 || Math.abs(cssW - lastViewportW) > 2;
+          const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+          const heightThreshold = isTouch ? 150 : 2;
+          const heightChanged = lastViewportH === 0 || Math.abs(cssH - lastViewportH) > heightThreshold;
+
+          if (!widthChanged && !heightChanged) {
+            updateScrollMetrics();
+            return;
+          }
+
           lastViewportW = cssW;
           lastViewportH = cssH;
 
@@ -2894,5 +2904,14 @@ if (canvas) {
 
 
 
+  <!-- Floating Mobile Navigation -->
+  <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 md:hidden flex items-center justify-center">
+    <nav class="flex items-center gap-1 bg-black/80 backdrop-blur-lg border border-white/10 rounded-full p-1.5 shadow-[0_12px_40px_rgba(0,0,0,0.6)] text-[10px] font-mono tracking-wider font-bold">
+      <a href="index.html" class="px-4 py-2 rounded-full transition-all duration-300 text-white/60 hover:text-white">HUB</a>
+      <a href="montage.html" class="px-4 py-2 rounded-full transition-all duration-300 text-white/60 hover:text-white">МОНТАЖ</a>
+      <a href="design.html" class="px-4 py-2 rounded-full transition-all duration-300 bg-white/10 text-[#D4AF37]">ДИЗАЙН</a>
+      <a href="dev.html" class="px-4 py-2 rounded-full transition-all duration-300 text-white/60 hover:text-white">КОД</a>
+    </nav>
+  </div>
 </body>
 </html>
