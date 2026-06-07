@@ -265,6 +265,7 @@
     </div>
     <div class="flex gap-2.5">
       <a href="../index.html" target="_blank" class="btn btn-ghost text-xs">Предпросмотр сайта ↗</a>
+      <button class="btn bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs" onclick="downloadJSON()" title="Скачать измененный portfolio.json для ручного сохранения">💾 Скачать JSON</button>
       <button class="btn btn-primary text-xs" onclick="save()">💾 Опубликовать изменения</button>
       <button class="btn btn-ghost text-xs" onclick="logout()">Выйти</button>
     </div>
@@ -494,20 +495,19 @@ window.addEventListener('DOMContentLoaded', () => {
 
 async function login() {
   CFG.token = document.getElementById('token').value.trim();
-  CFG.owner = document.getElementById('owner').value.trim();
-  CFG.repo = document.getElementById('repo').value.trim();
+  CFG.owner = document.getElementById('owner').value.trim().replace(/^\/|\/$/g, '');
+  CFG.repo = document.getElementById('repo').value.trim().replace(/^\/|\/$/g, '');
   CFG.branch = document.getElementById('branch').value.trim();
-  CFG.path = document.getElementById('path').value.trim();
+  CFG.path = document.getElementById('path').value.trim().replace(/^\//, '');
   if (!CFG.token) return showToast('Введите токен доступа GitHub', 'error');
 
   showToast('Загрузка данных из GitHub...', 'info');
   try {
-    const url = `https://api.github.com/repos/${CFG.owner}/${CFG.repo}/contents/${CFG.path}?ref=${CFG.branch}`;
+    const url = `https://api.github.com/repos/${CFG.owner}/${CFG.repo}/contents/${CFG.path}?ref=${CFG.branch}&t=${Date.now()}`;
     const res = await fetch(url, { 
       headers: { 
         Authorization: `Bearer ${CFG.token}`, 
-        Accept: 'application/vnd.github+json',
-        'Cache-Control': 'no-cache'
+        Accept: 'application/vnd.github+json'
       } 
     });
     if (!res.ok) {
@@ -533,7 +533,11 @@ async function login() {
     showToast('Вход успешно выполнен!', 'success');
   } catch (e) {
     console.error(e);
-    showToast('Ошибка сети: ' + e.message, 'error');
+    let errMsg = e.message;
+    if (errMsg === 'Failed to fetch') {
+      errMsg = 'Failed to fetch (сеть заблокирована. Если вы в РФ — обязательно включите VPN!)';
+    }
+    showToast('Ошибка сети: ' + errMsg, 'error');
   }
 }
 
@@ -1174,6 +1178,22 @@ function showToast(msg, type = 'info') {
   t.innerHTML = `<div class="toast" style="background:${colors[type]};color:#08080C;font-family:'Space Grotesk',sans-serif;">${msg}</div>`;
   clearTimeout(window._toastT);
   window._toastT = setTimeout(() => { t.innerHTML = ''; }, 3500);
+}
+
+function downloadJSON() {
+  if (!DATA) return showToast('Данные не загружены', 'error');
+  collectForm();
+  const jsonString = JSON.stringify(DATA, null, 2);
+  const blob = new Blob([jsonString], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'portfolio.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('✓ Файл portfolio.json скачан! Замените им файл в data/ на вашем ПК.', 'success');
 }
 </script>
 </body>

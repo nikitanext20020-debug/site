@@ -740,17 +740,8 @@ svg .delay-75 {
           <div class="absolute inset-[-18px] rounded-[18px] pointer-events-none z-0"
                style="background: radial-gradient(ellipse at 50% 60%, rgba(168,135,82,0.18) 0%, transparent 70%);"></div>
           <div class="aspect-[4/3] overflow-hidden hero-photo-inner relative" style="border-radius:14px;">
-            
-            <!-- Default Layer: Nik Studio photo -->
-            <div class="showcase-layer showcase-default active relative overflow-hidden">
-              <img src="https://i.postimg.cc/KjnvGrzj/Editor-session-(1).png"
-                   alt="Nik — дизайнер"
-                   class="w-full h-full object-cover hero-photo-img"
-                   style="filter: contrast(1.05) saturate(0.95); object-position: center top;">
-            </div>
-
             <!-- YouTube Previews Layer (Collage) -->
-            <div class="showcase-layer showcase-youtube flex items-center justify-center bg-[#FAF7F2] p-4 overflow-hidden">
+            <div class="showcase-layer showcase-youtube active flex items-center justify-center bg-[#FAF7F2] p-4 overflow-hidden">
               <div class="blueprint-grid opacity-15 absolute inset-0"></div>
               <div class="relative w-full h-full flex items-center justify-center select-none">
                 <img src="https://i.ibb.co/rGXrG7cf/imgi-143-b9f790244922525-69a1cf2c177de.jpg" 
@@ -1040,7 +1031,7 @@ svg .delay-75 {
       </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8" id="previews-grid">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8" id="previews-grid">
       <!-- Dynamic Previews -->
     </div>
   </div>
@@ -1059,7 +1050,7 @@ svg .delay-75 {
       </div>
     </div>
 
-    <div class="space-y-8" id="banners-grid">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="banners-grid">
       <!-- Dynamic Banners -->
     </div>
   </div>
@@ -1082,7 +1073,7 @@ svg .delay-75 {
       Разрабатываю уникальные логотипы под любой бизнес. Продумываю концепцию, которая отражает суть вашей компании, привлекает клиентов и отлично смотрится на любых носителях — от фавикона до вывески.
     </p>
 
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6" id="logos-grid">
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8" id="logos-grid">
       <!-- Dynamic Logos -->
     </div>
   </div>
@@ -1101,7 +1092,7 @@ svg .delay-75 {
       </div>
     </div>
 
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6" id="marketplaces-grid">
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8" id="marketplaces-grid">
       <!-- Dynamic Marketplaces -->
     </div>
   </div>
@@ -1170,7 +1161,10 @@ svg .delay-75 {
   <button id="lb-prev" aria-label="Предыдущее">‹</button>
   <img id="lb-img" src="" alt="">
   <button id="lb-next" aria-label="Следующее">›</button>
-  <div id="lb-caption"></div>
+  <div id="lb-caption" class="flex flex-col items-center gap-1">
+    <span id="lb-caption-text" class="text-xs md:text-sm font-semibold tracking-wide"></span>
+    <a id="lb-original-link" href="" target="_blank" class="underline text-gold hover:text-white transition font-mono text-[10px] tracking-wider uppercase">Открыть оригинал ↗</a>
+  </div>
 </div>
 
 <script>
@@ -1245,9 +1239,15 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
   function show(idx) {
     cur = (idx + items.length) % items.length;
     const el  = items[cur];
-    lbImg.src = el.dataset.lb;
+    const imgUrl = el.dataset.lb;
+    lbImg.src = imgUrl;
     lbImg.alt = el.querySelector('img')?.alt || '';
-    lbCap.textContent = el.dataset.lbCaption || '';
+    
+    const capText = document.getElementById('lb-caption-text');
+    const origLink = document.getElementById('lb-original-link');
+    if (capText) capText.textContent = el.dataset.lbCaption || '';
+    if (origLink) origLink.href = imgUrl;
+
     // hide arrows if only 1 image
     const multi = items.length > 1;
     btnPrev.style.display = multi ? '' : 'none';
@@ -1348,7 +1348,7 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
             activeHover = null;
             setTimeout(() => {
               if (!activeHover) {
-                showLayer('default');
+                showLayer('youtube');
               }
             }, 50);
           }
@@ -1420,7 +1420,7 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
         const bannerItems = data.design_gallery.filter(item => item.category === 'banners');
         bannersGrid.innerHTML = bannerItems.map(item => `
           <article class="reveal group">
-            <div class="aspect-[21/9] md:aspect-[21/4] overflow-hidden border-2 border-line bg-white shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-gold hover:-translate-y-2 rounded-xl cursor-zoom-in"
+            <div class="aspect-[21/9] overflow-hidden border-2 border-line bg-white shadow-xl transition-all duration-500 hover:shadow-2xl hover:border-gold hover:-translate-y-2 rounded-xl cursor-zoom-in"
                  data-lb="${item.image}" data-lb-caption="${item.caption}">
               <img src="${item.image}" alt="${item.caption}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 pointer-events-none" loading="lazy">
             </div>
