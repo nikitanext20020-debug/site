@@ -297,11 +297,11 @@
       <span class="text-ytred">делаю дизайн</span>
     </h1>
     <div class="grid md:grid-cols-12 gap-6 mt-8">
-      <p class="md:col-span-7 text-bone/70 text-lg max-w-3xl">
+      <p class="md:col-span-7 text-bone/70 text-lg max-w-3xl" id="profile-bio">
         Привет! Я <span class="text-bone font-semibold">Nik</span>. Да я тот самый парень, который обучал людей дизайну, есть свой канал на 272к подписчиков.
         Беру заказы на превью, монтаж, оформление каналов и сайты — выбирай направление ниже.
       </p>
-      <div class="md:col-span-5 flex gap-3 items-end">
+      <div class="md:col-span-5 flex gap-3 items-end" id="profile-stats-mini">
         <div class="flex-1 border-l-2 border-rec pl-3">
           <div class="big-num text-3xl md:text-4xl text-bone">272K</div>
           <div class="font-mono text-[10px] uppercase text-bone/60 mt-1">YouTube</div>
@@ -519,7 +519,7 @@ const <span class="text-amber">stack</span> = [
 
 <!-- ============ STATS ============ -->
 <section class="px-4 md:px-8 py-20 border-t border-bone/10">
-  <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-6 reveal">
+  <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-6 reveal" id="profile-stats-full">
     <div class="border-l-2 border-ytred pl-4">
       <div class="big-num text-5xl text-bone">272K</div>
       <div class="font-mono text-xs uppercase text-bone/60 mt-2">Подписчиков на YouTube</div>
@@ -540,7 +540,7 @@ const <span class="text-amber">stack</span> = [
 </section>
 
 <!-- ============ FOOTER ============ -->
-<footer class="px-4 md:px-8 py-8 border-t border-bone/10 font-mono text-xs uppercase tracking-widest text-bone/50 flex flex-col md:flex-row justify-between gap-4">
+<footer class="px-4 md:px-8 py-8 border-t border-bone/10 font-mono text-xs uppercase tracking-widest text-bone/50 flex flex-col md:flex-row justify-between gap-4" id="main-footer">
   <div>© 2026 NIK · @pythonvoin</div>
   <div class="flex gap-6 flex-wrap">
     <a href="https://youtube.com/@yotubeThebadBoy" target="_blank" class="hover:text-ytred">YouTube</a>
@@ -586,36 +586,104 @@ const <span class="text-amber">stack</span> = [
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-  // ================== LOAD YOUTUBE DATA ==================
-  (async function loadYT(){
+  // ================== LOAD PORTFOLIO DATA ==================
+  (async function loadPortfolioData(){
     try {
       const res = await fetch('data/portfolio.json', { cache:'no-store' });
       if (!res.ok) return;
       const data = await res.json();
+      
+      // Update bio/profile
+      const bioEl = document.getElementById('profile-bio');
+      if (bioEl && data.site) {
+        bioEl.innerHTML = `Привет! Я <span class="text-bone font-semibold">${data.site.name || 'Nik'}</span>. ${data.site.bio || ''}`;
+      }
+
+      // Update statistics
+      const statsMini = document.getElementById('profile-stats-mini');
+      const statsFull = document.getElementById('profile-stats-full');
+      if (data.stats) {
+        if (statsMini) {
+          statsMini.innerHTML = `
+            <div class="flex-1 border-l-2 border-rec pl-3">
+              <div class="big-num text-3xl md:text-4xl text-bone">${data.stats.subscribers || '272K'}</div>
+              <div class="font-mono text-[10px] uppercase text-bone/60 mt-1">YouTube</div>
+            </div>
+            <div class="flex-1 border-l-2 border-amber pl-3">
+              <div class="big-num text-3xl md:text-4xl text-bone">${data.stats.video_projects || 150}+</div>
+              <div class="font-mono text-[10px] uppercase text-bone/60 mt-1">Проектов</div>
+            </div>
+            <div class="flex-1 border-l-2 border-bone/40 pl-3">
+              <div class="big-num text-3xl md:text-4xl text-bone">${data.stats.years || 6}</div>
+              <div class="font-mono text-[10px] uppercase text-bone/60 mt-1">Лет</div>
+            </div>
+          `;
+        }
+        if (statsFull) {
+          statsFull.innerHTML = `
+            <div class="border-l-2 border-ytred pl-4">
+              <div class="big-num text-5xl text-bone">${data.stats.subscribers_full || '272 000'}</div>
+              <div class="font-mono text-xs uppercase text-bone/60 mt-2">Подписчиков на YouTube</div>
+            </div>
+            <div class="border-l-2 border-amber pl-4">
+              <div class="big-num text-5xl text-bone">${data.stats.video_projects || 150}+</div>
+              <div class="font-mono text-xs uppercase text-bone/60 mt-2">Видео-проектов</div>
+            </div>
+            <div class="border-l-2 border-neon pl-4">
+              <div class="big-num text-5xl text-bone">${data.stats.websites || 12}+</div>
+              <div class="font-mono text-xs uppercase text-bone/60 mt-2">Сайтов</div>
+            </div>
+            <div class="border-l-2 border-bone/40 pl-4">
+              <div class="big-num text-5xl text-bone">${data.stats.years || 6} лет</div>
+              <div class="font-mono text-xs uppercase text-bone/60 mt-2">Опыта в YouTube</div>
+            </div>
+          `;
+        }
+      }
+
+      // Update footer links
+      const footer = document.getElementById('main-footer');
+      if (footer && data.site) {
+        const social = data.site.social || {};
+        footer.innerHTML = `
+          <div>© 2026 ${data.site.name || 'NIK'} · ${data.site.telegram || '@pythonvoin'}</div>
+          <div class="flex gap-6 flex-wrap">
+            ${social.youtube ? `<a href="${social.youtube}" target="_blank" class="hover:text-ytred">YouTube</a>` : ''}
+            ${social.kwork ? `<a href="${social.kwork}" target="_blank" class="hover:text-bone">Kwork</a>` : ''}
+            ${data.site.telegram ? `<a href="https://t.me/${data.site.telegram.replace('@','')}" class="hover:text-bone">Telegram</a>` : ''}
+            <a href="admin/" class="hover:text-amber">Admin</a>
+          </div>
+        `;
+      }
+
+      // Update YouTube grid
       const grid = document.getElementById('yt-grid');
-      if (!grid || !data.videos) return;
-      grid.innerHTML = data.videos.map(v => {
-        const thumbUrl = v.thumb ? 'https://external-content.duckduckgo.com/iu/?u=' + encodeURIComponent(v.thumb) : '';
-        return `
-        <a href="${v.url}" target="_blank" rel="noopener" class="yt-card relative overflow-hidden block reveal">
-          <div class="aspect-video relative">
-            <img src="${thumbUrl}" alt="${v.title}" loading="lazy" class="w-full h-full object-cover" />
-            <div class="play">
-              <div class="w-14 h-14 rounded-full bg-ytred flex items-center justify-center">
-                <span class="w-0 h-0 border-l-[12px] border-l-bone border-y-[8px] border-y-transparent ml-1"></span>
+      if (grid && data.videos) {
+        grid.innerHTML = data.videos.map(v => {
+          const thumbUrl = v.thumb ? 'https://external-content.duckduckgo.com/iu/?u=' + encodeURIComponent(v.thumb) : '';
+          return `
+          <a href="${v.url}" target="_blank" rel="noopener" class="yt-card relative overflow-hidden block reveal">
+            <div class="aspect-video relative">
+              <img src="${thumbUrl}" alt="${v.title}" loading="lazy" class="w-full h-full object-cover" />
+              <div class="play">
+                <div class="w-14 h-14 rounded-full bg-ytred flex items-center justify-center">
+                  <span class="w-0 h-0 border-l-[12px] border-l-bone border-y-[8px] border-y-transparent ml-1"></span>
+                </div>
+              </div>
+              <div class="absolute bottom-2 right-2 bg-ink/85 text-bone font-mono text-[10px] px-2 py-0.5">
+                ${v.views} · ${v.year}
               </div>
             </div>
-            <div class="absolute bottom-2 right-2 bg-ink/85 text-bone font-mono text-[10px] px-2 py-0.5">
-              ${v.views} · ${v.year}
+            <div class="p-3">
+              <div class="text-bone text-sm leading-snug line-clamp-2">${v.title}</div>
+              <div class="font-mono text-[10px] text-bone/50 mt-2 uppercase">${v.tag}</div>
             </div>
-          </div>
-          <div class="p-3">
-            <div class="text-bone text-sm leading-snug line-clamp-2">${v.title}</div>
-            <div class="font-mono text-[10px] text-bone/50 mt-2 uppercase">${v.tag}</div>
-          </div>
-        </a>
-      `; }).join('');
-      grid.querySelectorAll('.reveal').forEach(el => io.observe(el));
+          </a>
+        `; }).join('');
+      }
+
+      // Trigger reveal observer for dynamic elements
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
     } catch(e) { console.warn(e); }
   })();
 

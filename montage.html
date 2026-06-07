@@ -1044,7 +1044,7 @@
           </div>
 
           <!-- Clip list -->
-          <div class="flex-1 flex flex-col gap-3 overflow-y-auto pr-1" style="max-height: 480px;">
+          <div id="media-bin-list" class="flex-1 flex flex-col gap-3 overflow-y-auto pr-1" style="max-height: 480px;">
 
             <!-- Clip item 1 -->
             <div
@@ -1597,29 +1597,135 @@
       let activeClip = null; // { id, url, name, duration, color }
       let vuInterval = null;
 
-      // Select a tape / clip
-      binItems.forEach(item => {
-        item.addEventListener('click', () => {
-          const id = item.dataset.id;
-          const url = item.dataset.url;
-          const name = item.dataset.name;
-          const duration = parseInt(item.dataset.duration, 10);
-          const color = item.dataset.color || 'rec';
-          const aspect = item.dataset.aspect || '9:16';
+      // Load services and cassettes from data/portfolio.json dynamically
+      async function loadPortfolioData() {
+        try {
+          const res = await fetch('data/portfolio.json', { cache: 'no-store' });
+          if (!res.ok) return;
+          const data = await res.json();
 
-          // Update active class in media bin
-          binItems.forEach(bi => {
-            bi.classList.remove('active-rec', 'active-amber');
+          // 1. Update Bento Services texts & prices
+          const bentoCells = document.querySelectorAll('#services .cell');
+          const montageServices = (data.services || []).filter(s => s.category === 'montage');
+          bentoCells.forEach((cell, idx) => {
+            const s = montageServices[idx];
+            if (s) {
+              const numLabel = cell.querySelector('.font-mono.text-xs');
+              if (numLabel) {
+                numLabel.innerHTML = `${String(idx + 1).padStart(2, '0')} / ${s.tag || ''}`;
+              }
+              const titleEl = cell.querySelector('h3');
+              if (titleEl) titleEl.textContent = s.title;
+              const descEl = cell.querySelector('p');
+              if (descEl) descEl.textContent = s.description;
+              
+              const priceLink = cell.querySelector('a[href="#contact"]');
+              if (priceLink) {
+                priceLink.textContent = s.price ? `Узнать цену (${s.price}) →` : 'Узнать цену →';
+              }
+            }
           });
-          if (color === 'rec') {
-            item.classList.add('active-rec');
-          } else {
-            item.classList.add('active-amber');
+
+          // 2. Update Media Bin list & count
+          const mediaBin = document.getElementById('media-bin-list');
+          const filesCountLabel = document.querySelector('.lg\\:col-span-5 .font-mono span:last-child');
+          if (mediaBin && data.montage_gallery) {
+            if (filesCountLabel) {
+              filesCountLabel.textContent = `${data.montage_gallery.length} ФАЙЛОВ`;
+            }
+            
+            mediaBin.innerHTML = data.montage_gallery.map((reel, idx) => {
+              const colorClass = reel.color === 'rec' ? 'rec' : 'amber';
+              const hoverBgClass = reel.color === 'rec' ? 'hover:bg-rec/5' : 'hover:bg-amber/5';
+              const activeBorderClass = reel.color === 'rec' ? 'group-hover:border-rec' : 'group-hover:border-amber';
+              const fillClass = reel.color === 'rec' ? 'fill-rec' : 'fill-amber';
+              const borderClass = reel.color === 'rec' ? 'border-rec' : 'border-bone/10';
+              
+              let tagHtml = `<div class="text-[9px] text-${colorClass}/70 mt-2 flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 bg-${colorClass} rounded-full inline-block animate-pulse"></span>
+                <span>ГОТОВ К МОНТАЖУ</span>
+              </div>`;
+              
+              if (reel.name.includes('AI') || reel.name.includes('cartoon') || reel.name.includes('GENERATIVE') || reel.name.includes('MULT')) {
+                tagHtml = `<div class="text-[9px] text-${colorClass} font-bold mt-2 flex items-center gap-1.5 animate-pulse">
+                  <span class="w-1.5 h-1.5 bg-${colorClass} rounded-full inline-block"></span>
+                  <span>AI TREND / ИИ МУЛЬТ 🔥</span>
+                </div>`;
+              }
+
+              return `
+                <div
+                  class="bin-item group cursor-pointer border border-bone/10 bg-black/20 ${hoverBgClass} p-3 rounded flex items-center gap-4 transition"
+                  data-id="${reel.id}" data-url="${reel.url}" data-name="${reel.name}" data-duration="${reel.duration}"
+                  data-color="${reel.color}" data-aspect="${reel.aspect}">
+                  <div
+                    class="w-16 h-20 bg-zinc-900 border ${borderClass} ${activeBorderClass} flex flex-col justify-between p-1.5 relative overflow-hidden flex-shrink-0 transition">
+                    <div class="flex flex-col gap-1 w-full opacity-35">
+                      <div class="h-1 bg-${reel.color === 'rec' ? 'rec' : 'bone'}"></div>
+                      <div class="h-1 bg-${reel.color === 'rec' ? 'rec' : 'bone'}"></div>
+                      <div class="h-1 bg-${reel.color === 'rec' ? 'rec' : 'bone'}"></div>
+                    </div>
+                    <div class="text-[9px] font-mono text-center text-${reel.color === 'rec' ? 'rec' : 'bone/60'}">КАССЕТА ${String(idx + 1).padStart(2, '0')}</div>
+                    <div
+                      class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition bg-black/60">
+                      <svg class="w-5 h-5 ${fillClass}" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="flex-1 min-w-0 font-mono">
+                    <div class="text-bone font-medium text-xs truncate group-hover:text-${colorClass} transition">
+                      ${reel.name}</div>
+                    <div class="text-[10px] text-bone/40 mt-1 flex flex-wrap gap-x-2 gap-y-0.5 uppercase">
+                      <span>${reel.aspect}</span>
+                      <span>•</span>
+                      <span>${reel.aspect === '16:9' ? '1920x1080' : '1080x1920'}</span>
+                      <span>•</span>
+                      <span>${reel.duration}с</span>
+                    </div>
+                    ${tagHtml}
+                  </div>
+                </div>
+              `;
+            }).join('');
+            
+            // Re-bind bin-item event listeners
+            const currentBinItems = mediaBin.querySelectorAll('.bin-item');
+            currentBinItems.forEach(item => {
+              item.addEventListener('click', () => {
+                const id = item.dataset.id;
+                const url = item.dataset.url;
+                const name = item.dataset.name;
+                const duration = parseInt(item.dataset.duration, 10);
+                const color = item.dataset.color || 'rec';
+                const aspect = item.dataset.aspect || '9:16';
+
+                currentBinItems.forEach(bi => {
+                  bi.classList.remove('active-rec', 'active-amber');
+                });
+                if (color === 'rec') {
+                  item.classList.add('active-rec');
+                } else {
+                  item.classList.add('active-amber');
+                }
+
+                loadClip({ id, url, name, duration, color, aspect });
+              });
+              
+              item.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+              item.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+            });
           }
 
-          loadClip({ id, url, name, duration, color, aspect });
-        });
-      });
+          // Re-arm reveals
+          document.querySelectorAll('#services .reveal').forEach(el => io.observe(el));
+
+        } catch (e) {
+          console.error("Failed to load portfolio data inside editing desk", e);
+        }
+      }
+
+      loadPortfolioData();
 
       function loadClip(clip) {
         activeClip = clip;

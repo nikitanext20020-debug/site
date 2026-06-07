@@ -3,7 +3,7 @@
     "name": "Nik",
     "fullname": "Nik · Nikitanext",
     "tagline": "Блогер · Монтаж · Дизайн · Разработка",
-    "bio": "Привет! Я Nik. Да я тот самый парень, который обучал людей дизайну, есть свой канал на 272к подписчиков.На сайте мои услуги и работы.",
+    "bio": "Привет! Я Nik. Да я тот самый парень, который обучал людей дизайну, есть свой канал на 272к подписчиков. На сайте мои услуги и работы.",
     "email": "typonik@vk.com",
     "telegram": "@pythonvoin",
     "phone": "",
@@ -23,14 +23,6 @@
     "brands": 25,
     "websites": 12,
     "years": 6
-  },
-  "hero": {
-    "kicker": "Блогер · 272K подписчиков",
-    "highlights": [
-      { "label": "YouTube",       "value": "272K", "color": "rec" },
-      { "label": "Просмотров",    "value": "10M+", "color": "amber" },
-      { "label": "Лет в YouTube", "value": "6",    "color": "bone" }
-    ]
   },
   "videos": [
     {
@@ -106,100 +98,188 @@
       "thumb": "https://i.ytimg.com/vi/fGgn6rOuAkg/hqdefault.jpg"
     }
   ],
-  "projects": [
+  "services": [
     {
-      "id": "p001",
+      "id": "m_srv_1",
       "category": "montage",
-      "title": "Превью для блогеров",
-      "tag": "YouTube · превью",
-      "year": 2025,
-      "cover": "",
-      "video": "",
-      "link": "https://kwork.ru/user/nikitanext2002",
-      "description": "Кликабельные превью, которые увеличивают CTR в 2-3 раза"
+      "title": "Музыкальные клипы",
+      "tag": "Резка под бит, цветокор и атмосфера",
+      "price": "от 3 000 ₽",
+      "link": "#contact",
+      "description": "Резка под бит, ритмический монтаж, синхронизация с аудио. Цветокор для создания атмосферы трека."
     },
     {
-      "id": "p002",
+      "id": "m_srv_2",
       "category": "montage",
-      "title": "Монтаж YouTube-роликов",
-      "tag": "Монтаж · цветокор",
-      "year": 2025,
-      "cover": "",
-      "video": "",
-      "link": "https://kwork.ru/user/nikitanext2002",
-      "description": "Динамичный монтаж с переходами, графикой и звуком"
+      "title": "YouTube & Reels",
+      "tag": "Vlog, Reels, Shorts, TikTok",
+      "price": "от 500 ₽",
+      "link": "#contact",
+      "description": "Vlog, обзоры, Reels, Shorts, TikTok. Монтаж под удержание внимания, динамичные склейки, графика."
     },
     {
-      "id": "p003",
+      "id": "m_srv_3",
       "category": "montage",
-      "title": "Reels / Shorts / TikTok",
-      "tag": "Вертикальное видео",
-      "year": 2025,
-      "cover": "",
-      "video": "",
-      "link": "https://kwork.ru/user/nikitanext2002",
-      "description": "Вирусные вертикальные ролики 9:16 с хуком в первые 2 секунды"
+      "title": "ИИ-ролики и АИ-мультфильмы",
+      "tag": "Вирусные AI-мультфильмы",
+      "price": "от 1 500 ₽",
+      "link": "#contact",
+      "description": "Создаю популярные ИИ-мульты, которые вирусятся и залетают на миллионы просмотров, а также фантастические AI-короткометражки."
     },
     {
-      "id": "d001",
+      "id": "m_srv_4",
+      "category": "montage",
+      "title": "Промо & Реклама",
+      "tag": "Креативы для брендов, прероллы",
+      "price": "от 1 000 ₽",
+      "link": "#contact",
+      "description": "Продающие креативы для брендов, реклама продуктов, прероллы. Фокус на преимуществах товара."
+    },
+    {
+      "id": "m_srv_5",
+      "category": "montage",
+      "title": "VFX & Сложный монтаж",
+      "tag": "Клинап, 3D-трекинг, хромакей",
+      "price": "от 2 000 ₽",
+      "link": "#contact",
+      "description": "Клинап, замена фонов (хромакей), 3D-трекинг, кастомные переходы и стильная инфографика."
+    },
+    {
+      "id": "m_srv_6",
+      "category": "montage",
+      "title": "Документальные ролики",
+      "tag": "Нарративные видео, сторителлинг",
+      "price": "от 5 000 ₽",
+      "link": "#contact",
+      "description": "Глубокие нарративные видео, сторителлинг, интервью. Работа с темпом и архивными материалами."
+    },
+    {
+      "id": "m_srv_7",
+      "category": "montage",
+      "title": "Цветокоррекция",
+      "tag": "Грейдинг в DaVinci Resolve",
+      "price": "от 1 000 ₽",
+      "link": "#contact",
+      "description": "Профессиональный грейдинг в DaVinci Resolve. Выравнивание баланса, скинтон и художественная стилизация."
+    },
+    {
+      "id": "m_srv_8",
+      "category": "montage",
+      "title": "Свой проект / Уникальный формат",
+      "tag": "Индивидуальный сценарий и условия",
+      "price": "Договорная",
+      "link": "#contact",
+      "description": "Не нашли подходящую категорию для вашего видео? Напишите — обсудим сценарий, хронометраж."
+    },
+    {
+      "id": "d_srv_1",
       "category": "design",
-      "title": "Шапки канала YouTube",
-      "tag": "Оформление канала",
-      "year": 2025,
-      "cover": "",
-      "link": "https://kwork.ru/user/nikitanext2002",
-      "description": "Шапка, аватарка и watermark в едином стиле"
+      "title": "Превью YouTube",
+      "tag": "Яркие кликабельные обложки",
+      "price": "от 500 ₽",
+      "link": "#previews",
+      "description": "Превью YouTube, которые увеличивают CTR роликов в 2-3 раза."
     },
     {
-      "id": "d002",
+      "id": "d_srv_2",
       "category": "design",
-      "title": "Логотип / айдентика",
-      "tag": "Брендинг",
-      "year": 2025,
-      "cover": "",
-      "link": "https://kwork.ru/user/nikitanext2002",
-      "description": "Логотип канала или бренда в нескольких вариантах"
+      "title": "Шапка канала",
+      "tag": "Баннер + аватарка YouTube",
+      "price": "от 500 ₽",
+      "link": "#banners",
+      "description": "Шапка, аватарка и водяной знак в едином визуальном стиле."
     },
     {
-      "id": "d003",
+      "id": "d_srv_3",
+      "category": "design",
+      "title": "Карточки товаров",
+      "tag": "Инфографика Wildberries, Ozon",
+      "price": "от 500 ₽",
+      "link": "#marketplaces",
+      "description": "Дизайн карточек товаров для маркетплейсов с высокой конверсией."
+    },
+    {
+      "id": "d_srv_4",
+      "category": "design",
+      "title": "Логотипы и брендинг",
+      "tag": "Айдентика, фирменный стиль",
+      "price": "от 1 000 ₽",
+      "link": "#logos",
+      "description": "Логотип канала или бренда в векторе с разработкой концепта."
+    },
+    {
+      "id": "d_srv_5",
       "category": "design",
       "title": "Дизайн соцсетей",
-      "tag": "VK / Instagram",
-      "year": 2025,
-      "cover": "",
-      "link": "https://kwork.ru/user/nikitanext2002",
-      "description": "Шаблоны постов и сторис в едином визуале"
+      "tag": "VK, Instagram, Telegram",
+      "price": "от 500 ₽",
+      "link": "#contact",
+      "description": "Оформление профилей, шаблонов постов и обложек в соцсетях."
     },
     {
-      "id": "v001",
+      "id": "v_srv_1",
       "category": "dev",
-      "title": "Сайт-визитка для блогера",
-      "tag": "HTML · Tailwind",
-      "year": 2026,
-      "cover": "",
-      "link": "https://kwork.ru/user/nikitanext2002",
-      "description": "Адаптивный лендинг для блогеров и YouTube-каналов"
+      "title": "Лендинги",
+      "tag": "Pixel-perfect верстка из Figma",
+      "price": "от 13 000 ₽",
+      "link": "#contact",
+      "description": "Анимации, адаптивный дизайн, высокая скорость и SEO-оптимизация."
     },
     {
-      "id": "v002",
+      "id": "v_srv_2",
       "category": "dev",
-      "title": "Лендинг под услугу",
-      "tag": "Конверсионный сайт",
-      "year": 2026,
-      "cover": "",
-      "link": "https://kwork.ru/user/nikitanext2002",
-      "description": "Один экран одна цель: заявка"
+      "title": "Веб-приложения",
+      "tag": "React / Next.js / TypeScript",
+      "price": "от 10 000 ₽",
+      "link": "#contact",
+      "description": "SPA, дашборды управления, админ-панели. Современный стек."
     },
     {
-      "id": "v003",
+      "id": "v_srv_3",
       "category": "dev",
-      "title": "Telegram-бот",
-      "tag": "Python · автоматизация",
-      "year": 2026,
-      "cover": "",
-      "link": "https://kwork.ru/user/nikitanext2002",
-      "description": "Боты для рассылок, ответов, поиска по ключевым словам"
+      "title": "Автоматизации",
+      "tag": "Python боты, парсеры и скрипты",
+      "price": "от 2 000 ₽",
+      "link": "#contact",
+      "description": "Интеграции с API, умные Telegram-боты, автоматические парсеры."
     }
+  ],
+  "design_gallery": [
+    { "category": "previews", "image": "https://i.ibb.co/rGXrG7cf/imgi-143-b9f790244922525-69a1cf2c177de.jpg", "caption": "YouTube превью · 2026" },
+    { "category": "previews", "image": "https://i.ibb.co/0yT0ZDhT/imgi-38-ebcf5b244922525-69a1cf285e209.jpg", "caption": "YouTube превью · 2026" },
+    { "category": "previews", "image": "https://i.ibb.co/tpr1fRjB/imgi-39-d7422e244922525-69a1cf285e97d.jpg", "caption": "YouTube превью · 2026" },
+    { "category": "previews", "image": "https://i.ibb.co/RGtMj0r1/imgi-40-b97cc7244922525-69a1cf2911825.jpg", "caption": "YouTube превью · 2026" },
+    { "category": "previews", "image": "https://i.ibb.co/VpHQX7zV/imgi-43-0ed169244922525-69a1cf299ce4d.jpg", "caption": "YouTube превью · 2026" },
+    { "category": "previews", "image": "https://i.ibb.co/vCVrVXG1/imgi-45-adeff4244922525-69a1cf2b3855b.jpg", "caption": "YouTube превью · 2026" },
+    { "category": "banners", "image": "images/design/banners/загруженное%20(1).png", "caption": "Шапка YouTube · 2560×1440 · 2026" },
+    { "category": "banners", "image": "images/design/banners/загруженное%20(2).png", "caption": "Шапка YouTube · 2560×1440 · 2026" },
+    { "category": "banners", "image": "images/design/banners/Screenshot_7.jpg", "caption": "Шапка YouTube · 2560×1440 · 2026" },
+    { "category": "banners", "image": "images/design/banners/загруженное%20(3).png", "caption": "Шапка YouTube · 2560×1440 · 2026" },
+    { "category": "logos", "image": "images/design/logos/Screenshot_20.jpg", "caption": "Логотип · Разработка концепта · 2026" },
+    { "category": "logos", "image": "images/design/logos/Screenshot_21.jpg", "caption": "Логотип · Разработка концепта · 2026" },
+    { "category": "logos", "image": "images/design/logos/Screenshot_22.jpg", "caption": "Логотип · Разработка концепта · 2026" },
+    { "category": "logos", "image": "images/design/logos/Screenshot_7.jpg", "caption": "Логотип · Разработка концепта · 2025" },
+    { "category": "logos", "image": "images/design/logos/Screenshot_8.jpg", "caption": "Логотип · Разработка концепта · 2025" },
+    { "category": "cards", "image": "images/design/cards/загруженное.jfif", "caption": "Карточка товара · Wildberries · 2026" },
+    { "category": "cards", "image": "images/design/cards/загруженное%20(4).jfif", "caption": "Карточка товара · Wildberries · 2026" },
+    { "category": "cards", "image": "images/design/cards/card_3.jpg", "caption": "Карточка товара · Ozon · 2026" }
+  ],
+  "montage_gallery": [
+    { "id": "reel-1", "url": "videos/reel_01.mp4", "name": "REEL_001_LIFESTYLE.mp4", "duration": 15, "color": "rec", "aspect": "9:16" },
+    { "id": "reel-2", "url": "videos/reel_02.mp4", "name": "REEL_002_DYNAMICS.mp4", "duration": 12, "color": "amber", "aspect": "9:16" },
+    { "id": "reel-3", "url": "videos/reel_03.mp4", "name": "REEL_003_CINEMATIC.mp4", "duration": 18, "color": "rec", "aspect": "9:16" },
+    { "id": "reel-4", "url": "videos/reel_04.mp4", "name": "REEL_004_PROMO.mp4", "duration": 14, "color": "amber", "aspect": "9:16" },
+    { "id": "reel-5", "url": "videos/AI MULT.mp4", "name": "AI_GENERATIVE_WORLD.mp4", "duration": 28, "color": "rec", "aspect": "9:16" },
+    { "id": "reel-6", "url": "videos/LOGO.mp4", "name": "LOGO_ANIMATION_PROMO.mp4", "duration": 8, "color": "amber", "aspect": "9:16" },
+    { "id": "reel-7", "url": "videos/VFX.mp4", "name": "VFX_PORTFOLIO_CUT.mp4", "duration": 22, "color": "rec", "aspect": "9:16" },
+    { "id": "reel-8", "url": "videos/Color.mp4", "name": "COLOR_GRADING_DAVINCI.mp4", "duration": 15, "color": "amber", "aspect": "9:16" },
+    { "id": "reel-9", "url": "videos/MUSIC.mp4", "name": "MUSIC_VIDEO_EDIT.mp4", "duration": 30, "color": "rec", "aspect": "16:9" }
+  ],
+  "dev_projects": [
+    { "id": "dev-p1", "title": "FLUX OS — SaaS Dashboard", "tag": "Next.js 14 · App Router · shadcn/ui · Vercel", "year": 2025, "commit": "a3f2d1c" },
+    { "id": "dev-p2", "title": "SOLAR CO — корпоративный сайт", "tag": "React · Tailwind · Framer Motion · Sanity CMS", "year": 2025, "commit": "7b91e4a" },
+    { "id": "dev-p3", "title": "NEYRO — Telegram бот", "tag": "Python · Telethon · SQLite · auto-responder", "year": 2024, "commit": "e5c8f30" },
+    { "id": "dev-p4", "title": "PARSER BOT — ПАРСЕР ВИДЕО", "tag": "Next.js · MDX · Tailwind · YouTube API", "year": 2024, "commit": "1d4a7f2" }
   ],
   "testimonials": [
     {

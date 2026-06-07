@@ -888,7 +888,7 @@
                 </div>
                 <h2 class="font-poster text-5xl md:text-7xl text-bone glow-text mb-12 reveal">ЧТО ПИШУ</h2>
 
-                <div class="grid md:grid-cols-3 gap-6">
+                <div id="dev-services-grid" class="grid md:grid-cols-3 gap-6">
                     <div class="neon-card p-8 rounded-md reveal flex flex-col justify-between h-[300px]">
                         <div>
                             <div class="text-4xl mb-4 glow-text font-bold">&lt;/&gt;</div>
@@ -941,7 +941,7 @@
                 </div>
                 <h2 class="font-poster text-5xl md:text-7xl text-bone glow-text mb-12 reveal">ПРОЕКТЫ</h2>
 
-                <div class="space-y-4">
+                <div id="dev-projects-list" class="space-y-4">
                     <div
                         class="neon-card p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-6 rounded-md reveal transition-all duration-300">
                         <div class="flex-1 font-mono">
@@ -1759,6 +1759,74 @@
                 if (speedText) speedText.innerText = '0 Mbps';
             }
         }
+
+        // Load services and projects from data/portfolio.json dynamically
+        async function loadPortfolioData() {
+            try {
+                const res = await fetch('data/portfolio.json', { cache: 'no-store' });
+                if (!res.ok) return;
+                const data = await res.json();
+
+                // 1. Render Dev Services (ЧТО ПИШУ)
+                const servicesGrid = document.getElementById('dev-services-grid');
+                const devServices = (data.services || []).filter(s => s.category === 'dev');
+                if (servicesGrid && devServices.length > 0) {
+                    const icons = [
+                        `<div class="text-4xl mb-4 glow-text font-bold">&lt;/&gt;</div>`,
+                        `<div class="text-4xl mb-4 text-amber font-bold" style="text-shadow:0 0 10px rgba(245,184,46,0.5)">{ }</div>`,
+                        `<div class="text-4xl mb-4 text-rec glow-rec font-bold">⚡</div>`
+                    ];
+                    const priceStyles = [
+                        `class="text-neon font-bold"`,
+                        `class="text-amber font-bold" style="text-shadow: 0 0 8px rgba(245,184,46,0.4)"`,
+                        `class="text-neon font-bold"`
+                    ];
+
+                    servicesGrid.innerHTML = devServices.map((s, idx) => {
+                        const icon = icons[idx % icons.length];
+                        const priceStyle = priceStyles[idx % priceStyles.length];
+                        return `
+                            <div class="neon-card p-8 rounded-md reveal flex flex-col justify-between h-[300px]">
+                                <div>
+                                    ${icon}
+                                    <h3 class="text-bone text-xl font-bold mb-3 font-sans">${s.title}</h3>
+                                    <p class="text-neon/70 text-xs leading-relaxed font-mono">${s.description}</p>
+                                </div>
+                                <div class="border-t border-neon/15 pt-4 text-xs text-neon/50 font-mono flex justify-between items-center">
+                                    <span>ПРАЙС</span>
+                                    <span ${priceStyle}>${s.price || 'договорная'}</span>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+
+                // 2. Render Dev Projects (ПРОЕКТЫ)
+                const projectsList = document.getElementById('dev-projects-list');
+                if (projectsList && data.dev_projects) {
+                    projectsList.innerHTML = data.dev_projects.map((proj, idx) => {
+                        return `
+                            <div class="neon-card p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-6 rounded-md reveal transition-all duration-300">
+                                <div class="flex-1 font-mono">
+                                    <div class="text-xs text-neon/50 mb-2">// commit ${proj.commit || 'xxxxxxx'} · ${proj.year || 2026}</div>
+                                    <h3 class="text-bone text-2xl font-bold font-sans">${proj.title}</h3>
+                                    <p class="text-neon/60 text-xs mt-2">${proj.tag}</p>
+                                </div>
+                                <div class="font-poster text-5xl text-neon/10 select-none">${String(idx + 1).padStart(2, '0')}</div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+
+                // Re-arm reveals
+                document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+            } catch (e) {
+                console.error("Failed to load portfolio data", e);
+            }
+        }
+
+        loadPortfolioData();
     </script>
     <!-- Floating Mobile Navigation -->
     <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 md:hidden flex items-center justify-center">
