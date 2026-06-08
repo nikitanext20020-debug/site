@@ -245,41 +245,205 @@
     }
   ],
   "design_gallery": [
-    { "category": "previews", "image": "https://i.ibb.co/rGXrG7cf/imgi-143-b9f790244922525-69a1cf2c177de.jpg", "caption": "YouTube превью · 2026" },
-    { "category": "previews", "image": "https://i.ibb.co/0yT0ZDhT/imgi-38-ebcf5b244922525-69a1cf285e209.jpg", "caption": "YouTube превью · 2026" },
-    { "category": "previews", "image": "https://i.ibb.co/tpr1fRjB/imgi-39-d7422e244922525-69a1cf285e97d.jpg", "caption": "YouTube превью · 2026" },
-    { "category": "previews", "image": "https://i.ibb.co/RGtMj0r1/imgi-40-b97cc7244922525-69a1cf2911825.jpg", "caption": "YouTube превью · 2026" },
-    { "category": "previews", "image": "https://i.ibb.co/VpHQX7zV/imgi-43-0ed169244922525-69a1cf299ce4d.jpg", "caption": "YouTube превью · 2026" },
-    { "category": "previews", "image": "https://i.ibb.co/vCVrVXG1/imgi-45-adeff4244922525-69a1cf2b3855b.jpg", "caption": "YouTube превью · 2026" },
-    { "category": "banners", "image": "images/design/banners/загруженное%20(1).png", "caption": "Шапка YouTube · 2560×1440 · 2026" },
-    { "category": "banners", "image": "images/design/banners/загруженное%20(2).png", "caption": "Шапка YouTube · 2560×1440 · 2026" },
-    { "category": "banners", "image": "images/design/banners/Screenshot_7.jpg", "caption": "Шапка YouTube · 2560×1440 · 2026" },
-    { "category": "banners", "image": "images/design/banners/загруженное%20(3).png", "caption": "Шапка YouTube · 2560×1440 · 2026" },
-    { "category": "logos", "image": "images/design/logos/Screenshot_20.jpg", "caption": "Логотип · Разработка концепта · 2026" },
-    { "category": "logos", "image": "images/design/logos/Screenshot_21.jpg", "caption": "Логотип · Разработка концепта · 2026" },
-    { "category": "logos", "image": "images/design/logos/Screenshot_22.jpg", "caption": "Логотип · Разработка концепта · 2026" },
-    { "category": "logos", "image": "images/design/logos/Screenshot_7.jpg", "caption": "Логотип · Разработка концепта · 2025" },
-    { "category": "logos", "image": "images/design/logos/Screenshot_8.jpg", "caption": "Логотип · Разработка концепта · 2025" },
-    { "category": "cards", "image": "images/design/cards/загруженное.jfif", "caption": "Карточка товара · Wildberries · 2026" },
-    { "category": "cards", "image": "images/design/cards/загруженное%20(4).jfif", "caption": "Карточка товара · Wildberries · 2026" },
-    { "category": "cards", "image": "images/design/cards/card_3.jpg", "caption": "Карточка товара · Ozon · 2026" }
+    {
+      "category": "previews",
+      "image": "https://i.ibb.co/rGXrG7cf/imgi-143-b9f790244922525-69a1cf2c177de.jpg",
+      "caption": "YouTube превью · 2026"
+    },
+    {
+      "category": "previews",
+      "image": "https://i.ibb.co/0yT0ZDhT/imgi-38-ebcf5b244922525-69a1cf285e209.jpg",
+      "caption": "YouTube превью · 2026"
+    },
+    {
+      "category": "previews",
+      "image": "https://i.ibb.co/tpr1fRjB/imgi-39-d7422e244922525-69a1cf285e97d.jpg",
+      "caption": "YouTube превью · 2026"
+    },
+    {
+      "category": "previews",
+      "image": "https://i.ibb.co/RGtMj0r1/imgi-40-b97cc7244922525-69a1cf2911825.jpg",
+      "caption": "YouTube превью · 2026"
+    },
+    {
+      "category": "previews",
+      "image": "https://i.ibb.co/VpHQX7zV/imgi-43-0ed169244922525-69a1cf299ce4d.jpg",
+      "caption": "YouTube превью · 2026"
+    },
+    {
+      "category": "previews",
+      "image": "https://i.ibb.co/vCVrVXG1/imgi-45-adeff4244922525-69a1cf2b3855b.jpg",
+      "caption": "YouTube превью · 2026"
+    },
+    {
+      "category": "banners",
+      "image": "images/design/banners/загруженное%20(1).png",
+      "caption": "Шапка YouTube · 2560×1440 · 2026"
+    },
+    {
+      "category": "banners",
+      "image": "images/design/banners/загруженное%20(2).png",
+      "caption": "Шапка YouTube · 2560×1440 · 2026"
+    },
+    {
+      "category": "banners",
+      "image": "images/design/banners/Screenshot_7.jpg",
+      "caption": "Шапка YouTube · 2560×1440 · 2026"
+    },
+    {
+      "category": "banners",
+      "image": "images/design/banners/загруженное%20(3).png",
+      "caption": "Шапка YouTube · 2560×1440 · 2026"
+    },
+    {
+      "category": "logos",
+      "image": "images/design/logos/Screenshot_20.jpg",
+      "caption": "Логотип · Разработка концепта · 2026"
+    },
+    {
+      "category": "logos",
+      "image": "images/design/logos/Screenshot_21.jpg",
+      "caption": "Логотип · Разработка концепта · 2026"
+    },
+    {
+      "category": "logos",
+      "image": "images/design/logos/Screenshot_22.jpg",
+      "caption": "Логотип · Разработка концепта · 2026"
+    },
+    {
+      "category": "logos",
+      "image": "images/design/logos/Screenshot_7.jpg",
+      "caption": "Логотип · Разработка концепта · 2025"
+    },
+    {
+      "category": "logos",
+      "image": "images/design/logos/Screenshot_8.jpg",
+      "caption": "Логотип · Разработка концепта · 2025"
+    },
+    {
+      "category": "cards",
+      "image": "images/design/cards/загруженное.jfif",
+      "caption": "Карточка товара · Wildberries · 2026"
+    },
+    {
+      "category": "cards",
+      "image": "images/design/cards/загруженное%20(4).jfif",
+      "caption": "Карточка товара · Wildberries · 2026"
+    },
+    {
+      "category": "cards",
+      "image": "images/design/cards/card_3.jpg",
+      "caption": "Карточка товара · Ozon · 2026"
+    },
+    {
+      "category": "cards",
+      "image": "https://i.postimg.cc/nc7wTWjw/image.png",
+      "caption": "Карточка товара · Ozon · 2026"
+    }
   ],
   "montage_gallery": [
-    { "id": "reel-1", "url": "videos/reel_01.mp4", "name": "REEL_001_LIFESTYLE.mp4", "duration": 15, "color": "rec", "aspect": "9:16" },
-    { "id": "reel-2", "url": "videos/reel_02.mp4", "name": "REEL_002_DYNAMICS.mp4", "duration": 12, "color": "amber", "aspect": "9:16" },
-    { "id": "reel-3", "url": "videos/reel_03.mp4", "name": "REEL_003_CINEMATIC.mp4", "duration": 18, "color": "rec", "aspect": "9:16" },
-    { "id": "reel-4", "url": "videos/reel_04.mp4", "name": "REEL_004_PROMO.mp4", "duration": 14, "color": "amber", "aspect": "9:16" },
-    { "id": "reel-5", "url": "videos/AI MULT.mp4", "name": "AI_GENERATIVE_WORLD.mp4", "duration": 28, "color": "rec", "aspect": "9:16" },
-    { "id": "reel-6", "url": "videos/LOGO.mp4", "name": "LOGO_ANIMATION_PROMO.mp4", "duration": 8, "color": "amber", "aspect": "9:16" },
-    { "id": "reel-7", "url": "videos/VFX.mp4", "name": "VFX_PORTFOLIO_CUT.mp4", "duration": 22, "color": "rec", "aspect": "9:16" },
-    { "id": "reel-8", "url": "videos/Color.mp4", "name": "COLOR_GRADING_DAVINCI.mp4", "duration": 15, "color": "amber", "aspect": "9:16" },
-    { "id": "reel-9", "url": "videos/MUSIC.mp4", "name": "MUSIC_VIDEO_EDIT.mp4", "duration": 30, "color": "rec", "aspect": "16:9" }
+    {
+      "id": "reel-1",
+      "url": "videos/reel_01.mp4",
+      "name": "REEL_001_LIFESTYLE.mp4",
+      "duration": 15,
+      "color": "rec",
+      "aspect": "9:16"
+    },
+    {
+      "id": "reel-2",
+      "url": "videos/reel_02.mp4",
+      "name": "REEL_002_DYNAMICS.mp4",
+      "duration": 12,
+      "color": "amber",
+      "aspect": "9:16"
+    },
+    {
+      "id": "reel-3",
+      "url": "videos/reel_03.mp4",
+      "name": "REEL_003_CINEMATIC.mp4",
+      "duration": 18,
+      "color": "rec",
+      "aspect": "9:16"
+    },
+    {
+      "id": "reel-4",
+      "url": "videos/reel_04.mp4",
+      "name": "REEL_004_PROMO.mp4",
+      "duration": 14,
+      "color": "amber",
+      "aspect": "9:16"
+    },
+    {
+      "id": "reel-5",
+      "url": "videos/AI MULT.mp4",
+      "name": "AI_GENERATIVE_WORLD.mp4",
+      "duration": 28,
+      "color": "rec",
+      "aspect": "9:16"
+    },
+    {
+      "id": "reel-6",
+      "url": "videos/LOGO.mp4",
+      "name": "LOGO_ANIMATION_PROMO.mp4",
+      "duration": 8,
+      "color": "amber",
+      "aspect": "9:16"
+    },
+    {
+      "id": "reel-7",
+      "url": "videos/VFX.mp4",
+      "name": "VFX_PORTFOLIO_CUT.mp4",
+      "duration": 22,
+      "color": "rec",
+      "aspect": "9:16"
+    },
+    {
+      "id": "reel-8",
+      "url": "videos/Color.mp4",
+      "name": "COLOR_GRADING_DAVINCI.mp4",
+      "duration": 15,
+      "color": "amber",
+      "aspect": "9:16"
+    },
+    {
+      "id": "reel-9",
+      "url": "videos/MUSIC.mp4",
+      "name": "MUSIC_VIDEO_EDIT.mp4",
+      "duration": 30,
+      "color": "rec",
+      "aspect": "16:9"
+    }
   ],
   "dev_projects": [
-    { "id": "dev-p1", "title": "FLUX OS — SaaS Dashboard", "tag": "Next.js 14 · App Router · shadcn/ui · Vercel", "year": 2025, "commit": "a3f2d1c" },
-    { "id": "dev-p2", "title": "SOLAR CO — корпоративный сайт", "tag": "React · Tailwind · Framer Motion · Sanity CMS", "year": 2025, "commit": "7b91e4a" },
-    { "id": "dev-p3", "title": "NEYRO — Telegram бот", "tag": "Python · Telethon · SQLite · auto-responder", "year": 2024, "commit": "e5c8f30" },
-    { "id": "dev-p4", "title": "PARSER BOT — ПАРСЕР ВИДЕО", "tag": "Next.js · MDX · Tailwind · YouTube API", "year": 2024, "commit": "1d4a7f2" }
+    {
+      "id": "dev-p1",
+      "title": "FLUX OS — SaaS Dashboard",
+      "tag": "Next.js 14 · App Router · shadcn/ui · Vercel",
+      "year": 2025,
+      "commit": "a3f2d1c"
+    },
+    {
+      "id": "dev-p2",
+      "title": "SOLAR CO — корпоративный сайт",
+      "tag": "React · Tailwind · Framer Motion · Sanity CMS",
+      "year": 2025,
+      "commit": "7b91e4a"
+    },
+    {
+      "id": "dev-p3",
+      "title": "NEYRO — Telegram бот",
+      "tag": "Python · Telethon · SQLite · auto-responder",
+      "year": 2024,
+      "commit": "e5c8f30"
+    },
+    {
+      "id": "dev-p4",
+      "title": "PARSER BOT — ПАРСЕР ВИДЕО",
+      "tag": "Next.js · MDX · Tailwind · YouTube API",
+      "year": 2024,
+      "commit": "1d4a7f2"
+    }
   ],
   "testimonials": [
     {
