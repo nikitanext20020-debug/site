@@ -296,6 +296,7 @@
             <p>2. Укажи описание (например, <code class="bg-white/10 px-1 rounded">Nik CMS</code>)</p>
             <p>3. Срок действия (Expiration): желательно <code class="bg-white/10 px-1 rounded">No expiration</code></p>
             <p>4. Галочка: ✅ <code class="bg-white/10 px-1 rounded">repo</code> (полный доступ к коммитам)</p>
+            <p class="text-amber-400 font-medium">⚠️ ВАЖНО: У Classic токена обязательно должна быть включена галочка "repo", а у Fine-grained токена — права "Contents: Read/Write". Иначе вы не сможете опубликовать изменения.</p>
             <p>5. Нажми Generate token и скопируй токен сюда</p>
             <p class="text-neutral-500 font-mono text-[9px] mt-2">Токен сохраняется исключительно в вашем браузере
               (localStorage) и не улетает на сторонние сервера.</p>
@@ -1234,7 +1235,11 @@
         });
         if (!res.ok) {
           const err = await res.json().catch(() => ({}));
-          return showToast('Не удалось опубликовать: ' + (err.message || res.status), 'error');
+          let msg = err.message || res.status;
+          if (msg.includes('Resource not accessible by personal access token') || msg.includes('access') || res.status === 403) {
+            msg = 'Недостаточно прав. Убедитесь, что ваш токен на GitHub имеет права на запись в этот репозиторий (галочка "repo" для Classic или "Contents: Read/Write" для Fine-grained).';
+          }
+          return showToast('Не удалось опубликовать: ' + msg, 'error');
         }
         const result = await res.json();
         CFG.sha = result.content.sha;
