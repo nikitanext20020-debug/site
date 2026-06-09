@@ -1099,6 +1099,14 @@
       list.forEach((proj, idx) => {
         const card = document.createElement('div');
         card.className = 'glass p-4 rounded-lg flex flex-col md:flex-row gap-4 items-stretch';
+        
+        const imgsVal = (proj.images || []).join(', ');
+        const previewsHtml = (proj.images || []).map(img => `
+          <div class="w-16 h-12 bg-neutral-900 rounded overflow-hidden border border-white/5 relative flex-shrink-0 flex items-center justify-center">
+            <img src="${getAdminImageUrl(img)}" class="w-full h-full object-cover" onerror="this.style.display='none'" />
+          </div>
+        `).join('');
+
         card.innerHTML = `
       <div class="flex-grow grid md:grid-cols-2 gap-3">
         <div>
@@ -1119,6 +1127,21 @@
             <input class="input text-xs val-year" type="number" value="${proj.year || ''}" />
           </div>
         </div>
+        <div class="md:col-span-2">
+          <label class="label">Ссылка на демо-сайт (Link)</label>
+          <input class="input text-xs font-mono val-link" value="${escapeAttr(proj.link || '')}" placeholder="https://..." />
+        </div>
+        <div class="md:col-span-2">
+          <label class="label">Подробное описание проекта</label>
+          <textarea class="input text-xs val-desc" rows="2" placeholder="Расскажите о проекте, задачах и решении...">${escapeAttr(proj.description || '')}</textarea>
+        </div>
+        <div class="md:col-span-2">
+          <label class="label">Скриншоты проекта (через запятую)</label>
+          <input class="input font-mono text-xs val-images" value="${escapeAttr(imgsVal)}" placeholder="images/dev/pic1.jpg, images/dev/pic2.jpg" />
+          <div class="flex flex-wrap gap-2 mt-2">
+            ${previewsHtml}
+          </div>
+        </div>
       </div>
       <div class="flex md:flex-col gap-2 items-center justify-center">
         <button class="btn btn-sort btn-up" title="Вверх">↑</button>
@@ -1131,6 +1154,18 @@
         card.querySelector('.val-tag').addEventListener('change', e => { proj.tag = e.target.value.trim(); });
         card.querySelector('.val-commit').addEventListener('change', e => { proj.commit = e.target.value.trim(); });
         card.querySelector('.val-year').addEventListener('change', e => { proj.year = +e.target.value || 2026; });
+        card.querySelector('.val-link').addEventListener('change', e => { proj.link = e.target.value.trim(); });
+        card.querySelector('.val-desc').addEventListener('change', e => { proj.description = e.target.value.trim(); });
+        card.querySelector('.val-images').addEventListener('change', e => { 
+          proj.images = e.target.value.split(',').map(s => s.trim()).filter(Boolean);
+          // Wait briefly so typing isn't interrupted instantly, or we can just let it render on blur.
+          // Re-rendering on change is fine if they copy-paste, but for typing, let's keep it simple.
+          // Actually, re-rendering on change is fine, but to be safe we can use blur or let it render immediately.
+          // Since other fields do change immediately, this is consistent.
+        });
+        card.querySelector('.val-images').addEventListener('blur', () => {
+          renderDevProjects();
+        });
 
         card.querySelector('.btn-up').addEventListener('click', () => { swapItems(DATA.dev_projects, idx, idx - 1); renderDevProjects(); });
         card.querySelector('.btn-down').addEventListener('click', () => { swapItems(DATA.dev_projects, idx, idx + 1); renderDevProjects(); });
@@ -1145,7 +1180,10 @@
         title: 'Новый проект разработки',
         tag: 'HTML · JavaScript · CSS',
         year: 2026,
-        commit: 'b7c8f9d'
+        commit: 'b7c8f9d',
+        description: '',
+        link: '',
+        images: []
       });
       renderDevProjects();
     }

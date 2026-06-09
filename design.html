@@ -163,9 +163,15 @@ section {
   top: 50%;
   transform: translateY(-50%);
   z-index: 40;
-  display: flex;
+  display: none;
   flex-direction: column;
   gap: 0.5rem;
+}
+
+@media (min-width: 1024px) {
+  #scene_strip {
+    display: flex;
+  }
 }
 
 .scene-dot {

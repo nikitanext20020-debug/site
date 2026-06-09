@@ -450,6 +450,92 @@
             transform: rotate(-120deg);
             transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
+
+        /* ── Lightbox for Dev (Neon Cyberpunk theme) ── */
+        #lb-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(2, 3, 6, 0.96);
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-out;
+            padding: 16px;
+        }
+        #lb-overlay.open {
+            display: flex;
+        }
+        #lb-overlay img {
+            max-width: 95%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 8px;
+            border: 2px solid rgba(0, 255, 178, 0.3);
+            box-shadow: 0 0 40px rgba(0, 255, 178, 0.25);
+            cursor: default;
+            animation: lb-in .25s cubic-bezier(.2,.7,.2,1);
+        }
+        @keyframes lb-in {
+            from { opacity: 0; transform: scale(.93); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        #lb-close {
+            position: fixed;
+            top: 20px;
+            right: 24px;
+            color: #00FFB2;
+            font-size: 2.5rem;
+            line-height: 1;
+            background: none;
+            border: none;
+            cursor: pointer;
+            opacity: .7;
+            transition: opacity .2s, text-shadow .2s;
+            z-index: 10000;
+        }
+        #lb-close:hover {
+            opacity: 1;
+            text-shadow: 0 0 8px #00FFB2;
+        }
+        #lb-prev, #lb-next {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #00FFB2;
+            font-size: 3rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            opacity: .5;
+            transition: opacity .2s, text-shadow .2s;
+            padding: 16px;
+            z-index: 10000;
+            user-select: none;
+        }
+        #lb-prev { left: 8px; }
+        #lb-next { right: 8px; }
+        #lb-prev:hover, #lb-next:hover {
+            opacity: 1;
+            text-shadow: 0 0 10px #00FFB2;
+        }
+        #lb-caption {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(237, 230, 214, 0.8);
+            font-size: .8rem;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            z-index: 10000;
+            font-family: 'JetBrains Mono', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
     </style>
 </head>
 
@@ -1805,14 +1891,40 @@
                 const projectsList = document.getElementById('dev-projects-list');
                 if (projectsList && data.dev_projects) {
                     projectsList.innerHTML = data.dev_projects.map((proj, idx) => {
+                        const imagesHtml = proj.images && proj.images.length > 0 ? `
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4">
+                                ${proj.images.map(img => `
+                                    <div class="aspect-video overflow-hidden border border-neon/15 rounded cursor-zoom-in group/img relative bg-void/50" data-lb="${img}" data-lb-caption="${proj.title}">
+                                        <img src="${img}" alt="${proj.title}" class="w-full h-full object-cover transition duration-500 group-hover/img:scale-105 pointer-events-none" loading="lazy">
+                                        <div class="absolute inset-0 bg-neon/10 opacity-0 group-hover/img:opacity-100 transition duration-300 flex items-center justify-center">
+                                            <span class="text-[9px] text-neon font-bold tracking-widest font-mono">ZOOM</span>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : '';
+
+                        const linkHtml = proj.link ? `
+                            <div class="mt-4 flex">
+                                <a href="${proj.link}" target="_blank" class="inline-flex items-center gap-1.5 text-[10px] text-neon hover:text-white transition font-mono font-bold tracking-wider uppercase border border-neon/20 px-3 py-1.5 rounded hover:bg-neon/10">
+                                    <span>Открыть сайт ↗</span>
+                                </a>
+                            </div>
+                        ` : '';
+
                         return `
-                            <div class="neon-card p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-6 rounded-md reveal transition-all duration-300">
-                                <div class="flex-1 font-mono">
-                                    <div class="text-xs text-neon/50 mb-2">// commit ${proj.commit || 'xxxxxxx'} · ${proj.year || 2026}</div>
-                                    <h3 class="text-bone text-2xl font-bold font-sans">${proj.title}</h3>
-                                    <p class="text-neon/60 text-xs mt-2">${proj.tag}</p>
+                            <div class="neon-card p-6 md:p-8 flex flex-col gap-4 rounded-md reveal transition-all duration-300">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-neon/10 pb-4">
+                                    <div class="font-mono">
+                                        <div class="text-xs text-neon/50 mb-1.5">// commit ${proj.commit || 'xxxxxxx'} · ${proj.year || 2026}</div>
+                                        <h3 class="text-bone text-2xl font-bold font-sans">${proj.title}</h3>
+                                        <p class="text-neon/60 text-xs mt-1">${proj.tag}</p>
+                                    </div>
+                                    <div class="font-poster text-5xl text-neon/10 select-none hidden md:block">${String(idx + 1).padStart(2, '0')}</div>
                                 </div>
-                                <div class="font-poster text-5xl text-neon/10 select-none">${String(idx + 1).padStart(2, '0')}</div>
+                                ${proj.description ? `<p class="text-bone/85 text-xs font-mono leading-relaxed max-w-3xl mt-1">${proj.description}</p>` : ''}
+                                ${imagesHtml}
+                                ${linkHtml}
                             </div>
                         `;
                     }).join('');
@@ -1826,8 +1938,90 @@
             }
         }
 
+        // ── Lightbox for Dev Page ──
+        (function() {
+            const overlay = document.getElementById('lb-overlay');
+            const lbImg   = document.getElementById('lb-img');
+            const btnClose = document.getElementById('lb-close');
+            const btnPrev  = document.getElementById('lb-prev');
+            const btnNext  = document.getElementById('lb-next');
+
+            let items = [];
+            let cur   = 0;
+
+            function open(el) {
+                items = Array.from(document.querySelectorAll('[data-lb]'));
+                cur   = items.indexOf(el);
+                show(cur);
+                overlay.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function close() {
+                overlay.classList.remove('open');
+                document.body.style.overflow = '';
+                lbImg.src = '';
+            }
+
+            function show(idx) {
+                cur = (idx + items.length) % items.length;
+                const el  = items[cur];
+                const imgUrl = el.dataset.lb;
+                lbImg.src = imgUrl;
+                lbImg.alt = el.querySelector('img')?.alt || '';
+                
+                const capText = document.getElementById('lb-caption-text');
+                const origLink = document.getElementById('lb-original-link');
+                if (capText) capText.textContent = el.dataset.lbCaption || '';
+                if (origLink) origLink.href = imgUrl;
+
+                const multi = items.length > 1;
+                btnPrev.style.display = multi ? '' : 'none';
+                btnNext.style.display = multi ? '' : 'none';
+            }
+
+            document.addEventListener('click', function(e) {
+                const el = e.target.closest('[data-lb]');
+                if (el) { e.preventDefault(); open(el); }
+            });
+
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) close();
+            });
+            btnClose.addEventListener('click', close);
+
+            btnPrev.addEventListener('click', function(e) { e.stopPropagation(); show(cur - 1); });
+            btnNext.addEventListener('click', function(e) { e.stopPropagation(); show(cur + 1); });
+
+            document.addEventListener('keydown', function(e) {
+                if (!overlay.classList.contains('open')) return;
+                if (e.key === 'Escape')     close();
+                if (e.key === 'ArrowLeft')  show(cur - 1);
+                if (e.key === 'ArrowRight') show(cur + 1);
+            });
+
+            let tx = 0;
+            overlay.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+            overlay.addEventListener('touchend',   e => {
+                const dx = e.changedTouches[0].clientX - tx;
+                if (Math.abs(dx) > 50) dx < 0 ? show(cur + 1) : show(cur - 1);
+            });
+        })();
+
         loadPortfolioData();
     </script>
+
+    <!-- LIGHTBOX HTML -->
+    <div id="lb-overlay" role="dialog" aria-modal="true" aria-label="Просмотр изображения">
+        <button id="lb-close" aria-label="Закрыть">×</button>
+        <button id="lb-prev" aria-label="Предыдущее">‹</button>
+        <img id="lb-img" src="" alt="">
+        <button id="lb-next" aria-label="Следующее">›</button>
+        <div id="lb-caption" class="flex flex-col items-center gap-1">
+            <span id="lb-caption-text" class="text-xs md:text-sm font-semibold tracking-wide"></span>
+            <a id="lb-original-link" href="" target="_blank" class="underline text-neon hover:text-white transition font-mono text-[10px] tracking-wider uppercase font-semibold">Открыть оригинал ↗</a>
+        </div>
+    </div>
     <!-- Floating Mobile Navigation -->
     <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 md:hidden flex items-center justify-center">
         <nav
