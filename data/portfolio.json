@@ -181,15 +181,6 @@
       "description": "Превью YouTube, которые увеличивают CTR роликов в 2-3 раза."
     },
     {
-      "id": "d_srv_2",
-      "category": "design",
-      "title": "Шапка канала",
-      "tag": "Баннер + аватарка YouTube",
-      "price": "от 500 ₽",
-      "link": "#banners",
-      "description": "Шапка, аватарка и водяной знак в едином визуальном стиле."
-    },
-    {
       "id": "d_srv_3",
       "category": "design",
       "title": "Карточки товаров",
@@ -213,7 +204,7 @@
       "title": "Дизайн соцсетей",
       "tag": "VK, Instagram, Telegram",
       "price": "от 500 ₽",
-      "link": "#contact",
+      "link": "#banners",
       "description": "Оформление профилей, шаблонов постов и обложек в соцсетях."
     },
     {

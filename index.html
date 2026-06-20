@@ -1,18 +1,16 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!doctype html>
+<html lang="ru"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nik · Блогер 272K · Монтаж · Дизайн · Разработка</title>
-<link rel="icon" type="image/svg+xml" href="favicon.svg" />
-<meta name="description" content="Nik (@pythonvoin) — YouTube-блогер 272K подписчиков. Услуги: монтаж видео, превью, дизайн каналов, разработка сайтов." />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Bebas+Neue&family=Archivo+Black&display=swap" rel="stylesheet" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta name="description" content="Nik (@pythonvoin) — YouTube-блогер 272K подписчиков. Услуги: монтаж видео, превью, дизайн каналов, разработка сайтов.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Bebas+Neue&amp;family=Archivo+Black&amp;display=swap" rel="stylesheet">
 <script type="importmap">
   {
     "imports": {
-      "three": "https://unpkg.com/three@0.166.1/build/three.module.js",
-      "three/addons/": "https://unpkg.com/three@0.166.1/examples/jsm/"
+      "three": "https://unpkg.com/three@0.166.1/build/three.module.js"
     }
   }
 </script>
@@ -217,54 +215,248 @@
   #preloader {
     position: fixed;
     inset: 0;
-    background: #101014;
-    color: #00FFB2;
-    font-family: 'JetBrains Mono', monospace;
+    background: #000;
     z-index: 99999;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    transition: opacity 1s cubic-bezier(0.7, 0, 0.3, 1), transform 1s cubic-bezier(0.7, 0, 0.3, 1);
+    transition: opacity 0.8s cubic-bezier(0.7, 0, 0.3, 1), filter 0.8s cubic-bezier(0.7, 0, 0.3, 1), transform 0.8s cubic-bezier(0.7, 0, 0.3, 1);
   }
   #preloader::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: repeating-linear-gradient(to bottom, rgba(0, 255, 178, 0.05) 0px, rgba(0, 255, 178, 0.05) 1px, transparent 1px, transparent 3px);
+    background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.01) 0px, rgba(255, 255, 255, 0.01) 1px, transparent 1px, transparent 3px);
     pointer-events: none;
     z-index: 10;
   }
-  .preloader-zoom-out {
-    opacity: 0;
-    transform: scale(2.5) perspective(1000px) rotateX(15deg);
+  #preloader-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: 1;
+    pointer-events: auto;
+  }
+  .preloader-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
     pointer-events: none;
+  }
+  .preloader-content::before {
+    content: '';
+    position: absolute;
+    inset: -8% -12%;
+    z-index: -1;
+    background: radial-gradient(ellipse 70% 60% at 50% 50%,
+      rgba(0,0,0,0.72) 0%,
+      rgba(0,0,0,0.45) 45%,
+      transparent 75%);
+    filter: blur(20px);
+    pointer-events: none;
+  }
+  .preloader-headline {
+    font-size: clamp(3.4rem, 14vw, 6rem);
+    line-height: 0.92;
+    width: 100%;
+    overflow-wrap: break-word;
+    text-wrap: balance;
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 50%, #ffffff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 2px 18px rgba(0,0,0,0.85)) drop-shadow(0 0 35px rgba(255,255,255,0.30));
+    animation: preloaderGlowPulse 4s ease-in-out infinite alternate;
+  }
+  @keyframes preloaderGlowPulse {
+    from {
+      filter: drop-shadow(0 2px 18px rgba(0,0,0,0.85)) drop-shadow(0 0 35px rgba(255,255,255,0.30));
+    }
+    to {
+      filter: drop-shadow(0 4px 24px rgba(0,0,0,0.90)) drop-shadow(0 0 55px rgba(255,255,255,0.45));
+    }
+  }
+
+  @property --gy {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 50%;
+  }
+
+  .glow-text {
+    --gy: 50%;
+    --hue: 200; /* default hue */
+    background-image: radial-gradient(circle at 50% var(--gy),
+      oklch(0.95 0.12 var(--hue)) 0%,
+      oklch(0.75 0.25 var(--hue)) 45%,
+      oklch(0.55 0.22 var(--hue)) 85%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 0 14px oklch(0.7 0.25 var(--hue) / 0.45));
+    animation: glowSweep 3.2s ease-in-out infinite alternate;
+    display: inline-block;
+  }
+
+  @keyframes glowSweep {
+    from { --gy: 20%; filter: drop-shadow(0 0 8px  oklch(0.70 0.25 var(--hue) / 0.30)); }
+    to   { --gy: 85%; filter: drop-shadow(0 0 22px oklch(0.75 0.28 var(--hue) / 0.65)); }
+  }
+
+  #preloader-item-1 .glow-text { --hue: 60; }
+  #preloader-item-2 .glow-text { --hue: 200; }
+  #preloader-item-3 .glow-text { --hue: 300; }
+  .glass-button {
+    position: relative;
+    padding: 14px 36px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: #fff;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border: 1.5px solid transparent;
+    border-radius: 40px;
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: auto;
+    text-transform: uppercase;
+  }
+  .glass-button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 40px;
+    padding: 1.5px;
+    background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.4) 0%,
+      rgba(138, 43, 226, 0.4) 25%,
+      rgba(0, 191, 255, 0.4) 50%,
+      rgba(255, 105, 180, 0.4) 75%,
+      rgba(255, 255, 255, 0.4) 100%);
+    background-size: 200% 200%;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: borderFlow 3s linear infinite;
+    opacity: 0.5;
+    transition: opacity 0.5s ease;
+  }
+  @keyframes borderFlow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
+  .glass-button::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 40px;
+    background: radial-gradient(circle at var(--x, 50%) var(--y, 50%),
+      rgba(255, 255, 255, 0.25) 0%,
+      transparent 50%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  .glass-button:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+    box-shadow:
+      0 12px 48px rgba(138, 43, 226, 0.35),
+      0 0 80px rgba(0, 191, 255, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+    transform: translateY(-3px) scale(1.02);
+  }
+  .glass-button:hover::before {
+    opacity: 1;
+    animation-duration: 2s;
+  }
+  .glass-button:hover::after {
+    opacity: 1;
+  }
+  .glass-button:active {
+    transform: translateY(-1px) scale(0.98);
+    box-shadow:
+      0 6px 24px rgba(138, 43, 226, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+  .glass-button .shimmer {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.08) 45%,
+      rgba(255, 255, 255, 0.25) 50%,
+      rgba(255, 255, 255, 0.08) 55%,
+      transparent 100%
+    );
+    transform: rotate(30deg);
+    animation: preloaderShimmer 3s infinite;
+    pointer-events: none;
+  }
+  @keyframes preloaderShimmer {
+    0% { transform: translateX(-100%) rotate(30deg); }
+    100% { transform: translateX(100%) rotate(30deg); }
+  }
+  .glass-button:hover .shimmer {
+    animation-duration: 1.5s;
+  }
+  .glass-button span {
+    position: relative;
+    z-index: 1;
   }
 </style>
 </head>
 
 <body class="grain">
 
-<!-- RETRO BIOS PRELOADER -->
-<div id="preloader" class="select-none">
-  <!-- 3D Canvas Container -->
-  <div id="preloader-3d" class="absolute inset-0 z-0 bg-[#050810]"></div>
+<!-- MINIMALIST 3D PRISM PRELOADER -->
+<div id="preloader" class="select-none flex flex-col justify-end pb-24 sm:justify-center sm:pb-0 items-center">
+  <!-- 3D Raymarching Canvas Background -->
+  <canvas id="preloader-canvas"></canvas>
   
-  <!-- CRT Screen Overlay simulating monitor screen dimensions -->
-  <div id="preloader-overlay" class="relative z-10 w-[90vw] max-w-sm md:max-w-xl aspect-[1.54] m-auto flex flex-col justify-between p-6 md:p-8 font-mono text-[9px] md:text-xs text-neon pointer-events-none transition-opacity duration-500">
-    <div class="space-y-1.5 overflow-y-auto pr-1 flex-grow h-0" id="boot-terminal-log">
-      <!-- Terminal text will render here -->
-    </div>
+  <!-- Content Overlay -->
+  <div class="preloader-content space-y-6 max-w-3xl px-6">
+    <!-- Big Title -->
+    <h1 class="preloader-headline uppercase opacity-0 transform translate-y-4 transition-all duration-1000" id="preloader-title" style="font-family: 'Space Grotesk', sans-serif;">
+      Nik<br>Portfolio
+    </h1>
     
-    <div class="space-y-3 mt-4">
-      <!-- Progress Bar Container -->
-      <div class="w-full bg-neon/15 border border-neon/30 p-1 rounded-sm">
-        <div id="preloader-bar" class="h-3 bg-neon w-0 transition-all duration-100 ease-out flex items-center justify-end pr-2 text-[8px] font-bold text-[#050810]">0%</div>
-      </div>
-      
-      <div class="flex justify-between items-center text-[8px] md:text-[10px] text-neon/60">
-        <span>DEVICE: CRT_MONITOR_OS_v2.6</span>
-        <span>SECTOR: 0x00FFB2</span>
+    <!-- Sub-elements list -->
+    <div class="flex justify-center">
+      <ul class="space-y-3 font-mono text-sm sm:text-base md:text-lg tracking-[0.15em] text-smoke/80 text-left inline-block">
+        <li class="opacity-0 transform translate-x-4 transition-all duration-700 delay-[500ms]" id="preloader-item-1">— <span class="glow-text">Дизайн</span></li>
+        <li class="opacity-0 transform translate-x-4 transition-all duration-700 delay-[900ms]" id="preloader-item-2">— <span class="glow-text">Монтаж</span></li>
+        <li class="opacity-0 transform translate-x-4 transition-all duration-700 delay-[1300ms]" id="preloader-item-3">— <span class="glow-text">Разработка</span></li>
+      </ul>
+    </div>
+
+    <!-- Interactive Progress Zone -->
+    <div class="pt-8 w-64 mx-auto flex items-center justify-center relative">
+      <!-- Progress Bar -->
+      <div id="preloader-progress-box" class="w-full opacity-0 transition-all duration-500 delay-[300ms]">
+        <div class="w-full h-[2px] bg-white/10 rounded-full overflow-hidden relative">
+          <div id="preloader-bar" class="absolute top-0 left-0 h-full bg-amber shadow-[0_0_8px_#F5B82E] w-0 transition-all duration-200 ease-out"></div>
+        </div>
+        <div class="flex justify-between items-center text-[9px] font-mono text-smoke/50 mt-2 uppercase tracking-widest">
+          <span>loading</span>
+          <span id="preloader-pct">0%</span>
+        </div>
       </div>
     </div>
   </div>
@@ -274,13 +466,13 @@
 <header class="px-4 md:px-8 py-4 border-b border-bone/10 flex items-center justify-between font-mono text-xs uppercase tracking-widest">
   <div class="flex items-center gap-3">
     <span class="rec-dot"></span>
-    <span class="text-bone">NIK · 272K SUBS</span>
+    <span class="text-bone">NIK · ПОРТФОЛИО</span>
   </div>
   <nav class="hidden md:flex gap-2">
-    <a href="index.html"   class="px-3 py-1 bg-bone text-ink">HUB</a>
+    <a href="index.html" class="px-3 py-1 bg-bone text-ink">HUB</a>
     <a href="montage.html" class="px-3 py-1 text-bone/60 hover:text-bone">МОНТАЖ</a>
-    <a href="design.html"  class="px-3 py-1 text-bone/60 hover:text-bone">ДИЗАЙН</a>
-    <a href="dev.html"     class="px-3 py-1 text-bone/60 hover:text-bone">КОД</a>
+    <a href="design.html" class="px-3 py-1 text-bone/60 hover:text-bone">ДИЗАЙН</a>
+    <a href="dev.html" class="px-3 py-1 text-bone/60 hover:text-bone">КОД</a>
   </nav>
   <a href="https://youtube.com/@yotubeThebadBoy" target="_blank" class="text-bone/70 hover:text-ytred">YouTube ↗</a>
 </header>
@@ -292,7 +484,7 @@
       <span class="rec-dot"></span> Блогер · 272K подписчиков на YouTube
     </div>
     <h1 class="font-poster text-[14vw] md:text-[8vw] leading-[0.85] tracking-tight">
-      Я <span class="chroma" data-text="монтирую">монтирую</span>,<br/>
+      Я <span class="chroma" data-text="монтирую">монтирую</span>,<br>
       <span class="text-amber">проектирую,</span>
       <span class="text-ytred">делаю дизайн</span>
     </h1>
@@ -325,13 +517,7 @@
   <!-- CINEMA / MONTAGE -->
   <a href="montage.html" class="portal portal-cinema flex items-end p-6 md:p-10 group">
     <!-- Background Video -->
-    <video 
-      autoplay 
-      muted 
-      loop 
-      playsinline
-      class="absolute inset-0 w-full h-full object-cover opacity-40 z-0"
-    >
+    <video autoplay="" muted="" loop="" playsinline="" class="absolute inset-0 w-full h-full object-cover opacity-40 z-0">
       <source src="videos/Nikita.mp4" type="video/mp4">
     </video>
     <div class="filmstrip" style="top:40px;"></div>
@@ -363,19 +549,19 @@
         <!-- Grid pattern background inside SVG for Figma feel -->
         <defs>
           <pattern id="figma-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(168,135,82,0.06)" stroke-width="1" />
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(168,135,82,0.06)" stroke-width="1"></path>
           </pattern>
         </defs>
-        <rect width="100%" height="100%" fill="url(#figma-grid)" />
+        <rect width="100%" height="100%" fill="url(#figma-grid)"></rect>
 
         <!-- Figma canvas reference guides (thin lines) -->
-        <line x1="0" y1="50" x2="200" y2="50" stroke="rgba(168,135,82,0.1)" stroke-width="0.5" stroke-dasharray="2,2" />
-        <line x1="0" y1="130" x2="200" y2="130" stroke="rgba(168,135,82,0.1)" stroke-width="0.5" stroke-dasharray="2,2" />
-        <line x1="30" y1="0" x2="30" y2="200" stroke="rgba(168,135,82,0.1)" stroke-width="0.5" stroke-dasharray="2,2" />
-        <line x1="170" y1="0" x2="170" y2="200" stroke="rgba(168,135,82,0.1)" stroke-width="0.5" stroke-dasharray="2,2" />
+        <line x1="0" y1="50" x2="200" y2="50" stroke="rgba(168,135,82,0.1)" stroke-width="0.5" stroke-dasharray="2,2"></line>
+        <line x1="0" y1="130" x2="200" y2="130" stroke="rgba(168,135,82,0.1)" stroke-width="0.5" stroke-dasharray="2,2"></line>
+        <line x1="30" y1="0" x2="30" y2="200" stroke="rgba(168,135,82,0.1)" stroke-width="0.5" stroke-dasharray="2,2"></line>
+        <line x1="170" y1="0" x2="170" y2="200" stroke="rgba(168,135,82,0.1)" stroke-width="0.5" stroke-dasharray="2,2"></line>
 
         <!-- Created Rectangle (filled with white) -->
-        <rect id="drawing-rect" x="30" y="50" width="0" height="0" fill="#FFFFFF" stroke="#E5E0D6" stroke-width="1" rx="4" class="figma-rect-anim" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.04));" />
+        <rect id="drawing-rect" x="30" y="50" width="0" height="0" fill="#FFFFFF" stroke="#E5E0D6" stroke-width="1" rx="4" class="figma-rect-anim" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.04));"></rect>
 
         <!-- Text group -->
         <g font-family="'Space Grotesk', 'Inter', sans-serif" font-weight="700" font-size="15" fill="#1A1A1A" text-anchor="middle">
@@ -387,23 +573,23 @@
         </g>
 
         <!-- Blinking Text Cursor Line -->
-        <line x1="126" y1="84" x2="126" y2="104" stroke="#0C8CE9" stroke-width="1.5" class="figma-cursor-line-anim" />
+        <line x1="126" y1="84" x2="126" y2="104" stroke="#0C8CE9" stroke-width="1.5" class="figma-cursor-line-anim"></line>
 
         <!-- Figma Selection Border & Handles -->
         <g class="figma-selection-anim">
           <!-- Selection outline -->
-          <rect x="29.5" y="49.5" width="141" height="81" fill="none" stroke="#0C8CE9" stroke-width="1" rx="4.5" />
+          <rect x="29.5" y="49.5" width="141" height="81" fill="none" stroke="#0C8CE9" stroke-width="1" rx="4.5"></rect>
           <!-- Resize Handles -->
-          <rect x="26" y="46" width="7" height="7" fill="#FFFFFF" stroke="#0C8CE9" stroke-width="1" />
-          <rect x="167" y="46" width="7" height="7" fill="#FFFFFF" stroke="#0C8CE9" stroke-width="1" />
-          <rect x="26" y="127" width="7" height="7" fill="#FFFFFF" stroke="#0C8CE9" stroke-width="1" />
-          <rect x="167" y="127" width="7" height="7" fill="#FFFFFF" stroke="#0C8CE9" stroke-width="1" />
-          <rect x="96.5" y="46" width="7" height="7" fill="#FFFFFF" stroke="#0C8CE9" stroke-width="1" />
-          <rect x="96.5" y="127" width="7" height="7" fill="#FFFFFF" stroke="#0C8CE9" stroke-width="1" />
+          <rect x="26" y="46" width="7" height="7" fill="#FFFFFF" stroke="#0C8CE9" stroke-width="1"></rect>
+          <rect x="167" y="46" width="7" height="7" fill="#FFFFFF" stroke="#0C8CE9" stroke-width="1"></rect>
+          <rect x="26" y="127" width="7" height="7" fill="#FFFFFF" stroke="#0C8CE9" stroke-width="1"></rect>
+          <rect x="167" y="127" width="7" height="7" fill="#FFFFFF" stroke="#0C8CE9" stroke-width="1"></rect>
+          <rect x="96.5" y="46" width="7" height="7" fill="#FFFFFF" stroke="#0C8CE9" stroke-width="1"></rect>
+          <rect x="96.5" y="127" width="7" height="7" fill="#FFFFFF" stroke="#0C8CE9" stroke-width="1"></rect>
           
           <!-- Distance Badge W: 140 H: 80 -->
           <g transform="translate(100, 144)">
-            <rect x="-24" y="-7" width="48" height="14" rx="2" fill="#0C8CE9" />
+            <rect x="-24" y="-7" width="48" height="14" rx="2" fill="#0C8CE9"></rect>
             <text x="0" y="3" font-family="monospace" font-size="8" fill="#FFFFFF" text-anchor="middle">140 × 80</text>
           </g>
         </g>
@@ -411,10 +597,10 @@
         <!-- Figma Cursor -->
         <g class="figma-cursor-anim">
           <!-- Cursor Arrow -->
-          <path d="M0 0 L0 15 L4.5 10.5 L9 19.5 L11.5 18 L7 9.5 L12.5 9 Z" fill="#0C8CE9" stroke="#FFFFFF" stroke-width="1.2" />
+          <path d="M0 0 L0 15 L4.5 10.5 L9 19.5 L11.5 18 L7 9.5 L12.5 9 Z" fill="#0C8CE9" stroke="#FFFFFF" stroke-width="1.2"></path>
           <!-- Designer Badge -->
           <g transform="translate(12, 14)">
-            <rect x="0" y="0" width="22" height="12" rx="1.5" fill="#0C8CE9" />
+            <rect x="0" y="0" width="22" height="12" rx="1.5" fill="#0C8CE9"></rect>
             <text x="11" y="9" font-family="'Inter', sans-serif" font-size="7" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Nik</text>
           </g>
         </g>
@@ -453,8 +639,7 @@
       <div class="mt-8 inline-flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-neon group-hover:tracking-[0.4em] transition-all">
         $ open ./projects
       </div>
-<pre class="mt-6 font-mono text-[10px] text-neon/70 leading-relaxed">
-<span class="text-bone/60">// stack</span>
+<pre class="mt-6 font-mono text-[10px] text-neon/70 leading-relaxed"><span class="text-bone/60">// stack</span>
 const <span class="text-amber">stack</span> = [
   <span class="text-rec">'HTML'</span>,
   <span class="text-rec">'Tailwind'</span>,
@@ -554,10 +739,6 @@ const <span class="text-amber">stack</span> = [
 
 <script type="module">
   import * as THREE from "three";
-  import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
-  import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
-  import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
-  import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 
   // ================== CODE RAIN ON HUB ==================
   (function rain() {
@@ -950,14 +1131,11 @@ const <span class="text-amber">stack</span> = [
     });
   }
 
-  // ================== RETRO BIOS PRELOADER CONTROLLER (3D) ==================
+  // ================== MINIMALIST 3D PRISM PRELOADER ==================
   (function initPreloader() {
     const preloader = document.getElementById('preloader');
-    const bar = document.getElementById('preloader-bar');
-    const logBox = document.getElementById('boot-terminal-log');
-    const container3d = document.getElementById('preloader-3d');
-    
-    if (!preloader) return;
+    const canvas = document.getElementById('preloader-canvas');
+    if (!preloader || !canvas) return;
 
     // Check if user already booted during session
     if (sessionStorage.getItem('site_booted')) {
@@ -966,534 +1144,403 @@ const <span class="text-amber">stack</span> = [
       return;
     }
 
-    if (!bar || !logBox || !container3d) {
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    if (!gl) {
+      console.warn('WebGL not supported, falling back');
       preloader.remove();
+      initLiquidGlass();
       return;
     }
 
-    // BIOS Boot Text Sequence lines
-    const bootLines = [
-      "NIK OS BIOS v4.02 - EST. 2020",
-      "CPU: NIKITA NEXT @ 4.09GHz",
-      "RAM CHECK: 64MB OK",
-      "DETECTION: HDD SECTOR 0x00FFB2 FOUND",
-      "------------------------------------",
-      "LOADING SYSTEM FILE INTEGRITY CHECKS...",
-      "load_kernel.sys ... SUCCESS",
-      "load_ui_styles.css ... SUCCESS",
-      "load_youtube_stats.db ... SUCCESS (272K SUBS)",
-      "load_portals_interactivity.js ... SUCCESS",
-      "------------------------------------",
-      "INITIATING CONNECTION TO SITE HUB...",
-      "PORTAL SECURITY CHECK: SECURE",
-      "BOOT SEQUENCE: COMPLETE."
-    ];
-
-    let progress = 0;
-    let lineIndex = 0;
-
-    // Render boot lines
-    function printNextLine() {
-      if (lineIndex < bootLines.length) {
-        logBox.insertAdjacentHTML('beforeend', `<div class="leading-relaxed">$ ${bootLines[lineIndex]}</div>`);
-        logBox.scrollTop = logBox.scrollHeight;
-        lineIndex++;
-        setTimeout(printNextLine, 60 + Math.random() * 80);
-      }
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      gl.viewport(0, 0, canvas.width, canvas.height);
     }
-    setTimeout(printNextLine, 100);
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
 
-    // Update progress bar
-    let isBooted = false;
-    function updateProgress() {
-      if (progress < 100) {
-        progress += Math.floor(Math.random() * 6) + 1;
-        if (progress > 100) progress = 100;
-        bar.style.width = progress + '%';
-        bar.textContent = progress + '%';
-        setTimeout(updateProgress, 60 + Math.random() * 100);
-      } else {
-        // BIOS complete, trigger zoom animation
-        setTimeout(() => {
-          isZooming = true;
-        }, 300);
-      }
-    }
-    setTimeout(updateProgress, 200);
-
-    // --- THREE.JS 3D SCENE SETUP ---
-    function createProjectedFloor(width, depth, material, segments = 64) {
-      const geometry = new THREE.PlaneGeometry(width, depth, segments, segments);
-      geometry.rotateX(-Math.PI / 2);
-      return new THREE.Mesh(geometry, material);
-    }
-
-    function createKeyboard(material) {
-      const group = new THREE.Group();
-      const baseGeo = new THREE.BoxGeometry(1.15, 0.045, 0.42);
-      const base = new THREE.Mesh(baseGeo, material);
-      base.position.y = 0.0225;
-      group.add(base);
-
-      const cols = 10;
-      const rows = 3;
-      const keyW = 0.09;
-      const keyH = 0.072;
-      const keyD = 0.07;
-      const gapX = 0.012;
-      const gapZ = 0.01;
-      const startX = -((cols - 1) * (keyW + gapX)) / 2;
-      const startZ = -((rows - 1) * (keyD + gapZ)) / 2;
-      const keyGeo = new THREE.BoxGeometry(keyW, keyH, keyD);
-
-      for (let rz = 0; rz < rows; rz += 1) {
-        for (let cx = 0; cx < cols; cx += 1) {
-          const key = new THREE.Mesh(keyGeo, material);
-          key.position.set(
-            startX + cx * (keyW + gapX),
-            0.045 + keyH * 0.5 + 0.002,
-            startZ + rz * (keyD + gapZ)
-          );
-          group.add(key);
-        }
-      }
-      group.position.set(0, 0, 1.28);
-      return group;
-    }
-
-    const VERT = `
-      varying vec2 vUv;
+    // Vertex Shader
+    const vsSource = `
+      attribute vec2 position;
       void main() {
-        vUv = uv;
-        gl_Position = vec4(position.xy, 0.0, 1.0);
+        gl_Position = vec4(position, 0.0, 1.0);
       }
     `;
 
-    const FRAG = `
+    // Fragment Shader (Raymarching Prism)
+    const fsSource = `
       precision highp float;
-      varying vec2 vUv;
       uniform float uTime;
-      uniform float uProjectionIntensity;
-      uniform float uReflectionGain;
-      uniform float uHighlightBoost;
-      uniform float uLumaVisibilityThreshold;
-      uniform float uInvertColor;
-      uniform float uHalftone;
-      uniform float uToneCut;
+      uniform vec2 uResolution;
+      uniform vec2 uMouse;
+      uniform float uSpeedMultiplier;
 
-      vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
-      vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
-      vec3 permute(vec3 x) { return mod289(((x * 34.0) + 1.0) * x); }
+      #define PI 3.14159265359
+      #define TAU 6.28318530718
+      #define MAX_STEPS 70
+      #define MAX_DIST 40.0
+      #define SURF_DIST 0.001
 
-      float snoise(vec2 v) {
-        const vec4 C = vec4(
-          0.211324865405187,
-          0.366025403784439,
-          -0.577350269189626,
-          0.024390243902439
-        );
-        vec2 i = floor(v + dot(v, C.yy));
-        vec2 x0 = v - i + dot(i, C.xx);
-        vec2 i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
-        vec4 x12 = x0.xyxy + C.xxzz;
-        x12.xy -= i1;
-        i = mod289(i);
-        vec3 p = permute(permute(i.y + vec3(0.0, i1.y, 1.0)) + i.x + vec3(0.0, i1.x, 1.0));
-        vec3 m = max(0.5 - vec3(dot(x0, x0), dot(x12.xy, x12.xy), dot(x12.zw, x12.zw)), 0.0);
-        m = m * m;
-        m = m * m;
-        vec3 x = 2.0 * fract(p * C.www) - 1.0;
-        vec3 h = abs(x) - 0.5;
-        vec3 ox = floor(x + 0.5);
-        vec3 a0 = x - ox;
-        m *= 1.79284291400159 - 0.85373472095314 * (a0 * a0 + h * h);
-        vec3 g;
-        g.x = a0.x * x0.x + h.x * x0.y;
-        g.yz = a0.yz * x12.xz + h.yz * x12.yw;
-        return 130.0 * dot(m, g);
+      float hash(float n) {
+        return fract(sin(n) * 43758.5453123);
       }
 
-      float fbm(vec2 p) {
-        float v = 0.0;
-        float a = 0.5;
-        for (int i = 0; i < 5; i++) {
-          v += a * snoise(p);
-          p = p * 2.0 + vec2(17.0, 31.0);
-          a *= 0.5;
+      mat2 rot(float a) {
+        float s = sin(a);
+        float c = cos(a);
+        return mat2(c, -s, s, c);
+      }
+
+      float sdOctahedron(vec3 p, float s) {
+        p = abs(p);
+        float m = p.x + p.y + p.z - s;
+        vec3 q;
+        if(3.0 * p.x < m) q = p.xyz;
+        else if(3.0 * p.y < m) q = p.yzx;
+        else if(3.0 * p.z < m) q = p.zxy;
+        else return m * 0.57735027;
+        
+        float k = clamp(0.5 * (q.z - q.y + s), 0.0, s);
+        return length(vec3(q.x, q.y - s + k, q.z - k));
+      }
+
+      float sdTriPrism(vec3 p, vec2 h) {
+        vec3 q = abs(p);
+        return max(q.z - h.y, max(q.x * 0.866025 + p.y * 0.5, -p.y) - h.x * 0.5);
+      }
+
+      float smin(float a, float b, float k) {
+        float h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0);
+        return mix(b, a, h) - k * h * (1.0 - h);
+      }
+
+      float smax(float a, float b, float k) {
+        return -smin(-a, -b, k);
+      }
+
+      float map(vec3 p) {
+        vec2 m = (uMouse - 0.5) * 2.5;
+        p.xy += m * 0.4;
+
+        float t = uTime * uSpeedMultiplier;
+        p.xz *= rot(t * 0.12);
+        p.xy *= rot(t * 0.08);
+
+        vec3 p1 = p;
+        p1.yz *= rot(t * 0.15);
+
+        float core_distort = sin(p1.x * 3.0 + t) * sin(p1.y * 3.0 + t) * sin(p1.z * 3.0 + t) * 0.1;
+        float core = sdOctahedron(p1, 1.6) + core_distort;
+
+        vec3 p2 = p1;
+        p2.xy *= rot(PI * 0.25 + t * 0.2);
+        float prism = sdTriPrism(p2, vec2(1.4, 2.0));
+        core = smax(core, -prism, 0.2);
+
+        float d = core;
+        float k_blend = 0.2 + 0.15 * (0.5 + 0.5 * sin(t * 1.5));
+
+        for(int i = 0; i < 4; i++) {
+          float fi = float(i);
+          float angle = fi * TAU / 4.0 + t * 0.3;
+          float radius = 3.0 + 0.3 * sin(t * 0.4 + fi);
+          vec3 pos = vec3(
+            cos(angle) * radius,
+            sin(angle * 0.7) * 1.0,
+            sin(angle) * radius
+          );
+          vec3 po = p - pos;
+          po.xy *= rot(t * 0.5 + fi);
+          float sat_distort = sin(po.x * 5.0 + fi) * sin(po.y * 5.0 + fi) * sin(po.z * 5.0 + fi) * 0.05;
+          float satellite = sdOctahedron(po, 0.4) + sat_distort;
+          d = smin(d, satellite, k_blend);
         }
-        return v;
+        return d;
+      }
+
+      vec3 getNormal(vec3 p) {
+        vec2 e = vec2(0.001, 0.0);
+        return normalize(vec3(
+          map(p + e.xyy) - map(p - e.xyy),
+          map(p + e.yxy) - map(p - e.yxy),
+          map(p + e.yyx) - map(p - e.yyx)
+        ));
+      }
+
+      float raymarch(vec3 ro, vec3 rd) {
+        float t = 0.0;
+        for(int i = 0; i < MAX_STEPS; i++) {
+          vec3 p = ro + rd * t;
+          float d = map(p);
+          if(abs(d) < SURF_DIST || t > MAX_DIST) break;
+          t += d * 0.7;
+        }
+        return t;
+      }
+
+      vec3 getBackground(vec3 rd) {
+        float stars = 0.0;
+        vec3 p = rd * 100.0;
+        float h = hash(dot(p, vec3(12.9898, 78.233, 54.53)));
+        if(h > 0.985) stars = pow(h - 0.985, 10.0) * 15.0;
+        vec3 nebula = vec3(0.0);
+        float t = uTime * uSpeedMultiplier;
+        nebula += vec3(0.3, 0.15, 0.5) * pow(max(0.0, sin(rd.x * 2.0 + t * 0.06)), 3.0) * 0.15;
+        nebula += vec3(0.15, 0.3, 0.6) * pow(max(0.0, sin(rd.y * 2.5 + t * 0.03)), 3.0) * 0.15;
+        return stars + nebula;
       }
 
       void main() {
-        vec2 uv = vUv;
-        vec2 p = uv * 2.0 - 1.0;
-        float t = uTime;
+        vec2 uv = (gl_FragCoord.xy - 0.5 * uResolution) / min(uResolution.x, uResolution.y);
+        vec2 m = (uMouse - 0.5) * 0.5;
+        vec3 ro = vec3(m.x * 2.0, m.y * 2.0, 5.5);
+        vec3 rd = normalize(vec3(uv, -1.0));
 
-        vec2 flow = vec2(t * 0.19, t * 0.13);
-        vec2 q = vec2(
-          fbm(p * 1.05 + flow),
-          fbm(p * 1.05 + vec2(-flow.y * 1.1, flow.x * 0.9))
-        );
-        vec2 w = p + q * 0.62;
+        rd.xy *= rot(m.x * 0.2);
+        rd.yz *= rot(m.y * 0.2);
 
-        float nA = 0.5 + 0.5 * fbm(w * 2.15 + flow * 0.8);
-        float nB = 0.5 + 0.5 * fbm(w * 4.8 + vec2(-flow.x * 0.5, flow.y * 0.35));
-        float ridge = 1.0 - abs(2.0 * nB - 1.0);
-        float mask = clamp(0.18 + 1.12 * (0.58 * nA + 0.42 * ridge), 0.0, 1.0);
-        float edgeFade = 1.0 - clamp(length(p) * 0.7, 0.0, 1.0);
-        float intensity = pow(clamp(mask * (0.72 + edgeFade * 0.45), 0.0, 1.0), 1.05);
+        float t = raymarch(ro, rd);
+        vec3 color = vec3(0.0);
 
-        float base = nA * 0.82 + ridge * 0.18;
-        vec3 col = vec3(
-          0.18 + 0.86 * (0.5 + 0.5 * cos(6.28318 * (base + 0.02 + t * 0.07))),
-          0.14 + 0.9  * (0.5 + 0.5 * cos(6.28318 * (base + 0.37 + t * 0.06))),
-          0.2  + 0.9  * (0.5 + 0.5 * cos(6.28318 * (base + 0.72 + t * 0.065)))
-        );
-        col *= intensity;
+        if(t < MAX_DIST) {
+          vec3 p = ro + rd * t;
+          vec3 normal = getNormal(p);
+          vec3 viewDir = normalize(ro - p);
+          float fresnel = pow(1.0 - max(dot(viewDir, normal), 0.0), 3.0);
+          float ior = 1.45;
+          vec3 refractDir = refract(rd, normal, 1.0 / ior);
 
-        float highlight = pow(clamp((nA * 1.1 + ridge * 0.75) - 1.1, 0.0, 1.0), 2.2);
-        col = mix(col, vec3(1.0, 0.96, 0.92), highlight * vec3(0.22, 0.16, 0.1));
-        vec3 tex = clamp(col, 0.0, 1.0);
+          if(length(refractDir) > 0.0) {
+            float t2 = raymarch(p - normal * 0.01, refractDir);
+            if(t2 < MAX_DIST) {
+              vec3 p2 = p - normal * 0.01 + refractDir * t2;
+              vec3 normal2 = getNormal(p2);
+              vec3 r = refract(refractDir, -normal2, ior - 0.18);
+              vec3 g = refract(refractDir, -normal2, ior);
+              vec3 b = refract(refractDir, -normal2, ior + 0.18);
+              vec3 bgR = getBackground(r) * vec3(1.3, 0.7, 0.7);
+              vec3 bgG = getBackground(g) * vec3(0.7, 1.3, 0.8);
+              vec3 bgB = getBackground(b) * vec3(0.7, 0.8, 1.3);
+              color = vec3(bgR.x, bgG.y, bgB.z);
+              color = pow(color, vec3(0.75)) * 4.0;
+            } else {
+              color = getBackground(refractDir) * 1.5;
+            }
+          }
 
-        if (uInvertColor > 0.5) {
-          tex = vec3(1.0) - tex;
+          vec3 lightDir = normalize(vec3(1.0, 1.0, -1.0));
+          vec3 halfDir = normalize(lightDir + viewDir);
+          float spec = pow(max(dot(normal, halfDir), 0.0), 120.0);
+          color += spec * vec3(1.0) * 3.0;
+
+          float timeVal = uTime * uSpeedMultiplier;
+          vec3 fresnelColor = vec3(
+            0.5 + 0.5 * sin(fresnel * TAU + timeVal),
+            0.5 + 0.5 * sin(fresnel * TAU + timeVal + TAU / 3.0),
+            0.5 + 0.5 * sin(fresnel * TAU + timeVal + TAU * 2.0 / 3.0)
+          );
+          color += fresnel * fresnelColor * 1.0;
+          float edge = pow(1.0 - abs(dot(viewDir, normal)), 4.0);
+          color += edge * vec3(0.6, 0.7, 1.0) * 0.6;
+        } else {
+          color = getBackground(rd);
         }
 
-        if (uToneCut > 0.5) {
-          float toneLevels = 5.0;
-          tex = floor(tex * (toneLevels - 1.0) + 0.5) / (toneLevels - 1.0);
-        }
-
-        float lum = dot(tex, vec3(0.2126, 0.7152, 0.0722));
-        float lumaStart = clamp(uLumaVisibilityThreshold, 0.0, 1.0);
-        float lumaEnd = min(1.0, lumaStart + 0.1);
-        float darkMask = 1.0;
-        if (lumaStart > 1e-4) {
-          darkMask = smoothstep(lumaStart, lumaEnd, lum);
-        }
-
-        if (uHalftone > 0.5) {
-          vec2 hUv = vUv * vec2(180.0, 120.0);
-          vec2 hCell = fract(hUv) - 0.5;
-          float dotRadius = mix(0.02, 0.45, clamp(lum, 0.0, 1.0));
-          float dotMask = 1.0 - smoothstep(dotRadius, dotRadius + 0.035, length(hCell));
-          tex *= dotMask * darkMask;
-        }
-
-        float hi = smoothstep(0.5, 1.0, lum);
-        tex *= darkMask;
-        tex *= mix(1.0, uHighlightBoost, hi);
-        tex *= max(0.0, uProjectionIntensity) * max(0.0, uReflectionGain);
-
-        gl_FragColor = vec4(tex, 1.0);
+        float vignette = 1.0 - length(uv) * 0.45;
+        vignette = smoothstep(0.25, 1.0, vignette);
+        color *= vignette;
+        gl_FragColor = vec4(color, 1.0);
       }
     `;
 
-    function createGradientRenderSource(width = 1024, height = 576) {
-      const w = Math.max(2, Math.floor(width));
-      const h = Math.max(2, Math.floor(height));
-      const sourceScene = new THREE.Scene();
-      const sourceCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-      const sourceMaterial = new THREE.ShaderMaterial({
-        vertexShader: VERT,
-        fragmentShader: FRAG,
-        uniforms: {
-          uTime: { value: 0 },
-          uProjectionIntensity: { value: 0.5 },
-          uReflectionGain: { value: 1.0 },
-          uHighlightBoost: { value: 1.65 },
-          uLumaVisibilityThreshold: { value: 0.3 },
-          uInvertColor: { value: 0 },
-          uHalftone: { value: 0 },
-          uToneCut: { value: 0 },
-        },
-        depthTest: false,
-        depthWrite: false,
-      });
-      const sourceQuad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), sourceMaterial);
-      sourceScene.add(sourceQuad);
-
-      const target = new THREE.WebGLRenderTarget(w, h, {
-        minFilter: THREE.LinearFilter,
-        magFilter: THREE.LinearFilter,
-        format: THREE.RGBAFormat,
-        type: THREE.UnsignedByteType,
-        colorSpace: THREE.SRGBColorSpace,
-        depthBuffer: false,
-        stencilBuffer: false,
-      });
-
-      return {
-        texture: target.texture,
-        render(renderer, timeSec) {
-          const prevTarget = renderer.getRenderTarget();
-          const prevXr = renderer.xr.enabled;
-          renderer.xr.enabled = false;
-          sourceMaterial.uniforms.uTime.value = timeSec;
-          renderer.setRenderTarget(target);
-          renderer.clear();
-          renderer.render(sourceScene, sourceCamera);
-          renderer.setRenderTarget(prevTarget);
-          renderer.xr.enabled = prevXr;
-        },
-        setEffects(effects) {
-          sourceMaterial.uniforms.uProjectionIntensity.value = effects.projectionIntensity;
-          sourceMaterial.uniforms.uReflectionGain.value = effects.reflectionGain;
-          sourceMaterial.uniforms.uHighlightBoost.value = effects.highlightBoost;
-          sourceMaterial.uniforms.uLumaVisibilityThreshold.value = effects.lumaVisibilityThreshold;
-          sourceMaterial.uniforms.uInvertColor.value = effects.invertColor ? 1 : 0;
-          sourceMaterial.uniforms.uHalftone.value = effects.halftone ? 1 : 0;
-          sourceMaterial.uniforms.uToneCut.value = effects.toneCut ? 1 : 0;
-        },
-        dispose() {
-          sourceQuad.geometry.dispose();
-          sourceMaterial.dispose();
-          target.dispose();
-        },
-      };
-    }
-
-    function createScreen(texture) {
-      const geometry = new THREE.PlaneGeometry(2, 1.3);
-      const material = new THREE.MeshBasicMaterial({
-        map: texture,
-        toneMapped: false,
-        side: THREE.DoubleSide,
-      });
-      const mesh = new THREE.Mesh(geometry, material);
-      mesh.position.set(0, 1.0, 0.5);
-      return { mesh };
-    }
-
-    function createBloomComposer(renderer, scene, camera) {
-      const composer = new EffectComposer(renderer);
-      composer.addPass(new RenderPass(scene, camera));
-      const bloomPass = new UnrealBloomPass(
-        new THREE.Vector2(window.innerWidth, window.innerHeight),
-        0.22,
-        0.42,
-        0.72
-      );
-      composer.addPass(bloomPass);
-      composer.addPass(new OutputPass());
-      return { composer, bloomPass };
-    }
-
-    const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 0.78;
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-    container3d.appendChild(renderer.domElement);
-
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x101014);
-
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
-    camera.position.set(0, 1.2, 5.5);
-    camera.lookAt(0, 0.8, 0);
-
-    const screenGradientSource = createGradientRenderSource(1024, 576);
-    const projectionGradientSource = createGradientRenderSource(1024, 576);
-    
-    const tune = {
-      projectionIntensity: 1.64,
-      reflectionGain: 1.0,
-      blurRadiusPx: 64,
-      highlightBoost: 1.65,
-      lumaVisibilityThreshold: 0.12,
-      invertColor: false,
-      halftone: true,
-      toneCut: false,
-    };
-
-    screenGradientSource.setEffects({
-      projectionIntensity: 1,
-      reflectionGain: 1,
-      highlightBoost: 1,
-      lumaVisibilityThreshold: 0,
-      invertColor: false,
-      halftone: false,
-      toneCut: false,
-    });
-    
-    screenGradientSource.render(renderer, 0);
-    projectionGradientSource.render(renderer, 0);
-    
-    const { mesh: screen } = createScreen(screenGradientSource.texture);
-
-    const floorKeyboardMat = new THREE.MeshStandardMaterial({
-      color: 0x1a1a22,
-      roughness: 0.88,
-      metalness: 0.06,
-    });
-
-    const floorMesh = createProjectedFloor(100, 100, floorKeyboardMat);
-    floorMesh.receiveShadow = true;
-
-    const keyboard = createKeyboard(floorKeyboardMat);
-    keyboard.traverse((obj) => {
-      if (obj instanceof THREE.Mesh) {
-        obj.receiveShadow = true;
-        obj.castShadow = true;
+    function createShader(gl, type, source) {
+      const shader = gl.createShader(type);
+      gl.shaderSource(shader, source);
+      gl.compileShader(shader);
+      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+        console.error('Shader compile error:', gl.getShaderInfoLog(shader));
+        gl.deleteShader(shader);
+        return null;
       }
-    });
-
-    // Retro PC Bezel / Body
-    const bezelMat = new THREE.MeshStandardMaterial({ color: 0x181820, roughness: 0.85 });
-    const bezelGroup = new THREE.Group();
-    const bezelT = new THREE.Mesh(new THREE.BoxGeometry(2.14, 0.07, 0.1), bezelMat);
-    bezelT.position.set(0, 1.68, 0.5);
-    const bezelB = new THREE.Mesh(new THREE.BoxGeometry(2.14, 0.07, 0.1), bezelMat);
-    bezelB.position.set(0, 0.32, 0.5);
-    const bezelL = new THREE.Mesh(new THREE.BoxGeometry(0.07, 1.43, 0.1), bezelMat);
-    bezelL.position.set(-1.07, 1.0, 0.5);
-    const bezelR = new THREE.Mesh(new THREE.BoxGeometry(0.07, 1.43, 0.1), bezelMat);
-    bezelR.position.set(1.07, 1.0, 0.5);
-    const monitorBack = new THREE.Mesh(new THREE.BoxGeometry(2.1, 1.35, 0.5), bezelMat);
-    monitorBack.position.set(0, 1.0, 0.25);
-    bezelGroup.add(bezelT, bezelB, bezelL, bezelR, monitorBack);
-    bezelGroup.traverse(obj => {
-      if (obj instanceof THREE.Mesh) {
-        obj.castShadow = true;
-        obj.receiveShadow = true;
-      }
-    });
-
-    screen.castShadow = false;
-    scene.add(screen, floorMesh, keyboard, bezelGroup);
-
-    const spot = new THREE.SpotLight(0xffffff, 220);
-    spot.decay = 6;
-    spot.distance = 35;
-    spot.angle = Math.PI / 3.1;
-    spot.penumbra = 0.58;
-    spot.map = projectionGradientSource.texture;
-    spot.castShadow = true;
-    spot.shadow.mapSize.set(2048, 2048);
-    spot.shadow.bias = -0.0002;
-    spot.shadow.normalBias = 0.02;
-    spot.position.set(0, 1.0, 0.52);
-    spot.target.position.set(0, 0.02, 1.15);
-    scene.add(spot);
-    scene.add(spot.target);
-
-    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x060608, 0.04);
-    hemiLight.position.set(0, 10, 0);
-    scene.add(hemiLight);
-
-    const { composer, bloomPass } = createBloomComposer(renderer, scene, camera);
-
-    function syncProjectionFxFromTune() {
-      const blend = Math.max(0, tune.projectionIntensity) * Math.max(0, tune.reflectionGain);
-      spot.intensity = 220 * blend;
-      floorKeyboardMat.envMapIntensity = 0.35 * Math.max(0.1, tune.reflectionGain);
-      bloomPass.radius = THREE.MathUtils.clamp(tune.blurRadiusPx / 128, 0, 1);
-      bloomPass.strength = 0.22 * Math.max(0.2, tune.highlightBoost);
-      bloomPass.threshold = THREE.MathUtils.clamp(tune.lumaVisibilityThreshold, 0, 1);
-
-      projectionGradientSource.setEffects({
-        projectionIntensity: tune.projectionIntensity,
-        reflectionGain: tune.reflectionGain,
-        highlightBoost: tune.highlightBoost,
-        lumaVisibilityThreshold: tune.lumaVisibilityThreshold,
-        invertColor: tune.invertColor,
-        halftone: tune.halftone,
-        toneCut: tune.toneCut,
-      });
+      return shader;
     }
 
-    syncProjectionFxFromTune();
+    const vs = createShader(gl, gl.VERTEX_SHADER, vsSource);
+    const fs = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
+    if (!vs || !fs) {
+      preloader.remove();
+      initLiquidGlass();
+      return;
+    }
 
-    let isZooming = false;
-    let zoomProgress = 0;
+    const program = gl.createProgram();
+    gl.attachShader(program, vs);
+    gl.attachShader(program, fs);
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+      console.error('Program link error:', gl.getProgramInfoLog(program));
+      preloader.remove();
+      initLiquidGlass();
+      return;
+    }
 
+    const uTime = gl.getUniformLocation(program, 'uTime');
+    const uResolution = gl.getUniformLocation(program, 'uResolution');
+    const uMouse = gl.getUniformLocation(program, 'uMouse');
+    const uSpeedMultiplier = gl.getUniformLocation(program, 'uSpeedMultiplier');
+
+    const positions = new Float32Array([
+      -1, -1,
+       1, -1,
+      -1, 1,
+       1, 1,
+    ]);
+    const positionBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
+
+    const mouse = { x: 0.5, y: 0.5, targetX: 0.5, targetY: 0.5 };
+    window.addEventListener('mousemove', (e) => {
+      mouse.targetX = e.clientX / window.innerWidth;
+      mouse.targetY = 1.0 - e.clientY / window.innerHeight;
+    }, { passive: true });
+
+    let speed = 1.0;
+    let speedTarget = 1.0;
+    let startTime = Date.now();
+    let isExiting = false;
     let rafId = null;
-    function animate() {
-      rafId = requestAnimationFrame(animate);
-      const t = performance.now() * 0.001;
-      
-      screenGradientSource.render(renderer, t);
-      projectionGradientSource.render(renderer, t);
-      syncProjectionFxFromTune();
 
-      // Camera zoom animation
-      if (isZooming) {
-        zoomProgress += 0.012; // Zoom speed
-        if (zoomProgress > 1) zoomProgress = 1;
-        
-        // Cubic easing
-        const f = zoomProgress < 0.5 
-          ? 4 * zoomProgress * zoomProgress * zoomProgress 
-          : 1 - Math.pow(-2 * zoomProgress + 2, 3) / 2;
-        
-        camera.position.x = 0;
-        camera.position.y = 1.2 + (1.0 - 1.2) * f;
-        camera.position.z = 5.5 + (2.05 - 5.5) * f;
-        camera.lookAt(0, 1.0 - 0.2 * (1 - f), 0.5 * f);
-        
-        // Intensify glow
-        tune.projectionIntensity = 1.64 + 6.0 * f;
-        tune.reflectionGain = 1.0 + 3.0 * f;
-        tune.blurRadiusPx = 64 + 64 * f;
-        
-        // Fade out overlay
-        const overlay = document.getElementById('preloader-overlay');
-        if (overlay) overlay.style.opacity = (1 - f).toString();
-        
-        if (zoomProgress >= 1) {
-          isZooming = false;
-          // Fade out the entire container
-          preloader.style.opacity = '0';
-          preloader.style.transform = 'scale(1.2) rotateX(10deg)';
+    function render() {
+      rafId = requestAnimationFrame(render);
+      const currentTime = (Date.now() - startTime) * 0.001;
+
+      mouse.x += (mouse.targetX - mouse.x) * 0.05;
+      mouse.y += (mouse.targetY - mouse.y) * 0.05;
+      speed += (speedTarget - speed) * 0.08;
+
+      gl.clearColor(0.0, 0.0, 0.0, 1.0);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.useProgram(program);
+
+      gl.uniform1f(uTime, currentTime);
+      gl.uniform2f(uResolution, canvas.width, canvas.height);
+      gl.uniform2f(uMouse, mouse.x, mouse.y);
+      gl.uniform1f(uSpeedMultiplier, speed);
+
+      const positionLocation = gl.getAttribLocation(program, 'position');
+      gl.enableVertexAttribArray(positionLocation);
+      gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+      gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    }
+    render();
+
+    // Elements animations
+    const title = document.getElementById('preloader-title');
+    const item1 = document.getElementById('preloader-item-1');
+    const item2 = document.getElementById('preloader-item-2');
+    const item3 = document.getElementById('preloader-item-3');
+    const progressBox = document.getElementById('preloader-progress-box');
+    const bar = document.getElementById('preloader-bar');
+    const pct = document.getElementById('preloader-pct');
+
+    // Sequential text reveal
+    setTimeout(() => {
+      if (title) {
+        title.classList.remove('opacity-0', 'translate-y-4');
+        title.classList.add('opacity-100', 'translate-y-0');
+      }
+    }, 100);
+
+    setTimeout(() => {
+      if (item1) {
+        item1.classList.remove('opacity-0', 'translate-x-4');
+        item1.classList.add('opacity-100', 'translate-x-0');
+      }
+    }, 500);
+
+    setTimeout(() => {
+      if (item2) {
+        item2.classList.remove('opacity-0', 'translate-x-4');
+        item2.classList.add('opacity-100', 'translate-x-0');
+      }
+    }, 850);
+
+    setTimeout(() => {
+      if (item3) {
+        item3.classList.remove('opacity-0', 'translate-x-4');
+        item3.classList.add('opacity-100', 'translate-x-0');
+      }
+    }, 1200);
+
+    setTimeout(() => {
+      if (progressBox) {
+        progressBox.classList.remove('opacity-0');
+        progressBox.classList.add('opacity-100');
+        startProgressBar();
+      }
+    }, 300);
+
+    function finishPreloader() {
+      if (isExiting) return;
+      isExiting = true;
+
+      // Spin crystal super fast!
+      speedTarget = 12.0;
+
+      // Visual effects for title
+      if (title) {
+        title.style.filter = 'drop-shadow(0 2px 18px rgba(0,0,0,0.85)) drop-shadow(0 0 80px rgba(255,255,255,0.60))';
+        title.style.transform = 'scale(1.03)';
+        title.style.transition = 'all 0.5s ease-out';
+      }
+
+      // Fade out preloader container
+      setTimeout(() => {
+        preloader.style.opacity = '0';
+        preloader.style.transform = 'scale(1.04)';
+        preloader.style.filter = 'blur(8px)';
+
+        setTimeout(() => {
+          cancelAnimationFrame(rafId);
+          gl.deleteProgram(program);
+          gl.deleteShader(vs);
+          gl.deleteShader(fs);
+          gl.deleteBuffer(positionBuffer);
+          preloader.remove();
+          sessionStorage.setItem('site_booted', 'true');
+          initLiquidGlass();
+        }, 800);
+      }, 300);
+    }
+
+    function startProgressBar() {
+      let progress = 0;
+      function update() {
+        if (progress < 100) {
+          progress += Math.floor(Math.random() * 3) + 1;
+          if (progress > 100) progress = 100;
+          if (bar) bar.style.width = progress + '%';
+          if (pct) pct.textContent = progress + '%';
+          setTimeout(update, 20 + Math.random() * 35);
+        } else {
+          // Progress complete, fade out progress bar and fade out preloader automatically
           setTimeout(() => {
-            preloader.remove();
-            sessionStorage.setItem('site_booted', 'true');
-            // Clean up Three.js
-            cancelAnimationFrame(rafId);
-            screenGradientSource.dispose();
-            projectionGradientSource.dispose();
-            floorKeyboardMat.dispose();
-            floorMesh.geometry.dispose();
-            bezelMat.dispose();
-            bezelGroup.traverse(child => {
-              if (child instanceof THREE.Mesh) child.geometry.dispose();
-            });
-            renderer.dispose();
-            
-            // Launch Liquid Glass in YouTube section!
-            initLiquidGlass();
-          }, 1000);
+            if (progressBox) {
+              progressBox.classList.add('opacity-0', 'scale-95');
+            }
+            setTimeout(finishPreloader, 400);
+          }, 400);
         }
       }
-
-      composer.render();
+      update();
     }
-    animate();
-
-    function onResize() {
-      const width = window.innerWidth;
-      const height = window.innerHeight;
-      camera.aspect = width / height;
-      camera.updateProjectionMatrix();
-      renderer.setSize(width, height);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      composer.setSize(width, height);
-    }
-    window.addEventListener("resize", onResize);
 
     window.addEventListener("beforeunload", () => {
       cancelAnimationFrame(rafId);
-      screenGradientSource.dispose();
-      projectionGradientSource.dispose();
-      floorKeyboardMat.dispose();
-      floorMesh.geometry.dispose();
-      bezelMat.dispose();
-      renderer.dispose();
     });
   })();
 </script>
@@ -1506,5 +1553,6 @@ const <span class="text-amber">stack</span> = [
       <a href="dev.html" class="px-4 py-2 rounded-full transition-all duration-300 text-white/60 hover:text-white">КОД</a>
     </nav>
   </div>
-</body>
-</html>
+
+
+</body></html>
