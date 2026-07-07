@@ -63,6 +63,65 @@
   --blur-val: 5px;
 }
 
+/* Статус-бейдж «Принимаю заказы» */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid color-mix(in srgb, var(--gold) 35%, transparent);
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--gold) 8%, transparent);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+  transition: background-color .3s ease, border-color .3s ease;
+}
+.status-badge:hover {
+  background: color-mix(in srgb, var(--gold) 16%, transparent);
+  border-color: color-mix(in srgb, var(--gold) 60%, transparent);
+}
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: var(--gold);
+  animation: status-pulse 2s ease-in-out infinite;
+}
+@keyframes status-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 color-mix(in srgb, var(--gold) 45%, transparent); }
+  50% { opacity: .6; box-shadow: 0 0 0 5px transparent; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .status-dot { animation: none; }
+}
+
+/* Теги-пилюли секций */
+.section-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.section-tag {
+  padding: 0.3rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 9999px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--smoke);
+  transition: color .3s ease, border-color .3s ease, background-color .3s ease;
+}
+.section-tag:hover {
+  color: var(--gold);
+  border-color: color-mix(in srgb, var(--gold) 45%, transparent);
+  background: color-mix(in srgb, var(--gold) 6%, transparent);
+}
+
 /* Аватарки в отзывах */
 .t-avatar {
   background-color: color-mix(in srgb, var(--gold) 25%, transparent);
@@ -884,7 +943,11 @@ svg .delay-75 {
     <div class="md:col-span-9 grid md:grid-cols-12 gap-8 md:gap-12 items-center">
       <!-- Text -->
       <div class="md:col-span-6">
-        <h1 class="display text-[8vw] md:text-[clamp(2.2rem,3.5vw,3.4rem)] leading-[1.05] reveal">
+        <a href="https://t.me/pythonvoin" target="_blank" rel="noopener" class="status-badge reveal" aria-label="Написать в Telegram — принимаю заказы">
+          <span class="status-dot" aria-hidden="true"></span>
+          Принимаю заказы
+        </a>
+        <h1 class="display text-[8vw] md:text-[clamp(2.2rem,3.5vw,3.4rem)] leading-[1.05] reveal mt-5">
           Дизайн, который <span class="display-italic text-gold">кликают</span>, а не листают мимо.
         </h1>
 
@@ -1118,7 +1181,7 @@ svg .delay-75 {
         с первого взгляда.
       </h2>
       <p class="text-smoke text-sm md:text-base leading-relaxed">
-        Делаю карточки для маркетплейсов так, чтобы товар выглядел дор��же: крупный герой-продукт, понятные выгоды, аккуратная инфографика и стиль, который выделяет позицию среди одинаковых предложений.
+        Делаю карточки для маркетплейсов так, чтобы товар выглядел дороже: крупный герой-продукт, понятные выгоды, аккуратная инфографика и стиль, который выделяет позицию среди одинаковых предложений.
       </p>
       <div class="mt-7 grid grid-cols-3 gap-3 text-center">
         <div class="group border border-white/10 bg-white/5 backdrop-blur-md px-3 py-4 rounded-xl transition-all duration-500 hover:border-gold/40 hover:bg-gold/5 hover:shadow-[0_8px_25px_rgba(212,175,55,0.15)] hover:-translate-y-1 cursor-pointer">
@@ -1194,6 +1257,12 @@ svg .delay-75 {
       <div>
         <div class="text-xs uppercase tracking-[0.25em] text-smoke mb-3">— Превью YouTube</div>
         <h2 class="display text-5xl md:text-7xl">Превью</h2>
+        <div class="section-tags">
+          <span class="section-tag">YouTube</span>
+          <span class="section-tag">Обложки видео</span>
+          <span class="section-tag">CTR</span>
+          <span class="section-tag">Упаковка канала</span>
+        </div>
       </div>
       <div class="hidden md:block text-sm">
         <span class="text-smoke">от</span> <span class="font-mono text-ink text-xl">1000 ₽</span>
@@ -1213,6 +1282,12 @@ svg .delay-75 {
       <div>
         <div class="text-xs uppercase tracking-[0.25em] text-smoke mb-3">— Оформление каналов и пабликов в соцсетях</div>
         <h2 class="display text-5xl md:text-7xl">Дизайн соцсетей</h2>
+        <div class="section-tags">
+          <span class="section-tag">Telegram</span>
+          <span class="section-tag">VK</span>
+          <span class="section-tag">Шапки каналов</span>
+          <span class="section-tag">Посты</span>
+        </div>
       </div>
       <div class="hidden md:block text-sm">
         <span class="text-smoke">от</span> <span class="font-mono text-ink text-xl">800 ₽</span>
@@ -1244,6 +1319,11 @@ svg .delay-75 {
       <div>
         <div class="text-xs uppercase tracking-[0.25em] text-smoke mb-3">— Логотипы и брендинг</div>
         <h2 class="display text-5xl md:text-7xl">Логотипы</h2>
+        <div class="section-tags">
+          <span class="section-tag">Айдентика</span>
+          <span class="section-tag">Знак</span>
+          <span class="section-tag">Фирменный стиль</span>
+        </div>
       </div>
       <div class="hidden md:block text-sm">
         <span class="text-smoke">от</span> <span class="font-mono text-ink text-xl">3 000 ₽</span>
@@ -1267,6 +1347,11 @@ svg .delay-75 {
       <div>
         <div class="text-xs uppercase tracking-[0.25em] text-smoke mb-3">— Карточки товаров</div>
         <h2 class="display text-5xl md:text-7xl">Маркетплейсы</h2>
+        <div class="section-tags">
+          <span class="section-tag">Wildberries</span>
+          <span class="section-tag">Ozon</span>
+          <span class="section-tag">Инфографика</span>
+        </div>
       </div>
       <div class="hidden md:block text-sm">
         <span class="text-smoke">от</span> <span class="font-mono text-ink text-xl">700 ₽</span>
@@ -1285,7 +1370,7 @@ svg .delay-75 {
     <div class="text-center mb-14 reveal">
       <div class="text-xs uppercase tracking-[0.25em] text-smoke mb-3">— Отзывы</div>
       <h2 class="display text-5xl md:text-7xl">Что говорят клиенты</h2>
-      <p class="mt-5 text-smoke max-w-xl mx-auto text-pretty">Отзывы тех, для кого я уже делал дизайн. Нажмите на автора, чтобы написать мне в Telegram.</p>
+      <p class="mt-5 text-smoke max-w-xl mx-auto text-pretty">Отзывы тех, для кого я уже делал дизайн.</p>
     </div>
 
     <div class="grid md:grid-cols-3 gap-6">
