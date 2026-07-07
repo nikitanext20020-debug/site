@@ -33,33 +33,13 @@
 <meta name="twitter:image:height" content="630">
 <meta name="twitter:image:alt" content="Дизайн для YouTube-канала и карточек товаров — Nik">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700;9..144,900&amp;family=Inter:wght@300;400;500;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Bebas+Neue&amp;family=DM+Mono:wght@300;400&amp;display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700;9..144,900&amp;family=Inter:wght@300;400;500;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Bebas+Neue&amp;family=DM+Mono:wght@300;400&amp;display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700;9..144,900&amp;family=Inter:wght@300;400;500;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Bebas+Neue&amp;family=DM+Mono:wght@300;400&amp;display=swap"></noscript>
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config={
-  darkMode: 'class',
-  theme:{extend:{
-    fontFamily:{
-      serif:['"Fraunces"','serif'],
-      sans:['"Inter"','sans-serif'],
-      mono:['"JetBrains Mono"','monospace'],
-      display:['"Bebas Neue"','sans-serif'],
-      dmmono:['"DM Mono"','monospace']
-    },
-    colors:{
-      paper:'var(--paper)',
-      ink:'var(--ink)',
-      smoke:'var(--smoke)',
-      line:'var(--line)',
-      olive:'var(--olive)',
-      gold:'var(--gold)',
-      cream:'var(--cream)'
-    }
-  }}
-}
-</script>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="image" href="images/design/webp/hero-bg.webp" fetchpriority="high">
+<link rel="preload" as="image" href="images/design/webp/yt-preview-1.webp">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700&amp;family=Inter:wght@300;400;500;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700&amp;family=Inter:wght@300;400;500;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700&amp;family=Inter:wght@300;400;500;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"></noscript>
+<link rel="stylesheet" href="css/design.css">
 <style>
 :root {
   /* Фон секций — полупрозрачный */
@@ -150,7 +130,7 @@ section {
   right: 2.5rem;
   z-index: 40;
   text-align: right;
-  font-family: 'DM Mono', monospace;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 0.65rem;
   letter-spacing: 0.15em;
   color: var(--smoke);
@@ -178,7 +158,7 @@ section {
 }
 
 #hud .scene-label {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 0.8rem;
   letter-spacing: 0.05em;
   color: var(--gold);
@@ -973,9 +953,9 @@ svg .delay-75 {
             <div class="showcase-layer showcase-youtube active flex items-center justify-center bg-[#FAF7F2] p-0 overflow-hidden">
               <div class="blueprint-grid opacity-15 absolute inset-0"></div>
               <div class="relative w-full h-full flex items-center justify-center select-none">
-                <img src="https://i.ibb.co/rGXrG7cf/imgi-143-b9f790244922525-69a1cf2c177de.jpg" data-lb="https://i.ibb.co/rGXrG7cf/imgi-143-b9f790244922525-69a1cf2c177de.jpg" data-lb-caption="Прейвю YouTube" class="showcase-slide slide-active object-cover shadow-2xl border border-line rounded-lg">
-                <img src="https://i.ibb.co/0yT0ZDhT/imgi-38-ebcf5b244922525-69a1cf285e209.jpg" data-lb="https://i.ibb.co/0yT0ZDhT/imgi-38-ebcf5b244922525-69a1cf285e209.jpg" data-lb-caption="Прейвю YouTube" class="showcase-slide object-cover shadow-2xl border border-line rounded-lg">
-                <img src="https://i.ibb.co/tpr1fRjB/imgi-39-d7422e244922525-69a1cf285e97d.jpg" data-lb="https://i.ibb.co/tpr1fRjB/imgi-39-d7422e244922525-69a1cf285e97d.jpg" data-lb-caption="Прейвю YouTube" class="showcase-slide object-cover shadow-2xl border border-line rounded-lg">
+                <img fetchpriority="high" decoding="async" src="images/design/webp/yt-preview-1.webp" data-lb="images/design/webp/yt-preview-1.webp" data-lb-caption="Прейвю YouTube" class="showcase-slide slide-active object-cover shadow-2xl border border-line rounded-lg">
+                <img loading="lazy" decoding="async" src="images/design/webp/yt-preview-2.webp" data-lb="images/design/webp/yt-preview-2.webp" data-lb-caption="Прейвю YouTube" class="showcase-slide object-cover shadow-2xl border border-line rounded-lg">
+                <img loading="lazy" decoding="async" src="images/design/webp/yt-preview-3.webp" data-lb="images/design/webp/yt-preview-3.webp" data-lb-caption="Прейвю YouTube" class="showcase-slide object-cover shadow-2xl border border-line rounded-lg">
               </div>
             </div>
 
@@ -983,8 +963,8 @@ svg .delay-75 {
             <div class="showcase-layer showcase-banner flex items-center justify-center bg-[#FAF7F2] p-0 overflow-hidden">
               <div class="blueprint-grid opacity-15 absolute inset-0"></div>
               <div class="relative w-full h-full flex items-center justify-center select-none">
-                <img src="images/design/banners/загруженное%20(1).png" data-lb="images/design/banners/загруженное%20(1).png" data-lb-caption="Баннер" class="showcase-slide slide-active object-cover shadow-2xl border border-line rounded-lg">
-                <img src="images/design/banners/загруженное%20(2).png" data-lb="images/design/banners/загруженное%20(2).png" data-lb-caption="Баннер" class="showcase-slide object-cover shadow-2xl border border-line rounded-lg">
+                <img loading="lazy" decoding="async" src="images/design/webp/banner-1.webp" data-lb="images/design/webp/banner-1.webp" data-lb-caption="Баннер" class="showcase-slide slide-active object-cover shadow-2xl border border-line rounded-lg">
+                <img loading="lazy" decoding="async" src="images/design/webp/banner-2.webp" data-lb="images/design/webp/banner-2.webp" data-lb-caption="Баннер" class="showcase-slide object-cover shadow-2xl border border-line rounded-lg">
               </div>
             </div>
 
@@ -992,9 +972,9 @@ svg .delay-75 {
             <div class="showcase-layer showcase-cards flex items-center justify-center bg-[#FAF7F2] p-0 overflow-hidden">
               <div class="blueprint-grid opacity-15 absolute inset-0"></div>
               <div class="relative w-full h-full flex items-center justify-center select-none">
-                <img src="images/design/cards/загруженное.jfif" data-lb="images/design/cards/загруженное.jfif" data-lb-caption="Карточка товара" class="showcase-slide slide-active object-cover shadow-2xl border border-line rounded-lg">
-                <img src="images/design/cards/загруженное%20(4).jfif" data-lb="images/design/cards/загруженное%20(4).jfif" data-lb-caption="Карточка товара" class="showcase-slide object-cover shadow-2xl border border-line rounded-lg">
-                <img src="images/design/cards/card_3.jpg" data-lb="images/design/cards/card_3.jpg" data-lb-caption="Карточка товара" class="showcase-slide object-cover shadow-2xl border border-line rounded-lg">
+                <img loading="lazy" decoding="async" src="images/design/webp/card-1.webp" data-lb="images/design/webp/card-1.webp" data-lb-caption="Карточка товара" class="showcase-slide slide-active object-cover shadow-2xl border border-line rounded-lg">
+                <img loading="lazy" decoding="async" src="images/design/webp/card-2.webp" data-lb="images/design/webp/card-2.webp" data-lb-caption="Карточка товара" class="showcase-slide object-cover shadow-2xl border border-line rounded-lg">
+                <img loading="lazy" decoding="async" src="images/design/webp/card-3.webp" data-lb="images/design/webp/card-3.webp" data-lb-caption="Карточка товара" class="showcase-slide object-cover shadow-2xl border border-line rounded-lg">
               </div>
             </div>
 
@@ -1002,8 +982,8 @@ svg .delay-75 {
             <div class="showcase-layer showcase-socials flex items-center justify-center bg-[#FAF7F2] p-0 overflow-hidden">
               <div class="blueprint-grid opacity-15 absolute inset-0"></div>
               <div class="relative w-full h-full flex items-center justify-center select-none">
-                <img src="https://i.ibb.co/VpHQX7zV/imgi-43-0ed169244922525-69a1cf299ce4d.jpg" data-lb="https://i.ibb.co/VpHQX7zV/imgi-43-0ed169244922525-69a1cf299ce4d.jpg" data-lb-caption="Оформление соцсетей" class="showcase-slide slide-active object-cover shadow-2xl border border-line rounded-lg">
-                <img src="https://i.ibb.co/vCVrVXG1/imgi-45-adeff4244922525-69a1cf2b3855b.jpg" data-lb="https://i.ibb.co/vCVrVXG1/imgi-45-adeff4244922525-69a1cf2b3855b.jpg" data-lb-caption="Оформление соцсетей" class="showcase-slide object-cover shadow-2xl border border-line rounded-lg">
+                <img loading="lazy" decoding="async" src="images/design/webp/social-1.webp" data-lb="images/design/webp/social-1.webp" data-lb-caption="Оформление соцсетей" class="showcase-slide slide-active object-cover shadow-2xl border border-line rounded-lg">
+                <img loading="lazy" decoding="async" src="images/design/webp/social-2.webp" data-lb="images/design/webp/social-2.webp" data-lb-caption="Оформление соцсетей" class="showcase-slide object-cover shadow-2xl border border-line rounded-lg">
               </div>
             </div>
 
@@ -1011,9 +991,9 @@ svg .delay-75 {
             <div class="showcase-layer showcase-logos flex items-center justify-center bg-[#FAF7F2] p-0 overflow-hidden">
               <div class="blueprint-grid opacity-15 absolute inset-0"></div>
               <div class="relative w-full h-full flex items-center justify-center select-none">
-                <img src="images/design/logos/Screenshot_20.jpg" data-lb="images/design/logos/Screenshot_20.jpg" data-lb-caption="Логотип" class="showcase-slide slide-active object-cover shadow-2xl border border-line rounded-lg">
-                <img src="images/design/logos/Screenshot_21.jpg" data-lb="images/design/logos/Screenshot_21.jpg" data-lb-caption="Логотип" class="showcase-slide object-cover shadow-2xl border border-line rounded-lg">
-                <img src="images/design/logos/Screenshot_22.jpg" data-lb="images/design/logos/Screenshot_22.jpg" data-lb-caption="Логотип" class="showcase-slide object-cover shadow-2xl border border-line rounded-lg">
+                <img loading="lazy" decoding="async" src="images/design/webp/logo-1.webp" data-lb="images/design/webp/logo-1.webp" data-lb-caption="Логотип" class="showcase-slide slide-active object-cover shadow-2xl border border-line rounded-lg">
+                <img loading="lazy" decoding="async" src="images/design/webp/logo-2.webp" data-lb="images/design/webp/logo-2.webp" data-lb-caption="Логотип" class="showcase-slide object-cover shadow-2xl border border-line rounded-lg">
+                <img loading="lazy" decoding="async" src="images/design/webp/logo-3.webp" data-lb="images/design/webp/logo-3.webp" data-lb-caption="Логотип" class="showcase-slide object-cover shadow-2xl border border-line rounded-lg">
               </div>
             </div>
 
@@ -1126,7 +1106,7 @@ svg .delay-75 {
         с первого взгляда.
       </h2>
       <p class="text-smoke text-sm md:text-base leading-relaxed" style="color: rgb(144, 192, 254);">
-        Делаю карточки для маркетплейсов так, чтобы товар выглядел дороже: крупный герой-продукт, понятные выгоды, аккуратная инфографика и стиль, который выделяет позицию среди одинаковых предложений.
+        Делаю карточки для маркетплейсов так, чтобы товар выглядел дороже: крупный герой-продукт, понятные ��ыгоды, аккуратная инфографика и стиль, который выделяет позицию среди одинаковых предложений.
       </p>
       <div class="mt-7 grid grid-cols-3 gap-3 text-center">
         <div class="group border border-white/10 bg-white/5 backdrop-blur-md px-3 py-4 rounded-xl transition-all duration-500 hover:border-gold/40 hover:bg-gold/5 hover:shadow-[0_8px_25px_rgba(212,175,55,0.15)] hover:-translate-y-1 cursor-pointer">
@@ -1144,7 +1124,7 @@ svg .delay-75 {
       </div>
     </div>
     <div class="md:col-span-7 w-full min-h-[430px] md:min-h-[520px] relative overflow-hidden rounded-2xl border border-white/10 bg-black/40 backdrop-blur-xl shadow-[0_24px_50px_rgba(0,0,0,0.6)] reveal reveal-delay-1">
-      <img src="mqlrlqk2-generation-4e805e71-4c30-41ea-959e-23677fc6c728.png" alt="Никита на фоне луны" class="absolute inset-0 w-full h-full object-cover opacity-40">
+      <img fetchpriority="high" decoding="async" src="images/design/webp/hero-bg.webp" width="1600" height="1155" alt="Никита на фоне луны" class="absolute inset-0 w-full h-full object-cover opacity-40">
       <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-black/65 to-transparent"></div>
       <div class="absolute inset-0 bg-[radial-gradient(circle_at_76%_22%,rgba(212,175,55,0.22),transparent_40%)]"></div>
 
@@ -1162,21 +1142,21 @@ svg .delay-75 {
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
           <figure class="group relative overflow-hidden rounded-xl border border-white/10 bg-black/60 p-2 shadow-xl hover:-translate-y-2 card-shimmer hover-gold-glow cursor-pointer transition-all duration-500">
-            <img src="images/design/photo nikita/Screenshot_20.jpg" alt="Пример карточки товара с микрофоном" class="aspect-[4/5] w-full object-cover rounded-lg transition duration-500 group-hover:scale-[1.05] group-hover:brightness-110">
+            <img loading="lazy" decoding="async" src="images/design/webp/work-1.webp" alt="Пример карточки товара с микрофоном" class="aspect-[4/5] w-full object-cover rounded-lg transition duration-500 group-hover:scale-[1.05] group-hover:brightness-110">
             <figcaption class="mt-3 flex items-start justify-between gap-3 text-white/90">
               <span class="text-xs leading-snug group-hover:text-gold transition duration-300">Крупный товар и ясный заголовок</span>
               <span class="font-mono text-gold/80 group-hover:text-gold text-xs transition duration-300">01</span>
             </figcaption>
           </figure>
           <figure class="group relative overflow-hidden rounded-xl border border-white/10 bg-black/60 p-2 shadow-xl sm:translate-y-6 hover:-translate-y-2 sm:hover:translate-y-4 card-shimmer hover-gold-glow cursor-pointer transition-all duration-500">
-            <img src="images/design/photo nikita/Screenshot_7.jpg" alt="Пример карточки товара с преимуществами" class="aspect-[4/5] w-full object-cover rounded-lg transition duration-500 group-hover:scale-[1.05] group-hover:brightness-110">
+            <img loading="lazy" decoding="async" src="images/design/webp/work-2.webp" alt="Пример карточки товара с преимуществами" class="aspect-[4/5] w-full object-cover rounded-lg transition duration-500 group-hover:scale-[1.05] group-hover:brightness-110">
             <figcaption class="mt-3 flex items-start justify-between gap-3 text-white/90">
               <span class="text-xs leading-snug group-hover:text-gold transition duration-300">Преимущества читаются быстро</span>
               <span class="font-mono text-gold/80 group-hover:text-gold text-xs transition duration-300">02</span>
             </figcaption>
           </figure>
           <figure class="group relative overflow-hidden rounded-xl border border-white/10 bg-black/60 p-2 shadow-xl hover:-translate-y-2 card-shimmer hover-gold-glow cursor-pointer transition-all duration-500">
-            <img src="images/design/photo nikita/Screenshot_8.jpg" alt="Пример карточки товара с визуальным акцентом" class="aspect-[4/5] w-full object-cover rounded-lg transition duration-500 group-hover:scale-[1.05] group-hover:brightness-110">
+            <img loading="lazy" decoding="async" src="images/design/webp/work-3.webp" alt="Пример карточки товара с визуальным акцентом" class="aspect-[4/5] w-full object-cover rounded-lg transition duration-500 group-hover:scale-[1.05] group-hover:brightness-110">
             <figcaption class="mt-3 flex items-start justify-between gap-3 text-white/90">
               <span class="text-xs leading-snug group-hover:text-gold transition duration-300">Акцент помогает выделиться</span>
               <span class="font-mono text-gold/80 group-hover:text-gold text-xs transition duration-300">03</span>
@@ -1295,7 +1275,7 @@ svg .delay-75 {
       Сотрудничаем по оформлению карточек товаров для Wildberries и Ozon. Никита сделал нам инфографику для новой линейки косметики. Карточки выглядят дорого и стильно, сразу выделились среди конкурентов. CTR вырос, а реальные продажи пошли вверх с первых же дней запуска рекламы. Спасибо за крутой дизайн и соблюдение сроков!
     </blockquote>
     <div class="mt-10 flex items-center gap-4">
-      <div class="w-10 h-10 rounded-full bg-gold/30 flex items-center justify-center font-display text-gold text-lg font-bold">К</div>
+      <div class="w-10 h-10 rounded-full bg-gold/30 flex items-center justify-center font-serif text-gold text-lg font-bold">К</div>
       <div>
         <div class="font-medium text-ink">Кристина</div>
         <div class="text-sm text-smoke">Селлер Wildberries &amp; Ozon (Линейка косметики)</div>
@@ -1582,7 +1562,7 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
       const youtubeContainer = document.querySelector('.showcase-youtube .relative');
       if (youtubeContainer && previewItems.length > 0) {
         youtubeContainer.innerHTML = previewItems.map((item, idx) => `
-          <img src="${item.image}" data-lb="${item.image}" data-lb-caption="${item.caption || 'Прейвю YouTube'}" class="showcase-slide ${idx === 0 ? 'slide-active' : ''} object-cover shadow-2xl border border-line rounded-lg">
+          <img loading="lazy" decoding="async" src="${item.image}" data-lb="${item.image}" data-lb-caption="${item.caption || 'Прейвю YouTube'}" class="showcase-slide ${idx === 0 ? 'slide-active' : ''} object-cover shadow-2xl border border-line rounded-lg">
         `).join('');
       }
 
@@ -1590,7 +1570,7 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
       const bannerContainer = document.querySelector('.showcase-banner .relative');
       if (bannerContainer && bannerItems.length > 0) {
         bannerContainer.innerHTML = bannerItems.map((item, idx) => `
-          <img src="${item.image}" data-lb="${item.image}" data-lb-caption="${item.caption || 'Баннер'}" class="showcase-slide ${idx === 0 ? 'slide-active' : ''} object-cover shadow-2xl border border-line rounded-lg">
+          <img loading="lazy" decoding="async" src="${item.image}" data-lb="${item.image}" data-lb-caption="${item.caption || 'Баннер'}" class="showcase-slide ${idx === 0 ? 'slide-active' : ''} object-cover shadow-2xl border border-line rounded-lg">
         `).join('');
       }
 
@@ -1598,7 +1578,7 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
       const cardsContainer = document.querySelector('.showcase-cards .relative');
       if (cardsContainer && cardsItems.length > 0) {
         cardsContainer.innerHTML = cardsItems.map((item, idx) => `
-          <img src="${item.image}" data-lb="${item.image}" data-lb-caption="${item.caption || 'Карточка товара'}" class="showcase-slide ${idx === 0 ? 'slide-active' : ''} object-cover shadow-2xl border border-line rounded-lg">
+          <img loading="lazy" decoding="async" src="${item.image}" data-lb="${item.image}" data-lb-caption="${item.caption || 'Карточка товара'}" class="showcase-slide ${idx === 0 ? 'slide-active' : ''} object-cover shadow-2xl border border-line rounded-lg">
         `).join('');
       }
 
@@ -1606,7 +1586,7 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
       const logosContainer = document.querySelector('.showcase-logos .relative');
       if (logosContainer && logosItems.length > 0) {
         logosContainer.innerHTML = logosItems.map((item, idx) => `
-          <img src="${item.image}" data-lb="${item.image}" data-lb-caption="${item.caption || 'Логотип'}" class="showcase-slide ${idx === 0 ? 'slide-active' : ''} object-cover shadow-2xl border border-line rounded-lg">
+          <img loading="lazy" decoding="async" src="${item.image}" data-lb="${item.image}" data-lb-caption="${item.caption || 'Логотип'}" class="showcase-slide ${idx === 0 ? 'slide-active' : ''} object-cover shadow-2xl border border-line rounded-lg">
         `).join('');
       }
     }
