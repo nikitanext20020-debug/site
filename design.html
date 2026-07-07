@@ -63,6 +63,19 @@
   --blur-val: 5px;
 }
 
+/* Аватарки в отзывах */
+.t-avatar {
+  background-color: color-mix(in srgb, var(--gold) 25%, transparent);
+  transition: background-color .25s ease, color .25s ease;
+}
+.t-avatar--olive {
+  background-color: color-mix(in srgb, var(--olive) 30%, transparent);
+}
+.group:hover .t-avatar {
+  background-color: var(--gold);
+  color: var(--html-bg);
+}
+
 html {
   scroll-behavior: smooth;
   background-color: var(--html-bg);
@@ -1105,7 +1118,7 @@ svg .delay-75 {
         с первого взгляда.
       </h2>
       <p class="text-smoke text-sm md:text-base leading-relaxed">
-        Делаю карточки для маркетплейсов так, чтобы товар выглядел дороже: крупный герой-продукт, понятные выгоды, аккуратная инфографика и стиль, который выделяет позицию среди одинаковых предложений.
+        Делаю карточки для маркетплейсов так, чтобы товар выглядел дор��же: крупный герой-продукт, понятные выгоды, аккуратная инфографика и стиль, который выделяет позицию среди одинаковых предложений.
       </p>
       <div class="mt-7 grid grid-cols-3 gap-3 text-center">
         <div class="group border border-white/10 bg-white/5 backdrop-blur-md px-3 py-4 rounded-xl transition-all duration-500 hover:border-gold/40 hover:bg-gold/5 hover:shadow-[0_8px_25px_rgba(212,175,55,0.15)] hover:-translate-y-1 cursor-pointer">
@@ -1266,19 +1279,74 @@ svg .delay-75 {
   </div>
 </section>
 
-<!-- TESTIMONIAL -->
+<!-- TESTIMONIALS -->
 <section class="px-6 md:px-10 py-24 md:py-36 bg-cream/20">
-  <div class="max-w-[1100px] mx-auto reveal">
-    <div class="num-marker text-5xl mb-6">“</div>
-    <blockquote class="display text-3xl md:text-5xl leading-snug">
-      Заказывала у Никиты карточки для новой линейки косметики. Понравилось, что он сначала разобрался в продукте и посмотрел конкурентов, а уже потом сел за дизайн. Правки вносил спокойно, без споров, всё сдал в срок. Карточки в итоге заметно отличаются от соседей в выдаче — то, чего я и хотела.
-    </blockquote>
-    <div class="mt-10 flex items-center gap-4">
-      <div class="w-10 h-10 rounded-full bg-gold/30 flex items-center justify-center font-serif text-gold text-lg font-bold">К</div>
-      <div>
-        <div class="font-medium text-ink">Кристина</div>
-        <div class="text-sm text-smoke">Селлер Wildberries &amp; Ozon (Линейка косметики)</div>
+  <div class="max-w-[1400px] mx-auto">
+    <div class="text-center mb-14 reveal">
+      <div class="text-xs uppercase tracking-[0.25em] text-smoke mb-3">— Отзывы</div>
+      <h2 class="display text-5xl md:text-7xl">Что говорят клиенты</h2>
+      <p class="mt-5 text-smoke max-w-xl mx-auto text-pretty">Отзывы тех, для кого я уже делал дизайн. Нажмите на автора, чтобы написать мне в Telegram.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <div class="relative border border-line bg-paper/60 p-8 flex flex-col reveal">
+        <div class="flex items-start justify-between">
+          <div class="text-gold tracking-[0.2em] text-sm" aria-label="Оценка 5 из 5">★★★★★</div>
+          <div class="num-marker text-4xl leading-none select-none" aria-hidden="true">“</div>
+        </div>
+        <blockquote class="mt-5 text-sm md:text-base leading-relaxed text-ink flex-1">
+          Заказывала карточки для новой линейки косметики. Понравилось, что Никита сначала разобрался в продукте и посмотрел конкурентов, а уже потом сел за дизайн. Правки вносил спокойно, всё сдал в срок — карточки заметно отличаются от соседей в выдаче.
+        </blockquote>
+        <div class="mt-6 pt-6 border-t border-line">
+          <a href="https://t.me/pythonvoin" target="_blank" rel="noopener" class="flex items-center gap-4 group" aria-label="Написать Никите в Telegram">
+            <span class="t-avatar w-11 h-11 rounded-full flex items-center justify-center font-serif text-gold text-lg font-bold shrink-0">К</span>
+            <span>
+              <span class="block font-medium text-ink group-hover:text-gold transition">Кристина</span>
+              <span class="block text-xs text-smoke font-mono mt-0.5">Карточки WB &amp; Ozon · косметика</span>
+            </span>
+          </a>
+        </div>
       </div>
+
+      <div class="relative border border-line bg-paper/60 p-8 flex flex-col reveal reveal-delay-1">
+        <div class="flex items-start justify-between">
+          <div class="text-gold tracking-[0.2em] text-sm" aria-label="Оценка 5 из 5">★★★★★</div>
+          <div class="num-marker text-4xl leading-none select-none" aria-hidden="true">“</div>
+        </div>
+        <blockquote class="mt-5 text-sm md:text-base leading-relaxed text-ink flex-1">
+          Нужны были превью для канала — до этого делал сам и ролики просто тонули. Никита объяснил, почему старые обложки не работали, и предложил свои варианты. Первые же видео с новыми превью стали собирать больше кликов. Работаем дальше.
+        </blockquote>
+        <div class="mt-6 pt-6 border-t border-line">
+          <a href="https://t.me/pythonvoin" target="_blank" rel="noopener" class="flex items-center gap-4 group" aria-label="Написать Никите в Telegram">
+            <span class="t-avatar t-avatar--olive w-11 h-11 rounded-full flex items-center justify-center font-serif text-olive text-lg font-bold shrink-0">А</span>
+            <span>
+              <span class="block font-medium text-ink group-hover:text-gold transition">Артём</span>
+              <span class="block text-xs text-smoke font-mono mt-0.5">Превью для YouTube-канала</span>
+            </span>
+          </a>
+        </div>
+      </div>
+
+      <div class="relative border border-line bg-paper/60 p-8 flex flex-col reveal reveal-delay-2">
+        <div class="flex items-start justify-between">
+          <div class="text-gold tracking-[0.2em] text-sm" aria-label="Оценка 5 из 5">★★★★★</div>
+          <div class="num-marker text-4xl leading-none select-none" aria-hidden="true">“</div>
+        </div>
+        <blockquote class="mt-5 text-sm md:text-base leading-relaxed text-ink flex-1">
+          Обратилась за оформлением Telegram-канала: аватарка, обложки, шаблоны постов. Никита предложил стиль, который легко поддерживать самой, и собрал всё за несколько дней. Канал наконец выглядит цельно, подписчики это тоже отметили.
+        </blockquote>
+        <div class="mt-6 pt-6 border-t border-line">
+          <a href="https://t.me/pythonvoin" target="_blank" rel="noopener" class="flex items-center gap-4 group" aria-label="Написать Никите в Telegram">
+            <span class="t-avatar w-11 h-11 rounded-full flex items-center justify-center font-serif text-gold text-lg font-bold shrink-0">М</span>
+            <span>
+              <span class="block font-medium text-ink group-hover:text-gold transition">Мария</span>
+              <span class="block text-xs text-smoke font-mono mt-0.5">Оформление Telegram-канала</span>
+            </span>
+          </a>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
