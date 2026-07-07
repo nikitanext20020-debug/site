@@ -8,7 +8,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <meta name="description" content="Nik (@pythonvoin) — YouTube-блогер 272K подписчиков. Услуги: монтаж видео, превью, дизайн каналов, разработка сайтов.">
-<meta name="keywords" content="Nik, pythonvoin, монтаж видео, монтаж YouTube, превью, thumbnail, дизайн каналов, оформление YouTube, веб-разработка, создание сайтов, лендинг, Telegram-боты, блогер">
+<meta name="keywords" content="монтаж видео, дизайн каналов, веб-разработка, Telegram-боты, Nik">
 <meta name="author" content="Nik">
 <meta name="robots" content="index, follow">
 <meta name="yandex-verification" content="d8d03e6853e9ed00" />
@@ -481,9 +481,9 @@
   <!-- Content Overlay -->
   <div class="preloader-content space-y-6 max-w-3xl px-6">
     <!-- Big Title -->
-    <h1 class="preloader-headline uppercase opacity-0 transform translate-y-4 transition-all duration-1000" id="preloader-title" style="font-family: 'Space Grotesk', sans-serif;">
+    <div class="preloader-headline uppercase opacity-0 transform translate-y-4 transition-all duration-1000" id="preloader-title" style="font-family: 'Space Grotesk', sans-serif;">
       Nik<br>Portfolio
-    </h1>
+    </div>
     
     <!-- Sub-elements list -->
     <div class="flex justify-center">
@@ -779,7 +779,6 @@ const <span class="text-amber">stack</span> = [
     <a href="https://youtube.com/@yotubeThebadBoy" target="_blank" class="hover:text-ytred">YouTube</a>
     <a href="https://kwork.ru/user/nikitanext2002" target="_blank" class="hover:text-bone">Kwork</a>
     <a href="https://t.me/pythonvoin" class="hover:text-bone">Telegram</a>
-    <a href="admin/" class="hover:text-amber">Admin</a>
   </div>
 </footer>
 
@@ -880,7 +879,6 @@ const <span class="text-amber">stack</span> = [
             ${social.youtube ? `<a href="${social.youtube}" target="_blank" class="hover:text-ytred">YouTube</a>` : ''}
             ${social.kwork ? `<a href="${social.kwork}" target="_blank" class="hover:text-bone">Kwork</a>` : ''}
             ${data.site.telegram ? `<a href="https://t.me/${data.site.telegram.replace('@','')}" class="hover:text-bone">Telegram</a>` : ''}
-            <a href="admin/" class="hover:text-amber">Admin</a>
           </div>
         `;
       }
