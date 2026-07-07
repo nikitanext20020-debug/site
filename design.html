@@ -1748,8 +1748,6 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
 <!-- Liquid Glass Refraction Script (Trend 2026) -->
 <script type="module">
-import * as THREE from "https://unpkg.com/three@0.160.1/build/three.module.js";
-
 const MAX_DROPLETS = 40;
 const FIXED_DT_MS = 8;
 const MAX_FRAME_DT_MS = 100;
@@ -1757,7 +1755,22 @@ const MAX_CATCHUP = 6;
 
 const container = document.getElementById("liquid-glass-container");
 const app = document.getElementById("app");
-if (container && app) {
+
+/* Skip heavy WebGL on software renderers (headless/old devices) */
+window.__isSoftwareGL = window.__isSoftwareGL ?? (() => {
+  try {
+    const c = document.createElement("canvas");
+    const g = c.getContext("webgl") || c.getContext("experimental-webgl");
+    if (!g) return true;
+    const ext = g.getExtension("WEBGL_debug_renderer_info");
+    const r = ext ? String(g.getParameter(ext.UNMASKED_RENDERER_WEBGL)) : "";
+    g.getExtension("WEBGL_lose_context")?.loseContext();
+    return /swiftshader|llvmpipe|software|basic render/i.test(r);
+  } catch (e) { return false; }
+})();
+
+async function initLiquidGlass() {
+  const THREE = await import("https://unpkg.com/three@0.160.1/build/three.module.js");
   const renderer = new THREE.WebGLRenderer({ antialias: false });
   renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
   renderer.setSize(container.clientWidth, container.clientHeight);
@@ -2145,7 +2158,7 @@ if (container && app) {
     }
   }
 
-  /* ── Integration + wall constraints ─────────────────────── */
+  /* ── Integration + wall constraints ─���───────────────────── */
   function integrate() {
     for (const d of drops) {
       const sp = Math.sqrt(d.vx * d.vx + d.vy * d.vy);
@@ -2338,14 +2351,21 @@ if (container && app) {
   let last = performance.now();
   let acc = 0;
   let paused = false;
+  let inView = true;
 
   document.addEventListener("visibilitychange", () => {
     paused = document.hidden;
     if (!paused) last = performance.now();
   });
 
+  /* pause simulation when section is scrolled out of view */
+  new IntersectionObserver((entries) => {
+    inView = entries.some((e) => e.isIntersecting);
+    if (inView) last = performance.now();
+  }).observe(container);
+
   (function loop() {
-    if (paused) {
+    if (paused || !inView) {
       requestAnimationFrame(loop);
       return;
     }
@@ -2368,6 +2388,17 @@ if (container && app) {
     requestAnimationFrame(loop);
   })();
 }
+
+/* init only when the section approaches the viewport, and never on software GL */
+if (container && app && !window.__isSoftwareGL) {
+  const bootIO = new IntersectionObserver((entries, obs) => {
+    if (entries.some((e) => e.isIntersecting)) {
+      obs.disconnect();
+      initLiquidGlass();
+    }
+  }, { rootMargin: "400px" });
+  bootIO.observe(container);
+}
 </script>
 
 <!-- WebGL Background Engine & Theme Controller -->
@@ -2383,7 +2414,19 @@ if (canvas) {
     powerPreference: "high-performance"
   });
 
+  /* Skip heavy shader on software renderers (headless/old devices):
+     the page keeps its CSS background, everything stays readable */
+  let softwareGL = false;
   if (gl) {
+    try {
+      const dbg = gl.getExtension("WEBGL_debug_renderer_info");
+      const r = dbg ? String(gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL)) : "";
+      softwareGL = /swiftshader|llvmpipe|software|basic render/i.test(r);
+    } catch (e) { softwareGL = false; }
+    if (softwareGL) canvas.style.display = "none";
+  }
+
+  if (gl && !softwareGL) {
     const vs = `
     attribute vec2 a;
     void main() {
