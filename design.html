@@ -3,11 +3,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Заказать дизайн для канала и карточек товаров — Nik</title>
-<link rel="icon" href="favicon.ico" sizes="any">
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
-<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <meta name="description" content="Заказать дизайн для YouTube-канала (превью, шапки) и дизайн карточки товаров для маркетплейсов. Логотипы и оформление соцсетей.">
 <meta name="keywords" content="дизайн YouTube канала, превью, дизайн карточек товаров, оформление соцсетей, Nik">
 <meta name="author" content="Nik">
@@ -62,6 +61,78 @@
 
   --blur-base: 5px;
   --blur-val: 5px;
+}
+
+/* Статус-бейдж «Принимаю заказы» */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid color-mix(in srgb, var(--gold) 35%, transparent);
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--gold) 8%, transparent);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+  transition: background-color .3s ease, border-color .3s ease;
+}
+.status-badge:hover {
+  background: color-mix(in srgb, var(--gold) 16%, transparent);
+  border-color: color-mix(in srgb, var(--gold) 60%, transparent);
+}
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: var(--gold);
+  animation: status-pulse 2s ease-in-out infinite;
+}
+@keyframes status-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 color-mix(in srgb, var(--gold) 45%, transparent); }
+  50% { opacity: .6; box-shadow: 0 0 0 5px transparent; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .status-dot { animation: none; }
+}
+
+/* Теги-пилюли секций */
+.section-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.section-tag {
+  padding: 0.3rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 9999px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--smoke);
+  transition: color .3s ease, border-color .3s ease, background-color .3s ease;
+}
+.section-tag:hover {
+  color: var(--gold);
+  border-color: color-mix(in srgb, var(--gold) 45%, transparent);
+  background: color-mix(in srgb, var(--gold) 6%, transparent);
+}
+
+/* Аватарки в отзывах */
+.t-avatar {
+  background-color: color-mix(in srgb, var(--gold) 25%, transparent);
+  transition: background-color .25s ease, color .25s ease;
+}
+.t-avatar--olive {
+  background-color: color-mix(in srgb, var(--olive) 30%, transparent);
+}
+.group:hover .t-avatar {
+  background-color: var(--gold);
+  color: var(--html-bg);
 }
 
 html {
@@ -872,7 +943,11 @@ svg .delay-75 {
     <div class="md:col-span-9 grid md:grid-cols-12 gap-8 md:gap-12 items-center">
       <!-- Text -->
       <div class="md:col-span-6">
-        <h1 class="display text-[8vw] md:text-[clamp(2.2rem,3.5vw,3.4rem)] leading-[1.05] reveal">
+        <a href="https://t.me/pythonvoin" target="_blank" rel="noopener" class="status-badge reveal" aria-label="Написать в Telegram — принимаю заказы">
+          <span class="status-dot" aria-hidden="true"></span>
+          Принимаю заказы
+        </a>
+        <h1 class="display text-[8vw] md:text-[clamp(2.2rem,3.5vw,3.4rem)] leading-[1.05] reveal mt-5">
           Дизайн, который <span class="display-italic text-gold">кликают</span>, а не листают мимо.
         </h1>
 
@@ -953,9 +1028,9 @@ svg .delay-75 {
             <div class="showcase-layer showcase-youtube active flex items-center justify-center bg-[#FAF7F2] p-0 overflow-hidden">
               <div class="blueprint-grid opacity-15 absolute inset-0"></div>
               <div class="relative w-full h-full flex items-center justify-center select-none">
-                <img fetchpriority="high" decoding="async" src="images/design/webp/yt-preview-1.webp" data-lb="images/design/webp/yt-preview-1.webp" data-lb-caption="Прейвю YouTube" class="showcase-slide slide-active object-cover shadow-2xl border border-line rounded-lg">
-                <img loading="lazy" decoding="async" src="images/design/webp/yt-preview-2.webp" data-lb="images/design/webp/yt-preview-2.webp" data-lb-caption="Прейвю YouTube" class="showcase-slide object-cover shadow-2xl border border-line rounded-lg">
-                <img loading="lazy" decoding="async" src="images/design/webp/yt-preview-3.webp" data-lb="images/design/webp/yt-preview-3.webp" data-lb-caption="Прейвю YouTube" class="showcase-slide object-cover shadow-2xl border border-line rounded-lg">
+                <img fetchpriority="high" decoding="async" src="images/design/webp/yt-preview-1.webp" data-lb="images/design/webp/yt-preview-1.webp" data-lb-caption="Превью YouTube" class="showcase-slide slide-active object-cover shadow-2xl border border-line rounded-lg">
+                <img loading="lazy" decoding="async" src="images/design/webp/yt-preview-2.webp" data-lb="images/design/webp/yt-preview-2.webp" data-lb-caption="Превью YouTube" class="showcase-slide object-cover shadow-2xl border border-line rounded-lg">
+                <img loading="lazy" decoding="async" src="images/design/webp/yt-preview-3.webp" data-lb="images/design/webp/yt-preview-3.webp" data-lb-caption="Превью YouTube" class="showcase-slide object-cover shadow-2xl border border-line rounded-lg">
               </div>
             </div>
 
@@ -1016,7 +1091,7 @@ svg .delay-75 {
     </div>
     <div class="md:col-span-8 reveal reveal-delay-1">
       <p class="display text-3xl md:text-5xl leading-tight">
-        Я не угадываю, что “смотрится красиво” — я понимаю, как <span class="display-italic text-gold" style="font-size: 34px; color: rgb(255, 206, 46);">работает внимание</span> в ленте, на канале и внутри бренда.
+        Я не угадываю, что “смотрится красиво” — я понимаю, как <span class="display-italic text-gold">работает внимание</span> в ленте, на канале и внутри бренда.
       </p>
 
       <div class="mt-12 grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
@@ -1067,7 +1142,7 @@ svg .delay-75 {
       </div>
 
       <p class="mt-8 text-smoke text-sm md:text-base leading-relaxed max-w-3xl">
-        Поэтому я собираю не набор эффектов, а понятный визуальный крючок: что человек должен заметить первым, какую эмоцию считать и почему именно твой контент выглядит сильнее соседних вариантов.
+        Поэтому я собираю не набор эффектов, а понятный визуальный крючок: что челов��к должен заметить первым, какую эмоцию считать и почему именно твой контент выглядит сильнее соседних вариантов.
       </p>
     </div>
   </div>
@@ -1079,7 +1154,7 @@ svg .delay-75 {
     <div class="marq-track display text-5xl md:text-7xl whitespace-nowrap">
       <span>Брендинг</span><span class="display-italic text-gold">·</span>
       <span>Лендинги</span><span class="display-italic text-gold">·</span>
-      <span>Постеры</span><span class="display-italic text-gold">·</span>
+      <span>Постер��</span><span class="display-italic text-gold">·</span>
       <span>Айдентика</span><span class="display-italic text-gold">·</span>
       <span>UI&nbsp;/&nbsp;UX</span><span class="display-italic text-gold">·</span>
       <span>Соцсети</span><span class="display-italic text-gold">·</span>
@@ -1099,14 +1174,14 @@ svg .delay-75 {
 <section class="px-6 md:px-10 py-16 md:py-24 border-b border-line bg-cream/10 overflow-hidden select-none">
   <div class="max-w-[1400px] mx-auto grid md:grid-cols-12 gap-10 items-center">
     <div class="md:col-span-5 reveal">
-      <div class="text-xs uppercase tracking-[0.25em] text-smoke mb-3" style="color: rgb(205, 184, 255);">— Карточка товара</div>
+      <div class="text-xs uppercase tracking-[0.25em] text-smoke mb-3">— Карточка товара</div>
       <h2 class="display text-4xl md:text-6xl leading-tight mb-6">
         Оформление, <br>
-        которое <span class="display-italic text-gold" style="color: rgb(255, 200, 0);">продаёт </span><br>
+        которое <span class="display-italic text-gold">продаёт </span><br>
         с первого взгляда.
       </h2>
-      <p class="text-smoke text-sm md:text-base leading-relaxed" style="color: rgb(144, 192, 254);">
-        Делаю карточки для маркетплейсов так, чтобы товар выглядел дороже: крупный герой-продукт, понятные ��ыгоды, аккуратная инфографика и стиль, который выделяет позицию среди одинаковых предложений.
+      <p class="text-smoke text-sm md:text-base leading-relaxed">
+        Делаю карточки для маркетплейсов так, чтобы товар выглядел дороже: крупный герой-продукт, понятные выгоды, аккуратная инфографика и стиль, который выделяет позицию среди одинаковых предложений.
       </p>
       <div class="mt-7 grid grid-cols-3 gap-3 text-center">
         <div class="group border border-white/10 bg-white/5 backdrop-blur-md px-3 py-4 rounded-xl transition-all duration-500 hover:border-gold/40 hover:bg-gold/5 hover:shadow-[0_8px_25px_rgba(212,175,55,0.15)] hover:-translate-y-1 cursor-pointer">
@@ -1132,7 +1207,7 @@ svg .delay-75 {
         <div class="flex items-center justify-between gap-4">
           <div>
             <div class="text-[10px] md:text-xs font-mono uppercase tracking-[0.24em] text-gold">оформление товара</div>
-            <div class="display text-3xl md:text-5xl text-ink leading-none mt-2" style="font-family: &quot;Space Grotesk&quot;, Inter, system-ui, sans-serif; letter-spacing: 0.04px; font-size: 39px;">карточка, которую замечают</div>
+            <div class="display text-3xl md:text-5xl text-ink leading-none mt-2">карточка, которую замечают</div>
           </div>
           <div class="hidden sm:block border border-gold/30 bg-black/60 backdrop-blur-md px-4 py-3 text-right rounded-lg hover:border-gold/60 transition duration-300">
             <div class="font-mono text-gold text-xl">1500 ₽</div>
@@ -1182,6 +1257,12 @@ svg .delay-75 {
       <div>
         <div class="text-xs uppercase tracking-[0.25em] text-smoke mb-3">— Превью YouTube</div>
         <h2 class="display text-5xl md:text-7xl">Превью</h2>
+        <div class="section-tags">
+          <span class="section-tag">YouTube</span>
+          <span class="section-tag">Обложки видео</span>
+          <span class="section-tag">CTR</span>
+          <span class="section-tag">Упаковка канала</span>
+        </div>
       </div>
       <div class="hidden md:block text-sm">
         <span class="text-smoke">от</span> <span class="font-mono text-ink text-xl">1000 ₽</span>
@@ -1199,8 +1280,14 @@ svg .delay-75 {
   <div class="max-w-[1400px] mx-auto">
     <div class="flex items-end justify-between mb-12 reveal">
       <div>
-        <div class="text-xs uppercase tracking-[0.25em] text-smoke mb-3" style="font-size: 13px;">— Оформление каналов, ПАБЛИКОВ В СОЦ-СЕТЯХ</div>
-        <h2 class="display text-5xl md:text-7xl" style="font-size: 44px;">Дизайн соц-сетей</h2>
+        <div class="text-xs uppercase tracking-[0.25em] text-smoke mb-3">— Оформление каналов и пабликов в соцсетях</div>
+        <h2 class="display text-5xl md:text-7xl">Дизайн соцсетей</h2>
+        <div class="section-tags">
+          <span class="section-tag">Telegram</span>
+          <span class="section-tag">VK</span>
+          <span class="section-tag">Шапки каналов</span>
+          <span class="section-tag">Посты</span>
+        </div>
       </div>
       <div class="hidden md:block text-sm">
         <span class="text-smoke">от</span> <span class="font-mono text-ink text-xl">800 ₽</span>
@@ -1232,6 +1319,11 @@ svg .delay-75 {
       <div>
         <div class="text-xs uppercase tracking-[0.25em] text-smoke mb-3">— Логотипы и брендинг</div>
         <h2 class="display text-5xl md:text-7xl">Логотипы</h2>
+        <div class="section-tags">
+          <span class="section-tag">Айдентика</span>
+          <span class="section-tag">Знак</span>
+          <span class="section-tag">Фирменный стиль</span>
+        </div>
       </div>
       <div class="hidden md:block text-sm">
         <span class="text-smoke">от</span> <span class="font-mono text-ink text-xl">3 000 ₽</span>
@@ -1255,6 +1347,11 @@ svg .delay-75 {
       <div>
         <div class="text-xs uppercase tracking-[0.25em] text-smoke mb-3">— Карточки товаров</div>
         <h2 class="display text-5xl md:text-7xl">Маркетплейсы</h2>
+        <div class="section-tags">
+          <span class="section-tag">Wildberries</span>
+          <span class="section-tag">Ozon</span>
+          <span class="section-tag">Инфографика</span>
+        </div>
       </div>
       <div class="hidden md:block text-sm">
         <span class="text-smoke">от</span> <span class="font-mono text-ink text-xl">700 ₽</span>
@@ -1267,19 +1364,74 @@ svg .delay-75 {
   </div>
 </section>
 
-<!-- TESTIMONIAL -->
+<!-- TESTIMONIALS -->
 <section class="px-6 md:px-10 py-24 md:py-36 bg-cream/20">
-  <div class="max-w-[1100px] mx-auto reveal">
-    <div class="num-marker text-5xl mb-6">“</div>
-    <blockquote class="display text-3xl md:text-5xl leading-snug">
-      Сотрудничаем по оформлению карточек товаров для Wildberries и Ozon. Никита сделал нам инфографику для новой линейки косметики. Карточки выглядят дорого и стильно, сразу выделились среди конкурентов. CTR вырос, а реальные продажи пошли вверх с первых же дней запуска рекламы. Спасибо за крутой дизайн и соблюдение сроков!
-    </blockquote>
-    <div class="mt-10 flex items-center gap-4">
-      <div class="w-10 h-10 rounded-full bg-gold/30 flex items-center justify-center font-serif text-gold text-lg font-bold">К</div>
-      <div>
-        <div class="font-medium text-ink">Кристина</div>
-        <div class="text-sm text-smoke">Селлер Wildberries &amp; Ozon (Линейка косметики)</div>
+  <div class="max-w-[1400px] mx-auto">
+    <div class="text-center mb-14 reveal">
+      <div class="text-xs uppercase tracking-[0.25em] text-smoke mb-3">— Отзывы</div>
+      <h2 class="display text-5xl md:text-7xl">Что говорят клиенты</h2>
+      <p class="mt-5 text-smoke max-w-xl mx-auto text-pretty">Отзывы тех, для кого я уже делал дизайн.</p>
+    </div>
+
+    <div id="testimonials-grid" class="grid md:grid-cols-3 gap-6">
+
+      <div class="relative border border-line bg-paper/60 p-8 flex flex-col reveal">
+        <div class="flex items-start justify-between">
+          <div class="text-gold tracking-[0.2em] text-sm" aria-label="Оценка 5 из 5">★★★★★</div>
+          <div class="num-marker text-4xl leading-none select-none" aria-hidden="true">“</div>
+        </div>
+        <blockquote class="mt-5 text-sm md:text-base leading-relaxed text-ink flex-1">
+          Заказывала карточки для новой линейки косметики. Понравилось, что Никита сначала разобрался в продукте и посмотрел конкурентов, а уже потом сел за дизайн. Правки вносил спокойно, всё сдал в срок — карточки заметно отличаются от соседей в выдаче.
+        </blockquote>
+        <div class="mt-6 pt-6 border-t border-line">
+          <a href="https://t.me/pythonvoin" target="_blank" rel="noopener" class="flex items-center gap-4 group" aria-label="Написать Никите в Telegram">
+            <span class="t-avatar w-11 h-11 rounded-full flex items-center justify-center font-serif text-gold text-lg font-bold shrink-0">К</span>
+            <span>
+              <span class="block font-medium text-ink group-hover:text-gold transition">Кристина</span>
+              <span class="block text-xs text-smoke font-mono mt-0.5">Карточки WB &amp; Ozon · косметика</span>
+            </span>
+          </a>
+        </div>
       </div>
+
+      <div class="relative border border-line bg-paper/60 p-8 flex flex-col reveal reveal-delay-1">
+        <div class="flex items-start justify-between">
+          <div class="text-gold tracking-[0.2em] text-sm" aria-label="Оценка 5 из 5">★★★★★</div>
+          <div class="num-marker text-4xl leading-none select-none" aria-hidden="true">“</div>
+        </div>
+        <blockquote class="mt-5 text-sm md:text-base leading-relaxed text-ink flex-1">
+          Нужны были превью для канала — до этого делал сам и ролики просто тонули. Никита объяснил, почему старые обложки не работали, и предложил свои варианты. Первые же видео с новыми превью стали собирать больше кликов. Работаем дальше.
+        </blockquote>
+        <div class="mt-6 pt-6 border-t border-line">
+          <a href="https://t.me/pythonvoin" target="_blank" rel="noopener" class="flex items-center gap-4 group" aria-label="Написать Никите в Telegram">
+            <span class="t-avatar t-avatar--olive w-11 h-11 rounded-full flex items-center justify-center font-serif text-olive text-lg font-bold shrink-0">А</span>
+            <span>
+              <span class="block font-medium text-ink group-hover:text-gold transition">Артём</span>
+              <span class="block text-xs text-smoke font-mono mt-0.5">Превью для YouTube-канала</span>
+            </span>
+          </a>
+        </div>
+      </div>
+
+      <div class="relative border border-line bg-paper/60 p-8 flex flex-col reveal reveal-delay-2">
+        <div class="flex items-start justify-between">
+          <div class="text-gold tracking-[0.2em] text-sm" aria-label="Оценка 5 из 5">★★★★★</div>
+          <div class="num-marker text-4xl leading-none select-none" aria-hidden="true">“</div>
+        </div>
+        <blockquote class="mt-5 text-sm md:text-base leading-relaxed text-ink flex-1">
+          Обратилась за оформлением Telegram-канала: аватарка, обложки, шаблоны постов. Никита предложил стиль, который легко поддерживать самой, и собрал всё за несколько дней. Канал наконец выглядит цельно, подписчики это тоже отметили.
+        </blockquote>
+        <div class="mt-6 pt-6 border-t border-line">
+          <a href="https://t.me/pythonvoin" target="_blank" rel="noopener" class="flex items-center gap-4 group" aria-label="Написать Никите в Telegram">
+            <span class="t-avatar w-11 h-11 rounded-full flex items-center justify-center font-serif text-gold text-lg font-bold shrink-0">М</span>
+            <span>
+              <span class="block font-medium text-ink group-hover:text-gold transition">Мария</span>
+              <span class="block text-xs text-smoke font-mono mt-0.5">Оформление Telegram-канала</span>
+            </span>
+          </a>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -1550,6 +1702,38 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
       });
     }
 
+    // 1b. Render Testimonials (graceful fallback to static cards)
+    const testimonialsGrid = document.getElementById('testimonials-grid');
+    const tgRaw = (data.site && data.site.telegram) || 'pythonvoin';
+    const tgLink = tgRaw.startsWith('http') ? tgRaw : 'https://t.me/' + tgRaw.replace(/^@/, '');
+    if (testimonialsGrid && Array.isArray(data.testimonials) && data.testimonials.length > 0) {
+      const esc = s => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      testimonialsGrid.innerHTML = data.testimonials.map((t, idx) => {
+        const initial = esc((t.author || '?').trim().charAt(0).toUpperCase());
+        const olive = idx % 2 === 1;
+        return `
+          <div class="relative border border-line bg-paper/60 p-8 flex flex-col reveal${idx === 1 ? ' reveal-delay-1' : idx === 2 ? ' reveal-delay-2' : ''}">
+            <div class="flex items-start justify-between">
+              <div class="text-gold tracking-[0.2em] text-sm" aria-label="Оценка 5 из 5">★★★★★</div>
+              <div class="num-marker text-4xl leading-none select-none" aria-hidden="true">“</div>
+            </div>
+            <blockquote class="mt-5 text-sm md:text-base leading-relaxed text-ink flex-1">${esc(t.text)}</blockquote>
+            <div class="mt-6 pt-6 border-t border-line">
+              <a href="${esc(tgLink)}" target="_blank" rel="noopener" class="flex items-center gap-4 group" aria-label="Написать Никите в Telegram">
+                <span class="t-avatar${olive ? ' t-avatar--olive' : ''} w-11 h-11 rounded-full flex items-center justify-center font-serif ${olive ? 'text-olive' : 'text-gold'} text-lg font-bold shrink-0">${initial}</span>
+                <span>
+                  <span class="block font-medium text-ink group-hover:text-gold transition">${esc(t.author)}</span>
+                  <span class="block text-xs text-smoke font-mono mt-0.5">${esc(t.role)}</span>
+                </span>
+              </a>
+            </div>
+          </div>
+        `;
+      }).join('');
+      if (window.observeReveals) window.observeReveals(testimonialsGrid);
+      else testimonialsGrid.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+    }
+
     // 2. Populate Showcase Images in Hero (Dynamically populate all images)
     if (data.design_gallery) {
       const previewItems = data.design_gallery.filter(item => item.category === 'previews');
@@ -1561,7 +1745,7 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
       const youtubeContainer = document.querySelector('.showcase-youtube .relative');
       if (youtubeContainer && previewItems.length > 0) {
         youtubeContainer.innerHTML = previewItems.map((item, idx) => `
-          <img loading="lazy" decoding="async" src="${item.image}" data-lb="${item.image}" data-lb-caption="${item.caption || 'Прейвю YouTube'}" class="showcase-slide ${idx === 0 ? 'slide-active' : ''} object-cover shadow-2xl border border-line rounded-lg">
+          <img loading="lazy" decoding="async" src="${item.image}" data-lb="${item.image}" data-lb-caption="${item.caption || 'Превью YouTube'}" class="showcase-slide ${idx === 0 ? 'slide-active' : ''} object-cover shadow-2xl border border-line rounded-lg">
         `).join('');
       }
 
@@ -1747,8 +1931,6 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
 <!-- Liquid Glass Refraction Script (Trend 2026) -->
 <script type="module">
-import * as THREE from "https://unpkg.com/three@0.160.1/build/three.module.js";
-
 const MAX_DROPLETS = 40;
 const FIXED_DT_MS = 8;
 const MAX_FRAME_DT_MS = 100;
@@ -1756,7 +1938,22 @@ const MAX_CATCHUP = 6;
 
 const container = document.getElementById("liquid-glass-container");
 const app = document.getElementById("app");
-if (container && app) {
+
+/* Skip heavy WebGL on software renderers (headless/old devices) */
+window.__isSoftwareGL = window.__isSoftwareGL ?? (() => {
+  try {
+    const c = document.createElement("canvas");
+    const g = c.getContext("webgl") || c.getContext("experimental-webgl");
+    if (!g) return true;
+    const ext = g.getExtension("WEBGL_debug_renderer_info");
+    const r = ext ? String(g.getParameter(ext.UNMASKED_RENDERER_WEBGL)) : "";
+    g.getExtension("WEBGL_lose_context")?.loseContext();
+    return /swiftshader|llvmpipe|software|basic render/i.test(r);
+  } catch (e) { return false; }
+})();
+
+async function initLiquidGlass() {
+  const THREE = await import("https://unpkg.com/three@0.160.1/build/three.module.js");
   const renderer = new THREE.WebGLRenderer({ antialias: false });
   renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
   renderer.setSize(container.clientWidth, container.clientHeight);
@@ -2337,14 +2534,21 @@ if (container && app) {
   let last = performance.now();
   let acc = 0;
   let paused = false;
+  let inView = true;
 
   document.addEventListener("visibilitychange", () => {
     paused = document.hidden;
     if (!paused) last = performance.now();
   });
 
+  /* pause simulation when section is scrolled out of view */
+  new IntersectionObserver((entries) => {
+    inView = entries.some((e) => e.isIntersecting);
+    if (inView) last = performance.now();
+  }).observe(container);
+
   (function loop() {
-    if (paused) {
+    if (paused || !inView) {
       requestAnimationFrame(loop);
       return;
     }
@@ -2367,6 +2571,17 @@ if (container && app) {
     requestAnimationFrame(loop);
   })();
 }
+
+/* init only when the section approaches the viewport, and never on software GL */
+if (container && app && !window.__isSoftwareGL) {
+  const bootIO = new IntersectionObserver((entries, obs) => {
+    if (entries.some((e) => e.isIntersecting)) {
+      obs.disconnect();
+      initLiquidGlass();
+    }
+  }, { rootMargin: "400px" });
+  bootIO.observe(container);
+}
 </script>
 
 <!-- WebGL Background Engine & Theme Controller -->
@@ -2382,7 +2597,19 @@ if (canvas) {
     powerPreference: "high-performance"
   });
 
+  /* Skip heavy shader on software renderers (headless/old devices):
+     the page keeps its CSS background, everything stays readable */
+  let softwareGL = false;
   if (gl) {
+    try {
+      const dbg = gl.getExtension("WEBGL_debug_renderer_info");
+      const r = dbg ? String(gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL)) : "";
+      softwareGL = /swiftshader|llvmpipe|software|basic render/i.test(r);
+    } catch (e) { softwareGL = false; }
+    if (softwareGL) canvas.style.display = "none";
+  }
+
+  if (gl && !softwareGL) {
     const vs = `
     attribute vec2 a;
     void main() {

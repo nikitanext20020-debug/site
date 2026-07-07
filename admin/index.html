@@ -297,7 +297,7 @@
             <p>2. Укажи описание (например, <code class="bg-white/10 px-1 rounded">Nik CMS</code>)</p>
             <p>3. Срок действия (Expiration): желательно <code class="bg-white/10 px-1 rounded">No expiration</code></p>
             <p>4. Галочка: ✅ <code class="bg-white/10 px-1 rounded">repo</code> (полный доступ к коммитам)</p>
-            <p class="text-amber-400 font-medium">⚠️ ВАЖНО: У Classic токена обязательно должна быть включена галочка "repo", а у Fine-grained токена — права "Contents: Read/Write". Иначе вы не сможете опубликовать изменения.</p>
+            <p class="text-amber-400 font-medium">⚠️ ВАЖНО: У Classic токена обязательно должна быть включена галочка "repo", а у Fine-grained токена �� права "Contents: Read/Write". Иначе вы не сможете опубликовать изменения.</p>
             <p>5. Нажми Generate token и скопируй токен сюда</p>
             <p class="text-neutral-500 font-mono text-[9px] mt-2">Токен сохраняется исключительно в вашем браузере
               (localStorage) и не улетает на сторонние сервера.</p>
@@ -512,6 +512,15 @@
           </div>
           <div id="dev-projects-list" class="space-y-4"></div>
         </div>
+
+        <!-- Pricing -->
+        <div class="glass p-6 rounded-xl space-y-4">
+          <div class="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
+            <h3 class="text-sm font-semibold uppercase tracking-wider text-amber-400 font-mono">Прайс-лист (Услуги и цены)</h3>
+            <button class="btn btn-primary py-1.5 px-3 text-xs" onclick="addDevPricing()">+ Добавить позицию</button>
+          </div>
+          <div id="dev-pricing-list" class="space-y-4"></div>
+        </div>
       </div>
 
       <!-- ============ TAB: TESTIMONIALS ============ -->
@@ -680,6 +689,7 @@
       renderMontageClips();
       renderDesignGallery();
       renderDevProjects();
+      renderDevPricing();
       renderTestimonials();
     }
 
@@ -1195,6 +1205,71 @@
     }
 
     // ============ SECTION: TESTIMONIALS ============
+    function renderDevPricing() {
+      const container = document.getElementById('dev-pricing-list');
+      if (!container) return;
+      container.innerHTML = '';
+      const list = DATA.dev_pricing || [];
+      if (!list.length) {
+        container.innerHTML = '<div class="text-center py-6 text-neutral-500">Прайс-лист пуст</div>';
+        return;
+      }
+      list.forEach((p, idx) => {
+        const card = document.createElement('div');
+        card.className = 'glass p-5 rounded-lg space-y-4';
+        card.innerHTML = `
+      <div class="flex justify-between items-center border-b border-white/5 pb-2">
+        <span class="text-xs uppercase tracking-widest text-neutral-500 font-mono">Позиция #${idx + 1}</span>
+        <div class="flex gap-2 items-center">
+          <button class="btn btn-sort btn-up" title="Вверх">↑</button>
+          <button class="btn btn-sort btn-down" title="Вниз">↓</button>
+          <button class="btn btn-danger py-1 px-3 text-xs" onclick="deleteDevPricing(${idx})">Удалить</button>
+        </div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div>
+          <label class="label">Название услуги</label>
+          <input class="input text-xs font-semibold val-title" value="${escapeAttr(p.title || '')}" placeholder="Telegram-бот" />
+        </div>
+        <div>
+          <label class="label">Цена</label>
+          <input class="input text-xs val-price" value="${escapeAttr(p.price || '')}" placeholder="от 8 000 ₽" />
+        </div>
+      </div>
+      <div class="grid md:grid-cols-[1fr_180px] gap-4">
+        <div>
+          <label class="label">Описание</label>
+          <input class="input text-xs val-desc" value="${escapeAttr(p.desc || '')}" placeholder="Приём заявок, автоответы..." />
+        </div>
+        <div>
+          <label class="label">Срок</label>
+          <input class="input text-xs val-term" value="${escapeAttr(p.term || '')}" placeholder="3–7 дней" />
+        </div>
+      </div>
+    `;
+
+        card.querySelector('.val-title').addEventListener('change', e => { p.title = e.target.value.trim(); });
+        card.querySelector('.val-price').addEventListener('change', e => { p.price = e.target.value.trim(); });
+        card.querySelector('.val-desc').addEventListener('change', e => { p.desc = e.target.value.trim(); });
+        card.querySelector('.val-term').addEventListener('change', e => { p.term = e.target.value.trim(); });
+
+        card.querySelector('.btn-up').addEventListener('click', () => { swapItems(DATA.dev_pricing, idx, idx - 1); renderDevPricing(); });
+        card.querySelector('.btn-down').addEventListener('click', () => { swapItems(DATA.dev_pricing, idx, idx + 1); renderDevPricing(); });
+
+        container.appendChild(card);
+      });
+    }
+    function addDevPricing() {
+      DATA.dev_pricing = DATA.dev_pricing || [];
+      DATA.dev_pricing.unshift({ title: 'Новая услуга', desc: '', term: '', price: 'от 0 ₽' });
+      renderDevPricing();
+    }
+    function deleteDevPricing(idx) {
+      if (!confirm('Удалить эту позицию прайса?')) return;
+      DATA.dev_pricing.splice(idx, 1);
+      renderDevPricing();
+    }
+
     function renderTestimonials() {
       const container = document.getElementById('testimonials-list');
       container.innerHTML = '';
