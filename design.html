@@ -1142,7 +1142,7 @@ svg .delay-75 {
       </div>
 
       <p class="mt-8 text-smoke text-sm md:text-base leading-relaxed max-w-3xl">
-        Поэтому я собираю не набор эффектов, а понятный визуальный крючок: что человек должен заметить первым, какую эмоцию считать и почему именно твой контент выглядит сильнее соседних вариантов.
+        Поэтому я собираю не набор эффектов, а понятный визуальный крючок: что челов��к должен заметить первым, какую эмоцию считать и почему именно твой контент выглядит сильнее соседних вариантов.
       </p>
     </div>
   </div>
@@ -1373,7 +1373,7 @@ svg .delay-75 {
       <p class="mt-5 text-smoke max-w-xl mx-auto text-pretty">Отзывы тех, для кого я уже делал дизайн.</p>
     </div>
 
-    <div class="grid md:grid-cols-3 gap-6">
+    <div id="testimonials-grid" class="grid md:grid-cols-3 gap-6">
 
       <div class="relative border border-line bg-paper/60 p-8 flex flex-col reveal">
         <div class="flex items-start justify-between">
@@ -1701,6 +1701,38 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
           }
         });
       });
+    }
+
+    // 1b. Render Testimonials (graceful fallback to static cards)
+    const testimonialsGrid = document.getElementById('testimonials-grid');
+    const tgRaw = (data.site && data.site.telegram) || 'pythonvoin';
+    const tgLink = tgRaw.startsWith('http') ? tgRaw : 'https://t.me/' + tgRaw.replace(/^@/, '');
+    if (testimonialsGrid && Array.isArray(data.testimonials) && data.testimonials.length > 0) {
+      const esc = s => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      testimonialsGrid.innerHTML = data.testimonials.map((t, idx) => {
+        const initial = esc((t.author || '?').trim().charAt(0).toUpperCase());
+        const olive = idx % 2 === 1;
+        return `
+          <div class="relative border border-line bg-paper/60 p-8 flex flex-col reveal${idx === 1 ? ' reveal-delay-1' : idx === 2 ? ' reveal-delay-2' : ''}">
+            <div class="flex items-start justify-between">
+              <div class="text-gold tracking-[0.2em] text-sm" aria-label="Оценка 5 из 5">★★★★★</div>
+              <div class="num-marker text-4xl leading-none select-none" aria-hidden="true">“</div>
+            </div>
+            <blockquote class="mt-5 text-sm md:text-base leading-relaxed text-ink flex-1">${esc(t.text)}</blockquote>
+            <div class="mt-6 pt-6 border-t border-line">
+              <a href="${esc(tgLink)}" target="_blank" rel="noopener" class="flex items-center gap-4 group" aria-label="Написать Никите в Telegram">
+                <span class="t-avatar${olive ? ' t-avatar--olive' : ''} w-11 h-11 rounded-full flex items-center justify-center font-serif ${olive ? 'text-olive' : 'text-gold'} text-lg font-bold shrink-0">${initial}</span>
+                <span>
+                  <span class="block font-medium text-ink group-hover:text-gold transition">${esc(t.author)}</span>
+                  <span class="block text-xs text-smoke font-mono mt-0.5">${esc(t.role)}</span>
+                </span>
+              </a>
+            </div>
+          </div>
+        `;
+      }).join('');
+      if (window.observeReveals) window.observeReveals(testimonialsGrid);
+      else testimonialsGrid.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
     }
 
     // 2. Populate Showcase Images in Hero (Dynamically populate all images)

@@ -477,7 +477,7 @@
             transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        /* ── Lightbox for Dev (Neon Cyberpunk theme) ── */
+        /* ─�� Lightbox for Dev (Neon Cyberpunk theme) ── */
         #lb-overlay {
             display: none;
             position: fixed;
@@ -1116,7 +1116,7 @@
                 <div class="text-xs uppercase tracking-[0.3em] text-neon/50 mb-3 reveal font-mono">$ cat pricing.txt</div>
                 <h2 class="font-poster text-5xl md:text-7xl text-bone glow-text mb-12 reveal">УСЛУГИ И ЦЕНЫ</h2>
 
-                <div class="divide-y divide-neon/10 border-y border-neon/10">
+                <div id="pricing-list" class="divide-y divide-neon/10 border-y border-neon/10">
 
                     <a href="#contact" class="price-row group grid grid-cols-[auto_1fr_auto] md:grid-cols-[60px_1fr_auto_auto] items-center gap-4 md:gap-8 py-6 md:py-7 px-2 md:px-4 transition-all duration-300 hover:bg-neon/5 reveal">
                         <div class="font-poster text-3xl md:text-4xl text-neon/15 group-hover:text-neon/40 transition duration-300 select-none">01</div>
@@ -2037,6 +2037,25 @@
                             </div>
                         `;
                     }).join('');
+                }
+
+                // 3. Render Pricing (УСЛУГИ И ЦЕНЫ) — graceful fallback to static rows
+                const pricingList = document.getElementById('pricing-list');
+                if (pricingList && Array.isArray(data.dev_pricing) && data.dev_pricing.length > 0) {
+                    pricingList.innerHTML = data.dev_pricing.map((p, idx) => `
+                        <a href="#contact" class="price-row group grid grid-cols-[auto_1fr_auto] md:grid-cols-[60px_1fr_auto_auto] items-center gap-4 md:gap-8 py-6 md:py-7 px-2 md:px-4 transition-all duration-300 hover:bg-neon/5 reveal">
+                            <div class="font-poster text-3xl md:text-4xl text-neon/15 group-hover:text-neon/40 transition duration-300 select-none">${String(idx + 1).padStart(2, '0')}</div>
+                            <div class="font-mono min-w-0">
+                                <h3 class="text-bone text-lg md:text-2xl font-bold font-sans group-hover:text-neon transition duration-300">${p.title}</h3>
+                                <p class="text-neon/50 text-xs mt-1.5 leading-relaxed">${p.desc || ''}</p>
+                            </div>
+                            <div class="hidden md:block font-mono text-[11px] uppercase tracking-[0.18em] text-neon/40 border border-neon/15 rounded-full px-3 py-1.5 whitespace-nowrap">${p.term || ''}</div>
+                            <div class="font-mono text-right whitespace-nowrap">
+                                <span class="text-bone text-lg md:text-xl font-bold group-hover:text-neon transition duration-300">${p.price || 'договорная'}</span>
+                                <span class="text-neon/40 group-hover:text-neon group-hover:translate-x-1 inline-block transition duration-300 ml-2" aria-hidden="true">→</span>
+                            </div>
+                        </a>
+                    `).join('');
                 }
 
                 // Re-arm reveals
