@@ -1842,9 +1842,8 @@
         (function () {
             const launchBtn = document.getElementById('vpn-demo-launch');
             if (!launchBtn) return;
-            // Адрес разбит на перемешанные base64-фрагменты и собирается только в момент запуска
-            const _p = ['dWcuZ2l0aHVi', 'aHR0cHM6Ly9u', 'LmlvL3Zwbi9wdWJsaWMv', 'aWtpdGFuZXh0MjAwMjAtZGVi'];
-            const buildUrl = () => atob(_p[1] + _p[3] + _p[0] + _p[2]);
+            // Демо размещено на этом же домене — GitHub-источник нигде не светится
+            const buildUrl = () => 'labs/vpn/index.html';
             let overlay = null;
             let scrollY = 0;
 
