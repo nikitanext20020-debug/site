@@ -1657,8 +1657,26 @@ h1, h2, h3, h4 {
   .stats-intro {
     grid-column: span 1;
   }
+  .tariffs-layout-row {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .tariffs-sidebar-title {
+    text-align: center;
+  }
   .home-tariffs-grid {
     grid-template-columns: 1fr;
+  }
+  .tariff-card {
+    padding: 28px 24px;
+    min-height: 0;
+  }
+  .tariff-features-list {
+    grid-template-columns: 1fr;
+    margin-bottom: 28px;
+  }
+  .tariff-features-list .tariff-feature-item {
+    grid-column: span 1 !important;
   }
   .section-header-compact {
     grid-template-columns: 1fr;
