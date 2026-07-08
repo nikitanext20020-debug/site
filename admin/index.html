@@ -1138,9 +1138,13 @@
             <input class="input text-xs val-year" type="number" value="${proj.year || ''}" />
           </div>
         </div>
-        <div class="md:col-span-2">
-          <label class="label">Ссылка на демо-сайт (Link)</label>
+        <div>
+          <label class="label">Ссылка на сайт / GitHub (Link)</label>
           <input class="input text-xs font-mono val-link" value="${escapeAttr(proj.link || '')}" placeholder="https://..." />
+        </div>
+        <div>
+          <label class="label">URL живого демо (откроется в окне на сайте)</label>
+          <input class="input text-xs font-mono val-demo" value="${escapeAttr(proj.demo || '')}" placeholder="https://username.github.io/project/" />
         </div>
         <div class="md:col-span-2">
           <label class="label">Подробное описание проекта</label>
@@ -1166,6 +1170,7 @@
         card.querySelector('.val-commit').addEventListener('change', e => { proj.commit = e.target.value.trim(); });
         card.querySelector('.val-year').addEventListener('change', e => { proj.year = +e.target.value || 2026; });
         card.querySelector('.val-link').addEventListener('change', e => { proj.link = e.target.value.trim(); });
+        card.querySelector('.val-demo').addEventListener('change', e => { proj.demo = e.target.value.trim(); });
         card.querySelector('.val-desc').addEventListener('change', e => { proj.description = e.target.value.trim(); });
         card.querySelector('.val-images').addEventListener('change', e => { 
           proj.images = e.target.value.split(',').map(s => s.trim()).filter(Boolean);
@@ -1194,6 +1199,7 @@
         commit: 'b7c8f9d',
         description: '',
         link: '',
+        demo: '',
         images: []
       });
       renderDevProjects();
