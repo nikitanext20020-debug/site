@@ -36,9 +36,9 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=Unbounded:wght@400;600;800;900&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=Unbounded:wght@400;600;800;900&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=Unbounded:wght@400;600;800;900&display=swap"></noscript>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;500;700&family=Russo+One&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;500;700&family=Russo+One&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;500;700&family=Russo+One&display=swap"></noscript>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -46,9 +46,9 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        mono: ['"IBM Plex Mono"', 'monospace'],
-                        poster: ['"Unbounded"', 'sans-serif'],
-                        sans: ['"Unbounded"', 'sans-serif']
+                        mono: ['"Cascadia Code"', 'monospace'],
+                        poster: ['"Russo One"', 'sans-serif'],
+                        sans: ['"Russo One"', 'sans-serif']
                     },
                     colors: {
                         void: '#060714',
@@ -78,7 +78,7 @@
         body {
             background: var(--bg);
             color: var(--text);
-            font-family: 'IBM Plex Mono', monospace;
+            font-family: 'Cascadia Code', monospace;
             overflow-x: hidden;
             width: 100vw;
             margin: 0;
@@ -251,7 +251,7 @@
 
         /* Big 3D Title */
         .big-text-3d {
-            font-family: 'Unbounded', sans-serif;
+            font-family: 'Russo One', sans-serif;
             font-size: 14vw;
             font-weight: 900;
             color: transparent;
@@ -448,7 +448,7 @@
             filter: blur(0);
         }
 
-        /* Display headings: Unbounded is wide — keep tracking neutral, sizes slightly tighter */
+        /* Display headings: Russo One — keep tracking neutral */
         h1.font-sans, h2.font-sans, h3.font-sans {
             letter-spacing: -0.01em;
         }
@@ -469,6 +469,48 @@
 
         .words-in .word-mask > span {
             transform: translateY(0);
+        }
+
+        /* Cyber glitch (по мотивам cybercore-css): хроматическая аберрация через data-text */
+        .cyber-glitch {
+            position: relative;
+            display: inline-block;
+        }
+
+        .cyber-glitch::before,
+        .cyber-glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .cyber-glitch::before {
+            color: #5B7CFF;
+            animation: glitchShift 3.5s infinite steps(1);
+        }
+
+        .cyber-glitch::after {
+            color: #A78BFA;
+            animation: glitchShift 3.5s infinite steps(1) reverse;
+        }
+
+        @keyframes glitchShift {
+            0%, 91% { opacity: 0; transform: none; clip-path: none; }
+            92% { opacity: .85; transform: translate(-4px, 2px); clip-path: inset(15% 0 60% 0); }
+            94% { opacity: .85; transform: translate(4px, -2px); clip-path: inset(55% 0 20% 0); }
+            96% { opacity: .85; transform: translate(-3px, 0); clip-path: inset(30% 0 40% 0); }
+            98% { opacity: .85; transform: translate(3px, 1px); clip-path: inset(70% 0 5% 0); }
+            100% { opacity: 0; transform: none; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .cyber-glitch::before,
+            .cyber-glitch::after {
+                animation: none;
+                opacity: 0;
+            }
         }
 
         /* Animated blue-violet gradient text for key headings */
@@ -651,7 +693,7 @@
             text-transform: uppercase;
             white-space: nowrap;
             z-index: 10000;
-            font-family: 'IBM Plex Mono', monospace;
+            font-family: 'Cascadia Code', monospace;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -760,8 +802,9 @@
             <div class="max-w-6xl mx-auto w-full">
                 <div class="text-xs uppercase tracking-[0.3em] text-neon/50 mb-6 font-mono">$ cat ./about.md</div>
 
-                <h1 class="text-[12vw] md:text-[9vw] font-poster leading-[0.85] text-bone glow-text uppercase">
-                    &lt;WEB<br><span class="text-flow">DEV</span> /&gt;
+                <h1 class="text-[10vw] md:text-[6.5vw] font-poster leading-[0.95] text-bone glow-text uppercase">
+                    <span class="cyber-glitch" data-text="РАЗРАБОТКА">РАЗРАБОТКА</span><br>
+                    <span class="text-flow">ПОД КЛЮЧ</span> <span class="text-neon/60">/&gt;</span>
                 </h1>
 
                 <div class="mt-10 terminal max-w-2xl relative">
@@ -1116,7 +1159,7 @@
                             <div class="text-4xl mb-4 text-amber font-bold"
                                 style="text-shadow:0 0 10px rgba(245,184,46,0.5)">{ }</div>
                             <h3 class="text-bone text-xl font-bold mb-3 font-sans">Веб-приложения</h3>
-                            <p class="text-neon/70 text-xs leading-relaxed font-mono">SPA, дашборды управления,
+                            <p class="text-neon/70 text-xs leading-relaxed font-mono">SPA, даш��орды управления,
                                 админ-панели. Современный стек на React + TypeScript.</p>
                         </div>
                         <div
@@ -1219,8 +1262,8 @@
                     <a href="#contact" class="price-row group grid grid-cols-[auto_1fr_auto] md:grid-cols-[60px_1fr_auto_auto] items-center gap-4 md:gap-8 py-6 md:py-7 px-2 md:px-4 transition-all duration-300 hover:bg-neon/5 reveal">
                         <div class="font-poster text-3xl md:text-4xl text-neon/15 group-hover:text-neon/40 transition duration-300 select-none">02</div>
                         <div class="font-mono min-w-0">
-                            <h3 class="text-bone text-lg md:text-2xl font-bold font-sans group-hover:text-neon transition duration-300">Парсер / автоматизация</h3>
-                            <p class="text-neon/50 text-xs mt-1.5 leading-relaxed">Сбор данных с сайтов, выгрузки, отчёты — рутина выполняется сама.</p>
+                            <h3 class="text-bone text-lg md:text-2xl font-bold font-sans group-hover:text-neon transition duration-300">Парсер / автом��тизация</h3>
+                            <p class="text-neon/50 text-xs mt-1.5 leading-relaxed">Сбор данных с сайтов, выгрузки, отчёты — рутина выпо��няется сама.</p>
                         </div>
                         <div class="hidden md:block font-mono text-[11px] uppercase tracking-[0.18em] text-neon/40 border border-neon/15 rounded-full px-3 py-1.5 whitespace-nowrap">2–5 дней</div>
                         <div class="font-mono text-right whitespace-nowrap">
