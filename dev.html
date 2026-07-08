@@ -36,9 +36,9 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;500;700&family=Russo+One&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;500;700&family=Russo+One&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;500;700&family=Russo+One&display=swap"></noscript>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;500;700&family=Manrope:wght@500;700;800&family=Russo+One&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;500;700&family=Manrope:wght@500;700;800&family=Russo+One&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;500;700&family=Manrope:wght@500;700;800&family=Russo+One&display=swap"></noscript>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -48,7 +48,8 @@
                     fontFamily: {
                         mono: ['"Cascadia Code"', 'monospace'],
                         poster: ['"Russo One"', 'sans-serif'],
-                        sans: ['"Russo One"', 'sans-serif']
+                        sans: ['"Russo One"', 'sans-serif'],
+                        case: ['"Manrope"', 'sans-serif']
                     },
                     colors: {
                         void: '#060714',
@@ -875,23 +876,32 @@
                     <div class="grid md:grid-cols-12 gap-8 items-center reveal">
                         <div class="md:col-span-5 space-y-4">
                             <div class="text-[10px] text-amber font-mono">// CASE_01 // TELEGRAM AUTOMATION</div>
-                            <h3 class="text-bone text-3xl font-bold font-sans tracking-tight">NEURO.CORE — панель
-                                Telegram-бота</h3>
+                            <h3 class="text-bone text-3xl font-extrabold font-case tracking-tight">NEURO.CORE —
+                                нейрокомментинг в Telegram</h3>
                             <p class="text-neon/70 text-sm leading-relaxed">
-                                Дашборд управления ботом для авто-комментинга: аккаунты, каналы, поведение в чатах и
-                                живая лента событий. Это не скриншот — настоящий рабочий интерфейс: запусти демо и
-                                покликай его прямо здесь.
+                                Система авто-комментинга на нейросетях: бот читает новые посты в каналах и оставляет
+                                живые, осмысленные комментарии от имени ваших аккаунтов. Это не скриншот — настоящий
+                                рабочий интерфейс: запусти демо и покликай его прямо здесь.
                             </p>
                             <ul class="text-xs space-y-2 text-slate-400 font-mono">
                                 <li class="flex items-center gap-2">
-                                    <span class="text-amber">✓</span> Live-лента комментинга и метрики в реальном
+                                    <span class="text-amber">✓</span> ИИ-комментарии под стиль канала: без шаблонов и
+                                    банов
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span class="text-amber">✓</span> Ферма аккаунтов: прогрев, прокси, лимиты, ротация
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span class="text-amber">✓</span> Live-лента событий и метрики охвата в реальном
                                     времени
                                 </li>
                                 <li class="flex items-center gap-2">
-                                    <span class="text-amber">✓</span> Управление аккаунтами, каналами и воркерами
+                                    <span class="text-amber">✓</span> Сценарии поведения: задержки, ответы на ответы,
+                                    реакции
                                 </li>
                                 <li class="flex items-center gap-2">
-                                    <span class="text-amber">✓</span> Гибкие сценарии поведения бота в чатах
+                                    <span class="text-amber">✓</span> Трафик из комментариев прямо на ваш канал или
+                                    бота
                                 </li>
                             </ul>
                         </div>
@@ -934,7 +944,7 @@
                         <div class="md:col-span-5 md:order-2 space-y-4">
                             <div class="text-[10px] text-glow font-mono" style="color:#A78BFA">// CASE_02 // SYSTEM
                                 INTEGRATION</div>
-                            <h3 class="text-bone text-3xl font-bold font-sans tracking-tight">Автоматизация & Базы
+                            <h3 class="text-bone text-3xl font-extrabold font-case tracking-tight">Автоматизация & Базы
                                 Данных</h3>
                             <p class="text-neon/70 text-sm leading-relaxed">
                                 Связываю веб-интерфейсы, Telegram-боты и распределенные БД (PostgreSQL / Redis). Полная
@@ -1023,20 +1033,33 @@
                     <div class="grid md:grid-cols-12 gap-8 items-center reveal pt-12 border-t border-neon/10">
                         <div class="md:col-span-5 space-y-4">
                             <div class="text-[10px] text-purple font-mono">// CASE_03 // FRONTEND EXTRA</div>
-                            <h3 class="text-bone text-3xl font-bold font-sans tracking-tight">Облачко VPN — лендинг
-                            </h3>
+                            <h3 class="text-bone text-3xl font-extrabold font-case tracking-tight">Облачко VPN —
+                                лендинг + продажи в Telegram</h3>
                             <p class="text-neon/70 text-sm leading-relaxed">
-                                Продающий лендинг VPN-сервиса: тарифы, преимущества, адаптивная вёрстка. Это не
-                                скриншот — настоящий рабочий сайт: запусти демо и покликай его прямо здесь.
+                                Продающий лендинг VPN-сервиса, связанный с Telegram-ботом: продажа подписок, выдача
+                                доступа и приём оплат работают на автопилоте. Это не скриншот — настоящий рабочий
+                                сайт: запусти демо и покликай его прямо здесь.
                             </p>
                             <ul class="text-xs space-y-2 text-slate-400 font-mono">
                                 <li class="flex items-center gap-2">
-                                    <span class="text-purple" style="color:#8B5CF6">✓</span> Плавные анимации и
-                                    аккуратная типографика
+                                    <span class="text-purple" style="color:#8B5CF6">✓</span> Подключение к Telegram:
+                                    оплата и выдача ключа прямо в боте
                                 </li>
                                 <li class="flex items-center gap-2">
-                                    <span class="text-purple" style="color:#8B5CF6">✓</span> Адаптив под телефон,
-                                    планшет и десктоп
+                                    <span class="text-purple" style="color:#8B5CF6">✓</span> Продажа подписок:
+                                    тарифы, автопродление, напоминания
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span class="text-purple" style="color:#8B5CF6">✓</span> Бесплатный доступ:
+                                    пробный период и триал по промокоду
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span class="text-purple" style="color:#8B5CF6">✓</span> Оплаты: ЮKassa,
+                                    CryptoPay, Stars — автоматическая активация
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span class="text-purple" style="color:#8B5CF6">✓</span> Реферальная программа и
+                                    аналитика конверсии
                                 </li>
                             </ul>
                         </div>
