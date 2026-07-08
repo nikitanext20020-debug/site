@@ -1358,10 +1358,25 @@
         const result = await res.json();
         CFG.sha = result.content.sha;
         showToast('✓ Все изменения успешно применены и опубликованы!', 'success');
+        pingIndexNow();
       } catch (e) {
         console.error(e);
         showToast('Ошибка публикации: ' + e.message, 'error');
       }
+    }
+
+    // ============ INDEXNOW ============
+    // Уведомляет поисковики (Яндекс и др.) об обновлении страниц после публикации.
+    const INDEXNOW_KEY = '6b329a1245cb1a2decc2c30aa421d4e2';
+    const INDEXNOW_HOST = 'nikitos404.ru';
+    function pingIndexNow() {
+      const pages = ['/', '/montage.html', '/design.html', '/dev.html'];
+      pages.forEach(path => {
+        const target = `https://${INDEXNOW_HOST}${path}`;
+        const endpoint = `https://yandex.com/indexnow?url=${encodeURIComponent(target)}&key=${INDEXNOW_KEY}`;
+        // no-cors fire-and-forget: браузер отправит запрос, читать ответ не нужно
+        fetch(endpoint, { mode: 'no-cors' }).catch(() => {});
+      });
     }
 
     // ============ HELPERS ============
