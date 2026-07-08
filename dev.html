@@ -10,7 +10,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <meta name="description" content="Заказать разработку сайтов под ключ: лендинги, сайты для бизнеса и Telegram-боты на Python. Веб-разработка от Nik.">
-<meta name="keywords" content="разработка сайтов, Telegram-боты, лендинг, веб-разработка, Nik">
+<meta name="keywords" content="разработка сайтов, заказать сайт, разработка Telegram-бота, бот для Телеграм на заказ, лендинг под ключ, веб-разработка, парсер на заказ, Nik, Ник, Никитос, nikitos404">
     <meta name="author" content="Nik">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://nikitos404.ru/dev.html">
@@ -36,9 +36,9 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700;900&family=Archivo+Black&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700;900&family=Archivo+Black&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700;900&family=Archivo+Black&display=swap"></noscript>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;500;700&family=Manrope:wght@500;700;800&family=Russo+One&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;500;700&family=Manrope:wght@500;700;800&family=Russo+One&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;500;700&family=Manrope:wght@500;700;800&family=Russo+One&display=swap"></noscript>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -46,17 +46,18 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        mono: ['"JetBrains Mono"', 'monospace'],
-                        poster: ['"Archivo Black"', 'sans-serif'],
-                        sans: ['"Space Grotesk"', 'sans-serif']
+                        mono: ['"Cascadia Code"', 'monospace'],
+                        poster: ['"Russo One"', 'sans-serif'],
+                        sans: ['"Russo One"', 'sans-serif'],
+                        case: ['"Manrope"', 'sans-serif']
                     },
                     colors: {
-                        void: '#050810',
-                        neon: '#00FFB2',
-                        glow: '#00E5FF',
+                        void: '#060714',
+                        neon: '#5B7CFF',
+                        glow: '#A78BFA',
                         amber: '#F5B82E',
                         rec: '#FF3B30',
-                        bone: '#EDE6D6',
+                        bone: '#EAEAF2',
                         purple: '#8B5CF6'
                     }
                 }
@@ -64,37 +65,38 @@
         }
     </script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+    <script src="https://cdn.lordicon.com/lordicon.js" defer></script>
 
     <style>
         :root {
-            --bg: #050810;
-            --card-bg: rgba(5, 8, 16, 0.88);
-            --text: #EDE6D6;
-            --accent: #00FFB2;
-            --accent-2: #00E5FF;
-            --border: rgba(0, 255, 178, 0.15);
+            --bg: #060714;
+            --card-bg: rgba(6, 7, 20, 0.88);
+            --text: #EAEAF2;
+            --accent: #5B7CFF;
+            --accent-2: #A78BFA;
+            --border: rgba(91, 124, 255, 0.15);
         }
 
         body {
             background: var(--bg);
             color: var(--text);
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'Cascadia Code', monospace;
             overflow-x: hidden;
             width: 100vw;
             margin: 0;
             padding: 0;
         }
 
-        /* Scanlines and Vignette overlay */
+        /* Modern Matrix background: ambient glow + hairline grid (no CRT noise) */
         .scanlines {
             position: fixed;
             inset: 0;
-            background: linear-gradient(to bottom,
-                    rgba(255, 255, 255, 0),
-                    rgba(255, 255, 255, 0) 50%,
-                    rgba(0, 0, 0, 0.15) 50%,
-                    rgba(0, 0, 0, 0.15));
-            background-size: 100% 4px;
+            background:
+                radial-gradient(600px 400px at 15% 8%, rgba(91, 124, 255, 0.07), transparent 70%),
+                radial-gradient(700px 500px at 85% 92%, rgba(167, 139, 250, 0.05), transparent 70%),
+                linear-gradient(rgba(91, 124, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(91, 124, 255, 0.03) 1px, transparent 1px);
+            background-size: auto, auto, 56px 56px, 56px 56px;
             pointer-events: none;
             z-index: 90;
         }
@@ -158,23 +160,23 @@
 
         /* Neon glows based on card ID */
         .card-3d[data-card-id="01"] {
-            box-shadow: 0 0 35px rgba(0, 229, 255, 0.12), inset 0 0 15px rgba(0, 229, 255, 0.03);
-            border-color: rgba(0, 229, 255, 0.25);
+            box-shadow: 0 0 35px rgba(167, 139, 250, 0.12), inset 0 0 15px rgba(167, 139, 250, 0.03);
+            border-color: rgba(167, 139, 250, 0.25);
         }
 
         .card-3d[data-card-id="01"]:hover {
-            box-shadow: 0 0 65px rgba(0, 229, 255, 0.45), inset 0 0 25px rgba(0, 229, 255, 0.08);
-            border-color: #00E5FF;
+            box-shadow: 0 0 65px rgba(167, 139, 250, 0.45), inset 0 0 25px rgba(167, 139, 250, 0.08);
+            border-color: #A78BFA;
         }
 
         .card-3d[data-card-id="02"] {
-            box-shadow: 0 0 35px rgba(0, 255, 178, 0.12), inset 0 0 15px rgba(0, 255, 178, 0.03);
-            border-color: rgba(0, 255, 178, 0.25);
+            box-shadow: 0 0 35px rgba(91, 124, 255, 0.12), inset 0 0 15px rgba(91, 124, 255, 0.03);
+            border-color: rgba(91, 124, 255, 0.25);
         }
 
         .card-3d[data-card-id="02"]:hover {
-            box-shadow: 0 0 65px rgba(0, 255, 178, 0.45), inset 0 0 25px rgba(0, 255, 178, 0.08);
-            border-color: #00FFB2;
+            box-shadow: 0 0 65px rgba(91, 124, 255, 0.45), inset 0 0 25px rgba(91, 124, 255, 0.08);
+            border-color: #5B7CFF;
         }
 
         .card-3d[data-card-id="03"] {
@@ -199,7 +201,7 @@
         }
 
         .card-3d[data-card-id="01"] .card-glow-strip {
-            background: linear-gradient(90deg, transparent, #00E5FF, transparent);
+            background: linear-gradient(90deg, transparent, #A78BFA, transparent);
         }
 
         .card-3d[data-card-id="03"] .card-glow-strip {
@@ -241,7 +243,7 @@
 
         .card-3d[data-card-id="01"]:hover::before,
         .card-3d[data-card-id="01"]:hover::after {
-            border-color: #00E5FF;
+            border-color: #A78BFA;
         }
 
         .card-3d[data-card-id="03"]:hover::before,
@@ -251,11 +253,11 @@
 
         /* Big 3D Title */
         .big-text-3d {
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: 'Russo One', sans-serif;
             font-size: 14vw;
             font-weight: 900;
             color: transparent;
-            -webkit-text-stroke: 1.5px rgba(0, 255, 178, 0.2);
+            -webkit-text-stroke: 1.5px rgba(91, 124, 255, 0.2);
             text-transform: uppercase;
             white-space: nowrap;
             transform: translate(-50%, -50%);
@@ -284,7 +286,7 @@
             flex-direction: column;
             justify-content: space-between;
             font-size: 10px;
-            color: rgba(0, 255, 178, 0.5);
+            color: rgba(91, 124, 255, 0.5);
             text-transform: uppercase;
             font-family: monospace;
             transition: opacity 0.5s ease;
@@ -295,7 +297,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(rgba(0, 255, 178, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 178, 0.04) 1px, transparent 1px);
+            background: linear-gradient(rgba(91, 124, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(91, 124, 255, 0.04) 1px, transparent 1px);
             background-size: 40px 40px;
             pointer-events: none;
             z-index: 0;
@@ -303,7 +305,7 @@
 
         /* Neon Glow Utility */
         .glow-text {
-            text-shadow: 0 0 10px rgba(0, 255, 178, 0.8), 0 0 40px rgba(0, 255, 178, 0.3);
+            text-shadow: 0 0 10px rgba(91, 124, 255, 0.8), 0 0 40px rgba(91, 124, 255, 0.3);
         }
 
         .glow-rec {
@@ -323,12 +325,12 @@
             position: absolute;
             top: -20%;
             font-size: 14px;
-            color: #00FFB2;
+            color: #5B7CFF;
             opacity: 0.25;
             writing-mode: vertical-rl;
             letter-spacing: 3px;
             animation: rain linear infinite;
-            text-shadow: 0 0 6px rgba(0, 255, 178, 0.5);
+            text-shadow: 0 0 6px rgba(91, 124, 255, 0.5);
         }
 
         @keyframes rain {
@@ -340,14 +342,14 @@
         /* Terminal card */
         .terminal {
             background: rgba(5, 8, 16, 0.95);
-            border: 1px solid rgba(0, 255, 178, 0.3);
+            border: 1px solid rgba(91, 124, 255, 0.3);
             border-radius: 8px;
-            box-shadow: 0 0 35px rgba(0, 255, 178, 0.1), inset 0 0 20px rgba(0, 255, 178, 0.02)
+            box-shadow: 0 0 35px rgba(91, 124, 255, 0.1), inset 0 0 20px rgba(91, 124, 255, 0.02)
         }
 
         .terminal-bar {
-            background: rgba(0, 255, 178, 0.08);
-            border-bottom: 1px solid rgba(0, 255, 178, 0.2);
+            background: rgba(91, 124, 255, 0.08);
+            border-bottom: 1px solid rgba(91, 124, 255, 0.2);
             padding: 8px 16px;
             display: flex;
             align-items: center;
@@ -381,30 +383,30 @@
 
         /* Neon card */
         .neon-card {
-            border: 1px solid rgba(0, 255, 178, 0.25);
+            border: 1px solid rgba(91, 124, 255, 0.25);
             background: rgba(5, 8, 16, 0.8);
             transition: border-color .3s, box-shadow .3s, transform .3s;
         }
 
         .neon-card:hover {
-            border-color: #00FFB2;
-            box-shadow: 0 0 25px rgba(0, 255, 178, 0.3);
+            border-color: #5B7CFF;
+            box-shadow: 0 0 25px rgba(91, 124, 255, 0.3);
             transform: translateY(-4px);
         }
 
         /* Skill bars */
         .skill-bar {
             height: 6px;
-            background: rgba(0, 255, 178, 0.15);
+            background: rgba(91, 124, 255, 0.15);
             border-radius: 3px;
             overflow: hidden;
         }
 
         .skill-fill {
             height: 100%;
-            background: #00FFB2;
+            background: #5B7CFF;
             border-radius: 3px;
-            box-shadow: 0 0 6px rgba(0, 255, 178, 0.6);
+            box-shadow: 0 0 6px rgba(91, 124, 255, 0.6);
             width: 0%;
             transition: width 1.5s cubic-bezier(.2, .7, .2, 1);
         }
@@ -433,16 +435,153 @@
             }
         }
 
-        /* Reveal animations */
+        /* Reveal animations: blur-in + rise, staggered via --reveal-delay set by JS */
         .reveal {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all .8s cubic-bezier(.2, .7, .2, 1);
+            transform: translateY(24px);
+            filter: blur(10px);
+            transition: opacity .9s cubic-bezier(.2, .7, .2, 1), transform .9s cubic-bezier(.2, .7, .2, 1), filter .9s cubic-bezier(.2, .7, .2, 1);
+            transition-delay: var(--reveal-delay, 0s);
         }
 
         .reveal.visible {
             opacity: 1;
             transform: translateY(0);
+            filter: blur(0);
+        }
+
+        /* Display headings: Russo One — keep tracking neutral */
+        h1.font-sans, h2.font-sans, h3.font-sans {
+            letter-spacing: -0.01em;
+        }
+
+        /* Word-by-word masked text reveal (words wrapped by JS) */
+        .word-mask {
+            display: inline-block;
+            overflow: hidden;
+            vertical-align: bottom;
+        }
+
+        .word-mask > span {
+            display: inline-block;
+            transform: translateY(110%);
+            transition: transform .7s cubic-bezier(.19, 1, .22, 1);
+            transition-delay: var(--word-delay, 0s);
+        }
+
+        .words-in .word-mask > span {
+            transform: translateY(0);
+        }
+
+        /* Cyber glitch (по мотивам cybercore-css): хроматическая аберрация через data-text */
+        .cyber-glitch {
+            position: relative;
+            display: inline-block;
+        }
+
+        .cyber-glitch::before,
+        .cyber-glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .cyber-glitch::before {
+            color: #5B7CFF;
+            animation: glitchShift 3.5s infinite steps(1);
+        }
+
+        .cyber-glitch::after {
+            color: #A78BFA;
+            animation: glitchShift 3.5s infinite steps(1) reverse;
+        }
+
+        @keyframes glitchShift {
+            0%, 91% { opacity: 0; transform: none; clip-path: none; }
+            92% { opacity: .85; transform: translate(-4px, 2px); clip-path: inset(15% 0 60% 0); }
+            94% { opacity: .85; transform: translate(4px, -2px); clip-path: inset(55% 0 20% 0); }
+            96% { opacity: .85; transform: translate(-3px, 0); clip-path: inset(30% 0 40% 0); }
+            98% { opacity: .85; transform: translate(3px, 1px); clip-path: inset(70% 0 5% 0); }
+            100% { opacity: 0; transform: none; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .cyber-glitch::before,
+            .cyber-glitch::after {
+                animation: none;
+                opacity: 0;
+            }
+        }
+
+        /* Animated blue-violet gradient text for key headings */
+        .text-flow {
+            background: linear-gradient(90deg, #5B7CFF, #A78BFA, #8B5CF6, #5B7CFF);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: textFlow 6s linear infinite;
+        }
+
+        @keyframes textFlow {
+            to { background-position: 300% 0; }
+        }
+
+        /* Sheen sweep on buttons */
+        .sheen {
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+        }
+
+        .sheen::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(105deg, transparent 40%, rgba(167,139,250,0.3) 50%, transparent 60%);
+            transform: translateX(-130%);
+            transition: transform .6s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .sheen:hover::after {
+            transform: translateX(130%);
+        }
+
+        /* Card glow lift on hover */
+        .terminal {
+            transition: border-color .4s ease, box-shadow .4s ease, transform .4s ease;
+        }
+
+        .terminal:hover {
+            border-color: rgba(91, 124, 255, 0.45);
+            box-shadow: 0 0 32px -10px rgba(91, 124, 255, 0.4), 0 0 60px -30px rgba(139, 92, 246, 0.35);
+            transform: translateY(-2px);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .reveal {
+                transition: none;
+                opacity: 1;
+                transform: none;
+                filter: none;
+            }
+            .word-mask > span {
+                transition: none;
+                transform: none;
+            }
+            .text-flow {
+                animation: none;
+            }
+            .sheen::after {
+                display: none;
+            }
+            .terminal {
+                transition: none;
+            }
         }
 
         @keyframes msgFade {
@@ -497,8 +636,8 @@
             max-height: 90%;
             object-fit: contain;
             border-radius: 8px;
-            border: 2px solid rgba(0, 255, 178, 0.3);
-            box-shadow: 0 0 40px rgba(0, 255, 178, 0.25);
+            border: 2px solid rgba(91, 124, 255, 0.3);
+            box-shadow: 0 0 40px rgba(91, 124, 255, 0.25);
             cursor: default;
             animation: lb-in .25s cubic-bezier(.2,.7,.2,1);
         }
@@ -510,7 +649,7 @@
             position: fixed;
             top: 20px;
             right: 24px;
-            color: #00FFB2;
+            color: #5B7CFF;
             font-size: 2.5rem;
             line-height: 1;
             background: none;
@@ -522,13 +661,13 @@
         }
         #lb-close:hover {
             opacity: 1;
-            text-shadow: 0 0 8px #00FFB2;
+            text-shadow: 0 0 8px #5B7CFF;
         }
         #lb-prev, #lb-next {
             position: fixed;
             top: 50%;
             transform: translateY(-50%);
-            color: #00FFB2;
+            color: #5B7CFF;
             font-size: 3rem;
             background: none;
             border: none;
@@ -543,7 +682,7 @@
         #lb-next { right: 8px; }
         #lb-prev:hover, #lb-next:hover {
             opacity: 1;
-            text-shadow: 0 0 10px #00FFB2;
+            text-shadow: 0 0 10px #5B7CFF;
         }
         #lb-caption {
             position: fixed;
@@ -556,7 +695,7 @@
             text-transform: uppercase;
             white-space: nowrap;
             z-index: 10000;
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'Cascadia Code', monospace;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -573,7 +712,7 @@
   "image":"https://nikitos404.ru/og-image.png",
   "areaServed":"RU",
   "description":"Сайты под ключ, лендинги и Telegram-боты на Python. Создание и разработка сайтов для бизнеса.",
-  "provider":{"@type":"Person","name":"Nik","alternateName":"pythonvoin","url":"https://nikitos404.ru/"}
+  "provider":{"@type":"Person","name":"Nik","alternateName":["Ник","Никитос","pythonvoin","nikitos404"],"url":"https://nikitos404.ru/"}
 }
 </script>
 <script type="application/ld+json">
@@ -612,7 +751,7 @@
         <div class="flex justify-between items-center">
             <span>SYS.READY // 3D_SPACE</span>
             <div class="flex-1 h-[1px] bg-neon/20 mx-4 relative">
-                <div class="absolute right-0 top-[-2px] w-1 h-1 bg-neon shadow-[0_0_8px_#00FFB2]"></div>
+                <div class="absolute right-0 top-[-2px] w-1 h-1 bg-neon shadow-[0_0_8px_#5B7CFF]"></div>
             </div>
             <span>FPS: <strong id="fps" class="text-glow">60</strong></span>
         </div>
@@ -655,7 +794,7 @@
                 <a href="montage.html" class="px-3 py-1 text-bone/60 hover:text-neon transition">МОНТАЖ</a>
                 <a href="design.html" class="px-3 py-1 text-bone/60 hover:text-neon transition">ДИЗАЙН</a>
                 <a href="dev.html"
-                    class="px-3 py-1 bg-neon text-void font-bold shadow-[0_0_10px_rgba(0,255,178,0.3)]">КОД</a>
+                    class="px-3 py-1 bg-neon text-void font-bold shadow-[0_0_10px_rgba(91,124,255,0.3)]">КОД</a>
             </nav>
             <div class="text-neon/60">03 / 03</div>
         </header>
@@ -665,15 +804,16 @@
             <div class="max-w-6xl mx-auto w-full">
                 <div class="text-xs uppercase tracking-[0.3em] text-neon/50 mb-6 font-mono">$ cat ./about.md</div>
 
-                <h1 class="text-[12vw] md:text-[9vw] font-poster leading-[0.85] text-bone glow-text uppercase">
-                    &lt;WEB<br><span class="text-neon">DEV</span> /&gt;
+                <h1 class="text-[10vw] md:text-[6.5vw] font-poster leading-[0.95] text-bone glow-text uppercase">
+                    <span class="cyber-glitch" data-text="РАЗРАБОТКА">РАЗРАБОТКА</span><br>
+                    <span class="text-flow">ПОД КЛЮЧ</span> <span class="text-neon/60">/&gt;</span>
                 </h1>
 
                 <div class="mt-10 terminal max-w-2xl relative">
                     <div class="terminal-bar">
                         <span class="terminal-dot bg-rec shadow-[0_0_8px_#FF3B30]"></span>
                         <span class="terminal-dot bg-amber shadow-[0_0_8px_#F5B82E]"></span>
-                        <span class="terminal-dot bg-neon shadow-[0_0_8px_#00FFB2]"></span>
+                        <span class="terminal-dot bg-neon shadow-[0_0_8px_#5B7CFF]"></span>
                         <span class="text-neon/60 text-xs ml-2 font-mono">artem@kadr:~/projects</span>
                     </div>
                     <div class="p-6 space-y-3 text-sm font-mono leading-relaxed">
@@ -693,7 +833,7 @@
 
                 <div class="mt-12 flex flex-wrap gap-4">
                     <a href="#cases"
-                        class="px-8 py-4 bg-neon text-void font-bold uppercase text-xs tracking-widest hover:bg-bone shadow-[0_0_15px_rgba(0,255,178,0.2)] hover:shadow-[0_0_20px_rgba(237,230,214,0.4)] transition duration-300">Примеры
+                        class="px-8 py-4 bg-neon text-void font-bold uppercase text-xs tracking-widest hover:bg-bone shadow-[0_0_15px_rgba(91,124,255,0.2)] hover:shadow-[0_0_20px_rgba(237,230,214,0.4)] transition duration-300">Примеры
                         Кейсов →</a>
                     <a href="#contact"
                         class="px-8 py-4 border border-neon/40 text-neon font-bold uppercase text-xs tracking-widest hover:border-neon hover:bg-neon/10 transition duration-300">Написать</a>
@@ -733,47 +873,78 @@
 
                 <div class="space-y-16">
 
-                    <!-- CASE 1: MULTI-THREADED PARSERS -->
+                    <!-- CASE 1: NEURO.CORE — TELEGRAM BOT DASHBOARD -->
                     <div class="grid md:grid-cols-12 gap-8 items-center reveal">
                         <div class="md:col-span-5 space-y-4">
-                            <div class="text-[10px] text-amber font-mono">// CASE_01 // PYTHON PARSERS</div>
-                            <h3 class="text-bone text-3xl font-bold font-sans tracking-tight">Парсинг видео и каналов
-                            </h3>
+                            <div class="text-[10px] text-amber font-mono">// CASE_01 // TELEGRAM AUTOMATION</div>
+                            <h3 class="text-bone text-3xl font-extrabold font-case tracking-tight">NEURO.CORE —
+                                нейрокомментинг в Telegram</h3>
                             <p class="text-neon/70 text-sm leading-relaxed">
-                                Разрабатываю высокопроизводительные многопоточные парсеры контента с автоматическим
-                                обходом Cloudflare и лимитов платформ.
+                                Система авто-комментинга на нейросетях: бот читает новые посты в каналах и оставляет
+                                живые, осмысленные комментарии от имени ваших аккаунтов. Это не скриншот — настоящий
+                                рабочий интерфейс: запусти демо и покликай его прямо здесь.
                             </p>
-                            <ul class="text-xs space-y-2 text-slate-400 font-mono">
-                                <li class="flex items-center gap-2">
-                                    <span class="text-neon">✓</span> Сбор медиафайлов без водяных знаков (Shorts, Reels,
-                                    TikTok)
+                            <ul class="text-xs space-y-2.5 text-slate-400 font-mono">
+                                <li class="flex items-center gap-2.5">
+                                    <lord-icon src="https://cdn.lordicon.com/hpivxauj.json" trigger="loop"
+                                        delay="2500" colors="primary:#F5B82E" style="width:22px;height:22px"
+                                        class="shrink-0"></lord-icon> ИИ-комментарии под стиль канала: без шаблонов и
+                                    банов
                                 </li>
-                                <li class="flex items-center gap-2">
-                                    <span class="text-neon">✓</span> Мониторинг новых постов в Telegram-каналах 24/7
+                                <li class="flex items-center gap-2.5">
+                                    <lord-icon src="https://cdn.lordicon.com/dxjqoygy.json" trigger="loop"
+                                        delay="3200" colors="primary:#F5B82E" style="width:22px;height:22px"
+                                        class="shrink-0"></lord-icon> Ферма аккаунтов: прогрев, прокси, лимиты, ротация
                                 </li>
-                                <li class="flex items-center gap-2">
-                                    <span class="text-neon">✓</span> Автоматический экспорт собранных данных в Google
-                                    Таблицы/SQL
+                                <li class="flex items-center gap-2.5">
+                                    <lord-icon src="https://cdn.lordicon.com/yxyampao.json" trigger="loop"
+                                        delay="2800" colors="primary:#F5B82E" style="width:22px;height:22px"
+                                        class="shrink-0"></lord-icon> Live-лента событий и метрики охвата в реальном
+                                    времени
+                                </li>
+                                <li class="flex items-center gap-2.5">
+                                    <lord-icon src="https://cdn.lordicon.com/lecprnjb.json" trigger="loop"
+                                        delay="3600" colors="primary:#F5B82E" style="width:22px;height:22px"
+                                        class="shrink-0"></lord-icon> Сценарии поведения: задержки, ответы на ответы,
+                                    реакции
+                                </li>
+                                <li class="flex items-center gap-2.5">
+                                    <lord-icon src="https://cdn.lordicon.com/ercyvufy.json" trigger="loop"
+                                        delay="3000" colors="primary:#F5B82E" style="width:22px;height:22px"
+                                        class="shrink-0"></lord-icon> Трафик из комментариев прямо на ваш канал или
+                                    бота
                                 </li>
                             </ul>
-                            <button id="btn-run-parser"
-                                class="px-6 py-3 bg-void border border-neon/40 text-neon rounded text-xs font-bold font-mono tracking-wider hover:bg-neon/15 hover:border-neon transition active:scale-95"
-                                onclick="runChannelParser()">
-                                ЗАПУСТИТЬ ПАРСИНГ КАНАЛА
-                            </button>
                         </div>
                         <div class="md:col-span-7">
-                            <div class="terminal w-full h-[260px] flex flex-col">
-                                <div class="terminal-bar">
-                                    <span class="terminal-dot bg-rec"></span>
-                                    <span class="terminal-dot bg-amber"></span>
-                                    <span class="terminal-dot bg-neon"></span>
-                                    <span class="text-neon/50 text-[10px] ml-2 font-mono">console@parser-node:~</span>
+                            <!-- Live demo facade: iframe создаётся только после клика и открывается на весь экран -->
+                            <div id="neuro-demo-shell" class="terminal w-full h-[300px] md:h-[420px] flex flex-col relative overflow-hidden"
+                                style="background:#06070b; border-color:rgba(245,184,46,0.3)">
+                                <div class="flex justify-between items-center gap-2 md:gap-3 border-b border-slate-800 px-3 md:px-4 py-2.5 shrink-0">
+                                    <div class="hidden sm:block text-[11px] font-bold font-sans tracking-[0.2em] whitespace-nowrap text-amber">
+                                        NEURO.CORE</div>
+                                    <div class="flex-1 min-w-0 truncate text-center font-mono text-[10px] text-slate-500 bg-void/60 border border-slate-800 rounded px-3 py-1">
+                                        <span aria-hidden="true">🔒</span> neuro.core</div>
+                                    <div class="flex items-center gap-2 text-[9px] font-mono whitespace-nowrap">
+                                        <span id="neuro-demo-dot" class="w-2 h-2 rounded-full bg-gray-600"></span>
+                                        <span id="neuro-demo-status" class="hidden sm:inline text-gray-500 font-bold">OFFLINE</span>
+                                        <button type="button" id="neuro-demo-fs" class="hidden text-slate-400 hover:text-white transition leading-none text-[13px] pl-1" title="Во весь экран" aria-label="Открыть демо во весь экран">⛶</button>
+                                        <button type="button" id="neuro-demo-min" class="hidden items-center gap-1 text-slate-400 hover:text-white transition text-[10px] uppercase tracking-wider pl-1" aria-label="Свернуть демо">✕ <span class="hidden md:inline">свернуть</span></button>
+                                    </div>
                                 </div>
-                                <div id="parser-console-logs"
-                                    class="flex-1 p-4 overflow-y-auto font-mono text-[10px] text-slate-400 space-y-1 bg-black/50 select-none">
-                                    <div class="text-slate-500">// Терминал готов. Нажми кнопку слева для запуска
-                                        имитации парсера.</div>
+                                <div id="neuro-demo-body" class="flex-1 relative overflow-hidden">
+                                    <!-- Лёгкое превью-скриншот (~23KB webp), живой сайт грузится только по клику -->
+                                    <img src="labs/neurocore-preview.webp" alt="Превью панели NEURO.CORE"
+                                        class="absolute inset-0 w-full h-full object-cover object-top select-none" loading="lazy" decoding="async" draggable="false" />
+                                    <div id="neuro-demo-cover" class="absolute inset-0 flex flex-col items-center justify-center gap-4 text-center cursor-pointer backdrop-blur-[4px]"
+                                        style="background:linear-gradient(180deg, rgba(6,7,11,0.82), rgba(6,7,11,0.93));">
+                                        <div class="text-[9px] text-amber font-mono tracking-widest [text-shadow:0_1px_4px_rgba(0,0,0,0.9)]">// LIVE_DEMO // РАБОЧИЙ ИНТЕРФЕЙС, НЕ КАРТИНКА</div>
+                                        <button type="button" id="neuro-demo-launch"
+                                            class="py-3 px-8 bg-neon text-void font-bold rounded text-[10px] uppercase tracking-wider transition duration-300 hover:bg-white shadow-[0_0_20px_rgba(91,124,255,0.35)]">
+                                            ▶ Запустить живое демо
+                                        </button>
+                                        <div class="text-[9px] text-slate-200 font-mono [text-shadow:0_1px_4px_rgba(0,0,0,0.9)]">Клик — и панель откроется прямо здесь</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -782,31 +953,37 @@
                     <!-- CASE 2: BUSINESS AUTOMATION & PostgreSQL CRM -->
                     <div class="grid md:grid-cols-12 gap-8 items-center reveal pt-12 border-t border-neon/10">
                         <div class="md:col-span-5 md:order-2 space-y-4">
-                            <div class="text-[10px] text-glow font-mono" style="color:#00E5FF">// CASE_02 // SYSTEM
+                            <div class="text-[10px] text-glow font-mono" style="color:#A78BFA">// CASE_02 // SYSTEM
                                 INTEGRATION</div>
-                            <h3 class="text-bone text-3xl font-bold font-sans tracking-tight">Автоматизация & Базы
+                            <h3 class="text-bone text-3xl font-extrabold font-case tracking-tight">Автоматизация & Базы
                                 Данных</h3>
                             <p class="text-neon/70 text-sm leading-relaxed">
                                 Связываю веб-интерфейсы, Telegram-боты и распределенные БД (PostgreSQL / Redis). Полная
                                 автоматизация воронки продаж и учета.
                             </p>
-                            <ul class="text-xs space-y-2 text-slate-400 font-mono">
-                                <li class="flex items-center gap-2">
-                                    <span class="text-glow" style="color:#00E5FF">✓</span> Интеграция эквайринга
+                            <ul class="text-xs space-y-2.5 text-slate-400 font-mono">
+                                <li class="flex items-center gap-2.5">
+                                    <lord-icon src="https://cdn.lordicon.com/qhviklyi.json" trigger="loop"
+                                        delay="2700" colors="primary:#A78BFA" style="width:22px;height:22px"
+                                        class="shrink-0"></lord-icon> Интеграция эквайринга
                                     (ЮKassa, CryptoPay, Stripe)
                                 </li>
-                                <li class="flex items-center gap-2">
-                                    <span class="text-glow" style="color:#00E5FF">✓</span> Автоматическая рассылка
+                                <li class="flex items-center gap-2.5">
+                                    <lord-icon src="https://cdn.lordicon.com/nzixoeyk.json" trigger="loop"
+                                        delay="3300" colors="primary:#A78BFA" style="width:22px;height:22px"
+                                        class="shrink-0"></lord-icon> Автоматическая рассылка
                                     триггерных уведомлений
                                 </li>
-                                <li class="flex items-center gap-2">
-                                    <span class="text-glow" style="color:#00E5FF">✓</span> Построение CRM-дашбордов
+                                <li class="flex items-center gap-2.5">
+                                    <lord-icon src="https://cdn.lordicon.com/uecgmesg.json" trigger="loop"
+                                        delay="2900" colors="primary:#A78BFA" style="width:22px;height:22px"
+                                        class="shrink-0"></lord-icon> Построение CRM-дашбордов
                                     реального времени
                                 </li>
                             </ul>
                             <button
                                 class="px-6 py-3 bg-void border border-glow/40 text-glow rounded text-xs font-bold font-mono tracking-wider hover:bg-glow/15 hover:border-glow transition active:scale-95"
-                                style="color:#00E5FF; border-color:rgba(0,229,255,0.4)" onclick="addCRMOrder()">
+                                style="color:#A78BFA; border-color:rgba(167,139,250,0.4)" onclick="addCRMOrder()">
                                 ДОБАВИТЬ ЗАКАЗ В БД
                             </button>
                         </div>
@@ -818,7 +995,7 @@
                                         <span class="terminal-dot bg-amber"></span>
                                         <span class="terminal-dot bg-neon"></span>
                                         <span class="text-glow text-[10px] ml-2 font-mono"
-                                            style="color:#00E5FF">database: postgresql_crm</span>
+                                            style="color:#A78BFA">database: postgresql_crm</span>
                                     </div>
                                     <div class="text-[9px] text-gray-500 font-mono">Total profit: <strong
                                             class="text-neon" id="crm-profit-val">25 000 ₽</strong></div>
@@ -873,20 +1050,43 @@
                     <div class="grid md:grid-cols-12 gap-8 items-center reveal pt-12 border-t border-neon/10">
                         <div class="md:col-span-5 space-y-4">
                             <div class="text-[10px] text-purple font-mono">// CASE_03 // FRONTEND EXTRA</div>
-                            <h3 class="text-bone text-3xl font-bold font-sans tracking-tight">Облачко VPN — лендинг
-                            </h3>
+                            <h3 class="text-bone text-3xl font-extrabold font-case tracking-tight">Облачко VPN —
+                                лендинг + продажи в Telegram</h3>
                             <p class="text-neon/70 text-sm leading-relaxed">
-                                Продающий лендинг VPN-сервиса: тарифы, преимущества, адаптивная вёрстка. Это не
-                                скриншот — настоящий рабочий сайт: запусти демо и покликай его прямо здесь.
+                                Продающий лендинг VPN-сервиса, связанный с Telegram-ботом: продажа подписок, выдача
+                                доступа и приём оплат работают на автопилоте. Это не скриншот — настоящий рабочий
+                                сайт: запусти демо и покликай его прямо здесь.
                             </p>
-                            <ul class="text-xs space-y-2 text-slate-400 font-mono">
-                                <li class="flex items-center gap-2">
-                                    <span class="text-purple" style="color:#8B5CF6">✓</span> Плавные анимации и
-                                    аккуратная типографика
+                            <ul class="text-xs space-y-2.5 text-slate-400 font-mono">
+                                <li class="flex items-center gap-2.5">
+                                    <lord-icon src="https://cdn.lordicon.com/gqzfzudq.json" trigger="loop"
+                                        delay="2600" colors="primary:#8B5CF6" style="width:22px;height:22px"
+                                        class="shrink-0"></lord-icon> Подключение к Telegram:
+                                    оплата и выдача ключа прямо в боте
                                 </li>
-                                <li class="flex items-center gap-2">
-                                    <span class="text-purple" style="color:#8B5CF6">✓</span> Адаптив под телефон,
-                                    планшет и десктоп
+                                <li class="flex items-center gap-2.5">
+                                    <lord-icon src="https://cdn.lordicon.com/slkvcfos.json" trigger="loop"
+                                        delay="3400" colors="primary:#8B5CF6" style="width:22px;height:22px"
+                                        class="shrink-0"></lord-icon> Продажа подписок:
+                                    тарифы, автопродление, напоминания
+                                </li>
+                                <li class="flex items-center gap-2.5">
+                                    <lord-icon src="https://cdn.lordicon.com/nkmsrxys.json" trigger="loop"
+                                        delay="2900" colors="primary:#8B5CF6" style="width:22px;height:22px"
+                                        class="shrink-0"></lord-icon> Бесплатный доступ:
+                                    пробный период и триал по промокоду
+                                </li>
+                                <li class="flex items-center gap-2.5">
+                                    <lord-icon src="https://cdn.lordicon.com/qhviklyi.json" trigger="loop"
+                                        delay="3800" colors="primary:#8B5CF6" style="width:22px;height:22px"
+                                        class="shrink-0"></lord-icon> Оплаты: ЮKassa,
+                                    CryptoPay, Stars — автоматическая активация
+                                </li>
+                                <li class="flex items-center gap-2.5">
+                                    <lord-icon src="https://cdn.lordicon.com/yxyampao.json" trigger="loop"
+                                        delay="3100" colors="primary:#8B5CF6" style="width:22px;height:22px"
+                                        class="shrink-0"></lord-icon> Реферальная программа и
+                                    аналитика конверсии
                                 </li>
                             </ul>
                         </div>
@@ -910,14 +1110,14 @@
                                     <!-- Лёгкое превью-скриншот (~24KB webp), живой сайт грузится только по клику -->
                                     <img src="labs/vpn-preview.webp" alt="Превью лендинга Облачко VPN"
                                         class="absolute inset-0 w-full h-full object-cover object-top select-none" loading="lazy" decoding="async" draggable="false" />
-                                    <div id="vpn-demo-cover" class="absolute inset-0 flex flex-col items-center justify-center gap-4 text-center cursor-pointer"
-                                        style="background:linear-gradient(180deg, rgba(11,15,25,0.45), rgba(11,15,25,0.78));">
-                                        <div class="text-[9px] text-neon font-mono tracking-widest">// LIVE_DEMO // РАБОЧИЙ САЙТ, НЕ КАРТИНКА</div>
+                                    <div id="vpn-demo-cover" class="absolute inset-0 flex flex-col items-center justify-center gap-4 text-center cursor-pointer backdrop-blur-[4px]"
+                                        style="background:linear-gradient(180deg, rgba(11,15,25,0.82), rgba(11,15,25,0.93));">
+                                        <div class="text-[9px] text-neon font-mono tracking-widest [text-shadow:0_1px_4px_rgba(0,0,0,0.9)]">// LIVE_DEMO // РАБОЧИЙ САЙТ, НЕ КАРТИНКА</div>
                                         <button type="button" id="vpn-demo-launch"
-                                            class="py-3 px-8 bg-neon text-void font-bold rounded text-[10px] uppercase tracking-wider transition duration-300 hover:bg-white shadow-[0_0_20px_rgba(0,255,178,0.35)]">
+                                            class="py-3 px-8 bg-neon text-void font-bold rounded text-[10px] uppercase tracking-wider transition duration-300 hover:bg-white shadow-[0_0_20px_rgba(91,124,255,0.35)]">
                                             ▶ Запустить живое демо
                                         </button>
-                                        <div class="text-[9px] text-slate-300 font-mono">Клик — и сайт откроется прямо здесь</div>
+                                        <div class="text-[9px] text-slate-200 font-mono [text-shadow:0_1px_4px_rgba(0,0,0,0.9)]">Клик — и сайт откроется прямо здесь</div>
                                     </div>
                                 </div>
                             </div>
@@ -1206,7 +1406,7 @@
             zGap: 900,
             starCount: 120,
             camSpeed: 2.2,
-            colors: ['#00FFB2', '#00E5FF', '#EDE6D6']
+            colors: ['#5B7CFF', '#A78BFA', '#EAEAF2']
         };
 
         const itemsData = [
@@ -1240,7 +1440,7 @@
                         <div class="card-glow-strip"></div>
                         <div class="relative z-10">
                             <div class="flex justify-between items-center">
-                                <div class="text-[12px] font-bold tracking-[0.2em] font-sans" style="color:#00E5FF; text-shadow:0 0 10px rgba(0,229,255,0.5)">CRYPTO.IO</div>
+                                <div class="text-[12px] font-bold tracking-[0.2em] font-sans" style="color:#A78BFA; text-shadow:0 0 10px rgba(167,139,250,0.5)">CRYPTO.IO</div>
                                 <span class="text-[6px] text-gray-500 uppercase tracking-widest font-mono">BUILD_V1.1</span>
                             </div>
                             <div class="text-[8px] text-gray-400 mt-1 uppercase tracking-wider font-mono">DeFi Landing Platform</div>
@@ -1250,7 +1450,7 @@
                                     <span>BTC/USDT 24h</span>
                                     <span class="text-neon" id="mini-btc-change">+4.12%</span>
                                 </div>
-                                <div class="text-[15px] text-neon font-bold font-mono tracking-tight" id="mini-btc-price" style="text-shadow: 0 0 8px rgba(0,255,178,0.3)">$67,492.10</div>
+                                <div class="text-[15px] text-neon font-bold font-mono tracking-tight" id="mini-btc-price" style="text-shadow: 0 0 8px rgba(91,124,255,0.3)">$67,492.10</div>
                                 <div class="w-full h-[35px] flex items-end gap-[3px] mt-2 border-t border-slate-900 pt-1">
                                     <div class="flex-1 bg-neon/10 h-[10px] rounded-sm"></div>
                                     <div class="flex-1 bg-neon/20 h-[18px] rounded-sm"></div>
@@ -1258,7 +1458,7 @@
                                     <div class="flex-1 bg-neon/50 h-[22px] rounded-sm"></div>
                                     <div class="flex-1 bg-neon/70 h-[18px] rounded-sm"></div>
                                     <div class="flex-1 bg-neon/90 h-[28px] rounded-sm"></div>
-                                    <div class="flex-1 bg-neon h-[32px] rounded-sm shadow-[0_0_5px_#00FFB2]"></div>
+                                    <div class="flex-1 bg-neon h-[32px] rounded-sm shadow-[0_0_5px_#5B7CFF]"></div>
                                 </div>
                             </div>
 
@@ -1269,14 +1469,14 @@
                                 </div>
                                 <div class="p-2 border border-slate-800/60 rounded bg-slate-950/40">
                                     <div class="text-slate-500 mb-0.5">SEO LOAD</div>
-                                    <div class="text-glow font-bold" style="color:#00E5FF">A+ GRADE</div>
+                                    <div class="text-glow font-bold" style="color:#A78BFA">A+ GRADE</div>
                                 </div>
                             </div>
                         </div>
                         <div class="text-[10px] text-slate-300 relative z-10 leading-relaxed font-sans mt-2">
                             Абсолютно уникальный дизайн с WebGL эффектами, преломлениями и реактивной скоростью загрузки.
                         </div>
-                        <button class="w-full py-3 bg-neon text-void font-bold text-[9px] uppercase tracking-widest rounded-md mt-4 transition hover:bg-white active:scale-95 relative z-10 shadow-[0_0_15px_rgba(0,255,178,0.2)]" id="btn-mini-wallet" onclick="event.stopPropagation(); connectMiniWallet(this)">
+                        <button class="w-full py-3 bg-neon text-void font-bold text-[9px] uppercase tracking-widest rounded-md mt-4 transition hover:bg-white active:scale-95 relative z-10 shadow-[0_0_15px_rgba(91,124,255,0.2)]" id="btn-mini-wallet" onclick="event.stopPropagation(); connectMiniWallet(this)">
                             CONNECT WALLET
                         </button>
                     </div>
@@ -1286,7 +1486,7 @@
                     <div class="mini-chat h-full flex flex-col justify-between p-5 text-left relative" style="background:#070b12; border-radius: 10px;">
                         <div class="card-glow-strip"></div>
                         <div class="flex items-center gap-3 border-b border-slate-800 pb-3 mb-3 relative z-10">
-                            <div class="w-8 h-8 rounded-full bg-neon/10 border border-neon flex items-center justify-center text-[12px] shadow-[0_0_10px_rgba(0,255,178,0.2)]">🤖</div>
+                            <div class="w-8 h-8 rounded-full bg-neon/10 border border-neon flex items-center justify-center text-[12px] shadow-[0_0_10px_rgba(91,124,255,0.2)]">🤖</div>
                             <div>
                                 <div class="text-[11px] font-bold text-white font-mono leading-none">NEYRO_BOT // TG</div>
                                 <div class="text-[7px] text-neon uppercase mt-1 font-mono tracking-widest">status: active // thread_0</div>
@@ -1300,8 +1500,8 @@
                         <div class="mt-3 relative z-10">
                             <div class="text-[7px] text-slate-500 font-mono mb-2">// QUICK OPTIONS</div>
                             <div class="flex gap-2">
-                                <button class="flex-1 py-2 bg-neon/10 border border-neon/30 text-neon rounded text-[8px] font-bold transition hover:bg-neon hover:text-void hover:shadow-[0_0_10px_rgba(0,255,178,0.3)]" onclick="event.stopPropagation(); sendMiniMsg('parser')">ПАРСИНГ ВИДЕО</button>
-                                <button class="flex-1 py-2 bg-neon/10 border border-neon/30 text-neon rounded text-[8px] font-bold transition hover:bg-neon hover:text-void hover:shadow-[0_0_10px_rgba(0,255,178,0.3)]" onclick="event.stopPropagation(); sendMiniMsg('ai')">ИИ-ПОМОЩНИК</button>
+                                <button class="flex-1 py-2 bg-neon/10 border border-neon/30 text-neon rounded text-[8px] font-bold transition hover:bg-neon hover:text-void hover:shadow-[0_0_10px_rgba(91,124,255,0.3)]" onclick="event.stopPropagation(); sendMiniMsg('parser')">ПАРСИНГ ВИДЕО</button>
+                                <button class="flex-1 py-2 bg-neon/10 border border-neon/30 text-neon rounded text-[8px] font-bold transition hover:bg-neon hover:text-void hover:shadow-[0_0_10px_rgba(91,124,255,0.3)]" onclick="event.stopPropagation(); sendMiniMsg('ai')">ИИ-ПОМОЩНИК</button>
                             </div>
                         </div>
                     </div>
@@ -1313,7 +1513,7 @@
                         <div class="flex justify-between items-center border-b border-slate-900 pb-3 mb-3 relative z-10">
                             <div class="text-[9px] font-bold text-amber font-mono tracking-wider">CRON_MONITOR // NODE_01</div>
                             <div class="flex items-center gap-1.5">
-                                <span class="w-1.5 h-1.5 rounded-full bg-neon animate-pulse shadow-[0_0_5px_#00FFB2]"></span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-neon animate-pulse shadow-[0_0_5px_#5B7CFF]"></span>
                                 <span class="text-[7px] text-slate-500 font-mono">LIVE</span>
                             </div>
                         </div>
@@ -1573,34 +1773,34 @@
 
                 setTimeout(() => {
                     btn.innerText = 'CONNECTED: 0x71...3A9';
-                    btn.style.background = '#00FFB2';
-                    btn.style.boxShadow = '0 0 12px rgba(0, 255, 178, 0.6)';
+                    btn.style.background = '#5B7CFF';
+                    btn.style.boxShadow = '0 0 12px rgba(91, 124, 255, 0.6)';
 
                     const price = document.getElementById('mini-btc-price');
                     const change = document.getElementById('mini-btc-change');
                     if (price) {
                         price.innerText = '$68,142.50';
-                        price.style.color = '#00E5FF';
+                        price.style.color = '#A78BFA';
                     }
                     if (change) {
                         change.innerText = '+5.18%';
-                        change.style.color = '#00E5FF';
+                        change.style.color = '#A78BFA';
                     }
                 }, 1000);
             } else {
                 btn.innerText = 'CONNECT WALLET';
-                btn.style.background = '#00FFB2';
-                btn.style.boxShadow = '0 0 10px rgba(0, 255, 178, 0.3)';
+                btn.style.background = '#5B7CFF';
+                btn.style.boxShadow = '0 0 10px rgba(91, 124, 255, 0.3)';
 
                 const price = document.getElementById('mini-btc-price');
                 const change = document.getElementById('mini-btc-change');
                 if (price) {
                     price.innerText = '$67,492.10';
-                    price.style.color = '#00FFB2';
+                    price.style.color = '#5B7CFF';
                 }
                 if (change) {
                     change.innerText = '+4.12%';
-                    change.style.color = '#00FFB2';
+                    change.style.color = '#5B7CFF';
                 }
             }
         }
@@ -1742,10 +1942,40 @@
             }
         })();
 
-        // Reveal animations on scroll
-        const io = new IntersectionObserver(es => es.forEach(e => {
-            if (e.isIntersecting) {
+        // --- DEV FX (blue-violet) ---
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // Пословный mask-reveal: слова заголовка выезжают снизу из «маски»
+        function wordReveal(el) {
+            if (reducedMotion || el.dataset.wordsDone) return;
+            el.dataset.wordsDone = '1';
+            const original = el.textContent;
+            if (!original || original.length > 90 || el.children.length > 0) return;
+            const words = original.trim().split(/\s+/);
+            el.textContent = '';
+            words.forEach((w, i) => {
+                const mask = document.createElement('span');
+                mask.className = 'word-mask';
+                const inner = document.createElement('span');
+                inner.textContent = w;
+                inner.style.setProperty('--word-delay', (i * 0.07) + 's');
+                mask.appendChild(inner);
+                el.appendChild(mask);
+                if (i < words.length - 1) el.appendChild(document.createTextNode(' '));
+            });
+            requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('words-in')));
+        }
+
+        // Reveal animations on scroll (blur-in + stagger-каскад)
+        const io = new IntersectionObserver(es => {
+            const batch = es.filter(e => e.isIntersecting);
+            batch.forEach((e, i) => {
+                e.target.style.setProperty('--reveal-delay', (i * 0.09) + 's');
                 e.target.classList.add('visible');
+
+                // Пословный reveal главного заголовка секции
+                const heading = e.target.matches('h1,h2,h3') ? e.target : e.target.querySelector('h2, h3');
+                if (heading) setTimeout(() => wordReveal(heading), 150 + i * 90);
 
                 // Animate progress bar fill width when skills reveal
                 const bar = e.target.querySelector('.skill-fill');
@@ -1753,62 +1983,209 @@
                     bar.style.width = bar.getAttribute('data-width');
                 }
                 io.unobserve(e.target);
-            }
-        }), { threshold: 0.1 });
+            });
+        }, { threshold: 0.1 });
 
         document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+        // Sheen-эффект на кнопках: световая полоса пробегает при hover
+        document.querySelectorAll('#main-site button, #main-site a.px-8, #main-site a[class*="bg-neon"]').forEach(btn => {
+            btn.classList.add('sheen');
+        });
 
 
         // --- NEW CASE STUDY INTERACTIVE LOGIC ---
 
-        // Case 1: Telegram / Media Parser Simulation
-        let parserRunning = false;
-        function runChannelParser() {
-            if (parserRunning) return;
-            parserRunning = true;
-            const logs = document.getElementById('parser-console-logs');
-            const btn = document.getElementById('btn-run-parser');
-            if (!logs || !btn) return;
+        // Case 1: NEURO.CORE — живое демо панели Telegram-бота.
+        // На десктопе встраивается прямо в карточку (можно свернуть/развернуть),
+        // на телефоне открывается полноэкранным оверлеем.
+        (function () {
+            const shell = document.getElementById('neuro-demo-shell');
+            const body = document.getElementById('neuro-demo-body');
+            const cover = document.getElementById('neuro-demo-cover');
+            const launchBtn = document.getElementById('neuro-demo-launch');
+            const dot = document.getElementById('neuro-demo-dot');
+            const status = document.getElementById('neuro-demo-status');
+            const fsBtn = document.getElementById('neuro-demo-fs');
+            const minBtn = document.getElementById('neuro-demo-min');
+            if (!launchBtn || !shell) return;
+            // Демо размещено на этом же домене — GitHub-источник нигде не светится
+            const buildUrl = () => 'labs/neurocore/index.html';
+            const isDesktop = () => window.matchMedia('(min-width: 768px)').matches;
+            let inlineFrame = null;
+            let cssFs = false;
 
-            btn.innerText = 'ПАРСЕР ЗАПУЩЕН...';
-            btn.classList.add('opacity-50', 'pointer-events-none');
-            logs.innerHTML = '<div class="text-slate-500">$ python parser.py --target @competitor_channel</div>';
-
-            const lines = [
-                '[INFO] Инициализация Pyrogram TelegramClient...',
-                '[INFO] Подключение к серверам MTProto... Успешно.',
-                '[INFO] Сканирование ленты канала @competitor_channel...',
-                '[DATA] Найдено 230 постов за последние 30 дней.',
-                '[DATA] Пост #123 спарсен: просмотры=45K, репосты=180, вложения=видео.',
-                '[DATA] Пост #124 спарсен: просмотры=98K (Вирусный!), репосты=1.2K.',
-                '[INFO] Запуск загрузчика медиафайлов...',
-                '[DATA] Загрузка: видео mp4 сохранено на диск без водяных знаков.',
-                '[DB] Синхронизация данных с СУБД PostgreSQL...',
-                '[DB] Записано 230 строк. Время выполнения: 0.14s.',
-                '[SUCCESS] Парсинг завершен. Скрипт остановлен (exit code: 0).'
-            ];
-
-            let idx = 0;
-            function printNextLine() {
-                if (idx < lines.length) {
-                    const div = document.createElement('div');
-                    const txt = lines[idx];
-                    if (txt.includes('[INFO]')) div.className = 'text-glow';
-                    if (txt.includes('[DATA]')) div.className = 'text-amber';
-                    if (txt.includes('[SUCCESS]')) div.className = 'text-neon font-bold';
-                    div.innerText = txt;
-                    logs.appendChild(div);
-                    logs.scrollTop = logs.scrollHeight;
-                    idx++;
-                    setTimeout(printNextLine, 350 + Math.random() * 200);
+            function setStatus(state) {
+                if (state === 'loading') {
+                    dot.className = 'w-2 h-2 rounded-full bg-amber animate-ping';
+                    status.textContent = 'LOADING'; status.className = 'hidden sm:inline text-amber font-bold';
+                } else if (state === 'online') {
+                    dot.className = 'w-2 h-2 rounded-full bg-neon shadow-[0_0_8px_#5B7CFF]';
+                    status.textContent = 'ONLINE'; status.className = 'hidden sm:inline text-neon font-bold';
                 } else {
-                    parserRunning = false;
-                    btn.innerText = 'ЗАПУСТИТЬ ПАРСИНГ КАНАЛА';
-                    btn.classList.remove('opacity-50', 'pointer-events-none');
+                    dot.className = 'w-2 h-2 rounded-full bg-gray-600';
+                    status.textContent = 'OFFLINE'; status.className = 'hidden sm:inline text-gray-500 font-bold';
                 }
             }
-            setTimeout(printNextLine, 500);
-        }
+
+            // --- Десктоп: встроенное демо ---
+            function startInline() {
+                if (inlineFrame) return;
+                setStatus('loading');
+                cover.style.display = 'none';
+                inlineFrame = document.createElement('iframe');
+                inlineFrame.title = 'Живое демо: панель NEURO.CORE';
+                inlineFrame.className = 'absolute inset-0 w-full h-full border-0';
+                inlineFrame.style.background = '#06070b';
+                inlineFrame.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms allow-popups');
+                inlineFrame.setAttribute('referrerpolicy', 'no-referrer');
+                inlineFrame.addEventListener('load', () => setStatus('online'));
+                inlineFrame.src = buildUrl();
+                body.appendChild(inlineFrame);
+                fsBtn.classList.remove('hidden');
+                minBtn.classList.remove('hidden'); minBtn.classList.add('flex');
+            }
+
+            function minimizeInline() {
+                exitFs();
+                if (inlineFrame) { inlineFrame.remove(); inlineFrame = null; }
+                cover.style.display = '';
+                fsBtn.classList.add('hidden');
+                minBtn.classList.add('hidden'); minBtn.classList.remove('flex');
+                setStatus('offline');
+            }
+
+            function enterFs() {
+                if (shell.requestFullscreen) { shell.requestFullscreen().catch(cssFsOn); }
+                else { cssFsOn(); }
+            }
+            function cssFsOn() {
+                cssFs = true;
+                shell.classList.add('fixed', 'inset-0', 'z-[200]', 'rounded-none');
+                shell.classList.remove('h-[300px]', 'md:h-[420px]');
+                shell.style.height = '100vh';
+                document.body.style.overflow = 'hidden';
+                fsBtn.textContent = '⤢';
+            }
+            function exitFs() {
+                if (document.fullscreenElement === shell) document.exitFullscreen().catch(() => {});
+                if (cssFs) {
+                    cssFs = false;
+                    shell.classList.remove('fixed', 'inset-0', 'z-[200]', 'rounded-none');
+                    shell.classList.add('h-[300px]', 'md:h-[420px]');
+                    shell.style.height = '';
+                    document.body.style.overflow = '';
+                    fsBtn.textContent = '⛶';
+                }
+            }
+            fsBtn.addEventListener('click', () => {
+                if (document.fullscreenElement === shell || cssFs) exitFs(); else enterFs();
+            });
+            document.addEventListener('fullscreenchange', () => {
+                if (document.fullscreenElement === shell) fsBtn.textContent = '⤢';
+                else if (!cssFs) fsBtn.textContent = '⛶';
+            });
+            minBtn.addEventListener('click', minimizeInline);
+
+            // --- Телефон: полноэкранный оверлей ---
+            let overlay = null;
+            let scrollY = 0;
+
+            function openDemo() {
+                if (overlay) return;
+                scrollY = window.scrollY;
+
+                overlay = document.createElement('div');
+                overlay.id = 'neuro-overlay';
+                overlay.setAttribute('role', 'dialog');
+                overlay.setAttribute('aria-modal', 'true');
+                overlay.setAttribute('aria-label', 'Живое демо: панель NEURO.CORE');
+                overlay.style.cssText = 'position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;background:#06070b;';
+
+                // Top bar (адресная строка + закрыть)
+                const bar = document.createElement('div');
+                bar.className = 'flex items-center gap-2 md:gap-3 border-b border-slate-800 px-3 md:px-4 py-3 shrink-0';
+                bar.style.paddingTop = 'calc(0.75rem + env(safe-area-inset-top))';
+                bar.innerHTML = `
+                    <div class="hidden sm:block text-[11px] font-bold font-sans tracking-[0.2em] whitespace-nowrap text-amber">NEURO.CORE</div>
+                    <div class="flex-1 min-w-0 truncate text-center font-mono text-[10px] md:text-xs text-slate-400 bg-void/60 border border-slate-800 rounded px-3 py-1.5"><span aria-hidden="true">🔒</span> neuro.core</div>
+                    <div class="flex items-center gap-1.5 text-[9px] font-mono whitespace-nowrap">
+                        <span id="neuro-ov-dot" class="w-2 h-2 rounded-full bg-amber animate-ping"></span>
+                        <span id="neuro-ov-status" class="hidden sm:inline text-amber font-bold">LOADING</span>
+                    </div>
+                    <button type="button" id="neuro-ov-close" class="ml-1 flex items-center gap-1.5 bg-neon text-void font-bold rounded px-3 py-1.5 text-[10px] uppercase tracking-wider hover:bg-white transition" aria-label="Закрыть демо">✕ <span class="hidden sm:inline">Закрыть</span></button>
+                `;
+
+                // Scroll wrapper — плавный инерционный скролл на iOS
+                const wrap = document.createElement('div');
+                wrap.style.cssText = 'flex:1;position:relative;overflow:auto;-webkit-overflow-scrolling:touch;background:#06070b;';
+
+                const loader = document.createElement('div');
+                loader.id = 'neuro-ov-loader';
+                loader.className = 'absolute inset-0 flex items-center justify-center font-mono text-xs tracking-widest';
+                loader.style.cssText = 'background:#06070b;color:#F5B82E;';
+                loader.textContent = 'ЗАГРУЗКА ДЕМО...';
+
+                const frame = document.createElement('iframe');
+                frame.title = 'Живое демо: панель NEURO.CORE';
+                frame.style.cssText = 'display:block;width:100%;height:100%;min-height:100%;border:0;background:#06070b;';
+                frame.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms allow-popups');
+                frame.setAttribute('referrerpolicy', 'no-referrer');
+                frame.addEventListener('load', () => {
+                    const l = document.getElementById('neuro-ov-loader');
+                    if (l) l.remove();
+                    const d = document.getElementById('neuro-ov-dot');
+                    const st = document.getElementById('neuro-ov-status');
+                    if (d) d.className = 'w-2 h-2 rounded-full bg-neon shadow-[0_0_8px_#5B7CFF]';
+                    if (st) { st.textContent = 'ONLINE'; st.className = 'hidden sm:inline text-neon font-bold'; }
+                });
+                frame.src = buildUrl();
+
+                wrap.appendChild(loader);
+                wrap.appendChild(frame);
+                overlay.appendChild(bar);
+                overlay.appendChild(wrap);
+                // защита от контекстного меню (частичная маскировка ссылки)
+                overlay.addEventListener('contextmenu', (e) => e.preventDefault());
+                document.body.appendChild(overlay);
+
+                // Блокируем прокрутку страницы под оверлеем (устойчиво для iOS)
+                document.body.style.position = 'fixed';
+                document.body.style.top = `-${scrollY}px`;
+                document.body.style.left = '0';
+                document.body.style.right = '0';
+                document.body.style.width = '100%';
+
+                document.getElementById('neuro-ov-close').addEventListener('click', closeDemo);
+                document.getElementById('neuro-ov-close').focus();
+            }
+
+            function closeDemo() {
+                if (!overlay) return;
+                overlay.remove();
+                overlay = null;
+                document.body.style.position = '';
+                document.body.style.top = '';
+                document.body.style.left = '';
+                document.body.style.right = '';
+                document.body.style.width = '';
+                window.scrollTo(0, scrollY);
+            }
+
+            function launch(e) {
+                if (e) e.stopPropagation();
+                if (isDesktop()) startInline(); else openDemo();
+            }
+            launchBtn.addEventListener('click', launch);
+            // Клик по всему превью тоже запускает демо
+            cover.addEventListener('click', launch);
+            document.addEventListener('keydown', (e) => {
+                if (e.key !== 'Escape') return;
+                if (overlay) closeDemo();
+                else if (cssFs || document.fullscreenElement === shell) exitFs();
+                else if (inlineFrame) minimizeInline();
+            });
+        })();
 
         // Case 2: Business CRM Database Simulation
         let orderCount = 3;
@@ -1869,7 +2246,7 @@
                     dot.className = 'w-2 h-2 rounded-full bg-amber animate-ping';
                     status.textContent = 'LOADING'; status.className = 'hidden sm:inline text-amber font-bold';
                 } else if (state === 'online') {
-                    dot.className = 'w-2 h-2 rounded-full bg-neon shadow-[0_0_8px_#00FFB2]';
+                    dot.className = 'w-2 h-2 rounded-full bg-neon shadow-[0_0_8px_#5B7CFF]';
                     status.textContent = 'ONLINE'; status.className = 'hidden sm:inline text-neon font-bold';
                 } else {
                     dot.className = 'w-2 h-2 rounded-full bg-gray-600';
@@ -1971,7 +2348,7 @@
                 const loader = document.createElement('div');
                 loader.id = 'vpn-ov-loader';
                 loader.className = 'absolute inset-0 flex items-center justify-center font-mono text-xs tracking-widest';
-                loader.style.cssText = 'background:#0b0f19;color:#00FFB2;';
+                loader.style.cssText = 'background:#0b0f19;color:#5B7CFF;';
                 loader.textContent = 'ЗАГРУЗКА ДЕМО...';
 
                 const frame = document.createElement('iframe');
@@ -1985,7 +2362,7 @@
                     if (l) l.remove();
                     const dot = document.getElementById('vpn-ov-dot');
                     const st = document.getElementById('vpn-ov-status');
-                    if (dot) dot.className = 'w-2 h-2 rounded-full bg-neon shadow-[0_0_8px_#00FFB2]';
+                    if (dot) dot.className = 'w-2 h-2 rounded-full bg-neon shadow-[0_0_8px_#5B7CFF]';
                     if (st) { st.textContent = 'ONLINE'; st.className = 'hidden sm:inline text-neon font-bold'; }
                 });
                 frame.src = buildUrl();
@@ -2230,7 +2607,7 @@
     </script>
 
     <!-- LIGHTBOX HTML -->
-    <div id="lb-overlay" role="dialog" aria-modal="true" aria-label="Просмотр изображения">
+    <div id="lb-overlay" role="dialog" aria-modal="true" aria-label="Просмотр изобр��жения">
         <button id="lb-close" aria-label="Закрыть">×</button>
         <button id="lb-prev" aria-label="Предыдущее">‹</button>
         <img id="lb-img" src="" alt="">
@@ -2251,7 +2628,7 @@
             <a href="design.html"
                 class="px-4 py-2 rounded-full transition-all duration-300 text-white/60 hover:text-white">ДИЗАЙН</a>
             <a href="dev.html"
-                class="px-4 py-2 rounded-full transition-all duration-300 bg-white/10 text-[#00FFB2]">КОД</a>
+                class="px-4 py-2 rounded-full transition-all duration-300 bg-white/10 text-[#5B7CFF]">КОД</a>
         </nav>
     </div>
 <section class="seo-text-block px-4 md:px-8 py-10 text-bone/40 text-sm leading-relaxed">
