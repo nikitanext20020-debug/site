@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Облачко VPN — Быстрый и надежный VPN для свободы в интернете</title>
+  <meta name="description" content="Защитите свои данные, обходите ограничения и подключайтесь к стабильным серверам по всему миру с Облачко VPN.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Декоративные неоновые пятна на фоне -->
+  <div class="bg-glow bg-glow-left"></div>
+  <div class="bg-glow bg-glow-right"></div>
+
+  <!-- Шапка сайта -->
+  <header class="header">
+    <div class="container header-container">
+      <a href="#/" class="logo" data-link>
+        <div class="logo-wrapper">
+          <svg class="logo-svg-element" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="logo-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#ff007f" />
+                <stop offset="50%" stop-color="#8a2be2" />
+                <stop offset="100%" stop-color="#00bfff" />
+              </linearGradient>
+              <filter id="logo-neon-blur" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+            <!-- Облачко -->
+            <path d="M 25,60 
+                     A 12,12 0 0,1 27,38 
+                     A 18,18 0 0,1 50,23 
+                     A 18,18 0 0,1 73,38 
+                     A 12,12 0 0,1 75,60 
+                     Z" 
+                  stroke="url(#logo-grad)" 
+                  stroke-width="5" 
+                  stroke-linejoin="round" 
+                  fill="none" 
+                  filter="url(#logo-neon-blur)" />
+            <!-- Щит -->
+            <path d="M 50,42 
+                     C 50,42 59,45 59,51 
+                     C 59,60 50,66 50,66 
+                     C 50,66 41,60 41,51 
+                     C 41,45 50,42 50,42 
+                     Z" 
+                  stroke="url(#logo-grad)" 
+                  stroke-width="3" 
+                  fill="none" 
+                  filter="url(#logo-neon-blur)" />
+            <!-- Галочка в щите -->
+            <path d="M 46,53 L 49,56 L 54,49" 
+                  stroke="url(#logo-grad)" 
+                  stroke-width="2.5" 
+                  stroke-linecap="round" 
+                  stroke-linejoin="round" 
+                  fill="none" />
+          </svg>
+        </div>
+        <span class="logo-text">Облачко <span class="highlight">VPN</span></span>
+      </a>
+
+      <nav class="nav">
+        <a href="#/" class="nav-link" data-link>Главная</a>
+        <a href="#/tariffs" class="nav-link" data-link>Тарифы</a>
+        <a href="#/servers" class="nav-link" data-link>Серверы</a>
+        <a href="#contacts-anchor" class="nav-link" id="contacts-nav-link">Контакты</a>
+      </nav>
+
+      <a href="#/tariffs?buy=premium" class="btn btn-primary btn-buy-vpn" data-link>Купить VPN</a>
+
+      <!-- Мобильное меню бургер -->
+      <button class="burger-menu" id="burger-toggle" aria-label="Открыть меню">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Основной контейнер для SPA страниц -->
+  <main id="app-root" class="main-content">
+    <div class="page-loader">
+      <div class="loader-spinner"></div>
+    </div>
+  </main>
+
+  <!-- Подвал сайта с контактами (якорь для Контакты) -->
+  <footer class="footer" id="contacts-anchor">
+    <div class="container footer-container">
+      <div class="glass-card footer-row-card">
+        <div class="footer-info-col">
+          <h3>Свяжитесь с нами</h3>
+          <p>Мы всегда готовы помочь вам<br>с любыми вопросами</p>
+        </div>
+
+        <div class="footer-contacts-col">
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </div>
+            <div class="contact-details">
+              <span class="contact-label">Email</span>
+              <a href="mailto:support@oblachko.vpn" class="contact-value">support@oblachko.vpn</a>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </div>
+            <div class="contact-details">
+              <span class="contact-label">Telegram</span>
+              <a href="https://t.me/oblachko_vpn" target="_blank" rel="noopener noreferrer" class="contact-value">@oblachko_vpn</a>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            </div>
+            <div class="contact-details">
+              <span class="contact-label">Время работы</span>
+              <span class="contact-value">24/7 — Круглосуточно</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-action-col">
+          <button class="btn btn-primary" id="btn-footer-contact">Написать нам</button>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Облачко VPN. Все права защищены. Быстрый и безопасный интернет в один клик.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Модальное окно обратной связи -->
+  <div class="modal-overlay" id="contact-modal">
+    <div class="glass-card modal-content">
+      <span class="modal-close" id="contact-modal-close-btn">&times;</span>
+      <div class="modal-header">
+        <h3>Свяжитесь с нами</h3>
+        <p>Отправьте нам сообщение, и мы ответим в ближайшее время</p>
+      </div>
+      <form id="contact-submit-form" class="modal-form">
+        <div class="form-group">
+          <span class="form-group-label">Ваш Email:</span>
+          <input type="email" id="feedback-email" placeholder="example@domain.com" required>
+        </div>
+        <div class="form-group">
+          <span class="form-group-label">Ваш Telegram (необязательно):</span>
+          <input type="text" id="feedback-tg" placeholder="@username">
+        </div>
+        <div class="form-group">
+          <span class="form-group-label">Сообщение:</span>
+          <textarea id="feedback-message" placeholder="Ваш вопрос или сообщение..." rows="4" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full" style="margin-top: 10px;">
+          <span>Отправить сообщение</span>
+        </button>
+        <div class="form-status" id="feedback-form-status" style="margin-top: 12px;"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Подключение JS модулей -->
+  <script src="js/pages/home.js"></script>
+  <script src="js/pages/tariffs.js"></script>
+  <script src="js/pages/servers.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
