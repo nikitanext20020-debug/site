@@ -873,20 +873,20 @@
                     <div class="grid md:grid-cols-12 gap-8 items-center reveal pt-12 border-t border-neon/10">
                         <div class="md:col-span-5 space-y-4">
                             <div class="text-[10px] text-purple font-mono">// CASE_03 // FRONTEND EXTRA</div>
-                            <h3 class="text-bone text-3xl font-bold font-sans tracking-tight">VPN Лендинг (CyberVPN)
+                            <h3 class="text-bone text-3xl font-bold font-sans tracking-tight">Облачко VPN — лендинг
                             </h3>
                             <p class="text-neon/70 text-sm leading-relaxed">
-                                Разработка премиальных посадочных страниц (Landing Pages) для SaaS-продуктов. Это не
+                                Продающий лендинг VPN-сервиса: тарифы, преимущества, адаптивная вёрстка. Это не
                                 скриншот — настоящий рабочий сайт: запусти демо и покликай его прямо здесь.
                             </p>
                             <ul class="text-xs space-y-2 text-slate-400 font-mono">
                                 <li class="flex items-center gap-2">
-                                    <span class="text-purple" style="color:#8B5CF6">✓</span> Плавные SVG-анимации и
-                                    WebGL компоненты
+                                    <span class="text-purple" style="color:#8B5CF6">✓</span> Плавные анимации и
+                                    аккуратная типографика
                                 </li>
                                 <li class="flex items-center gap-2">
-                                    <span class="text-purple" style="color:#8B5CF6">✓</span> Реактивный отклик
-                                    интерфейса на действия пользователя
+                                    <span class="text-purple" style="color:#8B5CF6">✓</span> Адаптив под телефон,
+                                    планшет и десктоп
                                 </li>
                             </ul>
                         </div>
@@ -894,15 +894,16 @@
                             <!-- Live demo: iframe загружается только после клика (нулевая нагрузка до запуска) -->
                             <div id="vpn-demo-shell" class="terminal w-full h-[320px] md:h-[420px] flex flex-col relative overflow-hidden"
                                 style="background:#0b0f19; border-color:rgba(139, 92, 246, 0.3)">
-                                <div class="flex justify-between items-center gap-3 border-b border-slate-800 px-4 py-2.5 shrink-0">
-                                    <div class="text-[11px] font-bold font-sans tracking-[0.2em] whitespace-nowrap" style="color:#8B5CF6">
+                                <div class="flex justify-between items-center gap-2 md:gap-3 border-b border-slate-800 px-3 md:px-4 py-2.5 shrink-0">
+                                    <div class="hidden sm:block text-[11px] font-bold font-sans tracking-[0.2em] whitespace-nowrap" style="color:#8B5CF6">
                                         ОБЛАЧКО_VPN</div>
                                     <div class="flex-1 min-w-0 truncate text-center font-mono text-[10px] text-slate-500 bg-void/60 border border-slate-800 rounded px-3 py-1">
                                         <span aria-hidden="true">🔒</span> oblachko.vpn</div>
                                     <div class="flex items-center gap-2 text-[9px] font-mono whitespace-nowrap">
                                         <span class="w-2 h-2 rounded-full bg-gray-600" id="vpn-demo-dot"></span>
-                                        <span id="vpn-demo-status" class="text-gray-500 font-bold">OFFLINE</span>
-                                        <button type="button" id="vpn-demo-stop" class="hidden text-slate-500 hover:text-white transition text-sm leading-none pl-2" aria-label="Остановить демо">✕</button>
+                                        <span id="vpn-demo-status" class="hidden sm:inline text-gray-500 font-bold">OFFLINE</span>
+                                        <button type="button" id="vpn-demo-fs" class="hidden text-slate-500 hover:text-white transition leading-none pl-1 text-[13px]" aria-label="Открыть демо во весь экран" title="Во весь экран">⛶</button>
+                                        <button type="button" id="vpn-demo-stop" class="hidden text-slate-500 hover:text-white transition text-sm leading-none pl-1" aria-label="Закрыть демо">✕</button>
                                     </div>
                                 </div>
                                 <div id="vpn-demo-body" class="flex-1 relative flex flex-col items-center justify-center gap-4 p-6 text-center">
@@ -1839,50 +1840,101 @@
         }
 
         // Case 3: Облачко VPN — встроенное живое демо (click-to-load).
-        // Iframe создаётся только после клика; реальный адрес закодирован и в разметке не светится.
+        // Iframe создаётся только после клика; адрес собирается в рантайме и в разметке не светится.
         (function () {
-            const launchBtn = document.getElementById('vpn-demo-launch');
+            const shell = document.getElementById('vpn-demo-shell');
             const body = document.getElementById('vpn-demo-body');
             const dot = document.getElementById('vpn-demo-dot');
             const status = document.getElementById('vpn-demo-status');
             const stopBtn = document.getElementById('vpn-demo-stop');
-            if (!launchBtn) return;
-            const src = atob('aHR0cHM6Ly9uaWtpdGFuZXh0MjAwMjAtZGVidWcuZ2l0aHViLmlvL3Zwbi9wdWJsaWMv');
+            const fsBtn = document.getElementById('vpn-demo-fs');
+            if (!shell) return;
+            // Адрес разбит на перемешанные base64-фрагменты и собирается только в момент запуска
+            const _p = ['dWcuZ2l0aHVi', 'aHR0cHM6Ly9u', 'LmlvL3Zwbi9wdWJsaWMv', 'aWtpdGFuZXh0MjAwMjAtZGVi'];
             let frame = null;
             const placeholder = body.innerHTML;
 
-            launchBtn.addEventListener('click', startDemo);
+            function buildUrl() {
+                return atob(_p[1] + _p[3] + _p[0] + _p[2]);
+            }
 
             function startDemo() {
                 status.innerText = 'LOADING';
-                status.className = 'text-amber font-bold';
+                status.className = 'hidden sm:inline text-amber font-bold';
                 dot.className = 'w-2 h-2 rounded-full bg-amber animate-ping';
                 body.innerHTML = '';
                 body.classList.remove('p-6');
                 frame = document.createElement('iframe');
-                frame.src = src;
+                frame.src = buildUrl();
                 frame.title = 'Живое демо: лендинг Облачко VPN';
                 frame.className = 'absolute inset-0 w-full h-full border-0 bg-white';
                 frame.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms');
+                frame.setAttribute('referrerpolicy', 'no-referrer');
                 frame.addEventListener('load', () => {
                     status.innerText = 'ONLINE';
-                    status.className = 'text-neon font-bold';
+                    status.className = 'hidden sm:inline text-neon font-bold';
                     dot.className = 'w-2 h-2 rounded-full bg-neon shadow-[0_0_8px_#00FFB2]';
                 });
                 body.appendChild(frame);
                 stopBtn.classList.remove('hidden');
+                fsBtn.classList.remove('hidden');
             }
 
-            stopBtn.addEventListener('click', () => {
+            function stopDemo() {
+                exitFs();
                 if (frame) { frame.remove(); frame = null; }
                 body.innerHTML = placeholder;
                 body.classList.add('p-6');
                 stopBtn.classList.add('hidden');
+                fsBtn.classList.add('hidden');
                 status.innerText = 'OFFLINE';
-                status.className = 'text-gray-500 font-bold';
+                status.className = 'hidden sm:inline text-gray-500 font-bold';
                 dot.className = 'w-2 h-2 rounded-full bg-gray-600';
-                document.getElementById('vpn-demo-launch').addEventListener('click', startDemo);
+            }
+
+            // Полный экран: нативный API + CSS-фолбэк для iOS Safari
+            let cssFs = false;
+            function enterFs() {
+                if (shell.requestFullscreen) {
+                    shell.requestFullscreen().catch(() => cssFsOn());
+                } else { cssFsOn(); }
+            }
+            function cssFsOn() {
+                cssFs = true;
+                shell.classList.add('fixed', 'inset-0', 'z-[100]', 'h-auto', 'rounded-none');
+                shell.classList.remove('h-[320px]', 'md:h-[420px]');
+                document.body.style.overflow = 'hidden';
+                fsBtn.textContent = '✕⛶';
+            }
+            function exitFs() {
+                if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+                if (cssFs) {
+                    cssFs = false;
+                    shell.classList.remove('fixed', 'inset-0', 'z-[100]', 'h-auto', 'rounded-none');
+                    shell.classList.add('h-[320px]', 'md:h-[420px]');
+                    document.body.style.overflow = '';
+                    fsBtn.textContent = '⛶';
+                }
+            }
+            fsBtn.addEventListener('click', () => {
+                if (document.fullscreenElement || cssFs) exitFs(); else enterFs();
             });
+            document.addEventListener('fullscreenchange', () => {
+                fsBtn.textContent = document.fullscreenElement ? '✕⛶' : '⛶';
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && cssFs) exitFs();
+            });
+
+            // Делегирование: кнопка запуска пересоздаётся вместе с placeholder
+            body.addEventListener('click', (e) => {
+                if (e.target.closest('#vpn-demo-launch')) startDemo();
+            });
+            shell.addEventListener('click', (e) => {
+                if (e.target.closest('#vpn-demo-stop')) stopDemo();
+            });
+            // Защита от случайного подглядывания: блокируем контекстное меню внутри демо-окна
+            shell.addEventListener('contextmenu', (e) => e.preventDefault());
         })();
 
         // Load services and projects from data/portfolio.json dynamically
