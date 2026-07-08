@@ -2036,11 +2036,20 @@
                             </div>
                         ` : '';
 
-                        const linkHtml = proj.link ? `
-                            <div class="mt-4 flex">
-                                <a href="${proj.link}" target="_blank" class="inline-flex items-center gap-1.5 text-[10px] text-neon hover:text-white transition font-mono font-bold tracking-wider uppercase border border-neon/20 px-3 py-1.5 rounded hover:bg-neon/10">
+                        const demoBtn = proj.demo ? `
+                                <button type="button" data-demo-url="${proj.demo}" data-demo-title="${proj.title}" class="demo-launch inline-flex items-center gap-1.5 text-[10px] text-void bg-neon hover:bg-white transition font-mono font-bold tracking-wider uppercase px-3 py-1.5 rounded">
+                                    <span>▶ Живое демо</span>
+                                </button>
+                        ` : '';
+                        const linkBtn = proj.link ? `
+                                <a href="${proj.link}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-[10px] text-neon hover:text-white transition font-mono font-bold tracking-wider uppercase border border-neon/20 px-3 py-1.5 rounded hover:bg-neon/10">
                                     <span>Открыть сайт ↗</span>
                                 </a>
+                        ` : '';
+                        const linkHtml = (demoBtn || linkBtn) ? `
+                            <div class="mt-4 flex flex-wrap gap-3">
+                                ${demoBtn}
+                                ${linkBtn}
                             </div>
                         ` : '';
 
@@ -2193,6 +2202,73 @@
     <p>Разрабатываю сайты под ключ: лендинги, сайты для бизнеса и портфолио — от макета до запуска. Отдельное направление — Telegram-боты на Python: автоматизация, приём заявок, интеграции с API. Цену и сроки обсуждаем индивидуально под задачу, работаю с клиентами по всей России. Написать можно в Telegram или на Kwork.</p>
   </div>
 </section>
+<!-- Live Demo Modal (iframe создаётся только при открытии — нулевая нагрузка до клика) -->
+<div id="demo-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-3 md:p-8" role="dialog" aria-modal="true" aria-label="Живое демо проекта">
+    <div id="demo-backdrop" class="absolute inset-0 bg-void/90 backdrop-blur-sm"></div>
+    <div class="relative w-full max-w-6xl h-[85vh] flex flex-col border border-neon/25 rounded-lg overflow-hidden bg-void shadow-2xl">
+        <!-- Browser chrome -->
+        <div class="flex items-center gap-3 px-4 py-2.5 bg-[#0a1508] border-b border-neon/15 shrink-0">
+            <div class="flex gap-1.5" aria-hidden="true">
+                <span class="w-2.5 h-2.5 rounded-full bg-[#ff5f57]"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-[#febc2e]"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-[#28c840]"></span>
+            </div>
+            <div id="demo-url-bar" class="flex-1 min-w-0 truncate text-center font-mono text-[10px] md:text-xs text-neon/60 bg-void/60 border border-neon/10 rounded px-3 py-1"></div>
+            <a id="demo-newtab" href="#" target="_blank" rel="noopener" class="font-mono text-[10px] uppercase tracking-wider text-neon hover:text-white transition whitespace-nowrap hidden sm:block">В новой вкладке ↗</a>
+            <button id="demo-close" type="button" class="font-mono text-neon hover:text-white transition text-lg leading-none px-1" aria-label="Закрыть демо">✕</button>
+        </div>
+        <!-- Iframe container -->
+        <div id="demo-frame-wrap" class="flex-1 relative bg-white">
+            <div id="demo-loader" class="absolute inset-0 flex items-center justify-center bg-void font-mono text-neon text-xs tracking-widest">ЗАГРУЗКА ДЕМО...</div>
+        </div>
+    </div>
+</div>
+<script>
+(function () {
+    const modal = document.getElementById('demo-modal');
+    const wrap = document.getElementById('demo-frame-wrap');
+    const loader = document.getElementById('demo-loader');
+    const urlBar = document.getElementById('demo-url-bar');
+    const newTab = document.getElementById('demo-newtab');
+    let iframe = null;
+
+    function openDemo(url, title) {
+        urlBar.textContent = url.replace(/^https?:\/\//, '');
+        newTab.href = url;
+        loader.style.display = 'flex';
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+        // iframe создаётся только сейчас — до клика страница ничего не грузит
+        iframe = document.createElement('iframe');
+        iframe.src = url;
+        iframe.title = 'Демо: ' + title;
+        iframe.className = 'absolute inset-0 w-full h-full border-0';
+        iframe.setAttribute('loading', 'eager');
+        iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms allow-popups');
+        iframe.addEventListener('load', () => { loader.style.display = 'none'; });
+        wrap.appendChild(iframe);
+        document.getElementById('demo-close').focus();
+    }
+
+    function closeDemo() {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = '';
+        // Полностью убираем iframe — демка перестаёт тратить ресурсы
+        if (iframe) { iframe.remove(); iframe = null; }
+    }
+
+    document.addEventListener('click', (e) => {
+        const btn = e.target.closest('.demo-launch');
+        if (btn) { openDemo(btn.dataset.demoUrl, btn.dataset.demoTitle || 'проект'); return; }
+        if (e.target.id === 'demo-close' || e.target.closest('#demo-close') || e.target.id === 'demo-backdrop') closeDemo();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeDemo();
+    });
+})();
+</script>
 </body>
 
 </html>

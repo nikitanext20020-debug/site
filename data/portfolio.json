@@ -408,6 +408,17 @@
   ],
   "dev_projects": [
     {
+      "id": "dev-vpn",
+      "title": "ОБЛАЧКО VPN — лендинг сервиса",
+      "tag": "HTML · CSS · JavaScript · Node.js",
+      "year": 2026,
+      "commit": "c4e9a72",
+      "description": "Продающий лендинг VPN-сервиса: тарифы, преимущества, адаптивная вёрстка и анимации. Можно покликать прямо здесь — нажми «Живое демо».",
+      "link": "https://github.com/nikitanext20020-debug/vpn",
+      "demo": "https://nikitanext20020-debug.github.io/vpn/public/",
+      "images": []
+    },
+    {
       "id": "dev-p1",
       "title": "FLUX OS — SaaS Dashboard",
       "tag": "Next.js 14 · App Router · shadcn/ui · Vercel",
