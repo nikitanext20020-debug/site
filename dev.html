@@ -52,7 +52,7 @@
                     },
                     colors: {
                         void: '#050810',
-                        neon: '#00FFB2',
+                        neon: '#2DB58A',
                         glow: '#00E5FF',
                         amber: '#F5B82E',
                         rec: '#FF3B30',
@@ -70,9 +70,9 @@
             --bg: #050810;
             --card-bg: rgba(5, 8, 16, 0.88);
             --text: #EDE6D6;
-            --accent: #00FFB2;
+            --accent: #2DB58A;
             --accent-2: #00E5FF;
-            --border: rgba(0, 255, 178, 0.15);
+            --border: rgba(45, 181, 138, 0.15);
         }
 
         body {
@@ -85,16 +85,16 @@
             padding: 0;
         }
 
-        /* Scanlines and Vignette overlay */
+        /* Modern Matrix background: ambient glow + hairline grid (no CRT noise) */
         .scanlines {
             position: fixed;
             inset: 0;
-            background: linear-gradient(to bottom,
-                    rgba(255, 255, 255, 0),
-                    rgba(255, 255, 255, 0) 50%,
-                    rgba(0, 0, 0, 0.15) 50%,
-                    rgba(0, 0, 0, 0.15));
-            background-size: 100% 4px;
+            background:
+                radial-gradient(600px 400px at 15% 8%, rgba(45, 181, 138, 0.07), transparent 70%),
+                radial-gradient(700px 500px at 85% 92%, rgba(0, 229, 255, 0.05), transparent 70%),
+                linear-gradient(rgba(45, 181, 138, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(45, 181, 138, 0.03) 1px, transparent 1px);
+            background-size: auto, auto, 56px 56px, 56px 56px;
             pointer-events: none;
             z-index: 90;
         }
@@ -168,13 +168,13 @@
         }
 
         .card-3d[data-card-id="02"] {
-            box-shadow: 0 0 35px rgba(0, 255, 178, 0.12), inset 0 0 15px rgba(0, 255, 178, 0.03);
-            border-color: rgba(0, 255, 178, 0.25);
+            box-shadow: 0 0 35px rgba(45, 181, 138, 0.12), inset 0 0 15px rgba(45, 181, 138, 0.03);
+            border-color: rgba(45, 181, 138, 0.25);
         }
 
         .card-3d[data-card-id="02"]:hover {
-            box-shadow: 0 0 65px rgba(0, 255, 178, 0.45), inset 0 0 25px rgba(0, 255, 178, 0.08);
-            border-color: #00FFB2;
+            box-shadow: 0 0 65px rgba(45, 181, 138, 0.45), inset 0 0 25px rgba(45, 181, 138, 0.08);
+            border-color: #2DB58A;
         }
 
         .card-3d[data-card-id="03"] {
@@ -255,7 +255,7 @@
             font-size: 14vw;
             font-weight: 900;
             color: transparent;
-            -webkit-text-stroke: 1.5px rgba(0, 255, 178, 0.2);
+            -webkit-text-stroke: 1.5px rgba(45, 181, 138, 0.2);
             text-transform: uppercase;
             white-space: nowrap;
             transform: translate(-50%, -50%);
@@ -284,7 +284,7 @@
             flex-direction: column;
             justify-content: space-between;
             font-size: 10px;
-            color: rgba(0, 255, 178, 0.5);
+            color: rgba(45, 181, 138, 0.5);
             text-transform: uppercase;
             font-family: monospace;
             transition: opacity 0.5s ease;
@@ -295,7 +295,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(rgba(0, 255, 178, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 178, 0.04) 1px, transparent 1px);
+            background: linear-gradient(rgba(45, 181, 138, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(45, 181, 138, 0.04) 1px, transparent 1px);
             background-size: 40px 40px;
             pointer-events: none;
             z-index: 0;
@@ -303,7 +303,7 @@
 
         /* Neon Glow Utility */
         .glow-text {
-            text-shadow: 0 0 10px rgba(0, 255, 178, 0.8), 0 0 40px rgba(0, 255, 178, 0.3);
+            text-shadow: 0 0 10px rgba(45, 181, 138, 0.8), 0 0 40px rgba(45, 181, 138, 0.3);
         }
 
         .glow-rec {
@@ -323,12 +323,12 @@
             position: absolute;
             top: -20%;
             font-size: 14px;
-            color: #00FFB2;
+            color: #2DB58A;
             opacity: 0.25;
             writing-mode: vertical-rl;
             letter-spacing: 3px;
             animation: rain linear infinite;
-            text-shadow: 0 0 6px rgba(0, 255, 178, 0.5);
+            text-shadow: 0 0 6px rgba(45, 181, 138, 0.5);
         }
 
         @keyframes rain {
@@ -340,14 +340,14 @@
         /* Terminal card */
         .terminal {
             background: rgba(5, 8, 16, 0.95);
-            border: 1px solid rgba(0, 255, 178, 0.3);
+            border: 1px solid rgba(45, 181, 138, 0.3);
             border-radius: 8px;
-            box-shadow: 0 0 35px rgba(0, 255, 178, 0.1), inset 0 0 20px rgba(0, 255, 178, 0.02)
+            box-shadow: 0 0 35px rgba(45, 181, 138, 0.1), inset 0 0 20px rgba(45, 181, 138, 0.02)
         }
 
         .terminal-bar {
-            background: rgba(0, 255, 178, 0.08);
-            border-bottom: 1px solid rgba(0, 255, 178, 0.2);
+            background: rgba(45, 181, 138, 0.08);
+            border-bottom: 1px solid rgba(45, 181, 138, 0.2);
             padding: 8px 16px;
             display: flex;
             align-items: center;
@@ -381,30 +381,30 @@
 
         /* Neon card */
         .neon-card {
-            border: 1px solid rgba(0, 255, 178, 0.25);
+            border: 1px solid rgba(45, 181, 138, 0.25);
             background: rgba(5, 8, 16, 0.8);
             transition: border-color .3s, box-shadow .3s, transform .3s;
         }
 
         .neon-card:hover {
-            border-color: #00FFB2;
-            box-shadow: 0 0 25px rgba(0, 255, 178, 0.3);
+            border-color: #2DB58A;
+            box-shadow: 0 0 25px rgba(45, 181, 138, 0.3);
             transform: translateY(-4px);
         }
 
         /* Skill bars */
         .skill-bar {
             height: 6px;
-            background: rgba(0, 255, 178, 0.15);
+            background: rgba(45, 181, 138, 0.15);
             border-radius: 3px;
             overflow: hidden;
         }
 
         .skill-fill {
             height: 100%;
-            background: #00FFB2;
+            background: #2DB58A;
             border-radius: 3px;
-            box-shadow: 0 0 6px rgba(0, 255, 178, 0.6);
+            box-shadow: 0 0 6px rgba(45, 181, 138, 0.6);
             width: 0%;
             transition: width 1.5s cubic-bezier(.2, .7, .2, 1);
         }
@@ -433,16 +433,44 @@
             }
         }
 
-        /* Reveal animations */
+        /* Reveal animations (staggered via --reveal-delay set by JS) */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
-            transition: all .8s cubic-bezier(.2, .7, .2, 1);
+            transition: opacity .8s cubic-bezier(.2, .7, .2, 1), transform .8s cubic-bezier(.2, .7, .2, 1);
+            transition-delay: var(--reveal-delay, 0s);
         }
 
         .reveal.visible {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        /* Modern Matrix typography: tight display headings in Space Grotesk */
+        h1.font-sans, h2.font-sans, h3.font-sans {
+            letter-spacing: -0.03em;
+        }
+
+        /* Decode/scramble effect keeps layout stable */
+        .decode-target {
+            display: inline-block;
+        }
+
+        /* Magnetic buttons */
+        .magnetic {
+            transition: transform .25s cubic-bezier(.2, .7, .2, 1);
+            will-change: transform;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .reveal {
+                transition: none;
+                opacity: 1;
+                transform: none;
+            }
+            .magnetic {
+                transition: none;
+            }
         }
 
         @keyframes msgFade {
@@ -497,8 +525,8 @@
             max-height: 90%;
             object-fit: contain;
             border-radius: 8px;
-            border: 2px solid rgba(0, 255, 178, 0.3);
-            box-shadow: 0 0 40px rgba(0, 255, 178, 0.25);
+            border: 2px solid rgba(45, 181, 138, 0.3);
+            box-shadow: 0 0 40px rgba(45, 181, 138, 0.25);
             cursor: default;
             animation: lb-in .25s cubic-bezier(.2,.7,.2,1);
         }
@@ -510,7 +538,7 @@
             position: fixed;
             top: 20px;
             right: 24px;
-            color: #00FFB2;
+            color: #2DB58A;
             font-size: 2.5rem;
             line-height: 1;
             background: none;
@@ -522,13 +550,13 @@
         }
         #lb-close:hover {
             opacity: 1;
-            text-shadow: 0 0 8px #00FFB2;
+            text-shadow: 0 0 8px #2DB58A;
         }
         #lb-prev, #lb-next {
             position: fixed;
             top: 50%;
             transform: translateY(-50%);
-            color: #00FFB2;
+            color: #2DB58A;
             font-size: 3rem;
             background: none;
             border: none;
@@ -543,7 +571,7 @@
         #lb-next { right: 8px; }
         #lb-prev:hover, #lb-next:hover {
             opacity: 1;
-            text-shadow: 0 0 10px #00FFB2;
+            text-shadow: 0 0 10px #2DB58A;
         }
         #lb-caption {
             position: fixed;
@@ -612,7 +640,7 @@
         <div class="flex justify-between items-center">
             <span>SYS.READY // 3D_SPACE</span>
             <div class="flex-1 h-[1px] bg-neon/20 mx-4 relative">
-                <div class="absolute right-0 top-[-2px] w-1 h-1 bg-neon shadow-[0_0_8px_#00FFB2]"></div>
+                <div class="absolute right-0 top-[-2px] w-1 h-1 bg-neon shadow-[0_0_8px_#2DB58A]"></div>
             </div>
             <span>FPS: <strong id="fps" class="text-glow">60</strong></span>
         </div>
@@ -655,7 +683,7 @@
                 <a href="montage.html" class="px-3 py-1 text-bone/60 hover:text-neon transition">МОНТАЖ</a>
                 <a href="design.html" class="px-3 py-1 text-bone/60 hover:text-neon transition">ДИЗАЙН</a>
                 <a href="dev.html"
-                    class="px-3 py-1 bg-neon text-void font-bold shadow-[0_0_10px_rgba(0,255,178,0.3)]">КОД</a>
+                    class="px-3 py-1 bg-neon text-void font-bold shadow-[0_0_10px_rgba(45,181,138,0.3)]">КОД</a>
             </nav>
             <div class="text-neon/60">03 / 03</div>
         </header>
@@ -673,7 +701,7 @@
                     <div class="terminal-bar">
                         <span class="terminal-dot bg-rec shadow-[0_0_8px_#FF3B30]"></span>
                         <span class="terminal-dot bg-amber shadow-[0_0_8px_#F5B82E]"></span>
-                        <span class="terminal-dot bg-neon shadow-[0_0_8px_#00FFB2]"></span>
+                        <span class="terminal-dot bg-neon shadow-[0_0_8px_#2DB58A]"></span>
                         <span class="text-neon/60 text-xs ml-2 font-mono">artem@kadr:~/projects</span>
                     </div>
                     <div class="p-6 space-y-3 text-sm font-mono leading-relaxed">
@@ -693,7 +721,7 @@
 
                 <div class="mt-12 flex flex-wrap gap-4">
                     <a href="#cases"
-                        class="px-8 py-4 bg-neon text-void font-bold uppercase text-xs tracking-widest hover:bg-bone shadow-[0_0_15px_rgba(0,255,178,0.2)] hover:shadow-[0_0_20px_rgba(237,230,214,0.4)] transition duration-300">Примеры
+                        class="px-8 py-4 bg-neon text-void font-bold uppercase text-xs tracking-widest hover:bg-bone shadow-[0_0_15px_rgba(45,181,138,0.2)] hover:shadow-[0_0_20px_rgba(237,230,214,0.4)] transition duration-300">Примеры
                         Кейсов →</a>
                     <a href="#contact"
                         class="px-8 py-4 border border-neon/40 text-neon font-bold uppercase text-xs tracking-widest hover:border-neon hover:bg-neon/10 transition duration-300">Написать</a>
@@ -781,7 +809,7 @@
                                         style="background:linear-gradient(180deg, rgba(6,7,11,0.45), rgba(6,7,11,0.78));">
                                         <div class="text-[9px] text-amber font-mono tracking-widest">// LIVE_DEMO // РАБОЧИЙ ИНТЕРФЕЙС, НЕ КАРТИНКА</div>
                                         <button type="button" id="neuro-demo-launch"
-                                            class="py-3 px-8 bg-neon text-void font-bold rounded text-[10px] uppercase tracking-wider transition duration-300 hover:bg-white shadow-[0_0_20px_rgba(0,255,178,0.35)]">
+                                            class="py-3 px-8 bg-neon text-void font-bold rounded text-[10px] uppercase tracking-wider transition duration-300 hover:bg-white shadow-[0_0_20px_rgba(45,181,138,0.35)]">
                                             ▶ Запустить живое демо
                                         </button>
                                         <div class="text-[9px] text-slate-300 font-mono">Клик — и панель откроется прямо здесь</div>
@@ -926,7 +954,7 @@
                                         style="background:linear-gradient(180deg, rgba(11,15,25,0.45), rgba(11,15,25,0.78));">
                                         <div class="text-[9px] text-neon font-mono tracking-widest">// LIVE_DEMO // РАБОЧИЙ САЙТ, НЕ КАРТИНКА</div>
                                         <button type="button" id="vpn-demo-launch"
-                                            class="py-3 px-8 bg-neon text-void font-bold rounded text-[10px] uppercase tracking-wider transition duration-300 hover:bg-white shadow-[0_0_20px_rgba(0,255,178,0.35)]">
+                                            class="py-3 px-8 bg-neon text-void font-bold rounded text-[10px] uppercase tracking-wider transition duration-300 hover:bg-white shadow-[0_0_20px_rgba(45,181,138,0.35)]">
                                             ▶ Запустить живое демо
                                         </button>
                                         <div class="text-[9px] text-slate-300 font-mono">Клик — и сайт откроется прямо здесь</div>
@@ -1153,7 +1181,7 @@
                         <div class="font-poster text-3xl md:text-4xl text-neon/15 group-hover:text-neon/40 transition duration-300 select-none">04</div>
                         <div class="font-mono min-w-0">
                             <h3 class="text-bone text-lg md:text-2xl font-bold font-sans group-hover:text-neon transition duration-300">CRM / веб-приложение</h3>
-                            <p class="text-neon/50 text-xs mt-1.5 leading-relaxed">Учёт клиентов, заказов и финансов под ваши процессы — от MVP до продакшена.</p>
+                            <p class="text-neon/50 text-xs mt-1.5 leading-relaxed">Учёт клиентов, заказов и финансов под ваши процессы — от MVP до прод��кшена.</p>
                         </div>
                         <div class="hidden md:block font-mono text-[11px] uppercase tracking-[0.18em] text-neon/40 border border-neon/15 rounded-full px-3 py-1.5 whitespace-nowrap">от 2 недель</div>
                         <div class="font-mono text-right whitespace-nowrap">
@@ -1218,7 +1246,7 @@
             zGap: 900,
             starCount: 120,
             camSpeed: 2.2,
-            colors: ['#00FFB2', '#00E5FF', '#EDE6D6']
+            colors: ['#2DB58A', '#00E5FF', '#EDE6D6']
         };
 
         const itemsData = [
@@ -1262,7 +1290,7 @@
                                     <span>BTC/USDT 24h</span>
                                     <span class="text-neon" id="mini-btc-change">+4.12%</span>
                                 </div>
-                                <div class="text-[15px] text-neon font-bold font-mono tracking-tight" id="mini-btc-price" style="text-shadow: 0 0 8px rgba(0,255,178,0.3)">$67,492.10</div>
+                                <div class="text-[15px] text-neon font-bold font-mono tracking-tight" id="mini-btc-price" style="text-shadow: 0 0 8px rgba(45,181,138,0.3)">$67,492.10</div>
                                 <div class="w-full h-[35px] flex items-end gap-[3px] mt-2 border-t border-slate-900 pt-1">
                                     <div class="flex-1 bg-neon/10 h-[10px] rounded-sm"></div>
                                     <div class="flex-1 bg-neon/20 h-[18px] rounded-sm"></div>
@@ -1270,7 +1298,7 @@
                                     <div class="flex-1 bg-neon/50 h-[22px] rounded-sm"></div>
                                     <div class="flex-1 bg-neon/70 h-[18px] rounded-sm"></div>
                                     <div class="flex-1 bg-neon/90 h-[28px] rounded-sm"></div>
-                                    <div class="flex-1 bg-neon h-[32px] rounded-sm shadow-[0_0_5px_#00FFB2]"></div>
+                                    <div class="flex-1 bg-neon h-[32px] rounded-sm shadow-[0_0_5px_#2DB58A]"></div>
                                 </div>
                             </div>
 
@@ -1288,7 +1316,7 @@
                         <div class="text-[10px] text-slate-300 relative z-10 leading-relaxed font-sans mt-2">
                             Абсолютно уникальный дизайн с WebGL эффектами, преломлениями и реактивной скоростью загрузки.
                         </div>
-                        <button class="w-full py-3 bg-neon text-void font-bold text-[9px] uppercase tracking-widest rounded-md mt-4 transition hover:bg-white active:scale-95 relative z-10 shadow-[0_0_15px_rgba(0,255,178,0.2)]" id="btn-mini-wallet" onclick="event.stopPropagation(); connectMiniWallet(this)">
+                        <button class="w-full py-3 bg-neon text-void font-bold text-[9px] uppercase tracking-widest rounded-md mt-4 transition hover:bg-white active:scale-95 relative z-10 shadow-[0_0_15px_rgba(45,181,138,0.2)]" id="btn-mini-wallet" onclick="event.stopPropagation(); connectMiniWallet(this)">
                             CONNECT WALLET
                         </button>
                     </div>
@@ -1298,7 +1326,7 @@
                     <div class="mini-chat h-full flex flex-col justify-between p-5 text-left relative" style="background:#070b12; border-radius: 10px;">
                         <div class="card-glow-strip"></div>
                         <div class="flex items-center gap-3 border-b border-slate-800 pb-3 mb-3 relative z-10">
-                            <div class="w-8 h-8 rounded-full bg-neon/10 border border-neon flex items-center justify-center text-[12px] shadow-[0_0_10px_rgba(0,255,178,0.2)]">🤖</div>
+                            <div class="w-8 h-8 rounded-full bg-neon/10 border border-neon flex items-center justify-center text-[12px] shadow-[0_0_10px_rgba(45,181,138,0.2)]">🤖</div>
                             <div>
                                 <div class="text-[11px] font-bold text-white font-mono leading-none">NEYRO_BOT // TG</div>
                                 <div class="text-[7px] text-neon uppercase mt-1 font-mono tracking-widest">status: active // thread_0</div>
@@ -1312,8 +1340,8 @@
                         <div class="mt-3 relative z-10">
                             <div class="text-[7px] text-slate-500 font-mono mb-2">// QUICK OPTIONS</div>
                             <div class="flex gap-2">
-                                <button class="flex-1 py-2 bg-neon/10 border border-neon/30 text-neon rounded text-[8px] font-bold transition hover:bg-neon hover:text-void hover:shadow-[0_0_10px_rgba(0,255,178,0.3)]" onclick="event.stopPropagation(); sendMiniMsg('parser')">ПАРСИНГ ВИДЕО</button>
-                                <button class="flex-1 py-2 bg-neon/10 border border-neon/30 text-neon rounded text-[8px] font-bold transition hover:bg-neon hover:text-void hover:shadow-[0_0_10px_rgba(0,255,178,0.3)]" onclick="event.stopPropagation(); sendMiniMsg('ai')">ИИ-ПОМОЩНИК</button>
+                                <button class="flex-1 py-2 bg-neon/10 border border-neon/30 text-neon rounded text-[8px] font-bold transition hover:bg-neon hover:text-void hover:shadow-[0_0_10px_rgba(45,181,138,0.3)]" onclick="event.stopPropagation(); sendMiniMsg('parser')">ПАРСИНГ ВИДЕО</button>
+                                <button class="flex-1 py-2 bg-neon/10 border border-neon/30 text-neon rounded text-[8px] font-bold transition hover:bg-neon hover:text-void hover:shadow-[0_0_10px_rgba(45,181,138,0.3)]" onclick="event.stopPropagation(); sendMiniMsg('ai')">ИИ-ПОМОЩНИК</button>
                             </div>
                         </div>
                     </div>
@@ -1325,7 +1353,7 @@
                         <div class="flex justify-between items-center border-b border-slate-900 pb-3 mb-3 relative z-10">
                             <div class="text-[9px] font-bold text-amber font-mono tracking-wider">CRON_MONITOR // NODE_01</div>
                             <div class="flex items-center gap-1.5">
-                                <span class="w-1.5 h-1.5 rounded-full bg-neon animate-pulse shadow-[0_0_5px_#00FFB2]"></span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-neon animate-pulse shadow-[0_0_5px_#2DB58A]"></span>
                                 <span class="text-[7px] text-slate-500 font-mono">LIVE</span>
                             </div>
                         </div>
@@ -1585,8 +1613,8 @@
 
                 setTimeout(() => {
                     btn.innerText = 'CONNECTED: 0x71...3A9';
-                    btn.style.background = '#00FFB2';
-                    btn.style.boxShadow = '0 0 12px rgba(0, 255, 178, 0.6)';
+                    btn.style.background = '#2DB58A';
+                    btn.style.boxShadow = '0 0 12px rgba(45, 181, 138, 0.6)';
 
                     const price = document.getElementById('mini-btc-price');
                     const change = document.getElementById('mini-btc-change');
@@ -1601,18 +1629,18 @@
                 }, 1000);
             } else {
                 btn.innerText = 'CONNECT WALLET';
-                btn.style.background = '#00FFB2';
-                btn.style.boxShadow = '0 0 10px rgba(0, 255, 178, 0.3)';
+                btn.style.background = '#2DB58A';
+                btn.style.boxShadow = '0 0 10px rgba(45, 181, 138, 0.3)';
 
                 const price = document.getElementById('mini-btc-price');
                 const change = document.getElementById('mini-btc-change');
                 if (price) {
                     price.innerText = '$67,492.10';
-                    price.style.color = '#00FFB2';
+                    price.style.color = '#2DB58A';
                 }
                 if (change) {
                     change.innerText = '+4.12%';
-                    change.style.color = '#00FFB2';
+                    change.style.color = '#2DB58A';
                 }
             }
         }
@@ -1754,10 +1782,45 @@
             }
         })();
 
-        // Reveal animations on scroll
-        const io = new IntersectionObserver(es => es.forEach(e => {
-            if (e.isIntersecting) {
+        // --- MODERN MATRIX FX ---
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // Decode/scramble: заголовок «расшифровывается» из случайных символов
+        const SCRAMBLE_CHARS = '!<>-_\\/[]{}—=+*^?#$%&@01';
+        function decodeText(el) {
+            if (reducedMotion || el.dataset.decoded) return;
+            el.dataset.decoded = '1';
+            const original = el.textContent;
+            if (!original || original.length > 80) return;
+            const len = original.length;
+            let frame = 0;
+            const totalFrames = Math.min(40, 14 + len * 1.2);
+            function tick() {
+                frame++;
+                const progress = frame / totalFrames;
+                let out = '';
+                for (let i = 0; i < len; i++) {
+                    const ch = original[i];
+                    if (ch === ' ' || i / len < progress) { out += ch; }
+                    else { out += SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)]; }
+                }
+                el.textContent = out;
+                if (frame < totalFrames) requestAnimationFrame(tick);
+                else el.textContent = original;
+            }
+            requestAnimationFrame(tick);
+        }
+
+        // Reveal animations on scroll (со stagger-каскадом)
+        const io = new IntersectionObserver(es => {
+            const batch = es.filter(e => e.isIntersecting);
+            batch.forEach((e, i) => {
+                e.target.style.setProperty('--reveal-delay', (i * 0.09) + 's');
                 e.target.classList.add('visible');
+
+                // Decode главного заголовка секции при появлении
+                const heading = e.target.matches('h1,h2,h3') ? e.target : e.target.querySelector('h2, h3');
+                if (heading) setTimeout(() => decodeText(heading), i * 90);
 
                 // Animate progress bar fill width when skills reveal
                 const bar = e.target.querySelector('.skill-fill');
@@ -1765,10 +1828,24 @@
                     bar.style.width = bar.getAttribute('data-width');
                 }
                 io.unobserve(e.target);
-            }
-        }), { threshold: 0.1 });
+            });
+        }, { threshold: 0.1 });
 
         document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+        // Магнитные кнопки: слегка тянутся к курсору (только точный указатель)
+        if (!reducedMotion && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+            document.querySelectorAll('#main-site button, #main-site a.px-8, #main-site a[class*="bg-neon"]').forEach(btn => {
+                btn.classList.add('magnetic');
+                btn.addEventListener('mousemove', (e) => {
+                    const r = btn.getBoundingClientRect();
+                    const dx = (e.clientX - r.left - r.width / 2) / r.width;
+                    const dy = (e.clientY - r.top - r.height / 2) / r.height;
+                    btn.style.transform = `translate(${dx * 6}px, ${dy * 4}px)`;
+                });
+                btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+            });
+        }
 
 
         // --- NEW CASE STUDY INTERACTIVE LOGIC ---
@@ -1797,7 +1874,7 @@
                     dot.className = 'w-2 h-2 rounded-full bg-amber animate-ping';
                     status.textContent = 'LOADING'; status.className = 'hidden sm:inline text-amber font-bold';
                 } else if (state === 'online') {
-                    dot.className = 'w-2 h-2 rounded-full bg-neon shadow-[0_0_8px_#00FFB2]';
+                    dot.className = 'w-2 h-2 rounded-full bg-neon shadow-[0_0_8px_#2DB58A]';
                     status.textContent = 'ONLINE'; status.className = 'hidden sm:inline text-neon font-bold';
                 } else {
                     dot.className = 'w-2 h-2 rounded-full bg-gray-600';
@@ -1913,7 +1990,7 @@
                     if (l) l.remove();
                     const d = document.getElementById('neuro-ov-dot');
                     const st = document.getElementById('neuro-ov-status');
-                    if (d) d.className = 'w-2 h-2 rounded-full bg-neon shadow-[0_0_8px_#00FFB2]';
+                    if (d) d.className = 'w-2 h-2 rounded-full bg-neon shadow-[0_0_8px_#2DB58A]';
                     if (st) { st.textContent = 'ONLINE'; st.className = 'hidden sm:inline text-neon font-bold'; }
                 });
                 frame.src = buildUrl();
@@ -2023,7 +2100,7 @@
                     dot.className = 'w-2 h-2 rounded-full bg-amber animate-ping';
                     status.textContent = 'LOADING'; status.className = 'hidden sm:inline text-amber font-bold';
                 } else if (state === 'online') {
-                    dot.className = 'w-2 h-2 rounded-full bg-neon shadow-[0_0_8px_#00FFB2]';
+                    dot.className = 'w-2 h-2 rounded-full bg-neon shadow-[0_0_8px_#2DB58A]';
                     status.textContent = 'ONLINE'; status.className = 'hidden sm:inline text-neon font-bold';
                 } else {
                     dot.className = 'w-2 h-2 rounded-full bg-gray-600';
@@ -2125,7 +2202,7 @@
                 const loader = document.createElement('div');
                 loader.id = 'vpn-ov-loader';
                 loader.className = 'absolute inset-0 flex items-center justify-center font-mono text-xs tracking-widest';
-                loader.style.cssText = 'background:#0b0f19;color:#00FFB2;';
+                loader.style.cssText = 'background:#0b0f19;color:#2DB58A;';
                 loader.textContent = 'ЗАГРУЗКА ДЕМО...';
 
                 const frame = document.createElement('iframe');
@@ -2139,7 +2216,7 @@
                     if (l) l.remove();
                     const dot = document.getElementById('vpn-ov-dot');
                     const st = document.getElementById('vpn-ov-status');
-                    if (dot) dot.className = 'w-2 h-2 rounded-full bg-neon shadow-[0_0_8px_#00FFB2]';
+                    if (dot) dot.className = 'w-2 h-2 rounded-full bg-neon shadow-[0_0_8px_#2DB58A]';
                     if (st) { st.textContent = 'ONLINE'; st.className = 'hidden sm:inline text-neon font-bold'; }
                 });
                 frame.src = buildUrl();
@@ -2405,7 +2482,7 @@
             <a href="design.html"
                 class="px-4 py-2 rounded-full transition-all duration-300 text-white/60 hover:text-white">ДИЗАЙН</a>
             <a href="dev.html"
-                class="px-4 py-2 rounded-full transition-all duration-300 bg-white/10 text-[#00FFB2]">КОД</a>
+                class="px-4 py-2 rounded-full transition-all duration-300 bg-white/10 text-[#2DB58A]">КОД</a>
         </nav>
     </div>
 <section class="seo-text-block px-4 md:px-8 py-10 text-bone/40 text-sm leading-relaxed">
