@@ -733,47 +733,59 @@
 
                 <div class="space-y-16">
 
-                    <!-- CASE 1: MULTI-THREADED PARSERS -->
+                    <!-- CASE 1: NEURO.CORE — TELEGRAM BOT DASHBOARD -->
                     <div class="grid md:grid-cols-12 gap-8 items-center reveal">
                         <div class="md:col-span-5 space-y-4">
-                            <div class="text-[10px] text-amber font-mono">// CASE_01 // PYTHON PARSERS</div>
-                            <h3 class="text-bone text-3xl font-bold font-sans tracking-tight">Парсинг видео и каналов
-                            </h3>
+                            <div class="text-[10px] text-amber font-mono">// CASE_01 // TELEGRAM AUTOMATION</div>
+                            <h3 class="text-bone text-3xl font-bold font-sans tracking-tight">NEURO.CORE — панель
+                                Telegram-бота</h3>
                             <p class="text-neon/70 text-sm leading-relaxed">
-                                Разрабатываю высокопроизводительные многопоточные парсеры контента с автоматическим
-                                обходом Cloudflare и лимитов платформ.
+                                Дашборд управления ботом для авто-комментинга: аккаунты, каналы, поведение в чатах и
+                                живая лента событий. Это не скриншот — настоящий рабочий интерфейс: запусти демо и
+                                покликай его прямо здесь.
                             </p>
                             <ul class="text-xs space-y-2 text-slate-400 font-mono">
                                 <li class="flex items-center gap-2">
-                                    <span class="text-neon">✓</span> Сбор медиафайлов без водяных знаков (Shorts, Reels,
-                                    TikTok)
+                                    <span class="text-amber">✓</span> Live-лента комментинга и метрики в реальном
+                                    времени
                                 </li>
                                 <li class="flex items-center gap-2">
-                                    <span class="text-neon">✓</span> Мониторинг новых постов в Telegram-каналах 24/7
+                                    <span class="text-amber">✓</span> Управление аккаунтами, каналами и воркерами
                                 </li>
                                 <li class="flex items-center gap-2">
-                                    <span class="text-neon">✓</span> Автоматический экспорт собранных данных в Google
-                                    Таблицы/SQL
+                                    <span class="text-amber">✓</span> Гибкие сценарии поведения бота в чатах
                                 </li>
                             </ul>
-                            <button id="btn-run-parser"
-                                class="px-6 py-3 bg-void border border-neon/40 text-neon rounded text-xs font-bold font-mono tracking-wider hover:bg-neon/15 hover:border-neon transition active:scale-95"
-                                onclick="runChannelParser()">
-                                ЗАПУСТИТЬ ПАРСИНГ КАНАЛА
-                            </button>
                         </div>
                         <div class="md:col-span-7">
-                            <div class="terminal w-full h-[260px] flex flex-col">
-                                <div class="terminal-bar">
-                                    <span class="terminal-dot bg-rec"></span>
-                                    <span class="terminal-dot bg-amber"></span>
-                                    <span class="terminal-dot bg-neon"></span>
-                                    <span class="text-neon/50 text-[10px] ml-2 font-mono">console@parser-node:~</span>
+                            <!-- Live demo facade: iframe создаётся только после клика и открывается на весь экран -->
+                            <div id="neuro-demo-shell" class="terminal w-full h-[300px] md:h-[420px] flex flex-col relative overflow-hidden"
+                                style="background:#06070b; border-color:rgba(245,184,46,0.3)">
+                                <div class="flex justify-between items-center gap-2 md:gap-3 border-b border-slate-800 px-3 md:px-4 py-2.5 shrink-0">
+                                    <div class="hidden sm:block text-[11px] font-bold font-sans tracking-[0.2em] whitespace-nowrap text-amber">
+                                        NEURO.CORE</div>
+                                    <div class="flex-1 min-w-0 truncate text-center font-mono text-[10px] text-slate-500 bg-void/60 border border-slate-800 rounded px-3 py-1">
+                                        <span aria-hidden="true">🔒</span> neuro.core</div>
+                                    <div class="flex items-center gap-2 text-[9px] font-mono whitespace-nowrap">
+                                        <span id="neuro-demo-dot" class="w-2 h-2 rounded-full bg-gray-600"></span>
+                                        <span id="neuro-demo-status" class="hidden sm:inline text-gray-500 font-bold">OFFLINE</span>
+                                        <button type="button" id="neuro-demo-fs" class="hidden text-slate-400 hover:text-white transition leading-none text-[13px] pl-1" title="Во весь экран" aria-label="Открыть демо во весь экран">⛶</button>
+                                        <button type="button" id="neuro-demo-min" class="hidden items-center gap-1 text-slate-400 hover:text-white transition text-[10px] uppercase tracking-wider pl-1" aria-label="Свернуть демо">✕ <span class="hidden md:inline">свернуть</span></button>
+                                    </div>
                                 </div>
-                                <div id="parser-console-logs"
-                                    class="flex-1 p-4 overflow-y-auto font-mono text-[10px] text-slate-400 space-y-1 bg-black/50 select-none">
-                                    <div class="text-slate-500">// Терминал готов. Нажми кнопку слева для запуска
-                                        имитации парсера.</div>
+                                <div id="neuro-demo-body" class="flex-1 relative overflow-hidden">
+                                    <!-- Лёгкое превью-скриншот (~23KB webp), живой сайт грузится только по клику -->
+                                    <img src="labs/neurocore-preview.webp" alt="Превью панели NEURO.CORE"
+                                        class="absolute inset-0 w-full h-full object-cover object-top select-none" loading="lazy" decoding="async" draggable="false" />
+                                    <div id="neuro-demo-cover" class="absolute inset-0 flex flex-col items-center justify-center gap-4 text-center cursor-pointer"
+                                        style="background:linear-gradient(180deg, rgba(6,7,11,0.45), rgba(6,7,11,0.78));">
+                                        <div class="text-[9px] text-amber font-mono tracking-widest">// LIVE_DEMO // РАБОЧИЙ ИНТЕРФЕЙС, НЕ КАРТИНКА</div>
+                                        <button type="button" id="neuro-demo-launch"
+                                            class="py-3 px-8 bg-neon text-void font-bold rounded text-[10px] uppercase tracking-wider transition duration-300 hover:bg-white shadow-[0_0_20px_rgba(0,255,178,0.35)]">
+                                            ▶ Запустить живое демо
+                                        </button>
+                                        <div class="text-[9px] text-slate-300 font-mono">Клик — и панель откроется прямо здесь</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1761,54 +1773,196 @@
 
         // --- NEW CASE STUDY INTERACTIVE LOGIC ---
 
-        // Case 1: Telegram / Media Parser Simulation
-        let parserRunning = false;
-        function runChannelParser() {
-            if (parserRunning) return;
-            parserRunning = true;
-            const logs = document.getElementById('parser-console-logs');
-            const btn = document.getElementById('btn-run-parser');
-            if (!logs || !btn) return;
+        // Case 1: NEURO.CORE — живое демо панели Telegram-бота.
+        // На десктопе встраивается прямо в карточку (можно свернуть/развернуть),
+        // на телефоне открывается полноэкранным оверлеем.
+        (function () {
+            const shell = document.getElementById('neuro-demo-shell');
+            const body = document.getElementById('neuro-demo-body');
+            const cover = document.getElementById('neuro-demo-cover');
+            const launchBtn = document.getElementById('neuro-demo-launch');
+            const dot = document.getElementById('neuro-demo-dot');
+            const status = document.getElementById('neuro-demo-status');
+            const fsBtn = document.getElementById('neuro-demo-fs');
+            const minBtn = document.getElementById('neuro-demo-min');
+            if (!launchBtn || !shell) return;
+            // Демо размещено на этом же домене — GitHub-источник нигде не светится
+            const buildUrl = () => 'labs/neurocore/index.html';
+            const isDesktop = () => window.matchMedia('(min-width: 768px)').matches;
+            let inlineFrame = null;
+            let cssFs = false;
 
-            btn.innerText = 'ПАРСЕР ЗАПУЩЕН...';
-            btn.classList.add('opacity-50', 'pointer-events-none');
-            logs.innerHTML = '<div class="text-slate-500">$ python parser.py --target @competitor_channel</div>';
-
-            const lines = [
-                '[INFO] Инициализация Pyrogram TelegramClient...',
-                '[INFO] Подключение к серверам MTProto... Успешно.',
-                '[INFO] Сканирование ленты канала @competitor_channel...',
-                '[DATA] Найдено 230 постов за последние 30 дней.',
-                '[DATA] Пост #123 спарсен: просмотры=45K, репосты=180, вложения=видео.',
-                '[DATA] Пост #124 спарсен: просмотры=98K (Вирусный!), репосты=1.2K.',
-                '[INFO] Запуск загрузчика медиафайлов...',
-                '[DATA] Загрузка: видео mp4 сохранено на диск без водяных знаков.',
-                '[DB] Синхронизация данных с СУБД PostgreSQL...',
-                '[DB] Записано 230 строк. Время выполнения: 0.14s.',
-                '[SUCCESS] Парсинг завершен. Скрипт остановлен (exit code: 0).'
-            ];
-
-            let idx = 0;
-            function printNextLine() {
-                if (idx < lines.length) {
-                    const div = document.createElement('div');
-                    const txt = lines[idx];
-                    if (txt.includes('[INFO]')) div.className = 'text-glow';
-                    if (txt.includes('[DATA]')) div.className = 'text-amber';
-                    if (txt.includes('[SUCCESS]')) div.className = 'text-neon font-bold';
-                    div.innerText = txt;
-                    logs.appendChild(div);
-                    logs.scrollTop = logs.scrollHeight;
-                    idx++;
-                    setTimeout(printNextLine, 350 + Math.random() * 200);
+            function setStatus(state) {
+                if (state === 'loading') {
+                    dot.className = 'w-2 h-2 rounded-full bg-amber animate-ping';
+                    status.textContent = 'LOADING'; status.className = 'hidden sm:inline text-amber font-bold';
+                } else if (state === 'online') {
+                    dot.className = 'w-2 h-2 rounded-full bg-neon shadow-[0_0_8px_#00FFB2]';
+                    status.textContent = 'ONLINE'; status.className = 'hidden sm:inline text-neon font-bold';
                 } else {
-                    parserRunning = false;
-                    btn.innerText = 'ЗАПУСТИТЬ ПАРСИНГ КАНАЛА';
-                    btn.classList.remove('opacity-50', 'pointer-events-none');
+                    dot.className = 'w-2 h-2 rounded-full bg-gray-600';
+                    status.textContent = 'OFFLINE'; status.className = 'hidden sm:inline text-gray-500 font-bold';
                 }
             }
-            setTimeout(printNextLine, 500);
-        }
+
+            // --- Десктоп: встроенное демо ---
+            function startInline() {
+                if (inlineFrame) return;
+                setStatus('loading');
+                cover.style.display = 'none';
+                inlineFrame = document.createElement('iframe');
+                inlineFrame.title = 'Живое демо: панель NEURO.CORE';
+                inlineFrame.className = 'absolute inset-0 w-full h-full border-0';
+                inlineFrame.style.background = '#06070b';
+                inlineFrame.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms allow-popups');
+                inlineFrame.setAttribute('referrerpolicy', 'no-referrer');
+                inlineFrame.addEventListener('load', () => setStatus('online'));
+                inlineFrame.src = buildUrl();
+                body.appendChild(inlineFrame);
+                fsBtn.classList.remove('hidden');
+                minBtn.classList.remove('hidden'); minBtn.classList.add('flex');
+            }
+
+            function minimizeInline() {
+                exitFs();
+                if (inlineFrame) { inlineFrame.remove(); inlineFrame = null; }
+                cover.style.display = '';
+                fsBtn.classList.add('hidden');
+                minBtn.classList.add('hidden'); minBtn.classList.remove('flex');
+                setStatus('offline');
+            }
+
+            function enterFs() {
+                if (shell.requestFullscreen) { shell.requestFullscreen().catch(cssFsOn); }
+                else { cssFsOn(); }
+            }
+            function cssFsOn() {
+                cssFs = true;
+                shell.classList.add('fixed', 'inset-0', 'z-[200]', 'rounded-none');
+                shell.classList.remove('h-[300px]', 'md:h-[420px]');
+                shell.style.height = '100vh';
+                document.body.style.overflow = 'hidden';
+                fsBtn.textContent = '⤢';
+            }
+            function exitFs() {
+                if (document.fullscreenElement === shell) document.exitFullscreen().catch(() => {});
+                if (cssFs) {
+                    cssFs = false;
+                    shell.classList.remove('fixed', 'inset-0', 'z-[200]', 'rounded-none');
+                    shell.classList.add('h-[300px]', 'md:h-[420px]');
+                    shell.style.height = '';
+                    document.body.style.overflow = '';
+                    fsBtn.textContent = '⛶';
+                }
+            }
+            fsBtn.addEventListener('click', () => {
+                if (document.fullscreenElement === shell || cssFs) exitFs(); else enterFs();
+            });
+            document.addEventListener('fullscreenchange', () => {
+                if (document.fullscreenElement === shell) fsBtn.textContent = '⤢';
+                else if (!cssFs) fsBtn.textContent = '⛶';
+            });
+            minBtn.addEventListener('click', minimizeInline);
+
+            // --- Телефон: полноэкранный оверлей ---
+            let overlay = null;
+            let scrollY = 0;
+
+            function openDemo() {
+                if (overlay) return;
+                scrollY = window.scrollY;
+
+                overlay = document.createElement('div');
+                overlay.id = 'neuro-overlay';
+                overlay.setAttribute('role', 'dialog');
+                overlay.setAttribute('aria-modal', 'true');
+                overlay.setAttribute('aria-label', 'Живое демо: панель NEURO.CORE');
+                overlay.style.cssText = 'position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;background:#06070b;';
+
+                // Top bar (адресная строка + закрыть)
+                const bar = document.createElement('div');
+                bar.className = 'flex items-center gap-2 md:gap-3 border-b border-slate-800 px-3 md:px-4 py-3 shrink-0';
+                bar.style.paddingTop = 'calc(0.75rem + env(safe-area-inset-top))';
+                bar.innerHTML = `
+                    <div class="hidden sm:block text-[11px] font-bold font-sans tracking-[0.2em] whitespace-nowrap text-amber">NEURO.CORE</div>
+                    <div class="flex-1 min-w-0 truncate text-center font-mono text-[10px] md:text-xs text-slate-400 bg-void/60 border border-slate-800 rounded px-3 py-1.5"><span aria-hidden="true">🔒</span> neuro.core</div>
+                    <div class="flex items-center gap-1.5 text-[9px] font-mono whitespace-nowrap">
+                        <span id="neuro-ov-dot" class="w-2 h-2 rounded-full bg-amber animate-ping"></span>
+                        <span id="neuro-ov-status" class="hidden sm:inline text-amber font-bold">LOADING</span>
+                    </div>
+                    <button type="button" id="neuro-ov-close" class="ml-1 flex items-center gap-1.5 bg-neon text-void font-bold rounded px-3 py-1.5 text-[10px] uppercase tracking-wider hover:bg-white transition" aria-label="Закрыть демо">✕ <span class="hidden sm:inline">Закрыть</span></button>
+                `;
+
+                // Scroll wrapper — плавный инерционный скролл на iOS
+                const wrap = document.createElement('div');
+                wrap.style.cssText = 'flex:1;position:relative;overflow:auto;-webkit-overflow-scrolling:touch;background:#06070b;';
+
+                const loader = document.createElement('div');
+                loader.id = 'neuro-ov-loader';
+                loader.className = 'absolute inset-0 flex items-center justify-center font-mono text-xs tracking-widest';
+                loader.style.cssText = 'background:#06070b;color:#F5B82E;';
+                loader.textContent = 'ЗАГРУЗКА ДЕМО...';
+
+                const frame = document.createElement('iframe');
+                frame.title = 'Живое демо: панель NEURO.CORE';
+                frame.style.cssText = 'display:block;width:100%;height:100%;min-height:100%;border:0;background:#06070b;';
+                frame.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms allow-popups');
+                frame.setAttribute('referrerpolicy', 'no-referrer');
+                frame.addEventListener('load', () => {
+                    const l = document.getElementById('neuro-ov-loader');
+                    if (l) l.remove();
+                    const d = document.getElementById('neuro-ov-dot');
+                    const st = document.getElementById('neuro-ov-status');
+                    if (d) d.className = 'w-2 h-2 rounded-full bg-neon shadow-[0_0_8px_#00FFB2]';
+                    if (st) { st.textContent = 'ONLINE'; st.className = 'hidden sm:inline text-neon font-bold'; }
+                });
+                frame.src = buildUrl();
+
+                wrap.appendChild(loader);
+                wrap.appendChild(frame);
+                overlay.appendChild(bar);
+                overlay.appendChild(wrap);
+                // защита от контекстного меню (частичная маскировка ссылки)
+                overlay.addEventListener('contextmenu', (e) => e.preventDefault());
+                document.body.appendChild(overlay);
+
+                // Блокируем прокрутку страницы под оверлеем (устойчиво для iOS)
+                document.body.style.position = 'fixed';
+                document.body.style.top = `-${scrollY}px`;
+                document.body.style.left = '0';
+                document.body.style.right = '0';
+                document.body.style.width = '100%';
+
+                document.getElementById('neuro-ov-close').addEventListener('click', closeDemo);
+                document.getElementById('neuro-ov-close').focus();
+            }
+
+            function closeDemo() {
+                if (!overlay) return;
+                overlay.remove();
+                overlay = null;
+                document.body.style.position = '';
+                document.body.style.top = '';
+                document.body.style.left = '';
+                document.body.style.right = '';
+                document.body.style.width = '';
+                window.scrollTo(0, scrollY);
+            }
+
+            function launch(e) {
+                if (e) e.stopPropagation();
+                if (isDesktop()) startInline(); else openDemo();
+            }
+            launchBtn.addEventListener('click', launch);
+            // Клик по всему превью тоже запускает демо
+            cover.addEventListener('click', launch);
+            document.addEventListener('keydown', (e) => {
+                if (e.key !== 'Escape') return;
+                if (overlay) closeDemo();
+                else if (cssFs || document.fullscreenElement === shell) exitFs();
+                else if (inlineFrame) minimizeInline();
+            });
+        })();
 
         // Case 2: Business CRM Database Simulation
         let orderCount = 3;
