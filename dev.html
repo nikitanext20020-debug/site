@@ -705,7 +705,7 @@
 {
   "@context":"https://schema.org",
   "@type":"Service",
-  "serviceType":["Разработка сайтов","Разработка Telegram-ботов"],
+  "serviceType":["Разработка сайтов","Разр��ботка Telegram-ботов"],
   "name":"Разработка сайтов под ключ и Telegram-ботов",
   "url":"https://nikitos404.ru/dev.html",
   "image":"https://nikitos404.ru/og-image.png",
@@ -2833,6 +2833,21 @@
         // Any click on the robot scene (including its CALL button) opens the chat.
         viewer.addEventListener('click', openChat);
         viewer.addEventListener('pointerup', openChat);
+
+        // The "Built with Spline" badge lives inside the viewer's shadow DOM,
+        // so it can only be removed after the component initializes.
+        const hideSplineLogo = () => {
+          const root = viewer.shadowRoot;
+          if (!root) return false;
+          const logo = root.querySelector('#logo') || root.querySelector('a[href*="spline.design"]');
+          if (!logo) return false;
+          logo.remove();
+          return true;
+        };
+        const logoTimer = setInterval(() => {
+          if (hideSplineLogo()) clearInterval(logoTimer);
+        }, 300);
+        setTimeout(() => clearInterval(logoTimer), 15000);
       }, { rootMargin: '300px' });
       observer.observe(caseBlock);
 
