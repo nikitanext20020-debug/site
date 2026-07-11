@@ -64,8 +64,7 @@
             }
         }
     </script>
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
-    <script src="https://cdn.lordicon.com/lordicon.js" defer></script>
+      <script src="https://cdn.lordicon.com/lordicon.js" defer></script>
 
     <style>
         :root {
@@ -1342,7 +1341,7 @@
                         <div class="font-poster text-3xl md:text-4xl text-neon/15 group-hover:text-neon/40 transition duration-300 select-none">04</div>
                         <div class="font-mono min-w-0">
                             <h3 class="text-bone text-lg md:text-2xl font-bold font-sans group-hover:text-neon transition duration-300">CRM / веб-приложение</h3>
-                            <p class="text-neon/50 text-xs mt-1.5 leading-relaxed">Учёт клиентов, заказов �� финансов под ваши процессы — от MVP до продакшена.</p>
+                            <p class="text-neon/50 text-xs mt-1.5 leading-relaxed">Учёт клиентов, заказов ���� финансов под ваши процессы — от MVP до продакшена.</p>
                         </div>
                         <div class="hidden md:block font-mono text-[11px] uppercase tracking-[0.18em] text-neon/40 border border-neon/15 rounded-full px-3 py-1.5 whitespace-nowrap">от 2 недель</div>
                         <div class="font-mono text-right whitespace-nowrap">
@@ -1612,21 +1611,26 @@
         }
         init3D();
 
-        // --- LENIS SMOOTH SCROLL ---
-        const lenis = new Lenis({
-            smoothWheel: true,
-            lerp: 0.14,
-            wheelMultiplier: 1,
-            touchMultiplier: 1.4,
-            syncTouch: false,
-            orientation: 'vertical',
-            gestureOrientation: 'vertical'
-        });
+        // --- NATIVE RESPONSIVE SCROLL ---
+        // The browser controls the page directly, so the flat site does not
+        // inherit artificial inertia from the 3D intro.
+        let previousScroll = window.scrollY;
+        let previousScrollTime = performance.now();
+        state.scroll = previousScroll;
 
-        lenis.on('scroll', ({ scroll, velocity }) => {
-            state.scroll = scroll;
-            state.targetSpeed = velocity;
-        });
+        window.addEventListener('scroll', () => {
+            const now = performance.now();
+            const currentScroll = window.scrollY;
+            const elapsed = Math.max(16, now - previousScrollTime);
+
+            state.scroll = currentScroll;
+            state.targetSpeed = is3DActive
+                ? ((currentScroll - previousScroll) / elapsed) * 16.67
+                : 0;
+
+            previousScroll = currentScroll;
+            previousScrollTime = now;
+        }, { passive: true });
 
         // --- RAF LOOP ---
         const velReadout = document.getElementById('vel-readout');
@@ -1635,8 +1639,6 @@
         let lastTime = 0;
 
         function raf(time) {
-            lenis.raf(time);
-
             // Calculate FPS
             const delta = time - lastTime;
             lastTime = time;
@@ -2644,7 +2646,7 @@
 <section class="seo-text-block px-4 md:px-8 py-10 text-bone/40 text-sm leading-relaxed">
   <div class="max-w-3xl">
     <h2 class="font-mono text-xs uppercase tracking-widest text-bone/60 mb-3">Услуги разработки</h2>
-    <p>Разрабатываю сайты под ключ: лендинги, сайты для бизнеса и портфолио — от макета до запуска. Отдельное направление — Telegram-боты на Python: автоматизация, приём заявок, интеграции с API. Цену и сроки обсуждаем индивидуально под задачу, работаю с клиентами по всей России. Написать можно в Telegram или на Kwork.</p>
+    <p>Разрабатываю сайты под ключ: лендинги, сайты для бизнеса и портфолио — от макета до запуска. Отдельное направление — Telegram-боты на Python: авт��матизация, приём заявок, интеграции с API. Цену и сроки обсуждаем индивидуально под задачу, работаю с клиентами по всей России. Написать можно в Telegram или на Kwork.</p>
   </div>
 </section>
 <!-- Live Demo Modal (iframe создаётся только при открытии — нулевая нагрузка до клика) -->
