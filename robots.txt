@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /admin/
+Disallow: /labs/
 
+Host: nikitos404.ru
 Sitemap: https://nikitos404.ru/sitemap.xml
