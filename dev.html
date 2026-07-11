@@ -1172,7 +1172,7 @@
                                         <span class="text-neon/70 font-bold">ONLINE</span>
                                     </div>
                                 </div>
-                                <div class="relative h-[300px] md:h-[380px]">
+                                <div class="relative h-[420px] md:h-[540px]" style="background:#070a12">
                                     <div id="ai-robot-slot" class="absolute inset-0"></div>
                                     <div id="ai-robot-hint"
                                         class="absolute bottom-3 left-1/2 -translate-x-1/2 text-[9px] text-slate-300 font-mono tracking-widest bg-void/70 border border-neon/20 rounded px-3 py-1.5 pointer-events-none [text-shadow:0_1px_4px_rgba(0,0,0,0.9)]">
@@ -1696,8 +1696,11 @@
             const elapsed = Math.max(16, now - previousScrollTime);
 
             state.scroll = currentScroll;
+            // Native scroll spikes much harder than Lenis used to,
+            // so velocity is clamped to keep 3D glitch effects subtle.
+            const rawSpeed = ((currentScroll - previousScroll) / elapsed) * 16.67;
             state.targetSpeed = is3DActive
-                ? ((currentScroll - previousScroll) / elapsed) * 16.67
+                ? Math.max(-8, Math.min(8, rawSpeed))
                 : 0;
 
             previousScroll = currentScroll;
@@ -1813,13 +1816,14 @@
 
                             if (item.type === 'text') {
                                 trans += ` rotateZ(${item.rot}deg)`;
-                                // Chromatic aberration
-                                if (Math.abs(state.velocity) > 1.2) {
-                                    const offset = state.velocity * 3;
-                                    item.el.style.textShadow = `${offset}px 0 rgba(255, 0, 60, 0.7), ${-offset}px 0 rgba(0, 243, 255, 0.7)`;
-                                } else {
-                                    item.el.style.textShadow = 'none';
-                                }
+                        // Chromatic aberration, capped so fast native
+                        // scrolling can't smear the 3D text apart.
+                        if (Math.abs(state.velocity) > 1.6) {
+                            const offset = Math.max(-6, Math.min(6, state.velocity * 1.5));
+                            item.el.style.textShadow = `${offset}px 0 rgba(255, 0, 60, 0.55), ${-offset}px 0 rgba(0, 243, 255, 0.55)`;
+                        } else {
+                            item.el.style.textShadow = 'none';
+                        }
                             } else {
                                 // Floating animation
                                 const t = time * 0.001;
@@ -2819,12 +2823,16 @@
 
         const viewer = document.createElement('spline-viewer');
         viewer.setAttribute('url', 'https://prod.spline.design/M50NBbEv2q-foOLT/scene.splinecode');
+        // Transparent canvas so the scene's white backdrop never shows.
+        viewer.setAttribute('background', 'rgba(0,0,0,0)');
         viewer.style.width = '100%';
         viewer.style.height = '100%';
+        viewer.style.display = 'block';
         robotSlot.appendChild(viewer);
 
         // Any click on the robot scene (including its CALL button) opens the chat.
         viewer.addEventListener('click', openChat);
+        viewer.addEventListener('pointerup', openChat);
       }, { rootMargin: '300px' });
       observer.observe(caseBlock);
 
@@ -2834,7 +2842,7 @@
         robotHint.classList.add('hidden');
         chatPanel.classList.remove('hidden');
         chatPanel.classList.add('flex');
-        appendMessage('agent', 'Привет! Я ИИ-агент Никиты. Точно такой же агент может работать на вашем сайте: отвечать клиентам про товары, цены и доставку. Спрашивайте — расскажу, что Никита может сделать для вас.');
+        appendMessage('agent', 'Привет! Я ИИ-агент Никиты. Точно такой же агент может работать на вашем сайте: отвечать клиентам про товары, це��ы и доставку. Спрашивайте — расскажу, что Никита может сделать для вас.');
         chatInput.focus();
       }
 
@@ -2864,7 +2872,9 @@
         const pending = appendMessage('agent', '…');
 
         try {
-          const response = await fetch('/api/chat', {
+          // GitHub Pages cannot run serverless functions,
+          // so the chat endpoint lives on the Vercel deployment.
+          const response = await fetch('https://site-zsd.vercel.app/api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ messages: history.slice(-12) })
