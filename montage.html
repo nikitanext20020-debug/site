@@ -912,7 +912,7 @@
                     <span>МОНТАЖ НЕ НАЧАТ</span>
                   </div>
                   <div class="text-bone/80 text-[10px] leading-relaxed uppercase tracking-wider mt-2">
-                    Вставьте кассету из списка справа для запуска предпросмотра
+                    ВЫБЕРИТЕ ЛЮБОЕ ВИДЕО В СПИСКЕ СПРАВА, ЧТОБЫ НАЧАТЬ ПРОСМОТР
                   </div>
                 </div>
               </div>
@@ -938,7 +938,7 @@
 
             <!-- Controls -->
             <div class="flex items-center gap-3">
-              <button id="console-play" class="flex items-center justify-center w-10 h-10 border border-bone/20 hover:border-rec hover:text-rec rounded bg-bone/5 transition group cursor-pointer" disabled="">
+              <button id="console-play" type="button" aria-label="Воспроизвести видео" title="Воспроизвести" class="flex items-center justify-center w-10 h-10 border border-bone/20 hover:border-rec hover:text-rec rounded bg-bone/5 transition group cursor-pointer" disabled="">
                 <!-- Play icon -->
                 <svg id="play-svg" class="w-4 h-4 fill-current ml-0.5" viewBox="0 0 24 24">
                   <path d="M8 5v14l11-7z"></path>
@@ -948,7 +948,7 @@
                   <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path>
                 </svg>
               </button>
-              <button id="console-mute" class="flex items-center justify-center w-10 h-10 border border-bone/20 hover:border-amber hover:text-amber rounded bg-bone/5 transition cursor-pointer" disabled="">
+              <button id="console-mute" type="button" aria-label="Выключить звук" title="Выключить звук" class="flex items-center justify-center w-10 h-10 border border-bone/20 hover:border-amber hover:text-amber rounded bg-bone/5 transition cursor-pointer" disabled="">
                 <!-- Sound icon -->
                 <svg id="sound-svg" class="w-4 h-4 fill-current" viewBox="0 0 24 24">
                   <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM4 9v6h4l5 5V4L8 9H4z"></path>
@@ -958,7 +958,10 @@
                   <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.21.05-.42.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H4v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"></path>
                 </svg>
               </button>
-              <button id="console-eject" class="flex items-center justify-center w-10 h-10 border border-bone/20 hover:border-rec hover:text-rec rounded bg-bone/5 transition cursor-pointer" title="Извлечь кассету">
+              <button id="console-fullscreen" type="button" aria-label="Открыть видео на весь экран" title="На весь экран" class="flex items-center justify-center w-10 h-10 border border-bone/20 hover:border-amber hover:text-amber rounded bg-bone/5 transition cursor-pointer" disabled="">
+                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zm-3-12v2h3v3h2V5h-5z"></path></svg>
+              </button>
+              <button id="console-eject" type="button" aria-label="Извлечь выбранное видео" class="flex items-center justify-center w-10 h-10 border border-bone/20 hover:border-rec hover:text-rec rounded bg-bone/5 transition cursor-pointer" title="Извлечь кассету">
                 <!-- Eject Icon -->
                 <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
                   <path d="M12 5L5 12h14z M5 16h14v2H5z"></path>
@@ -1022,7 +1025,7 @@
               <span id="timeline-duration">00:00</span>
             </div>
             <!-- Track lane -->
-            <div class="h-6 w-full bg-black/60 border border-bone/10 rounded-sm relative overflow-hidden group cursor-pointer" id="timeline-track">
+            <div class="h-6 w-full bg-black/60 border border-bone/10 rounded-sm relative overflow-hidden group cursor-pointer" id="timeline-track" role="slider" tabindex="0" aria-label="Перемотка видео" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
               <!-- Timeline ruler ticks -->
               <div class="absolute inset-0 opacity-10 flex justify-between pointer-events-none">
                 <div class="w-px h-full bg-bone"></div>
@@ -1215,7 +1218,7 @@
                 </div>
                 <div class="text-[9px] text-rec font-bold mt-2 flex items-center gap-1.5 animate-pulse">
                   <span class="w-1.5 h-1.5 bg-rec rounded-full inline-block"></span>
-                  <span>AI TREND / ИИ МУЛЬТ 🔥</span>
+                  <span>ТРЕНДОВЫЙ ИИ-МУЛЬТФИЛЬМ</span>
                 </div>
               </div>
             </div>
@@ -1384,12 +1387,11 @@
 
           <!-- Retro Instruction Panel -->
           <div class="mt-4 border border-dashed border-bone/15 p-3 rounded font-mono text-[10px] text-bone/60 bg-white/5 select-none">
-            <div class="text-rec font-bold uppercase mb-1">ИНСТРУКЦИЯ ОПЕРАТОРА:</div>
-            <div>1. Выберите файл из списка выше для загрузки на монтажную ленту.</div>
-            <div>2. Нажмите кнопку <b class="text-bone">PLAY</b> для воспроизведения.</div>
-            <div>3. Кликните по таймлайну, чтобы переместить ползунок.</div>
-            <div>4. Нажмите <b class="text-bone font-bold text-rec hover:underline">EJECT</b> для выгрузки кассеты.
-            </div>
+            <div class="text-rec font-bold uppercase mb-1">КАК ПОСМОТРЕТЬ РАБОТЫ:</div>
+            <div>1. Обязательно выберите любое видео из списка выше.</div>
+            <div>2. Кнопка ▶ запускает и останавливает просмотр.</div>
+            <div>3. Нажмите на дорожку, чтобы перемотать видео.</div>
+            <div>4. Кнопки управляют звуком, полным экраном и извлечением видео.</div>
           </div>
         </div>
 
@@ -1397,16 +1399,30 @@
     </div>
   </section>
 
-  <!-- ============ TESTIMONIAL ============ -->
-  <section class="px-4 md:px-8 py-24">
-    <div class="max-w-5xl mx-auto reveal">
-      <div class="font-mono text-xs uppercase tracking-[0.3em] text-bone/50 mb-6">// ОТЗЫВ КЛИЕНТА</div>
-      <blockquote class="font-display text-3xl md:text-5xl leading-snug">
-        «Монтируем с Никитой ролики для моего YouTube-канала на постоянной основе. Раньше уходило куча времени на объяснения монтажёрам, а здесь человек сам ведёт канал на 272K подписчиков и с полуслова понимает, где удержать внимание зрителя, где добавить мем или графику. Удержание аудитории выросло на <span class="text-rec">15%</span>. Работаем дальше!»
-      </blockquote>
-      <div class="mt-8 flex items-center gap-4 font-mono text-xs uppercase tracking-widest text-bone/60">
-        <span class="w-12 h-px bg-rec"></span>
-        Кирилл · YouTube-блогер (Тематика: Технологии и Игры)
+  <!-- ============ TESTIMONIALS ============ -->
+  <section class="px-4 md:px-8 py-24 border-t border-bone/10 bg-tape/30">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-12 reveal">
+        <div class="font-mono text-xs uppercase tracking-[0.3em] text-bone/50 mb-3">// ОТЗЫВЫ О МОНТАЖЕ</div>
+        <h2 class="font-display text-5xl md:text-7xl">ЧТО ГОВОРЯТ <span class="text-rec">КЛИЕНТЫ</span></h2>
+        <p class="mt-4 text-bone/60 max-w-xl mx-auto">Примеры оформления отзывов. Позже здесь появятся подтверждающие скриншоты переписок.</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-5">
+        <article class="cell p-7 flex flex-col reveal">
+          <div class="flex items-start justify-between"><div class="text-amber tracking-[0.2em] text-sm" aria-label="Оценка 5 из 5">★★★★★</div><span class="font-display text-5xl text-rec/50" aria-hidden="true">“</span></div>
+          <blockquote class="mt-5 text-sm leading-relaxed text-bone/80 flex-1">Нужно было собрать динамичный ролик для YouTube из большого количества исходников. Никита сам выбрал сильные моменты, аккуратно добавил мемы и графику. Первую версию получил быстро, а правки внесли за один заход.</blockquote>
+          <div class="mt-6 pt-5 border-t border-bone/10 flex items-center gap-4"><span class="w-11 h-11 rounded-full bg-rec/15 border border-rec/30 flex items-center justify-center font-display text-xl text-rec">А</span><span><strong class="block text-bone">Алексей</strong><span class="block text-[10px] text-bone/45 font-mono uppercase mt-1">YouTube · развлекательный канал</span></span></div>
+        </article>
+        <article class="cell p-7 flex flex-col reveal">
+          <div class="flex items-start justify-between"><div class="text-amber tracking-[0.2em] text-sm" aria-label="Оценка 5 из 5">★★★★★</div><span class="font-display text-5xl text-amber/50" aria-hidden="true">“</span></div>
+          <blockquote class="mt-5 text-sm leading-relaxed text-bone/80 flex-1">Заказывала серию коротких вертикальных видео. Понравилось, что не пришлось расписывать каждую склейку: монтаж получился живым, субтитры читаемые, музыка попала в темп. Все ролики сразу были готовы к публикации.</blockquote>
+          <div class="mt-6 pt-5 border-t border-bone/10 flex items-center gap-4"><span class="w-11 h-11 rounded-full bg-amber/15 border border-amber/30 flex items-center justify-center font-display text-xl text-amber">М</span><span><strong class="block text-bone">Марина</strong><span class="block text-[10px] text-bone/45 font-mono uppercase mt-1">Reels · экспертный блог</span></span></div>
+        </article>
+        <article class="cell p-7 flex flex-col reveal">
+          <div class="flex items-start justify-between"><div class="text-amber tracking-[0.2em] text-sm" aria-label="Оценка 5 из 5">★★★★★</div><span class="font-display text-5xl text-rec/50" aria-hidden="true">“</span></div>
+          <blockquote class="mt-5 text-sm leading-relaxed text-bone/80 flex-1">Обратился с музыкальным клипом и примерным референсом. Никита попал в нужную атмосферу, сделал цвет и синхронизацию под бит. Отдельно понравилось, что спокойно объяснил решения и не пропадал во время работы.</blockquote>
+          <div class="mt-6 pt-5 border-t border-bone/10 flex items-center gap-4"><span class="w-11 h-11 rounded-full bg-rec/15 border border-rec/30 flex items-center justify-center font-display text-xl text-rec">Д</span><span><strong class="block text-bone">Данил</strong><span class="block text-[10px] text-bone/45 font-mono uppercase mt-1">Музыкант · промо-клип</span></span></div>
+        </article>
       </div>
     </div>
   </section>
@@ -1544,6 +1560,8 @@
       const playBtn = document.getElementById('console-play');
       const muteBtn = document.getElementById('console-mute');
       const ejectBtn = document.getElementById('console-eject');
+      const fullscreenBtn = document.getElementById('console-fullscreen');
+      const screenContainer = document.getElementById('monitor-screen-container');
 
       const playSvg = document.getElementById('play-svg');
       const pauseSvg = document.getElementById('pause-svg');
@@ -1610,10 +1628,10 @@
                 <span>ГОТОВ К МОНТАЖУ</span>
               </div>`;
               
-              if (reel.name.includes('AI') || reel.name.includes('cartoon') || reel.name.includes('GENERATIVE') || reel.name.includes('MULT')) {
+              if (reel.id === 'reel-5' || reel.url.includes('AI MULT')) {
                 tagHtml = `<div class="text-[9px] text-${colorClass} font-bold mt-2 flex items-center gap-1.5 animate-pulse">
                   <span class="w-1.5 h-1.5 bg-${colorClass} rounded-full inline-block"></span>
-                  <span>AI TREND / ИИ МУЛЬТ 🔥</span>
+                  <span>ТРЕНДОВЫЙ ИИ-МУЛЬТФИЛЬМ</span>
                 </div>`;
               }
 
@@ -1726,13 +1744,15 @@
         // Enable controls
         playBtn.removeAttribute('disabled');
         muteBtn.removeAttribute('disabled');
+        fullscreenBtn.removeAttribute('disabled');
 
         // Reset playhead & state
         updatePlayheadVisuals(0, clip.duration);
 
         // Play
-        monitorVideo.play().catch(err => {
-          console.log("Auto-play blocked or error: ", err);
+        monitorVideo.play().catch(() => {
+          playSvg.classList.remove('hidden');
+          pauseSvg.classList.add('hidden');
         });
       }
 
@@ -1750,8 +1770,8 @@
           if (phoneBezel) phoneBezel.classList.remove('opacity-0', 'pointer-events-none');
         }
 
-        // Reset bin selection
-        binItems.forEach(bi => {
+        // Reset bin selection, including items rendered from portfolio.json.
+        document.querySelectorAll('.bin-item').forEach(bi => {
           bi.classList.remove('active-rec', 'active-amber');
         });
 
@@ -1779,6 +1799,7 @@
         // Disable controls
         playBtn.setAttribute('disabled', 'true');
         muteBtn.setAttribute('disabled', 'true');
+        fullscreenBtn.setAttribute('disabled', 'true');
 
         // Reset VU meters
         resetVUMeters();
@@ -1791,6 +1812,8 @@
         playSvg.classList.add('hidden');
         pauseSvg.classList.remove('hidden');
         if (recDot) recDot.classList.add('animate-pulse');
+        playBtn.setAttribute('aria-label', 'Поставить видео на паузу');
+        playBtn.title = 'Пауза';
         startVUMeterAnimation();
       });
 
@@ -1798,6 +1821,8 @@
         playSvg.classList.remove('hidden');
         pauseSvg.classList.add('hidden');
         if (recDot) recDot.classList.remove('animate-pulse');
+        playBtn.setAttribute('aria-label', 'Воспроизвести видео');
+        playBtn.title = 'Воспроизвести';
         stopVUMeterAnimation();
       });
 
@@ -1811,7 +1836,7 @@
       monitorVideo.addEventListener('durationchange', () => {
         if (!activeClip) return;
         const duration = monitorVideo.duration || activeClip.duration;
-        timelineDuration.textContent = `00:${String(Math.floor(duration)).padStart(2, '0')}`;
+        timelineDuration.textContent = formatClock(duration);
       });
 
       playBtn.addEventListener('click', () => {
@@ -1829,12 +1854,57 @@
         if (monitorVideo.muted) {
           soundSvg.classList.add('hidden');
           mutedSvg.classList.remove('hidden');
+          muteBtn.setAttribute('aria-label', 'Включить звук');
+          muteBtn.title = 'Включить звук';
           resetVUMeters();
         } else {
           soundSvg.classList.remove('hidden');
           mutedSvg.classList.add('hidden');
+          muteBtn.setAttribute('aria-label', 'Выключить звук');
+          muteBtn.title = 'Выключить звук';
         }
       });
+
+      // Fullscreen works with standard browsers and iPhone Safari.
+      fullscreenBtn.addEventListener('click', async () => {
+        if (!activeClip) return;
+        try {
+          if (monitorVideo.webkitEnterFullscreen) {
+            monitorVideo.webkitEnterFullscreen();
+          } else if (!document.fullscreenElement) {
+            await screenContainer.requestFullscreen();
+          } else {
+            await document.exitFullscreen();
+          }
+        } catch (error) {
+          // Native video controls remain available if fullscreen is blocked.
+        }
+      });
+
+      document.addEventListener('fullscreenchange', () => {
+        const isFullscreen = Boolean(document.fullscreenElement);
+        fullscreenBtn.setAttribute('aria-label', isFullscreen ? 'Выйти из полноэкранного режима' : 'Открыть видео на весь экран');
+        fullscreenBtn.title = isFullscreen ? 'Выйти из полного экрана' : 'На весь экран';
+      });
+
+      monitorVideo.addEventListener('loadedmetadata', () => {
+        if (!activeClip) return;
+        const duration = Number.isFinite(monitorVideo.duration) ? monitorVideo.duration : activeClip.duration;
+        timelineDuration.textContent = formatClock(duration);
+        updatePlayheadVisuals(0, duration);
+      });
+
+      monitorVideo.addEventListener('ended', () => {
+        monitorVideo.currentTime = 0;
+        updatePlayheadVisuals(0, monitorVideo.duration || activeClip?.duration || 0);
+      });
+
+      function formatClock(value) {
+        const total = Math.max(0, Math.floor(value || 0));
+        const minutes = Math.floor(total / 60);
+        const seconds = total % 60;
+        return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      }
 
       // Scrubbing timeline
       timelineTrack.addEventListener('click', (e) => {
@@ -1842,16 +1912,28 @@
         const rect = timelineTrack.getBoundingClientRect();
         const clickX = e.clientX - rect.left;
         const percent = Math.max(0, Math.min(1, clickX / rect.width));
-
         const duration = monitorVideo.duration || activeClip.duration;
         monitorVideo.currentTime = percent * duration;
+      });
+
+      timelineTrack.addEventListener('keydown', (e) => {
+        if (!activeClip || !['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
+        e.preventDefault();
+        const duration = monitorVideo.duration || activeClip.duration;
+        if (e.key === 'Home') monitorVideo.currentTime = 0;
+        if (e.key === 'End') monitorVideo.currentTime = duration;
+        if (e.key === 'ArrowLeft') monitorVideo.currentTime = Math.max(0, monitorVideo.currentTime - 5);
+        if (e.key === 'ArrowRight') monitorVideo.currentTime = Math.min(duration, monitorVideo.currentTime + 5);
       });
 
       function updatePlayheadVisuals(progress, duration) {
         if (!activeClip) return;
 
         // Move playhead
-        timelinePlayhead.style.left = `${progress * 100}%`;
+        const safeProgress = Math.max(0, Math.min(1, Number.isFinite(progress) ? progress : 0));
+        timelinePlayhead.style.left = `${safeProgress * 100}%`;
+        timelineTrack.setAttribute('aria-valuenow', String(Math.round(safeProgress * 100)));
+        timelineTrack.setAttribute('aria-valuetext', `${formatClock(safeProgress * duration)} из ${formatClock(duration)}`);
         timelineClipBar.style.width = '100%';
         if (activeClip.color === 'rec') {
           timelineClipBar.className = 'absolute left-0 top-1 bottom-1 bg-gradient-to-r from-rec/40 to-amber/40 border-y border-rec/60 rounded-sm transition-all duration-300 w-full';

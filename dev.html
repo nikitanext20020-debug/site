@@ -1342,7 +1342,7 @@
                         <div class="font-poster text-3xl md:text-4xl text-neon/15 group-hover:text-neon/40 transition duration-300 select-none">04</div>
                         <div class="font-mono min-w-0">
                             <h3 class="text-bone text-lg md:text-2xl font-bold font-sans group-hover:text-neon transition duration-300">CRM / веб-приложение</h3>
-                            <p class="text-neon/50 text-xs mt-1.5 leading-relaxed">Учёт клиентов, заказов и финансов под ваши процессы — от MVP до продакшена.</p>
+                            <p class="text-neon/50 text-xs mt-1.5 leading-relaxed">Учёт клиентов, заказов �� финансов под ваши процессы — от MVP до продакшена.</p>
                         </div>
                         <div class="hidden md:block font-mono text-[11px] uppercase tracking-[0.18em] text-neon/40 border border-neon/15 rounded-full px-3 py-1.5 whitespace-nowrap">от 2 недель</div>
                         <div class="font-mono text-right whitespace-nowrap">
@@ -1614,11 +1614,13 @@
 
         // --- LENIS SMOOTH SCROLL ---
         const lenis = new Lenis({
-            smooth: true,
-            lerp: 0.08,
-            direction: 'vertical',
-            gestureDirection: 'vertical',
-            smoothTouch: true
+            smoothWheel: true,
+            lerp: 0.14,
+            wheelMultiplier: 1,
+            touchMultiplier: 1.4,
+            syncTouch: false,
+            orientation: 'vertical',
+            gestureOrientation: 'vertical'
         });
 
         lenis.on('scroll', ({ scroll, velocity }) => {
@@ -1642,8 +1644,13 @@
                 fpsCounter.innerText = Math.round(1000 / delta);
             }
 
-            // Smooth Velocity lerp
-            state.velocity += (state.targetSpeed - state.velocity) * 0.1;
+            // Smooth velocity only while the 3D intro is visible.
+            if (is3DActive) {
+                state.velocity += (state.targetSpeed - state.velocity) * 0.14;
+            } else {
+                state.velocity = 0;
+                state.targetSpeed = 0;
+            }
 
             // Transition logic between 3D scene and 2D website with HYSTERESIS
             const limitOut = 2200; // threshold to leave 3D
@@ -1887,7 +1894,9 @@
             }
             container.scrollTop = container.scrollHeight;
         }
-        setInterval(rotateMiniLogs, 2500);
+        setInterval(() => {
+            if (!document.hidden && is3DActive) rotateMiniLogs();
+        }, 2500);
 
         function toggleMiniCron(btn) {
             const dot = document.getElementById('btn-toggle-cron-dot');

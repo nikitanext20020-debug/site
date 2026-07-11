@@ -336,7 +336,7 @@
     {
       "id": "reel-1",
       "url": "videos/reel_01.mp4",
-      "name": "REEL_001_LIFESTYLE.mp4",
+      "name": "Лайфстайл — динамичный Reels",
       "duration": 15,
       "color": "rec",
       "aspect": "9:16"
@@ -344,7 +344,7 @@
     {
       "id": "reel-2",
       "url": "videos/reel_02.mp4",
-      "name": "REEL_002_DYNAMICS.mp4",
+      "name": "Динамичный вертикальный ролик",
       "duration": 12,
       "color": "amber",
       "aspect": "9:16"
@@ -352,7 +352,7 @@
     {
       "id": "reel-3",
       "url": "videos/reel_03.mp4",
-      "name": "REEL_003_CINEMATIC.mp4",
+      "name": "Кинематографичный Reels",
       "duration": 18,
       "color": "rec",
       "aspect": "9:16"
@@ -360,7 +360,7 @@
     {
       "id": "reel-4",
       "url": "videos/reel_04.mp4",
-      "name": "REEL_004_PROMO.mp4",
+      "name": "Рекламный промо-ролик",
       "duration": 14,
       "color": "amber",
       "aspect": "9:16"
@@ -368,7 +368,7 @@
     {
       "id": "reel-5",
       "url": "videos/AI MULT.mp4",
-      "name": "AI_GENERATIVE_WORLD.mp4",
+      "name": "ИИ-мультфильм",
       "duration": 28,
       "color": "rec",
       "aspect": "9:16"
@@ -376,7 +376,7 @@
     {
       "id": "reel-6",
       "url": "videos/LOGO.mp4",
-      "name": "LOGO_ANIMATION_PROMO.mp4",
+      "name": "Анимация логотипа",
       "duration": 8,
       "color": "amber",
       "aspect": "9:16"
@@ -384,7 +384,7 @@
     {
       "id": "reel-7",
       "url": "videos/VFX.mp4",
-      "name": "VFX_PORTFOLIO_CUT.mp4",
+      "name": "VFX и визуальные эффекты",
       "duration": 22,
       "color": "rec",
       "aspect": "9:16"
@@ -392,7 +392,7 @@
     {
       "id": "reel-8",
       "url": "videos/Color.mp4",
-      "name": "COLOR_GRADING_DAVINCI.mp4",
+      "name": "Цветокоррекция в DaVinci",
       "duration": 15,
       "color": "amber",
       "aspect": "9:16"
@@ -400,7 +400,7 @@
     {
       "id": "reel-9",
       "url": "videos/MUSIC.mp4",
-      "name": "MUSIC_VIDEO_EDIT.mp4",
+      "name": "Монтаж музыкального клипа",
       "duration": 30,
       "color": "rec",
       "aspect": "16:9"
@@ -413,7 +413,7 @@
       "tag": "Next.js 14 · App Router · shadcn/ui · Vercel",
       "year": 2025,
       "commit": "a3f2d1c",
-      "description": "Многопоточный дашборд управления тарифами, пользователями и аналитикой серверов. Интеграция с платежными системами ЮKassa и Stripe, адаптивный интерфейс с темной темой.",
+      "description": "Многопоточный дашборд управления тарифами, пользователями и аналитикой серверов. Интеграция с платежным�� системами ЮKassa и Stripe, адаптивный интерфейс с темной темой.",
       "link": "https://github.com/nikitanext20020-debug/site",
       "images": [
         "images/design/logos/Screenshot_20.jpg",
