@@ -65,6 +65,7 @@
         }
     </script>
       <script src="https://cdn.lordicon.com/lordicon.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
 
     <style>
         :root {
@@ -86,25 +87,176 @@
             padding: 0;
         }
 
-        /* Modern Matrix background: ambient glow + hairline grid (no CRT noise) */
-        .scanlines {
+        /* === VOID ORBITS background (replaces scanlines + coderain) === */
+        .void-bg {
             position: fixed;
             inset: 0;
-            background:
-                radial-gradient(600px 400px at 15% 8%, rgba(91, 124, 255, 0.07), transparent 70%),
-                radial-gradient(700px 500px at 85% 92%, rgba(167, 139, 250, 0.05), transparent 70%),
-                linear-gradient(rgba(91, 124, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(91, 124, 255, 0.03) 1px, transparent 1px);
-            background-size: auto, auto, 56px 56px, 56px 56px;
+            z-index: 0;
             pointer-events: none;
-            z-index: 90;
+            overflow: hidden;
+            background:
+                radial-gradient(1200px 700px at 50% 120%, rgba(91, 124, 255, 0.07), transparent 55%),
+                radial-gradient(circle at 50% 40%, #0a0c1a 0%, #05060f 55%, #03040a 100%);
+        }
+
+        .void-aurora {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(70px);
+            opacity: 0.55;
+            will-change: transform, opacity;
+            mix-blend-mode: screen;
+        }
+
+        .void-aurora-a {
+            width: 48vw;
+            height: 48vw;
+            min-width: 320px;
+            min-height: 320px;
+            left: -8%;
+            top: -12%;
+            background: radial-gradient(circle, rgba(91, 124, 255, 0.55), transparent 68%);
+            animation: voidAuroraA 18s ease-in-out infinite alternate;
+        }
+
+        .void-aurora-b {
+            width: 42vw;
+            height: 42vw;
+            min-width: 280px;
+            min-height: 280px;
+            right: -10%;
+            bottom: -8%;
+            background: radial-gradient(circle, rgba(167, 139, 250, 0.45), transparent 70%);
+            animation: voidAuroraB 22s ease-in-out infinite alternate;
+        }
+
+        .void-aurora-c {
+            width: 28vw;
+            height: 28vw;
+            min-width: 200px;
+            min-height: 200px;
+            left: 50%;
+            top: 42%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.28), transparent 72%);
+            animation: voidAuroraC 10s ease-in-out infinite;
+        }
+
+        .void-orbits {
+            position: absolute;
+            left: 50%;
+            top: 42%;
+            width: min(72vw, 820px);
+            height: min(72vw, 820px);
+            transform: translate(-50%, -50%);
+        }
+
+        .void-ring {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 1px solid transparent;
+            opacity: 0.35;
+        }
+
+        .void-ring.r1 {
+            border-color: rgba(91, 124, 255, 0.22);
+            box-shadow: inset 0 0 30px rgba(91, 124, 255, 0.06);
+            animation: voidOrbitSpin 48s linear infinite;
+        }
+
+        .void-ring.r2 {
+            inset: 12%;
+            border-color: rgba(167, 139, 250, 0.18);
+            border-style: dashed;
+            animation: voidOrbitSpin 72s linear infinite reverse;
+        }
+
+        .void-ring.r3 {
+            inset: 26%;
+            border-color: rgba(234, 234, 242, 0.08);
+            animation: voidOrbitSpin 96s linear infinite;
+        }
+
+        .void-sweep {
+            position: absolute;
+            inset: -20% -30%;
+            background: linear-gradient(105deg,
+                    transparent 40%,
+                    rgba(91, 124, 255, 0.045) 49%,
+                    rgba(167, 139, 250, 0.06) 50.5%,
+                    transparent 58%);
+            animation: voidSweep 11s ease-in-out infinite;
+            transform: translateX(-30%) rotate(8deg);
+        }
+
+        .void-dust span {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            border-radius: 50%;
+            background: rgba(167, 139, 250, 0.75);
+            box-shadow: 0 0 6px rgba(91, 124, 255, 0.55);
+            opacity: 0;
+            animation: voidDust linear infinite;
+        }
+
+        .void-dust {
+            position: absolute;
+            inset: 0;
+        }
+
+        @keyframes voidAuroraA {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.45; }
+            50% { transform: translate(6%, 8%) scale(1.12); opacity: 0.7; }
+            100% { transform: translate(2%, 14%) scale(1.05); opacity: 0.5; }
+        }
+
+        @keyframes voidAuroraB {
+            0% { transform: translate(0, 0) scale(1.05); opacity: 0.4; }
+            50% { transform: translate(-8%, -6%) scale(1.15); opacity: 0.65; }
+            100% { transform: translate(-3%, -12%) scale(1); opacity: 0.48; }
+        }
+
+        @keyframes voidAuroraC {
+            0%, 100% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.25; }
+            50% { transform: translate(-50%, -50%) scale(1.25); opacity: 0.55; }
+        }
+
+        @keyframes voidOrbitSpin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes voidSweep {
+            0%, 15% { transform: translateX(-40%) rotate(8deg); opacity: 0; }
+            35% { opacity: 1; }
+            55% { transform: translateX(35%) rotate(8deg); opacity: 0.7; }
+            70%, 100% { transform: translateX(55%) rotate(8deg); opacity: 0; }
+        }
+
+        @keyframes voidDust {
+            0% { transform: translateY(20vh) scale(0.6); opacity: 0; }
+            15% { opacity: 0.7; }
+            85% { opacity: 0.35; }
+            100% { transform: translateY(-30vh) scale(1.2); opacity: 0; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .void-aurora,
+            .void-ring,
+            .void-sweep,
+            .void-dust span {
+                animation: none !important;
+            }
+            .void-aurora-a { opacity: 0.5; }
+            .void-aurora-b { opacity: 0.4; }
+            .void-aurora-c { opacity: 0.3; transform: translate(-50%, -50%); }
         }
 
         .vignette {
             position: fixed;
             inset: 0;
-            background: radial-gradient(circle, transparent 35%, #020306 120%);
-            z-index: 91;
+            background: radial-gradient(circle at center, transparent 42%, rgba(2, 3, 6, 0.72) 100%);
+            z-index: 2;
             pointer-events: none;
         }
 
@@ -309,33 +461,6 @@
 
         .glow-rec {
             text-shadow: 0 0 10px rgba(255, 59, 48, 0.8), 0 0 40px rgba(255, 59, 48, 0.3);
-        }
-
-        /* Code Rain */
-        .coderain {
-            position: absolute;
-            inset: 0;
-            overflow: hidden;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .coderain span {
-            position: absolute;
-            top: -20%;
-            font-size: 14px;
-            color: #5B7CFF;
-            opacity: 0.25;
-            writing-mode: vertical-rl;
-            letter-spacing: 3px;
-            animation: rain linear infinite;
-            text-shadow: 0 0 6px rgba(91, 124, 255, 0.5);
-        }
-
-        @keyframes rain {
-            to {
-                top: 110%;
-            }
         }
 
         /* Terminal card */
@@ -705,7 +830,7 @@
 {
   "@context":"https://schema.org",
   "@type":"Service",
-  "serviceType":["Разработка сайтов","Разр������ботка Telegram-ботов"],
+  "serviceType":["Разработка сайтов","Разр��������ботка Telegram-ботов"],
   "name":"Разработка сайтов под ключ и Telegram-ботов",
   "url":"https://nikitos404.ru/dev.html",
   "image":"https://nikitos404.ru/og-image.png",
@@ -742,8 +867,21 @@
 
 <body class="bg-void">
 
-    <!-- OVERLAYS -->
-    <div class="scanlines"></div>
+    <!-- VOID ORBITS background -->
+    <div class="void-bg" aria-hidden="true">
+        <div class="void-aurora void-aurora-a"></div>
+        <div class="void-aurora void-aurora-b"></div>
+        <div class="void-aurora void-aurora-c"></div>
+
+        <div class="void-orbits">
+            <span class="void-ring r1"></span>
+            <span class="void-ring r2"></span>
+            <span class="void-ring r3"></span>
+        </div>
+
+        <div class="void-dust" id="void-dust"></div>
+        <div class="void-sweep"></div>
+    </div>
     <div class="vignette"></div>
 
     <!-- HUD OVERLAY (Only visible during 3D Tunnel) -->
@@ -777,10 +915,8 @@
 
     <!-- MAIN FLAT SITE (Reveals after 2200px) -->
     <div id="main-site"
-        class="opacity-0 invisible transition-all duration-1000 relative z-20 w-full min-h-screen bg-void gridbg pb-16">
-
-        <!-- Code Rain -->
-        <div class="coderain" id="coderain"></div>
+        class="opacity-0 invisible transition-all duration-1000 relative z-20 w-full min-h-screen pb-16"
+        style="background: rgba(6, 7, 20, 0.55)">
 
         <!-- NAV -->
         <header
@@ -1688,29 +1824,23 @@
         }
         init3D();
 
-        // --- NATIVE RESPONSIVE SCROLL ---
-        // The browser controls the page directly, so the flat site does not
-        // inherit artificial inertia from the 3D intro.
-        let previousScroll = window.scrollY;
-        let previousScrollTime = performance.now();
-        state.scroll = previousScroll;
+        // --- LENIS SMOOTH SCROLL ---
+        const lenis = new Lenis({
+            smoothWheel: true,
+            lerp: 0.1,            // smooth but responsive (0.14 felt heavy)
+            wheelMultiplier: 1,
+            touchMultiplier: 1.5,
+            syncTouch: false,     // native feel on touch devices
+            orientation: 'vertical',
+            gestureOrientation: 'vertical',
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        });
 
-        window.addEventListener('scroll', () => {
-            const now = performance.now();
-            const currentScroll = window.scrollY;
-            const elapsed = Math.max(16, now - previousScrollTime);
-
-            state.scroll = currentScroll;
-            // Native scroll spikes much harder than Lenis used to,
-            // so velocity is clamped to keep 3D glitch effects subtle.
-            const rawSpeed = ((currentScroll - previousScroll) / elapsed) * 16.67;
-            state.targetSpeed = is3DActive
-                ? Math.max(-8, Math.min(8, rawSpeed))
-                : 0;
-
-            previousScroll = currentScroll;
-            previousScrollTime = now;
-        }, { passive: true });
+        lenis.on('scroll', ({ scroll, velocity }) => {
+            state.scroll = scroll;
+            // velocity feeds the 3D HUD / warp effects only
+            state.targetSpeed = is3DActive ? velocity : 0;
+        });
 
         // --- RAF LOOP ---
         const velReadout = document.getElementById('vel-readout');
@@ -1719,6 +1849,8 @@
         let lastTime = 0;
 
         function raf(time) {
+            lenis.raf(time);
+
             // Calculate FPS
             const delta = time - lastTime;
             lastTime = time;
@@ -2013,25 +2145,28 @@
         }
 
 
-        // --- FLAT SITE SCRIPTS (Code rain & IntersectionObserver) ---
+        // --- FLAT SITE SCRIPTS (VOID ORBITS dust & IntersectionObserver) ---
 
-        // Code Rain generator
+        // VOID ORBITS dust particles (replaces code rain)
         (function () {
-            const r = document.getElementById('coderain');
-            if (!r) return;
-            const chars = 'アイウエオカキクケコ01ABCDEF{}[]<>/=+;()const let var function return async await import export';
-            for (let i = 0; i < 30; i++) {
-                const s = document.createElement('span');
-                let t = '';
-                for (let j = 0; j < 20 + Math.floor(Math.random() * 12); j++) {
-                    t += chars[Math.floor(Math.random() * chars.length)];
+            const root = document.getElementById('void-dust');
+            if (!root) return;
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+            const count = window.innerWidth < 768 ? 18 : 34;
+            for (let i = 0; i < count; i++) {
+                const d = document.createElement('span');
+                const size = 1 + Math.random() * 2;
+                d.style.width = size + 'px';
+                d.style.height = size + 'px';
+                d.style.left = (Math.random() * 100) + '%';
+                d.style.top = (Math.random() * 100) + '%';
+                d.style.animationDuration = (10 + Math.random() * 16) + 's';
+                d.style.animationDelay = (-Math.random() * 16) + 's';
+                if (Math.random() > 0.55) {
+                    d.style.background = 'rgba(91, 124, 255, 0.8)';
                 }
-                s.textContent = t;
-                s.style.left = (i / 30 * 100 + Math.random() * 2) + '%';
-                s.style.animationDuration = (4 + Math.random() * 8) + 's';
-                s.style.animationDelay = (Math.random() * 6) + 's';
-                s.style.opacity = (0.12 + Math.random() * 0.3).toString();
-                r.appendChild(s);
+                root.appendChild(d);
             }
         })();
 
