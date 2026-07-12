@@ -36,7 +36,6 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.tailwindcss.com">
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="dns-prefetch" href="https://cdn.lordicon.com">
     <link rel="dns-prefetch" href="https://unpkg.com">
@@ -45,30 +44,11 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;500;700&family=Manrope:wght@500;700;800&family=Russo+One&display=swap" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;500;700&family=Manrope:wght@500;700;800&family=Russo+One&display=swap"></noscript>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        mono: ['"Cascadia Code"', 'monospace'],
-                        poster: ['"Russo One"', 'sans-serif'],
-                        sans: ['"Russo One"', 'sans-serif'],
-                        case: ['"Manrope"', 'sans-serif']
-                    },
-                    colors: {
-                        void: '#060714',
-                        neon: '#5B7CFF',
-                        glow: '#A78BFA',
-                        amber: '#F5B82E',
-                        rec: '#FF3B30',
-                        bone: '#EAEAF2',
-                        purple: '#8B5CF6'
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Statically compiled Tailwind (was the render-blocking cdn.tailwindcss.com
+         runtime script, ~110KB JS + runtime CSS generation). All used classes
+         are pre-built into this 25KB stylesheet. Rebuild if new classes are
+         added: npx tailwindcss -i input.css -o assets/tw.css --minify -->
+    <link rel="stylesheet" href="assets/tw.css">
       <script src="https://cdn.lordicon.com/lordicon.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
 
@@ -1261,7 +1241,7 @@
                             <div class="text-[10px] text-neon font-mono">// CASE_04 // AI INTEGRATION</div>
                             <h3 class="text-bone text-3xl font-extrabold font-case tracking-tight">ИИ-АГЕНТ НА ВАШ САЙТ</h3>
                             <p class="text-slate-300 text-sm leading-relaxed">
-                                Ставлю на сайты умных ИИ-агентов, которые сами отвечают посетителям: рассказывают о
+                                Ставлю на сайты умных ИИ-агентов, которые сами отвечают посетителям: расска��ывают о
                                 товарах и услугах, отвечают на частые вопросы, помогают с выбором и доводят клиента
                                 до заявки — 24/7, без выходных и зарплаты. Это не скриншот: справа живой робот,
                                 нажми на кнопку <b class="text-bone">ВЫЗОВ</b> на его экране и поговори с агентом.
@@ -1584,7 +1564,7 @@
                     <div class="text-xs uppercase tracking-[0.3em] text-neon/80 mb-4 font-mono">$ echo "let's build"
                     </div>
                     <h2 class="font-poster text-5xl md:text-7xl text-bone glow-text leading-none uppercase">
-                        ДАВАЙ<br>ЗАПУСТИМ<br><span class="text-neon">ПРОЕКТ.</span>
+                        ДАВАЙ<br>��АПУСТИМ<br><span class="text-neon">ПРОЕКТ.</span>
                     </h2>
                     <p class="text-slate-300 mt-6 max-w-md text-sm leading-relaxed">Опиши задачу в Telegram или на почту —
                         я отвечу в течение суток с оценкой стоимости и планом разработки.</p>
