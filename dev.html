@@ -515,22 +515,6 @@
             box-shadow: 0 0 4px var(--accent-2);
         }
 
-        /* HUD Overlay */
-        .hud-overlay {
-            position: fixed;
-            inset: 1.5rem;
-            z-index: 40;
-            pointer-events: none;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            font-size: 10px;
-            color: rgba(91, 124, 255, 0.5);
-            text-transform: uppercase;
-            font-family: monospace;
-            transition: opacity 0.5s ease;
-        }
-
         /* Grid Background */
         .gridbg::before {
             content: '';
@@ -919,7 +903,7 @@
   "@context":"https://schema.org",
   "@type":"Service",
   "serviceType":["Разработка сайтов","Разр��������ботка Telegram-ботов"],
-  "name":"Разработка сайтов под ключ и Telegram-ботов",
+  "name":"Разработка сайтов под кл��ч и Telegram-ботов",
   "url":"https://nikitos404.ru/dev.html",
   "image":"https://nikitos404.ru/og-image.png",
   "areaServed":"RU",
@@ -990,27 +974,6 @@
         <div class="void-sweep"></div>
     </div>
     <div class="vignette"></div>
-
-    <!-- HUD OVERLAY (Only visible during 3D Tunnel) -->
-    <div class="hud-overlay" id="hud-overlay">
-        <div class="flex justify-between items-center">
-            <span>SYS.READY // 3D_SPACE</span>
-            <div class="flex-1 h-[1px] bg-neon/20 mx-4 relative">
-                <div class="absolute right-0 top-[-2px] w-1 h-1 bg-neon shadow-[0_0_8px_#5B7CFF]"></div>
-            </div>
-            <span>FPS: <strong id="fps" class="text-glow">60</strong></span>
-        </div>
-        <div
-            class="absolute right-6 top-1/2 -translate-y-1/2 flex flex-col items-end gap-1 font-mono text-[9px] text-neon/70 select-none">
-            <div>SCROLL VELOCITY</div>
-            <div class="text-[12px] font-bold text-glow" id="vel-readout" style="color: var(--accent-2);">0.00</div>
-        </div>
-        <div class="flex justify-between items-center">
-            <span>DEPTH: <strong id="coord" class="text-glow">0.00</strong></span>
-            <div class="flex-1 h-[1px] bg-neon/20 mx-4"></div>
-            <span>VER 3.2.0 [CYBER]</span>
-        </div>
-    </div>
 
     <!-- FIXED 3D VIEWPORT -->
     <div class="viewport" id="viewport">
@@ -1747,7 +1710,6 @@
 
         const world = document.getElementById('world');
         const viewport = document.getElementById('viewport');
-        const hudOverlay = document.getElementById('hud-overlay');
         const mainSite = document.getElementById('main-site');
         const items = [];
         let is3DActive = true;
@@ -1907,20 +1869,8 @@
         });
 
         // --- RAF LOOP ---
-        const velReadout = document.getElementById('vel-readout');
-        const fpsCounter = document.getElementById('fps');
-        const coordReadout = document.getElementById('coord');
-        let lastTime = 0;
-
         function raf(time) {
             lenis.raf(time);
-
-            // Calculate FPS
-            const delta = time - lastTime;
-            lastTime = time;
-            if (time % 10 < 1 && delta > 0) {
-                fpsCounter.innerText = Math.round(1000 / delta);
-            }
 
             // Smooth velocity only while the 3D intro is visible.
             if (is3DActive) {
@@ -1938,8 +1888,6 @@
                 // Disable 3D completely
                 viewport.style.opacity = 0;
                 viewport.style.display = 'none';
-                hudOverlay.style.opacity = 0;
-                hudOverlay.style.display = 'none';
 
                 mainSite.style.opacity = 1;
                 mainSite.style.visibility = 'visible';
@@ -1947,7 +1895,6 @@
             } else if (!is3DActive && state.scroll < limitIn) {
                 // Enable 3D back
                 viewport.style.display = 'block';
-                hudOverlay.style.display = 'flex';
                 is3DActive = true;
             }
 
@@ -1962,7 +1909,6 @@
                 }
 
                 viewport.style.opacity = opacity3D;
-                hudOverlay.style.opacity = opacity3D;
 
                 mainSite.style.opacity = opacity2D;
                 if (opacity2D > 0) {
@@ -2039,10 +1985,6 @@
                         }
                     }
                 });
-
-                // Update HUD texts
-                velReadout.innerText = Math.abs(state.velocity).toFixed(2);
-                coordReadout.innerText = `${state.scroll.toFixed(0)}`;
             }
 
             requestAnimationFrame(raf);
@@ -2614,7 +2556,7 @@
                 loader.textContent = 'ЗАГРУЗКА ДЕМО...';
 
                 const frame = document.createElement('iframe');
-                frame.title = 'Живое демо: лендинг Облачко VPN';
+                frame.title = 'Жи��ое демо: лендинг Облачко VPN';
                 // display:block + 100% высота контейнера, минимум 100% — избегаем iOS-бага с нулевой высотой
                 frame.style.cssText = 'display:block;width:100%;height:100%;min-height:100%;border:0;background:#fff;';
                 frame.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms allow-popups');
