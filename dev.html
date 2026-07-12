@@ -231,9 +231,6 @@
             .void-sweep {
                 display: none;
             }
-            .big-text-3d {
-                mix-blend-mode: normal;
-            }
         }
 
         /* LITE 3D (Apple/WebKit/weak devices, class set from JS):
@@ -254,8 +251,12 @@
         html.lite3d .void-sweep {
             display: none;
         }
+        /* Keep 'screen' blend on the big title even in lite: a single
+           element blend is cheap (the killers were backdrop-filter and
+           100px blurs), and without it the red/cyan shadows paint as
+           opaque slabs over the cards instead of additive glow. */
         html.lite3d .big-text-3d {
-            mix-blend-mode: normal;
+            mix-blend-mode: screen;
         }
         /* reveal without filter blur: blur transition repaints whole sections */
         html.lite3d .reveal {
@@ -444,13 +445,20 @@
             border-color: #F5B82E;
         }
 
-        /* Big 3D Title */
+        /* Big 3D Title.
+           The red/cyan chromatic split is baked in as a STATIC text-shadow:
+           it rasterizes once into the element's layer and then only gets
+           3D-transformed — zero per-frame repaint cost (unlike the old JS
+           text-shadow rewrite). Stroke brightened so it reads on lite too. */
         .big-text-3d {
             font-family: 'Russo One', sans-serif;
             font-size: 14vw;
             font-weight: 900;
             color: transparent;
-            -webkit-text-stroke: 1.5px rgba(91, 124, 255, 0.2);
+            -webkit-text-stroke: 2px rgba(91, 124, 255, 0.55);
+            text-shadow:
+                4px 0 rgba(255, 0, 60, 0.4),
+                -4px 0 rgba(0, 243, 255, 0.35);
             text-transform: uppercase;
             white-space: nowrap;
             transform: translate(-50%, -50%);
@@ -1467,7 +1475,7 @@
                             <div class="text-4xl mb-4 text-rec glow-rec font-bold">⚡</div>
                             <h3 class="text-bone text-xl font-bold mb-3 font-sans">Автоматизации</h3>
                             <p class="text-slate-300 text-xs leading-relaxed font-mono">Интеграции с API, umные
-                                Telegram-боты, автоматические парсеры и автоматизация процессов.</p>
+                                Telegram-боты, автоматические парсеры и автоматизация проц��ссов.</p>
                         </div>
                         <div
                             class="border-t border-white/15 pt-4 text-xs text-slate-400 font-mono flex justify-between items-center">
@@ -1991,9 +1999,11 @@
                                             item._shadow = shadow;
                                             item.el.style.textShadow = shadow;
                                         }
-                                    } else if (item._shadow !== 'none') {
-                                        item._shadow = 'none';
-                                        item.el.style.textShadow = 'none';
+                                    } else if (item._shadow !== '') {
+                                        // Empty string = fall back to the static
+                                        // CSS chromatic shadow, not 'none'.
+                                        item._shadow = '';
+                                        item.el.style.textShadow = '';
                                     }
                                 }
                             } else if (isLite3D) {
