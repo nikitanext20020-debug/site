@@ -300,6 +300,30 @@
             100% { transform: translateY(-30vh) scale(1.2); opacity: 0; }
         }
 
+        /* MOBILE PERF: giant blurs + blend modes + animated transforms on
+           58vw blobs choke phone GPUs and cause scroll jank. Keep the look
+           via cheap static gradients, kill the expensive parts. */
+        @media (max-width: 767px) {
+            .void-aurora {
+                filter: blur(28px);
+                mix-blend-mode: normal;
+                animation: none !important;
+                will-change: auto;
+            }
+            .void-bg::before {
+                filter: none;
+            }
+            .void-sweep {
+                display: none;
+            }
+            .void-ring.r2 {
+                display: none;
+            }
+            .big-text-3d {
+                mix-blend-mode: normal;
+            }
+        }
+
         @media (prefers-reduced-motion: reduce) {
             .void-aurora,
             .void-ring,
@@ -1700,7 +1724,7 @@
         // --- 3D SCENE DATA ---
         const CONFIG = {
             zGap: 900,
-            starCount: 120,
+            starCount: window.innerWidth < 768 ? 55 : 120,
             camSpeed: 2.2,
             colors: ['#5B7CFF', '#A78BFA', '#EAEAF2']
         };
@@ -1975,12 +1999,15 @@
                         item.el.style.transform = `translate3d(${item.x}px, ${item.y}px, ${vizZ}px) scale3d(1, 1, ${stretch})`;
                         item.el.style.opacity = vizZ > 100 ? 0 : 0.3;
                     } else {
-                        // Precise non-looping flight for texts & cards
+                        // Precise non-looping flight for texts & cards.
+                        // Text gets a longer fade-out window so NIK DEV
+                        // stays readable instead of vanishing instantly.
+                        const fadeOut = item.type === 'text' ? 600 : 200;
                         let alpha = 1;
-                        if (relZ > 200) {
+                        if (relZ > fadeOut) {
                             alpha = 0;
                         } else if (relZ > 0) {
-                            alpha = 1 - (relZ / 200);
+                            alpha = 1 - (relZ / fadeOut);
                         } else if (relZ < -2500) {
                             alpha = (relZ + 3000) / 500;
                         }
@@ -1993,11 +2020,12 @@
 
                             if (item.type === 'text') {
                                 trans += ` rotateZ(${item.rot}deg)`;
-                        // Chromatic aberration, capped so fast native
-                        // scrolling can't smear the 3D text apart.
-                        if (Math.abs(state.velocity) > 1.6) {
-                            const offset = Math.max(-6, Math.min(6, state.velocity * 1.5));
-                            item.el.style.textShadow = `${offset}px 0 rgba(255, 0, 60, 0.55), ${-offset}px 0 rgba(0, 243, 255, 0.55)`;
+                        // Chromatic aberration: higher threshold + gentler
+                        // opacity so the stroke text doesn't flash red on
+                        // every small scroll tick.
+                        if (Math.abs(state.velocity) > 2.4) {
+                            const offset = Math.max(-4, Math.min(4, state.velocity * 1.1));
+                            item.el.style.textShadow = `${offset}px 0 rgba(255, 0, 60, 0.35), ${-offset}px 0 rgba(0, 243, 255, 0.35)`;
                         } else {
                             item.el.style.textShadow = 'none';
                         }
@@ -2124,9 +2152,11 @@
                 drawNet(0); // static frame
             } else {
                 let last = 0;
+                // Ambient layer: ~30fps desktop, ~20fps mobile to free the
+                // main thread for scrolling.
+                const frameGap = isMobile ? 50 : 33;
                 function netLoop(t) {
-                    // ~30fps is enough for ambient layer, halves the cost
-                    if (t - last > 33) {
+                    if (t - last > frameGap) {
                         drawNet(t);
                         last = t;
                     }
@@ -2467,7 +2497,7 @@
             const fsBtn = document.getElementById('vpn-demo-fs');
             const minBtn = document.getElementById('vpn-demo-min');
             if (!launchBtn || !shell) return;
-            // Демо размещено на этом же домене — GitHub-источник нигде не светится
+            // Демо размещено на этом же домене ��� GitHub-источник нигде не светится
             const buildUrl = () => 'labs/vpn/index.html';
             const isDesktop = () => window.matchMedia('(min-width: 768px)').matches;
             let inlineFrame = null;
@@ -2705,7 +2735,7 @@
 
                         const demoBtn = proj.demo ? `
                                 <button type="button" data-demo-url="${proj.demo}" data-demo-title="${proj.title}" class="demo-launch inline-flex items-center gap-1.5 text-[10px] text-void bg-neon hover:bg-white transition font-mono font-bold tracking-wider uppercase px-3 py-1.5 rounded">
-                                    <span>▶ Живое демо</span>
+                                    <span>▶ Живо�� демо</span>
                                 </button>
                         ` : '';
                         const linkBtn = proj.link ? `
