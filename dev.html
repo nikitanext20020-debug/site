@@ -236,6 +236,48 @@
             }
         }
 
+        /* LITE 3D (Apple/WebKit/weak devices, class set from JS):
+           kill the most expensive GPU work — huge blurs, blend modes,
+           backdrop-filter — while keeping the cyber/neon look. */
+        html.lite3d .void-aurora {
+            filter: blur(52px);
+            mix-blend-mode: normal;
+            will-change: auto;
+            animation-duration: 36s;
+        }
+        html.lite3d .void-aurora-c {
+            display: none;
+        }
+        html.lite3d .void-bg::before {
+            filter: none;
+        }
+        html.lite3d .void-sweep {
+            display: none;
+        }
+        html.lite3d .big-text-3d {
+            mix-blend-mode: normal;
+        }
+        /* reveal without filter blur: blur transition repaints whole sections */
+        html.lite3d .reveal {
+            filter: none;
+        }
+        html.lite3d .reveal.visible {
+            filter: none;
+        }
+        /* header/marquee backdrop blur -> solid bg (blend zone draws 3D + site together) */
+        html.lite3d .backdrop-blur-md,
+        html.lite3d .backdrop-blur-sm,
+        html.lite3d .backdrop-blur-lg {
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            background-color: rgba(6, 7, 20, 0.92) !important;
+        }
+        /* single-layer glow on cards instead of multi-glow */
+        html.lite3d .card-3d {
+            box-shadow: 0 0 24px rgba(91, 124, 255, 0.10) !important;
+            transition: border-color 0.4s;
+        }
+
         @media (prefers-reduced-motion: reduce) {
             .void-aurora,
             .void-sweep,
@@ -295,11 +337,12 @@
         .card-3d {
             width: min(560px, 88vw);
             height: min(660px, 82vh);
-            background: var(--card-bg);
+            /* Solid dark bg instead of backdrop-filter: the inner billboard is
+               opaque anyway, and backdrop-filter on moving elements is the #1
+               frame killer in Safari/WebKit. */
+            background: rgba(7, 9, 20, 0.96);
             border: 2px solid var(--border);
             position: relative;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
             transform: translate(-50%, -50%);
             border-radius: 12px;
             pointer-events: auto;
@@ -1070,7 +1113,7 @@
                                 Данных</h3>
                             <p class="text-slate-300 text-sm leading-relaxed">
                                 Связываю веб-интерфейсы, Telegram-боты и распределенные БД (PostgreSQL / Redis). Полная
-                                автоматизация воронки продаж и учета.
+                                автоматизация вор��нки продаж и учета.
                             </p>
                             <ul class="text-xs space-y-2.5 text-slate-400 font-mono">
                                 <li class="flex items-center gap-2.5">
@@ -1243,7 +1286,7 @@
                             <p class="text-slate-300 text-sm leading-relaxed">
                                 Ставлю на сайты умных ИИ-агентов, которые сами отвечают посетителям: рассказывают о
                                 товарах и услугах, отвечают на частые вопросы, помогают с выбором и доводят клиента
-                                до заявки — 24/7, без выходных и зарплаты. Это не скриншот: справа живой робот,
+                                до заявки — 24/7, без выходных и зарплаты. Это не скриншот: справа живой робо��,
                                 нажми на кнопку <b class="text-bone">ВЫЗОВ</b> на его экране и поговори с агентом.
                             </p>
                             <ul class="text-xs space-y-2.5 text-slate-400 font-mono">
@@ -1605,6 +1648,17 @@
         // Touch devices (phones/tablets): skip GPU-expensive per-frame effects.
         const IS_TOUCH = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768;
 
+        // LITE 3D mode: Apple/WebKit (Safari struggles with big blurs +
+        // per-frame transforms on Retina), touch devices, and weak CPUs.
+        // Desktop Chrome/Windows stays in full mode.
+        const IS_WEBKIT_ONLY = /AppleWebKit/.test(navigator.userAgent)
+            && !/Chrome|CriOS|Edg|OPR/.test(navigator.userAgent);
+        const IS_APPLE = /Mac|iPhone|iPad|iPod/.test(navigator.platform || '')
+            || /Macintosh|iPhone|iPad/.test(navigator.userAgent);
+        const isLite3D = IS_TOUCH || IS_WEBKIT_ONLY || IS_APPLE
+            || (navigator.hardwareConcurrency || 8) <= 4;
+        if (isLite3D) document.documentElement.classList.add('lite3d');
+
         // iOS Safari ignores user-scalable=no, so pinch-zoom is blocked
         // through its proprietary gesture events.
         ['gesturestart', 'gesturechange', 'gestureend'].forEach((evt) => {
@@ -1613,7 +1667,8 @@
 
         const CONFIG = {
             zGap: 900,
-            starCount: window.innerWidth < 768 ? 55 : 120,
+            // Every star = a DOM node with transform+opacity writes per frame.
+            starCount: isLite3D ? 22 : 55,
             camSpeed: 2.2,
             colors: ['#5B7CFF', '#A78BFA', '#EAEAF2']
         };
@@ -1779,7 +1834,9 @@
         // --- LENIS SMOOTH SCROLL ---
         const lenis = new Lenis({
             smoothWheel: true,
-            lerp: 0.1,            // smooth but responsive (0.14 felt heavy)
+            // Mac Safari trackpad: higher lerp so smooth scroll "catches up"
+            // faster and doesn't fight a heavier frame. Windows keeps 0.1.
+            lerp: isLite3D && !IS_TOUCH ? 0.15 : 0.1,
             wheelMultiplier: 1,
             touchMultiplier: 1.5,
             syncTouch: false,     // native feel on touch devices
@@ -1796,6 +1853,12 @@
 
         // --- RAF LOOP ---
         function raf(time) {
+            // Tab in background: keep Lenis ticking, skip all 3D work.
+            if (document.hidden) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+                return;
+            }
             lenis.raf(time);
 
             // Smooth velocity only while the 3D intro is visible.
@@ -1850,9 +1913,12 @@
 
                 world.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
 
-                // Compress FOV at high speeds (warp effect)
-                const fov = 1100 - Math.min(Math.abs(state.velocity) * 10, 500);
-                viewport.style.perspective = `${fov}px`;
+                // Compress FOV at high speeds (warp effect). Changing
+                // perspective re-lays-out the whole 3D tree — full mode only.
+                if (!isLite3D) {
+                    const fov = 1100 - Math.min(Math.abs(state.velocity) * 10, 500);
+                    viewport.style.perspective = `${fov}px`;
+                }
 
                 // Calculate camera Z movement
                 const cameraZ = state.scroll * CONFIG.camSpeed;
@@ -1867,9 +1933,19 @@
                         let vizZ = ((relZ % modZ) + modZ) % modZ;
                         vizZ -= 3800; // Position behind / in front
 
-                        const stretch = Math.max(1, Math.min(1 + Math.abs(state.velocity) * 0.15, 10));
-                        item.el.style.transform = `translate3d(${item.x}px, ${item.y}px, ${vizZ}px) scale3d(1, 1, ${stretch})`;
-                        item.el.style.opacity = vizZ > 100 ? 0 : 0.3;
+                        // Write opacity only on change; skip transform for
+                        // hidden stars and unchanged positions (idle camera).
+                        const op = vizZ > 100 ? 0 : 0.3;
+                        if (item._op !== op) {
+                            item._op = op;
+                            item.el.style.opacity = op;
+                        }
+                        const zq = Math.round(vizZ);
+                        if (op !== 0 && item._z !== zq) {
+                            item._z = zq;
+                            const stretch = isLite3D ? 1 : Math.max(1, Math.min(1 + Math.abs(state.velocity) * 0.15, 10));
+                            item.el.style.transform = `translate3d(${item.x}px, ${item.y}px, ${zq}px) scale3d(1, 1, ${stretch})`;
+                        }
                     } else {
                         // Precise non-looping flight for texts & cards.
                         // Text gets a longer fade-out window so NIK DEV
@@ -1885,18 +1961,29 @@
                         }
 
                         if (alpha < 0) alpha = 0;
-                        item.el.style.opacity = alpha;
+                        // Quantized opacity: avoid style writes for sub-visible deltas.
+                        const alphaQ = Math.round(alpha * 100) / 100;
+                        if (item._op !== alphaQ) {
+                            item._op = alphaQ;
+                            item.el.style.opacity = alphaQ;
+                        }
 
                         if (alpha > 0) {
+                            // Skip transform write when camera hasn't moved (idle).
+                            const zq = Math.round(relZ * 2) / 2;
+                            if (item._z === zq && isLite3D) {
+                                return;
+                            }
+                            item._z = zq;
                             let trans = `translate3d(${item.x}px, ${item.y}px, ${relZ}px)`;
 
                             if (item.type === 'text') {
                                 trans += ` rotateZ(${item.rot}deg)`;
-                                // Chromatic aberration: desktop only. On iOS,
-                                // rewriting text-shadow on a 14vw stroked text
-                                // forces a full repaint every frame and causes
-                                // scroll jank (touch flings velocity high).
-                                if (!IS_TOUCH) {
+                                // Chromatic aberration: full mode only. On
+                                // WebKit, rewriting text-shadow on a 14vw
+                                // stroked text forces a full repaint every
+                                // frame and causes scroll jank.
+                                if (!isLite3D) {
                                     if (Math.abs(state.velocity) > 2.4) {
                                         const offset = Math.max(-4, Math.min(4, state.velocity * 1.1));
                                         const shadow = `${offset.toFixed(1)}px 0 rgba(255, 0, 60, 0.35), ${(-offset).toFixed(1)}px 0 rgba(0, 243, 255, 0.35)`;
@@ -1909,8 +1996,11 @@
                                         item.el.style.textShadow = 'none';
                                     }
                                 }
+                            } else if (isLite3D) {
+                                // No per-frame rotateY float on lite: static tilt only.
+                                trans += ` rotateZ(${item.rot}deg)`;
                             } else {
-                                // Floating animation
+                                // Floating animation (full mode)
                                 const t = time * 0.001;
                                 const float = Math.sin(t + item.x) * 5;
                                 trans += ` rotateZ(${item.rot}deg) rotateY(${float}deg)`;
@@ -1956,9 +2046,10 @@
                 W = canvas.width = window.innerWidth;
                 H = canvas.height = window.innerHeight;
                 nodes = [];
-                // sparse: scale with area, hard caps per device
-                const count = isMobile
-                    ? Math.min(30, Math.max(18, Math.floor(W * H / 14000)))
+                // sparse: scale with area, hard caps per device.
+                // lite (Apple/mobile): 2-3x fewer nodes, O(n^2) links get cheap.
+                const count = isLite3D
+                    ? Math.min(24, Math.max(14, Math.floor(W * H / 26000)))
                     : Math.min(72, Math.max(42, Math.floor(W * H / 16000)));
                 for (let i = 0; i < count; i++) {
                     const layer = i % 3; // 0 near, 1 mid, 2 far
@@ -2025,8 +2116,8 @@
                         ctx.lineTo(b.sx, b.sy);
                         ctx.stroke();
 
-                        // rare traveling pulse along strong near-layer links
-                        if (!reduced && !isMobile && a.layer === 0 && alpha > 0.10 && ((i + j + (t | 0)) % 13 === 0)) {
+                        // rare traveling pulse along strong near-layer links (full mode only)
+                        if (!reduced && !isLite3D && a.layer === 0 && alpha > 0.10 && ((i + j + (t | 0)) % 13 === 0)) {
                             const p = Math.sin(t * 2 + i) * 0.5 + 0.5;
                             ctx.beginPath();
                             ctx.arc(a.sx + (b.sx - a.sx) * p, a.sy + (b.sy - a.sy) * p, 1.5, 0, Math.PI * 2);
@@ -2064,11 +2155,11 @@
                 drawNet(0); // static frame
             } else {
                 let last = 0;
-                // Ambient layer: ~30fps desktop, ~20fps mobile to free the
-                // main thread for scrolling.
-                const frameGap = isMobile ? 50 : 33;
+                // Ambient layer: ~30fps desktop, ~20fps lite/Apple to free
+                // the main thread for scrolling. Paused when tab is hidden.
+                const frameGap = isLite3D ? 50 : 33;
                 function netLoop(t) {
-                    if (t - last > frameGap) {
+                    if (!document.hidden && t - last > frameGap) {
                         drawNet(t);
                         last = t;
                     }
@@ -2084,11 +2175,11 @@
             if (!root) return;
             const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-            const isMobile = window.innerWidth < 768;
             // near = brighter/bigger/faster, far = dim/small/slow
+            // lite (Apple/mobile): far fewer animated spans
             const layers = [
-                { count: isMobile ? 12 : 22, far: false, sizeMin: 1.5, sizeMax: 3.5, durMin: 9, durMax: 18 },
-                { count: isMobile ? 10 : 20, far: true, sizeMin: 0.8, sizeMax: 1.6, durMin: 22, durMax: 38 }
+                { count: isLite3D ? 8 : 22, far: false, sizeMin: 1.5, sizeMax: 3.5, durMin: 9, durMax: 18 },
+                { count: isLite3D ? 6 : 20, far: true, sizeMin: 0.8, sizeMax: 1.6, durMin: 22, durMax: 38 }
             ];
 
             layers.forEach((layer) => {
@@ -2398,7 +2489,7 @@
 
         // Case 3: Облачко VPN — живое демо.
         // На десктопе встраивается прямо в карточку (можно свернуть/развернуть),
-        // на телефоне открывается полноэкранным оверлеем — так удобнее смотреть вертикальный сайт.
+        // на телефоне открывается полноэкранным оверлеем — так удобнее смотреть вертикальный са��т.
         (function () {
             const shell = document.getElementById('vpn-demo-shell');
             const body = document.getElementById('vpn-demo-body');
