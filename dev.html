@@ -36,6 +36,11 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://cdn.lordicon.com">
+    <link rel="dns-prefetch" href="https://unpkg.com">
+    <link rel="dns-prefetch" href="https://prod.spline.design">
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;500;700&family=Manrope:wght@500;700;800&family=Russo+One&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;500;700&family=Manrope:wght@500;700;800&family=Russo+One&display=swap" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;500;700&family=Manrope:wght@500;700;800&family=Russo+One&display=swap"></noscript>
@@ -154,12 +159,13 @@
             animation: voidAuroraC 10s ease-in-out infinite;
         }
 
+        /* Off-center for asymmetry: pushed right and up */
         .void-orbits {
             position: absolute;
-            left: 50%;
-            top: 42%;
-            width: min(72vw, 820px);
-            height: min(72vw, 820px);
+            left: 58%;
+            top: 36%;
+            width: min(78vw, 900px);
+            height: min(78vw, 900px);
             transform: translate(-50%, -50%);
         }
 
@@ -168,26 +174,61 @@
             inset: 0;
             border-radius: 50%;
             border: 1px solid transparent;
-            opacity: 0.35;
+            opacity: 0.65;
         }
 
         .void-ring.r1 {
-            border-color: rgba(91, 124, 255, 0.22);
-            box-shadow: inset 0 0 30px rgba(91, 124, 255, 0.06);
+            border-color: rgba(91, 124, 255, 0.38);
+            box-shadow: inset 0 0 60px rgba(91, 124, 255, 0.10), 0 0 40px rgba(91, 124, 255, 0.05);
             animation: voidOrbitSpin 48s linear infinite;
         }
 
+        /* Tick mark on r1 so its rotation reads */
+        .void-ring.r1::after {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: 50%;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(91, 124, 255, 0.9);
+            box-shadow: 0 0 12px rgba(91, 124, 255, 0.8);
+        }
+
         .void-ring.r2 {
-            inset: 12%;
-            border-color: rgba(167, 139, 250, 0.18);
+            inset: 11%;
+            border-width: 1px;
+            border-color: rgba(167, 139, 250, 0.32);
             border-style: dashed;
             animation: voidOrbitSpin 72s linear infinite reverse;
         }
 
         .void-ring.r3 {
             inset: 26%;
-            border-color: rgba(234, 234, 242, 0.08);
+            border-color: rgba(234, 234, 242, 0.14);
+            box-shadow: inset 0 0 40px rgba(167, 139, 250, 0.05);
             animation: voidOrbitSpin 96s linear infinite;
+        }
+
+        .void-ring.r3::after {
+            content: '';
+            position: absolute;
+            bottom: 6%;
+            right: 12%;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: rgba(167, 139, 250, 0.85);
+            box-shadow: 0 0 10px rgba(167, 139, 250, 0.7);
+        }
+
+        /* NETWORK FIELD canvas: sparse glowing nodes + links, parallax layers */
+        #void-net {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
         }
 
         .void-sweep {
@@ -315,10 +356,10 @@
             pointer-events: none;
         }
 
-        /* 3D Card Base styling - ENLARGED to 480x580px */
+        /* 3D Card Base styling: large RU billboards, clamped on small screens */
         .card-3d {
-            width: 480px;
-            height: 580px;
+            width: min(560px, 88vw);
+            height: min(660px, 82vh);
             background: var(--card-bg);
             border: 2px solid var(--border);
             position: relative;
@@ -873,16 +914,33 @@
   ]
 }
 </script>
-<!-- Yandex.Metrika counter -->
+<!-- Yandex.Metrika counter: loading is deferred to idle / first interaction so the 86KB tag does not block mobile TBT -->
 <script type="text/javascript">
-    (function(m,e,t,r,i,k,a){
-        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();
-        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=110488231', 'ym');
-
-    ym(110488231, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+    (function () {
+        var loaded = false;
+        function loadMetrika() {
+            if (loaded) return;
+            loaded = true;
+            (function(m,e,t,r,i,k,a){
+                m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+                m[i].l=1*new Date();
+                for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+                k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+            })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=110488231', 'ym');
+            ym(110488231, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+        }
+        // First interaction wins; otherwise idle after load (max ~3.5s so hits are not lost)
+        ['scroll', 'pointerdown', 'keydown', 'touchstart'].forEach(function (evt) {
+            window.addEventListener(evt, loadMetrika, { once: true, passive: true });
+        });
+        window.addEventListener('load', function () {
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(loadMetrika, { timeout: 3500 });
+            } else {
+                setTimeout(loadMetrika, 3500);
+            }
+        });
+    })();
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/110488231" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
@@ -895,6 +953,8 @@
         <div class="void-aurora void-aurora-a"></div>
         <div class="void-aurora void-aurora-b"></div>
         <div class="void-aurora void-aurora-c"></div>
+
+        <canvas id="void-net"></canvas>
 
         <div class="void-orbits">
             <span class="void-ring r1"></span>
@@ -939,7 +999,7 @@
     <!-- MAIN FLAT SITE (Reveals after 2200px) -->
     <div id="main-site"
         class="opacity-0 invisible transition-all duration-1000 relative z-20 w-full min-h-screen pb-16"
-        style="background: rgba(6, 7, 20, 0.68)">
+        style="background: rgba(6, 7, 20, 0.78)">
 
         <!-- NAV -->
         <header
@@ -1267,7 +1327,7 @@
                                 </div>
                                 <div id="vpn-demo-body" class="flex-1 relative overflow-hidden">
                                     <!-- Лёгкое превью-скриншот (~24KB webp), живой сайт грузится только по клику -->
-                                    <img src="labs/vpn-preview.webp" alt="Превью лендинга Облачко VPN"
+                                    <img src="labs/vpn-preview.webp" alt="Пр��вью лендинга Облачко VPN"
                                         class="absolute inset-0 w-full h-full object-cover object-top select-none" loading="lazy" decoding="async" draggable="false" />
                                     <div id="vpn-demo-cover" class="absolute inset-0 flex flex-col items-center justify-center gap-4 text-center cursor-pointer backdrop-blur-[4px]"
                                         style="background:linear-gradient(180deg, rgba(11,15,25,0.82), rgba(11,15,25,0.93));">
@@ -1291,7 +1351,7 @@
                             <p class="text-slate-300 text-sm leading-relaxed">
                                 Ставлю на сайты умных ИИ-агентов, которые сами отвечают посетителям: рассказывают о
                                 товарах и услугах, отвечают на частые вопросы, помогают с выбором и доводят клиента
-                                до заявки — 24/7, без выходных и зарплаты. Это не скриншот: справа живой робот,
+                                до заявки — 24/7, без выходных и за��платы. Это не скриншот: справа живой робот,
                                 нажми на кнопку <b class="text-bone">ВЫЗОВ</b> на его экране и поговори с агентом.
                             </p>
                             <ul class="text-xs space-y-2.5 text-slate-400 font-mono">
@@ -1647,9 +1707,9 @@
 
         const itemsData = [
             { type: 'text', text: 'NIK DEV' },
-            { type: 'card', id: '01', category: 'LANDING', title: 'УНИКАЛЬНЫЕ ЛЕНДИНГИ' },
-            { type: 'card', id: '02', category: 'BOTS', title: 'СОЗДАНИЕ БОТОВ' },
-            { type: 'card', id: '03', category: 'AUTOMATION', title: 'АВТОМАТИЗАЦИЯ БИЗНЕСА' }
+            { type: 'card', id: '01', category: 'УСЛУГА 01', title: 'TELEGRAM-БОТЫ' },
+            { type: 'card', id: '02', category: 'УСЛУГА 02', title: 'ПАРСЕРЫ / АВТО' },
+            { type: 'card', id: '03', category: 'УСЛУГА 03', title: 'САЙТЫ / CRM' }
         ];
 
         // --- STATE MANAGEMENT ---
@@ -1668,115 +1728,70 @@
         const items = [];
         let is3DActive = true;
 
-        // HTML templates generator for interactive cards - DESIGN SCALE UP
+        // RU service billboards: big type, readable in flight, no micro-UI
         function getCardHTML(id, title, category) {
-            if (id === '01') {
-                return `
-                    <div class="mini-landing h-full flex flex-col justify-between p-6 text-left relative overflow-hidden" style="background: linear-gradient(135deg, #020617 0%, #0f172a 100%); border-radius: 10px;">
-                        <div class="card-glow-strip"></div>
-                        <div class="relative z-10">
-                            <div class="flex justify-between items-center">
-                                <div class="text-[12px] font-bold tracking-[0.2em] font-sans" style="color:#A78BFA; text-shadow:0 0 10px rgba(167,139,250,0.5)">CRYPTO.IO</div>
-                                <span class="text-[6px] text-gray-500 uppercase tracking-widest font-mono">BUILD_V1.1</span>
-                            </div>
-                            <div class="text-[8px] text-gray-400 mt-1 uppercase tracking-wider font-mono">DeFi Landing Platform</div>
-                            
-                            <div class="w-full h-[90px] bg-slate-950/90 border border-slate-800 rounded mt-4 p-3 relative overflow-hidden flex flex-col justify-between shadow-inner">
-                                <div class="flex justify-between text-[7px] text-slate-500 font-mono">
-                                    <span>BTC/USDT 24h</span>
-                                    <span class="text-neon" id="mini-btc-change">+4.12%</span>
-                                </div>
-                                <div class="text-[15px] text-neon font-bold font-mono tracking-tight" id="mini-btc-price" style="text-shadow: 0 0 8px rgba(91,124,255,0.3)">$67,492.10</div>
-                                <div class="w-full h-[35px] flex items-end gap-[3px] mt-2 border-t border-slate-900 pt-1">
-                                    <div class="flex-1 bg-neon/10 h-[10px] rounded-sm"></div>
-                                    <div class="flex-1 bg-neon/20 h-[18px] rounded-sm"></div>
-                                    <div class="flex-1 bg-neon/30 h-[14px] rounded-sm"></div>
-                                    <div class="flex-1 bg-neon/50 h-[22px] rounded-sm"></div>
-                                    <div class="flex-1 bg-neon/70 h-[18px] rounded-sm"></div>
-                                    <div class="flex-1 bg-neon/90 h-[28px] rounded-sm"></div>
-                                    <div class="flex-1 bg-neon h-[32px] rounded-sm shadow-[0_0_5px_#5B7CFF]"></div>
-                                </div>
-                            </div>
+            const cards = {
+                '01': {
+                    accent: '#5B7CFF',
+                    accentRgb: '91, 124, 255',
+                    bullets: ['приём заявок и автоответы', 'оплата и интеграции', 'связка с таблицами / CRM'],
+                    term: 'срок 3–7 дней',
+                    price: 'от 8 000 ₽',
+                    priceNote: ''
+                },
+                '02': {
+                    accent: '#A78BFA',
+                    accentRgb: '167, 139, 250',
+                    bullets: ['сбор данных с сайтов', 'выгрузки и отчёты', 'рутина без ручной работы'],
+                    term: 'срок 2–5 дней',
+                    price: 'от 5 000 ₽',
+                    priceNote: ''
+                },
+                '03': {
+                    accent: '#F5B82E',
+                    accentRgb: '245, 184, 46',
+                    bullets: ['лендинги и сайты под ключ', 'веб-приложения и кабинеты', 'от MVP до продакшена'],
+                    term: 'от 5 дней / от 2 недель',
+                    price: 'от 15 000 ₽',
+                    priceNote: 'CRM — от 30 000 ₽'
+                }
+            };
+            const c = cards[id];
+            if (!c) return '';
 
-                            <div class="grid grid-cols-2 gap-2 mt-4 text-[7px] font-mono text-slate-400">
-                                <div class="p-2 border border-slate-800/60 rounded bg-slate-950/40">
-                                    <div class="text-slate-500 mb-0.5">SPEED</div>
-                                    <div class="text-white font-bold">100 / 100</div>
-                                </div>
-                                <div class="p-2 border border-slate-800/60 rounded bg-slate-950/40">
-                                    <div class="text-slate-500 mb-0.5">SEO LOAD</div>
-                                    <div class="text-glow font-bold" style="color:#A78BFA">A+ GRADE</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="text-[10px] text-slate-300 relative z-10 leading-relaxed font-sans mt-2">
-                            Абсолютно уникальный дизайн с WebGL эффектами, преломлениями и реактивной скоростью загрузки.
-                        </div>
-                        <button class="w-full py-3 bg-neon text-void font-bold text-[9px] uppercase tracking-widest rounded-md mt-4 transition hover:bg-white active:scale-95 relative z-10 shadow-[0_0_15px_rgba(91,124,255,0.2)]" id="btn-mini-wallet" onclick="event.stopPropagation(); connectMiniWallet(this)">
-                            CONNECT WALLET
-                        </button>
+            return `
+                <div class="billboard h-full flex flex-col p-8 text-left relative" style="background: linear-gradient(160deg, #0a0d1c 0%, #060714 60%, #04050c 100%); border-radius: 10px;">
+                    <div class="card-glow-strip"></div>
+
+                    <div class="flex justify-between items-center relative z-10">
+                        <span class="font-mono text-[13px] font-bold tracking-[0.3em] uppercase px-3 py-1.5 rounded border" style="color:${c.accent}; border-color:rgba(${c.accentRgb}, 0.4); background:rgba(${c.accentRgb}, 0.08)">${category}</span>
+                        <span class="flex items-center gap-2 font-mono text-[12px] tracking-widest" style="color:rgba(${c.accentRgb}, 0.9)">
+                            <span class="w-2 h-2 rounded-full animate-pulse" style="background:${c.accent}; box-shadow:0 0 8px ${c.accent}"></span>ONLINE
+                        </span>
                     </div>
-                `;
-            } else if (id === '02') {
-                return `
-                    <div class="mini-chat h-full flex flex-col justify-between p-5 text-left relative" style="background:#070b12; border-radius: 10px;">
-                        <div class="card-glow-strip"></div>
-                        <div class="flex items-center gap-3 border-b border-slate-800 pb-3 mb-3 relative z-10">
-                            <div class="w-8 h-8 rounded-full bg-neon/10 border border-neon flex items-center justify-center text-[12px] shadow-[0_0_10px_rgba(91,124,255,0.2)]">🤖</div>
+
+                    <h3 class="font-black uppercase leading-[1.05] mt-7 relative z-10" style="font-family:'Russo One',sans-serif; font-size:clamp(26px, 7vw, 38px); color:#EAEAF2; text-shadow:0 0 24px rgba(${c.accentRgb}, 0.35)">${title}</h3>
+
+                    <ul class="flex flex-col gap-4 mt-8 relative z-10">
+                        ${c.bullets.map(b => `
+                        <li class="flex items-center gap-3 leading-snug text-slate-200" style="font-size:clamp(15px, 4.2vw, 19px)">
+                            <span class="shrink-0 w-2.5 h-2.5 rotate-45" style="background:${c.accent}; box-shadow:0 0 8px rgba(${c.accentRgb}, 0.7)"></span>${b}
+                        </li>`).join('')}
+                    </ul>
+
+                    <div class="mt-auto relative z-10">
+                        <div class="h-px w-full mb-5" style="background:linear-gradient(90deg, rgba(${c.accentRgb}, 0.5), transparent)"></div>
+                        <div class="flex justify-between items-end gap-4">
                             <div>
-                                <div class="text-[11px] font-bold text-white font-mono leading-none">NEYRO_BOT // TG</div>
-                                <div class="text-[7px] text-neon uppercase mt-1 font-mono tracking-widest">status: active // thread_0</div>
+                                <div class="font-mono text-[13px] tracking-widest text-slate-400 uppercase">${c.term}</div>
+                                <div class="font-black mt-1.5 whitespace-nowrap" style="font-family:'Russo One',sans-serif; font-size:clamp(22px, 5.5vw, 30px); color:${c.accent}; text-shadow:0 0 18px rgba(${c.accentRgb}, 0.45)">${c.price}</div>
+                                ${c.priceNote ? `<div class="font-mono text-[13px] text-slate-300 mt-1">${c.priceNote}</div>` : ''}
                             </div>
-                        </div>
-                        <div class="flex-1 overflow-y-auto flex flex-col gap-2 p-2 font-mono text-[9px] bg-black/40 rounded border border-slate-900/60" id="mini-chat-box">
-                            <div class="self-start bg-slate-800/70 text-slate-200 p-2.5 rounded-lg rounded-bl-none max-w-[85%] leading-relaxed border border-slate-700/20">
-                                Привет! Я Telegram-бот, разработанный Никитой. Какую задачу нам нужно автоматизировать?
-                            </div>
-                        </div>
-                        <div class="mt-3 relative z-10">
-                            <div class="text-[7px] text-slate-500 font-mono mb-2">// QUICK OPTIONS</div>
-                            <div class="flex gap-2">
-                                <button class="flex-1 py-2 bg-neon/10 border border-neon/30 text-neon rounded text-[8px] font-bold transition hover:bg-neon hover:text-void hover:shadow-[0_0_10px_rgba(91,124,255,0.3)]" onclick="event.stopPropagation(); sendMiniMsg('parser')">ПАРСИНГ ВИДЕО</button>
-                                <button class="flex-1 py-2 bg-neon/10 border border-neon/30 text-neon rounded text-[8px] font-bold transition hover:bg-neon hover:text-void hover:shadow-[0_0_10px_rgba(91,124,255,0.3)]" onclick="event.stopPropagation(); sendMiniMsg('ai')">ИИ-ПОМОЩНИК</button>
-                            </div>
+                            <div class="font-mono text-[15px] font-bold tracking-[0.2em] px-5 py-3 rounded border whitespace-nowrap" style="color:${c.accent}; border-color:rgba(${c.accentRgb}, 0.5); background:rgba(${c.accentRgb}, 0.1)">ОБСУДИТЬ →</div>
                         </div>
                     </div>
-                `;
-            } else if (id === '03') {
-                return `
-                    <div class="mini-dash h-full flex flex-col justify-between p-5 text-left relative" style="background:#04060c; border-radius: 10px;">
-                        <div class="card-glow-strip"></div>
-                        <div class="flex justify-between items-center border-b border-slate-900 pb-3 mb-3 relative z-10">
-                            <div class="text-[9px] font-bold text-amber font-mono tracking-wider">CRON_MONITOR // NODE_01</div>
-                            <div class="flex items-center gap-1.5">
-                                <span class="w-1.5 h-1.5 rounded-full bg-neon animate-pulse shadow-[0_0_5px_#5B7CFF]"></span>
-                                <span class="text-[7px] text-slate-500 font-mono">LIVE</span>
-                            </div>
-                        </div>
-                        
-                        <div class="h-[75px] bg-slate-950/80 border border-slate-900 rounded overflow-hidden relative shadow-inner">
-                            <svg class="w-full h-full" viewBox="0 0 100 40" preserveAspectRatio="none">
-                                <path id="dash-svg-path" d="M0 35 L10 32 L20 38 L30 25 L40 28 L50 15 L60 22 L70 12 L80 18 L90 5 L100 8 L100 40 L0 40 Z" fill="rgba(245, 184, 46, 0.12)" stroke="#F5B82E" stroke-width="1.5"></path>
-                            </svg>
-                        </div>
-
-                        <div class="h-[75px] bg-slate-950 rounded border border-slate-900/60 p-2.5 font-mono text-[7px] text-slate-400 flex flex-col gap-1.5 overflow-hidden mt-3" id="dash-mini-logs">
-                            <div class="log-row text-neon">[OK] Database connection initialized</div>
-                            <div class="log-row">[INFO] Cron daemon listener started</div>
-                            <div class="log-row text-amber">[WARN] API rate limits at 12% total load</div>
-                        </div>
-
-                        <div class="flex flex-col gap-2.5 border-t border-slate-900 pt-3 mt-3 text-[8px] font-mono text-slate-300 relative z-10">
-                            <div class="flex justify-between items-center">
-                                <span>DAEMON AUTOMATION (CRON)</span>
-                                <button class="w-8 h-4.5 rounded-full bg-neon relative transition-colors duration-200" id="btn-toggle-cron" onclick="event.stopPropagation(); toggleMiniCron(this)">
-                                    <span class="absolute top-[2.5px] left-[3px] w-3 h-3 rounded-full bg-void transition-transform duration-200 translate-x-3.5" id="btn-toggle-cron-dot"></span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }
+                </div>
+            `;
         }
 
         // --- INITIALIZE 3D ELEMENTS ---
@@ -1806,15 +1821,17 @@
                     // Adjusted ZIG-ZAG positioning offsets for larger cards
                     let x = 0;
                     let y = 0;
+                    // Larger billboards need tighter zig-zag so they stay on screen
+                    const isNarrow = window.innerWidth < 768;
                     if (data.id === '01') {
-                        x = -window.innerWidth * 0.22;
-                        y = -window.innerHeight * 0.06;
+                        x = -window.innerWidth * (isNarrow ? 0.03 : 0.14);
+                        y = -window.innerHeight * 0.04;
                     } else if (data.id === '02') {
-                        x = window.innerWidth * 0.22;
-                        y = window.innerHeight * 0.06;
+                        x = window.innerWidth * (isNarrow ? 0.03 : 0.14);
+                        y = window.innerHeight * 0.04;
                     } else if (data.id === '03') {
                         x = -window.innerWidth * 0.02;
-                        y = -window.innerHeight * 0.12;
+                        y = -window.innerHeight * 0.08;
                     }
 
                     items.push({
@@ -1998,9 +2015,6 @@
                 // Update HUD texts
                 velReadout.innerText = Math.abs(state.velocity).toFixed(2);
                 coordReadout.innerText = `${state.scroll.toFixed(0)}`;
-
-                // Oscillate Business Automation card SVG graph points
-                updateMiniChart(time);
             }
 
             requestAnimationFrame(raf);
@@ -2008,167 +2022,119 @@
         requestAnimationFrame(raf);
 
 
-        // --- INTERACTIVE CARD ACTIONS ---
-
-        // Card 1: Wallet Connector simulation
-        function connectMiniWallet(btn) {
-            if (btn.innerText === 'CONNECT WALLET') {
-                btn.innerText = 'CONNECTING...';
-                btn.style.background = '#F5B82E';
-                btn.style.boxShadow = '0 0 10px rgba(245, 184, 46, 0.4)';
-
-                setTimeout(() => {
-                    btn.innerText = 'CONNECTED: 0x71...3A9';
-                    btn.style.background = '#5B7CFF';
-                    btn.style.boxShadow = '0 0 12px rgba(91, 124, 255, 0.6)';
-
-                    const price = document.getElementById('mini-btc-price');
-                    const change = document.getElementById('mini-btc-change');
-                    if (price) {
-                        price.innerText = '$68,142.50';
-                        price.style.color = '#A78BFA';
-                    }
-                    if (change) {
-                        change.innerText = '+5.18%';
-                        change.style.color = '#A78BFA';
-                    }
-                }, 1000);
-            } else {
-                btn.innerText = 'CONNECT WALLET';
-                btn.style.background = '#5B7CFF';
-                btn.style.boxShadow = '0 0 10px rgba(91, 124, 255, 0.3)';
-
-                const price = document.getElementById('mini-btc-price');
-                const change = document.getElementById('mini-btc-change');
-                if (price) {
-                    price.innerText = '$67,492.10';
-                    price.style.color = '#5B7CFF';
-                }
-                if (change) {
-                    change.innerText = '+4.12%';
-                    change.style.color = '#5B7CFF';
-                }
-            }
-        }
-
-        // Card 2: Telegram Chat Bot simulation
-        const botAnswers = {
-            parser: [
-                { sender: 'user', text: 'Нужен парсер контента' },
-                { sender: 'bot', text: 'Понял! Напишем на Python (BeautifulSoup / Playwright).' },
-                { sender: 'bot', text: 'Интегрируем авто-выгрузку в Telegram-канал или Google Таблицы. Срок: 1-2 дня. Стоимость: от 2 000 ₽.' }
-            ],
-            ai: [
-                { sender: 'user', text: 'Интеграция с ИИ' },
-                { sender: 'bot', text: 'Подключим GPT-4 API для умной обработки сообщений и автоответов клиентам.' },
-                { sender: 'bot', text: 'Настроим персональный контекст, логгирование и базу знаний. Срок: 2-3 дня. Стоимость: от 5 000 ₽.' }
-            ]
-        };
-
-        function sendMiniMsg(type) {
-            const box = document.getElementById('mini-chat-box');
-            if (!box) return;
-            box.innerHTML = '';
-
-            const msgs = botAnswers[type];
-            let delay = 0;
-
-            msgs.forEach((msg, idx) => {
-                setTimeout(() => {
-                    const div = document.createElement('div');
-                    if (msg.sender === 'user') {
-                        div.className = 'self-end bg-neon/20 text-neon p-2.5 rounded-lg rounded-br-none max-w-[85%]';
-                        div.style.animation = 'msgFade 0.25s ease-out forwards';
-                    } else {
-                        div.className = 'self-start bg-slate-800/80 text-slate-200 p-2.5 rounded-lg rounded-bl-none max-w-[85%] border border-slate-700/20';
-                        div.style.animation = 'msgFade 0.25s ease-out forwards';
-                    }
-                    div.innerText = msg.text;
-                    box.appendChild(div);
-                    box.scrollTop = box.scrollHeight;
-                }, delay);
-                delay += idx === 0 ? 300 : 1000;
-            });
-        }
-
-        // Card 3: Dashboard Oscillations & Cron simulation
-        let dashPoints = [35, 32, 38, 25, 28, 15, 22, 12, 18, 5, 8];
-        function updateMiniChart(time) {
-            const path = document.getElementById('dash-svg-path');
-            if (!path) return;
-            let d = 'M0 ' + (30 + Math.sin(time * 0.004) * 4);
-            for (let i = 1; i <= 10; i++) {
-                let x = i * 10;
-                let val = dashPoints[i] + Math.sin(time * 0.003 + i) * 3;
-                d += ` L${x} ${Math.max(2, Math.min(38, val))}`;
-            }
-            d += ' L100 40 L0 40 Z';
-            path.setAttribute('d', d);
-        }
-
-        const logsTemplates = [
-            '[OK] Parser node active',
-            '[INFO] DB Sync: 100%',
-            '[WARN] API limit at 82%',
-            '[OK] Webhook response: 200',
-            '[INFO] Log pruned: 142B',
-            '[OK] Exporter sheets updated',
-            '[OK] Auto-backup completed',
-            '[INFO] Worker thread CPU: 8%'
-        ];
-
-        function rotateMiniLogs() {
-            const container = document.getElementById('dash-mini-logs');
-            if (!container) return;
-            const text = logsTemplates[Math.floor(Math.random() * logsTemplates.length)];
-            const row = document.createElement('div');
-            row.className = 'log-row';
-            if (text.includes('[OK]')) row.classList.add('text-neon');
-            if (text.includes('[WARN]')) row.classList.add('text-amber');
-            row.innerText = text;
-            container.appendChild(row);
-            if (container.children.length > 5) {
-                container.removeChild(container.firstChild);
-            }
-            container.scrollTop = container.scrollHeight;
-        }
-        setInterval(() => {
-            if (!document.hidden && is3DActive) rotateMiniLogs();
-        }, 2500);
-
-        function toggleMiniCron(btn) {
-            const dot = document.getElementById('btn-toggle-cron-dot');
-            const container = document.getElementById('dash-mini-logs');
-            if (!dot || !container) return;
-
-            if (btn.classList.contains('bg-neon')) {
-                // Turn off
-                btn.classList.remove('bg-neon');
-                btn.classList.add('bg-slate-700');
-                dot.style.transform = 'translateX(0)';
-
-                const row = document.createElement('div');
-                row.className = 'log-row text-red-500 font-bold';
-                row.innerText = '[SYSTEM] CRON DISABLED';
-                container.appendChild(row);
-            } else {
-                // Turn on
-                btn.classList.remove('bg-slate-700');
-                btn.classList.add('bg-neon');
-                dot.style.transform = 'translateX(14px)';
-
-                const row = document.createElement('div');
-                row.className = 'log-row text-neon font-bold';
-                row.innerText = '[SYSTEM] CRON ENABLED';
-                container.appendChild(row);
-            }
-            if (container.children.length > 5) {
-                container.removeChild(container.firstChild);
-            }
-        }
+        // (old interactive mini-card helpers removed with the billboard redesign)
 
 
         // --- FLAT SITE SCRIPTS (VOID ORBITS dust & IntersectionObserver) ---
+
+        // NETWORK FIELD: sparse glowing nodes + proximity links, 2 depth layers
+        (function () {
+            const canvas = document.getElementById('void-net');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const isMobile = window.innerWidth < 768;
+
+            let W, H, nodes = [];
+            const NEON = '91, 124, 255';
+            const GLOW = '167, 139, 250';
+            let mx = 0.5, my = 0.5;         // normalized mouse
+            let scrollDrift = 0;
+
+            function build() {
+                W = canvas.width = window.innerWidth;
+                H = canvas.height = window.innerHeight;
+                nodes = [];
+                const count = isMobile ? 22 : 46;
+                for (let i = 0; i < count; i++) {
+                    const far = Math.random() > 0.45;
+                    nodes.push({
+                        x: Math.random() * W,
+                        y: Math.random() * H,
+                        vx: (Math.random() - 0.5) * (far ? 0.06 : 0.14),
+                        vy: (Math.random() - 0.5) * (far ? 0.06 : 0.14),
+                        r: far ? 0.8 + Math.random() * 0.8 : 1.2 + Math.random() * 1.4,
+                        far,
+                        color: Math.random() > 0.5 ? NEON : GLOW,
+                        pulse: Math.random() * Math.PI * 2
+                    });
+                }
+            }
+            build();
+            window.addEventListener('resize', build);
+
+            if (!isMobile) {
+                window.addEventListener('mousemove', (e) => {
+                    mx = e.clientX / W;
+                    my = e.clientY / H;
+                }, { passive: true });
+            }
+
+            const LINK_DIST = isMobile ? 110 : 150;
+
+            function drawNet(time) {
+                ctx.clearRect(0, 0, W, H);
+                // subtle parallax offsets per layer
+                const px = (mx - 0.5), py = (my - 0.5);
+                scrollDrift = (window.scrollY || 0) * 0.02;
+
+                for (const n of nodes) {
+                    if (!reduced) {
+                        n.x += n.vx;
+                        n.y += n.vy;
+                        if (n.x < -20) n.x = W + 20; else if (n.x > W + 20) n.x = -20;
+                        if (n.y < -20) n.y = H + 20; else if (n.y > H + 20) n.y = -20;
+                    }
+                    n.sx = n.x + px * (n.far ? 8 : 22);
+                    n.sy = n.y + py * (n.far ? 8 : 22) - scrollDrift * (n.far ? 0.3 : 1);
+                    // wrap screen-space y for scroll drift
+                    n.sy = ((n.sy % (H + 40)) + H + 40) % (H + 40) - 20;
+                }
+
+                // links
+                ctx.lineWidth = 1;
+                for (let i = 0; i < nodes.length; i++) {
+                    for (let j = i + 1; j < nodes.length; j++) {
+                        const a = nodes[i], b = nodes[j];
+                        if (a.far !== b.far) continue;
+                        const dx = a.sx - b.sx, dy = a.sy - b.sy;
+                        const d2 = dx * dx + dy * dy;
+                        if (d2 > LINK_DIST * LINK_DIST) continue;
+                        const alpha = (1 - Math.sqrt(d2) / LINK_DIST) * (a.far ? 0.06 : 0.13);
+                        ctx.strokeStyle = `rgba(${NEON}, ${alpha})`;
+                        ctx.beginPath();
+                        ctx.moveTo(a.sx, a.sy);
+                        ctx.lineTo(b.sx, b.sy);
+                        ctx.stroke();
+                    }
+                }
+
+                // nodes
+                for (const n of nodes) {
+                    const p = reduced ? 0.6 : 0.45 + 0.35 * Math.sin(time * 0.0012 + n.pulse);
+                    const alpha = (n.far ? 0.25 : 0.55) * p;
+                    ctx.fillStyle = `rgba(${n.color}, ${alpha})`;
+                    ctx.beginPath();
+                    ctx.arc(n.sx, n.sy, n.r, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            if (reduced) {
+                drawNet(0); // static frame
+            } else {
+                let last = 0;
+                function netLoop(t) {
+                    // ~30fps is enough for ambient layer, halves the cost
+                    if (t - last > 33) {
+                        drawNet(t);
+                        last = t;
+                    }
+                    requestAnimationFrame(netLoop);
+                }
+                requestAnimationFrame(netLoop);
+            }
+        })();
 
         // VOID ORBITS dust particles: two layers for parallax depth
         (function () {
