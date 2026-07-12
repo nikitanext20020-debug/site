@@ -833,8 +833,8 @@
 {
   "@context":"https://schema.org",
   "@type":"Service",
-  "serviceType":["Разработка сайтов","Разр��������ботка Telegram-ботов"],
-  "name":"Разработка сайтов под кл��ч и Telegram-ботов",
+  "serviceType":["Разработка сайтов","Разработка Telegram-ботов"],
+  "name":"Разработка сайтов под ключ и Telegram-ботов",
   "url":"https://nikitos404.ru/dev.html",
   "image":"https://nikitos404.ru/og-image.png",
   "areaServed":"RU",
@@ -1011,7 +1011,7 @@
                             <h3 class="text-bone text-3xl font-extrabold font-case tracking-tight">NEURO.CORE —
                                 нейрокомментинг в Telegram</h3>
                             <p class="text-slate-300 text-sm leading-relaxed">
-                                Система авто-комментинга на нейросетях: бот чи��ает новые посты в каналах и оставляет
+                                Система авто-комментинга на нейросетях: бот читает новые посты в каналах и оставляет
                                 живые, осмысленные комментарии от имени ваших аккаунтов. Это не скриншот — настоящий
                                 рабочий интерфейс: запусти демо и покликай его прямо здесь.
                             </p>
@@ -1239,7 +1239,7 @@
                                 </div>
                                 <div id="vpn-demo-body" class="flex-1 relative overflow-hidden">
                                     <!-- Лёгкое превью-скриншот (~24KB webp), живой сайт грузится только по клику -->
-                                    <img src="labs/vpn-preview.webp" alt="Пр��вью лендинга Облачко VPN"
+                                    <img src="labs/vpn-preview.webp" alt="Превью лендинга Облачко VPN"
                                         class="absolute inset-0 w-full h-full object-cover object-top select-none" loading="lazy" decoding="async" draggable="false" />
                                     <div id="vpn-demo-cover" class="absolute inset-0 flex flex-col items-center justify-center gap-4 text-center cursor-pointer backdrop-blur-[4px]"
                                         style="background:linear-gradient(180deg, rgba(11,15,25,0.82), rgba(11,15,25,0.93));">
@@ -1263,7 +1263,7 @@
                             <p class="text-slate-300 text-sm leading-relaxed">
                                 Ставлю на сайты умных ИИ-агентов, которые сами отвечают посетителям: рассказывают о
                                 товарах и услугах, отвечают на частые вопросы, помогают с выбором и доводят клиента
-                                до заявки — 24/7, без выходных и за��платы. Это не скриншот: справа живой робот,
+                                до заявки — 24/7, без выходных и зарплаты. Это не скриншот: справа живой робот,
                                 нажми на кнопку <b class="text-bone">ВЫЗОВ</b> на его экране и поговори с агентом.
                             </p>
                             <ul class="text-xs space-y-2.5 text-slate-400 font-mono">
@@ -1322,10 +1322,9 @@
                                         class="absolute z-10 bottom-3 left-1/2 -translate-x-1/2 text-[9px] text-slate-300 font-mono tracking-widest bg-void/70 border border-neon/20 rounded px-3 py-1.5 pointer-events-none [text-shadow:0_1px_4px_rgba(0,0,0,0.9)]">
                                         НАЖМИ «ВЫЗОВ» НА ЭКРАНЕ РОБОТА
                                     </div>
-                                    <!-- The Spline watermark is drawn inside the WebGL canvas itself, so it is covered by a themed plate (wider to cover all sizes). -->
-                                    <div class="absolute bottom-0 right-0 w-56 h-16 rounded flex items-center justify-end pr-3 pointer-events-none select-none z-10"
-                                        style="background:#070a12">
-                                        <span class="text-[9px] font-mono tracking-widest text-neon/70">NIK.AI // ONLINE</span>
+                                    <!-- The Spline watermark is cropped away by oversizing the canvas beyond the clipped container, so only a small themed label remains here. -->
+                                    <div class="absolute bottom-3 right-3 pointer-events-none select-none z-10">
+                                        <span class="text-[9px] font-mono tracking-widest text-neon/70 bg-void/70 border border-neon/20 rounded px-2 py-1">NIK.AI // ONLINE</span>
                                     </div>
                                 </div>
                                 <div id="ai-chat-panel" class="hidden border-t border-neon/20 flex-col" style="background:#0a0e18">
@@ -2430,7 +2429,7 @@
             const fsBtn = document.getElementById('vpn-demo-fs');
             const minBtn = document.getElementById('vpn-demo-min');
             if (!launchBtn || !shell) return;
-            // Демо размещено на этом же домене ��� GitHub-источник нигде не светится
+            // Демо размещено на этом же домене — GitHub-источник нигде не светится
             const buildUrl = () => 'labs/vpn/index.html';
             const isDesktop = () => window.matchMedia('(min-width: 768px)').matches;
             let inlineFrame = null;
@@ -2547,7 +2546,7 @@
                 loader.textContent = 'ЗАГРУЗКА ДЕМО...';
 
                 const frame = document.createElement('iframe');
-                frame.title = 'Жи��ое демо: лендинг Облачко VPN';
+                frame.title = 'Живое демо: лендинг Облачко VPN';
                 // display:block + 100% высота контейнера, минимум 100% — избегаем iOS-бага с нулевой высотой
                 frame.style.cssText = 'display:block;width:100%;height:100%;min-height:100%;border:0;background:#fff;';
                 frame.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms allow-popups');
@@ -2668,7 +2667,7 @@
 
                         const demoBtn = proj.demo ? `
                                 <button type="button" data-demo-url="${proj.demo}" data-demo-title="${proj.title}" class="demo-launch inline-flex items-center gap-1.5 text-[10px] text-void bg-neon hover:bg-white transition font-mono font-bold tracking-wider uppercase px-3 py-1.5 rounded">
-                                    <span>▶ Живо�� демо</span>
+                                    <span>▶ Живое демо</span>
                                 </button>
                         ` : '';
                         const linkBtn = proj.link ? `
@@ -2802,7 +2801,7 @@
     </script>
 
     <!-- LIGHTBOX HTML -->
-    <div id="lb-overlay" role="dialog" aria-modal="true" aria-label="Просмотр изобр��жения">
+    <div id="lb-overlay" role="dialog" aria-modal="true" aria-label="Просмотр изображения">
         <button id="lb-close" aria-label="Закрыть">×</button>
         <button id="lb-prev" aria-label="Предыдущее">‹</button>
         <img id="lb-img" src="" alt="">
@@ -2829,7 +2828,7 @@
 <section class="seo-text-block px-4 md:px-8 py-10 text-bone/40 text-sm leading-relaxed">
   <div class="max-w-3xl">
     <h2 class="font-mono text-xs uppercase tracking-widest text-bone/60 mb-3">Услуги разработки</h2>
-    <p>Разрабатываю сайты под ключ: лендинги, сайты для бизнеса и портфолио — от макета до запуска. Отдельное направление — Telegram-боты на Python: авт��матизация, приём заявок, интеграции с API. Цену и сроки обсуждаем индивидуально под задачу, работаю с клиентами по всей России. Написать можно в Telegram или на Kwork.</p>
+    <p>Разрабатываю сайты под ключ: лендинги, сайты для бизнеса и портфолио — от макета до запуска. Отдельное направление — Telegram-боты на Python: автоматизация, приём заявок, интеграции с API. Цену и сроки обсуждаем индивидуально под задачу, работаю с клиентами по всей России. Написать можно в Telegram или на Kwork.</p>
   </div>
 </section>
 <!-- Live Demo Modal (iframe создаётся только при открытии — нулевая нагрузка до клика) -->
@@ -2932,8 +2931,18 @@
         viewer.setAttribute('url', 'https://prod.spline.design/M50NBbEv2q-foOLT/scene.splinecode');
         // Transparent canvas so the scene's white backdrop never shows.
         viewer.setAttribute('background', 'rgba(0,0,0,0)');
-        viewer.style.width = '100%';
-        viewer.style.height = '100%';
+        // The canvas is oversized beyond the container on all sides and the
+        // container clips it (overflow hidden). The watermark lives in the
+        // bottom-right corner of the canvas, so it ends up outside the
+        // visible area — cropped instead of covered, no mismatched plate.
+        robotSlot.style.overflow = 'hidden';
+        viewer.style.position = 'absolute';
+        viewer.style.top = '-70px';
+        viewer.style.bottom = '-70px';
+        viewer.style.left = '-80px';
+        viewer.style.right = '-80px';
+        viewer.style.width = 'auto';
+        viewer.style.height = 'auto';
         viewer.style.display = 'block';
         robotSlot.appendChild(viewer);
 
