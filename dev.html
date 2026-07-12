@@ -914,16 +914,33 @@
   ]
 }
 </script>
-<!-- Yandex.Metrika counter -->
+<!-- Yandex.Metrika counter: loading is deferred to idle / first interaction so the 86KB tag does not block mobile TBT -->
 <script type="text/javascript">
-    (function(m,e,t,r,i,k,a){
-        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();
-        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=110488231', 'ym');
-
-    ym(110488231, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+    (function () {
+        var loaded = false;
+        function loadMetrika() {
+            if (loaded) return;
+            loaded = true;
+            (function(m,e,t,r,i,k,a){
+                m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+                m[i].l=1*new Date();
+                for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+                k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+            })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=110488231', 'ym');
+            ym(110488231, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+        }
+        // First interaction wins; otherwise idle after load (max ~3.5s so hits are not lost)
+        ['scroll', 'pointerdown', 'keydown', 'touchstart'].forEach(function (evt) {
+            window.addEventListener(evt, loadMetrika, { once: true, passive: true });
+        });
+        window.addEventListener('load', function () {
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(loadMetrika, { timeout: 3500 });
+            } else {
+                setTimeout(loadMetrika, 3500);
+            }
+        });
+    })();
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/110488231" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
@@ -1310,7 +1327,7 @@
                                 </div>
                                 <div id="vpn-demo-body" class="flex-1 relative overflow-hidden">
                                     <!-- Лёгкое превью-скриншот (~24KB webp), живой сайт грузится только по клику -->
-                                    <img src="labs/vpn-preview.webp" alt="Превью лендинга Облачко VPN"
+                                    <img src="labs/vpn-preview.webp" alt="Пр��вью лендинга Облачко VPN"
                                         class="absolute inset-0 w-full h-full object-cover object-top select-none" loading="lazy" decoding="async" draggable="false" />
                                     <div id="vpn-demo-cover" class="absolute inset-0 flex flex-col items-center justify-center gap-4 text-center cursor-pointer backdrop-blur-[4px]"
                                         style="background:linear-gradient(180deg, rgba(11,15,25,0.82), rgba(11,15,25,0.93));">
@@ -1334,7 +1351,7 @@
                             <p class="text-slate-300 text-sm leading-relaxed">
                                 Ставлю на сайты умных ИИ-агентов, которые сами отвечают посетителям: рассказывают о
                                 товарах и услугах, отвечают на частые вопросы, помогают с выбором и доводят клиента
-                                до заявки — 24/7, без выходных и зарплаты. Это не скриншот: справа живой робот,
+                                до заявки — 24/7, без выходных и за��платы. Это не скриншот: справа живой робот,
                                 нажми на кнопку <b class="text-bone">ВЫЗОВ</b> на его экране и поговори с агентом.
                             </p>
                             <ul class="text-xs space-y-2.5 text-slate-400 font-mono">
