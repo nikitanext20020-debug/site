@@ -94,50 +94,63 @@
             z-index: 0;
             pointer-events: none;
             overflow: hidden;
+            /* Long transparency tails + extra mid stop kill the banding seam */
             background:
-                radial-gradient(1200px 700px at 50% 120%, rgba(91, 124, 255, 0.07), transparent 55%),
-                radial-gradient(circle at 50% 40%, #0a0c1a 0%, #05060f 55%, #03040a 100%);
+                radial-gradient(140% 90% at 50% 118%, rgba(91, 124, 255, 0.08) 0%, rgba(91, 124, 255, 0.03) 40%, transparent 75%),
+                radial-gradient(120% 100% at 50% 38%, #0b0d1c 0%, #080a16 30%, #05060f 58%, #04050c 80%, #03040a 100%);
+        }
+
+        /* Far ambient layer: wide, dim, heavily blurred — depth without brightness */
+        .void-bg::before {
+            content: '';
+            position: absolute;
+            inset: -20%;
+            background:
+                radial-gradient(60% 50% at 18% 22%, rgba(91, 124, 255, 0.10) 0%, rgba(91, 124, 255, 0.03) 45%, transparent 78%),
+                radial-gradient(55% 48% at 84% 76%, rgba(139, 92, 246, 0.09) 0%, rgba(139, 92, 246, 0.025) 48%, transparent 80%),
+                radial-gradient(45% 40% at 62% 12%, rgba(167, 139, 250, 0.05) 0%, transparent 72%);
+            filter: blur(40px);
         }
 
         .void-aurora {
             position: absolute;
             border-radius: 50%;
-            filter: blur(70px);
-            opacity: 0.55;
+            filter: blur(100px);
+            opacity: 0.7;
             will-change: transform, opacity;
             mix-blend-mode: screen;
         }
 
         .void-aurora-a {
-            width: 48vw;
-            height: 48vw;
-            min-width: 320px;
-            min-height: 320px;
-            left: -8%;
-            top: -12%;
-            background: radial-gradient(circle, rgba(91, 124, 255, 0.55), transparent 68%);
+            width: 58vw;
+            height: 58vw;
+            min-width: 380px;
+            min-height: 380px;
+            left: -14%;
+            top: -18%;
+            background: radial-gradient(circle, rgba(91, 124, 255, 0.5) 0%, rgba(91, 124, 255, 0.18) 42%, transparent 82%);
             animation: voidAuroraA 18s ease-in-out infinite alternate;
         }
 
         .void-aurora-b {
-            width: 42vw;
-            height: 42vw;
-            min-width: 280px;
-            min-height: 280px;
-            right: -10%;
-            bottom: -8%;
-            background: radial-gradient(circle, rgba(167, 139, 250, 0.45), transparent 70%);
+            width: 52vw;
+            height: 52vw;
+            min-width: 340px;
+            min-height: 340px;
+            right: -16%;
+            bottom: -14%;
+            background: radial-gradient(circle, rgba(167, 139, 250, 0.42) 0%, rgba(167, 139, 250, 0.15) 45%, transparent 84%);
             animation: voidAuroraB 22s ease-in-out infinite alternate;
         }
 
         .void-aurora-c {
-            width: 28vw;
-            height: 28vw;
-            min-width: 200px;
-            min-height: 200px;
+            width: 34vw;
+            height: 34vw;
+            min-width: 240px;
+            min-height: 240px;
             left: 50%;
             top: 42%;
-            background: radial-gradient(circle, rgba(139, 92, 246, 0.28), transparent 72%);
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.24) 0%, rgba(139, 92, 246, 0.09) 48%, transparent 84%);
             animation: voidAuroraC 10s ease-in-out infinite;
         }
 
@@ -194,10 +207,16 @@
             width: 2px;
             height: 2px;
             border-radius: 50%;
-            background: rgba(167, 139, 250, 0.75);
-            box-shadow: 0 0 6px rgba(91, 124, 255, 0.55);
+            background: rgba(167, 139, 250, 0.85);
+            box-shadow: 0 0 8px rgba(91, 124, 255, 0.7);
             opacity: 0;
             animation: voidDust linear infinite;
+        }
+
+        /* Dim far-layer particles for parallax depth (set from JS) */
+        .void-dust span.dust-far {
+            background: rgba(167, 139, 250, 0.4);
+            box-shadow: 0 0 4px rgba(91, 124, 255, 0.3);
         }
 
         .void-dust {
@@ -206,20 +225,20 @@
         }
 
         @keyframes voidAuroraA {
-            0% { transform: translate(0, 0) scale(1); opacity: 0.45; }
-            50% { transform: translate(6%, 8%) scale(1.12); opacity: 0.7; }
-            100% { transform: translate(2%, 14%) scale(1.05); opacity: 0.5; }
+            0% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+            50% { transform: translate(6%, 8%) scale(1.15); opacity: 0.85; }
+            100% { transform: translate(2%, 14%) scale(1.06); opacity: 0.65; }
         }
 
         @keyframes voidAuroraB {
-            0% { transform: translate(0, 0) scale(1.05); opacity: 0.4; }
-            50% { transform: translate(-8%, -6%) scale(1.15); opacity: 0.65; }
-            100% { transform: translate(-3%, -12%) scale(1); opacity: 0.48; }
+            0% { transform: translate(0, 0) scale(1.05); opacity: 0.55; }
+            50% { transform: translate(-8%, -6%) scale(1.18); opacity: 0.8; }
+            100% { transform: translate(-3%, -12%) scale(1); opacity: 0.6; }
         }
 
         @keyframes voidAuroraC {
-            0%, 100% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.25; }
-            50% { transform: translate(-50%, -50%) scale(1.25); opacity: 0.55; }
+            0%, 100% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.3; }
+            50% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.55; }
         }
 
         @keyframes voidOrbitSpin {
@@ -247,15 +266,19 @@
             .void-dust span {
                 animation: none !important;
             }
-            .void-aurora-a { opacity: 0.5; }
-            .void-aurora-b { opacity: 0.4; }
-            .void-aurora-c { opacity: 0.3; transform: translate(-50%, -50%); }
+            .void-aurora-a { opacity: 0.65; }
+            .void-aurora-b { opacity: 0.55; }
+            .void-aurora-c { opacity: 0.35; transform: translate(-50%, -50%); }
+            .void-dust span { opacity: 0.35; }
+            .void-sweep { opacity: 0; }
         }
 
+        /* Center slightly calmer for text, glow pushed to edges */
         .vignette {
             position: fixed;
             inset: 0;
-            background: radial-gradient(circle at center, transparent 42%, rgba(2, 3, 6, 0.72) 100%);
+            background: radial-gradient(ellipse 70% 55% at 50% 46%, rgba(2, 3, 6, 0.30) 0%, rgba(2, 3, 6, 0.10) 45%, transparent 68%),
+                radial-gradient(circle at center, transparent 48%, rgba(2, 3, 6, 0.55) 100%);
             z-index: 2;
             pointer-events: none;
         }
@@ -916,7 +939,7 @@
     <!-- MAIN FLAT SITE (Reveals after 2200px) -->
     <div id="main-site"
         class="opacity-0 invisible transition-all duration-1000 relative z-20 w-full min-h-screen pb-16"
-        style="background: rgba(6, 7, 20, 0.82)">
+        style="background: rgba(6, 7, 20, 0.68)">
 
         <!-- NAV -->
         <header
@@ -2147,27 +2170,42 @@
 
         // --- FLAT SITE SCRIPTS (VOID ORBITS dust & IntersectionObserver) ---
 
-        // VOID ORBITS dust particles (replaces code rain)
+        // VOID ORBITS dust particles: two layers for parallax depth
         (function () {
             const root = document.getElementById('void-dust');
             if (!root) return;
-            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-            const count = window.innerWidth < 768 ? 18 : 34;
-            for (let i = 0; i < count; i++) {
-                const d = document.createElement('span');
-                const size = 1 + Math.random() * 2;
-                d.style.width = size + 'px';
-                d.style.height = size + 'px';
-                d.style.left = (Math.random() * 100) + '%';
-                d.style.top = (Math.random() * 100) + '%';
-                d.style.animationDuration = (10 + Math.random() * 16) + 's';
-                d.style.animationDelay = (-Math.random() * 16) + 's';
-                if (Math.random() > 0.55) {
-                    d.style.background = 'rgba(91, 124, 255, 0.8)';
+            const isMobile = window.innerWidth < 768;
+            // near = brighter/bigger/faster, far = dim/small/slow
+            const layers = [
+                { count: isMobile ? 12 : 22, far: false, sizeMin: 1.5, sizeMax: 3.5, durMin: 9, durMax: 18 },
+                { count: isMobile ? 10 : 20, far: true, sizeMin: 0.8, sizeMax: 1.6, durMin: 22, durMax: 38 }
+            ];
+
+            layers.forEach((layer) => {
+                for (let i = 0; i < layer.count; i++) {
+                    const d = document.createElement('span');
+                    if (layer.far) d.className = 'dust-far';
+                    const size = layer.sizeMin + Math.random() * (layer.sizeMax - layer.sizeMin);
+                    d.style.width = size + 'px';
+                    d.style.height = size + 'px';
+                    d.style.left = (Math.random() * 100) + '%';
+                    d.style.top = (Math.random() * 100) + '%';
+                    if (reduced) {
+                        // Static but visible frame
+                        d.style.opacity = layer.far ? '0.25' : '0.45';
+                    } else {
+                        const dur = layer.durMin + Math.random() * (layer.durMax - layer.durMin);
+                        d.style.animationDuration = dur + 's';
+                        d.style.animationDelay = (-Math.random() * dur) + 's';
+                    }
+                    if (!layer.far && Math.random() > 0.55) {
+                        d.style.background = 'rgba(91, 124, 255, 0.85)';
+                    }
+                    root.appendChild(d);
                 }
-                root.appendChild(d);
-            }
+            });
         })();
 
         // --- DEV FX (blue-violet) ---
