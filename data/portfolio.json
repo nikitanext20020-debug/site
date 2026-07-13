@@ -415,11 +415,7 @@
       "commit": "a3f2d1c",
       "description": "Многопоточный дашборд управления тарифами, пользователями и аналитикой серверов. Интеграция с платежными системами ЮKassa и Stripe, адаптивный интерфейс с темной темой.",
       "link": "https://github.com/nikitanext20020-debug/site",
-      "images": [
-        "images/design/logos/Screenshot_20.jpg",
-        "images/design/logos/Screenshot_21.jpg",
-        "images/design/logos/Screenshot_22.jpg"
-      ]
+      "images": []
     },
     {
       "id": "dev-p2",
@@ -429,10 +425,7 @@
       "commit": "7b91e4a",
       "description": "Корпоративный сайт для технологической компании с динамическими эффектами движения, интерактивной картой филиалов и интеграцией с безголовой CMS для быстрого редактирования.",
       "link": "",
-      "images": [
-        "images/design/banners/Screenshot_7.jpg",
-        "images/design/logos/Screenshot_8.jpg"
-      ]
+      "images": []
     },
     {
       "id": "dev-p3",
