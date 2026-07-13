@@ -873,7 +873,7 @@
   "image":"https://nikitos404.ru/og-image.png",
   "areaServed":"RU",
   "description":"Разработка сайтов под ключ, лендингов и Telegram-ботов на заказ для бизнеса.",
-  "hasOfferCatalog":{"@type":"OfferCatalog","name":"Услуги разработки","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Разра��отка сайта под ключ"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Разработка Telegram-бота на заказ"}}]},
+  "hasOfferCatalog":{"@type":"OfferCatalog","name":"Услуги разработки","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Разра����отка сайта под ключ"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Разработка Telegram-бота на заказ"}}]},
   "provider":{"@type":"Person","name":"Nik","alternateName":["Ник","Никитос","pythonvoin","nikitos404"],"url":"https://nikitos404.ru/"}
 }
 </script>
@@ -1282,7 +1282,7 @@
                                     </div>
                                 </div>
                                 <div id="vpn-demo-body" class="flex-1 relative overflow-hidden">
-                                    <!-- Лёгкое превью-скриншот (~24KB webp), живой сайт грузится только по клику -->
+                                    <!-- Лёгкое превью-скриншот (~24KB webp), живой сайт грузится только п�� клику -->
                                     <img src="labs/vpn-preview.webp" alt="Превью лендинга Облачко VPN"
                                         class="absolute inset-0 w-full h-full object-cover object-top select-none" loading="lazy" decoding="async" draggable="false" />
                                     <div id="vpn-demo-cover" class="absolute inset-0 flex flex-col items-center justify-center gap-4 text-center cursor-pointer backdrop-blur-[4px]"
@@ -2621,7 +2621,7 @@
             });
             minBtn.addEventListener('click', minimizeInline);
 
-            // --- Телефон: полноэкранный оверлей ---
+            // --- Телефон: полно��кранный оверлей ---
             let overlay = null;
             let scrollY = 0;
 
@@ -3085,6 +3085,25 @@
             if (evt === 'pointerup') openChat();
           }, { capture: true });
         });
+
+        // iOS Safari: the Spline runtime drives its actions from raw TOUCH
+        // events on the canvas, which bypass the pointer/click interception
+        // above. A transparent shield DIV physically on top of the viewer
+        // guarantees NO touch ever reaches the canvas. Touch devices have
+        // no hover head-tracking anyway, so nothing is lost.
+        if (window.matchMedia('(pointer: coarse)').matches) {
+          const shield = document.createElement('div');
+          shield.style.cssText = 'position:absolute;inset:0;z-index:5;background:transparent;-webkit-tap-highlight-color:transparent;';
+          shield.setAttribute('role', 'button');
+          shield.setAttribute('tabindex', '0');
+          shield.setAttribute('aria-label', 'Открыть чат с ИИ-агентом');
+          shield.addEventListener('click', openChat);
+          shield.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openChat(); }
+          });
+          const slot = document.getElementById('ai-robot-slot');
+          if (slot && slot.parentElement) slot.parentElement.appendChild(shield);
+        }
 
         // Safety nets in case a runtime version triggers navigation another way.
         window.open = function () {
