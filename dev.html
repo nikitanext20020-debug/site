@@ -873,7 +873,7 @@
   "image":"https://nikitos404.ru/og-image.png",
   "areaServed":"RU",
   "description":"Разработка сайтов под ключ, лендингов и Telegram-ботов на заказ для бизнеса.",
-  "hasOfferCatalog":{"@type":"OfferCatalog","name":"Услуги разработки","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Разработка сайта под ключ"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Разработка Telegram-бота на заказ"}}]},
+  "hasOfferCatalog":{"@type":"OfferCatalog","name":"Услуги разработки","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Разра��отка сайта под ключ"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Разработка Telegram-бота на заказ"}}]},
   "provider":{"@type":"Person","name":"Nik","alternateName":["Ник","Никитос","pythonvoin","nikitos404"],"url":"https://nikitos404.ru/"}
 }
 </script>
@@ -900,7 +900,15 @@
                 for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
                 k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
             })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=110488231', 'ym');
-            ym(110488231, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+            // Webvisor/clickmap OFF on touch devices: Webvisor's
+            // MutationObserver records EVERY per-frame transform/opacity
+            // write of the 3D tunnel (~30 nodes x 60fps) and serializes it
+            // on the phone's CPU — confirmed by an iPhone 15 timeline
+            // recording (active solid.ws websocket + _ym_visorc=w) as the
+            // jank source in the first seconds of scroll. Desktop keeps
+            // full session recording.
+            var isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+            ym(110488231, 'init', {ssr:true, webvisor:!isTouchDevice, clickmap:!isTouchDevice, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
         }
         // Load ONLY after window.load + idle (fallback ~6s). Interaction
         // triggers (scroll/touchstart/pointerdown) were removed: on iPhone

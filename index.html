@@ -490,7 +490,10 @@
         k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
     })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=110488231', 'ym');
 
-    ym(110488231, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+    // Webvisor/clickmap OFF on touch: session recording via MutationObserver
+    // causes scroll jank on phones (proven on dev.html iPhone 15 timeline).
+    var isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+    ym(110488231, 'init', {ssr:true, webvisor:!isTouchDevice, clickmap:!isTouchDevice, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/110488231" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
