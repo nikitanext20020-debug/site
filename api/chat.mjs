@@ -1,4 +1,4 @@
-// Vercel serverless function: proxies chat requests to OpenModel
+// Vercel serverless function: proxies chat requests to RouterAI
 // so the API key stays on the server and never ships to the browser.
 
 const SYSTEM_PROMPT = `Ты — ИИ-агент, установленный на сайт nikitos404.ru. Тебя создал и настроил Никита (Nik) — разработчик и дизайнер, автор YouTube-канала с 272 000 подписчиков.
@@ -54,7 +54,7 @@ export default async function handler(req, res) {
     return;
   }
 
-  const apiKey = process.env.OPENMODEL_API_KEY;
+  const apiKey = process.env.ROUTERAI_API_KEY || 'sk-Qk8TntPkO_Z5KWGxCQSIKrs4c6AAuaPj';
   if (!apiKey) {
     res.status(500).json({ error: 'Agent is not configured' });
     return;
@@ -78,19 +78,22 @@ export default async function handler(req, res) {
   }
 
   try {
-    // OpenModel exposes deepseek-v4-flash through the Anthropic Messages protocol.
-    const upstream = await fetch('https://api.openmodel.ai/v1/messages', {
+    // RouterAI: OpenAI-compatible Chat Completions API.
+    const upstream = await fetch('https://routerai.ru/api/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01'
+        'Authorization': `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model: 'deepseek-v4-flash',
-        max_tokens: 1200,
-        system: SYSTEM_PROMPT,
-        messages: sanitized
+        model: 'deepseek/deepseek-v4-flash',
+        // Reasoning model: "thinking" consumes tokens before the visible
+        // answer, so the cap is generous to never cut the reply off.
+        max_tokens: 2000,
+        messages: [
+          { role: 'system', content: SYSTEM_PROMPT },
+          ...sanitized
+        ]
       })
     });
 
@@ -100,12 +103,7 @@ export default async function handler(req, res) {
     }
 
     const data = await upstream.json();
-    // The model emits "thinking" blocks first; only "text" blocks are the answer.
-    const reply = (data?.content || [])
-      .filter(block => block?.type === 'text' && typeof block.text === 'string')
-      .map(block => block.text)
-      .join('')
-      .trim();
+    const reply = (data?.choices?.[0]?.message?.content || '').trim();
 
     if (!reply) {
       res.status(502).json({ error: 'Empty reply' });
