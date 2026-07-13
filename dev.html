@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Разработка сайтов и Telegram-ботов на заказ — Nik</title>
     <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -62,17 +62,20 @@
             --border: rgba(91, 124, 255, 0.15);
         }
 
+        /* Pinch-zoom is allowed (accessibility): no touch-action lock,
+           width 100% instead of 100vw, horizontal overflow clipped. */
+        html, body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
         body {
             background: var(--bg);
             color: var(--text);
             font-family: 'Cascadia Code', monospace;
-            overflow-x: hidden;
-            width: 100vw;
             margin: 0;
             padding: 0;
-            /* vertical scroll only: no pinch-zoom, no double-tap zoom,
-               no horizontal pan that breaks centering on iOS */
-            touch-action: pan-y;
         }
 
         /* === VOID ORBITS background (replaces scanlines + coderain) === */
@@ -899,17 +902,19 @@
             })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=110488231', 'ym');
             ym(110488231, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
         }
-        // First interaction wins; otherwise idle after load (max ~3.5s so hits are not lost)
-        ['scroll', 'pointerdown', 'keydown', 'touchstart'].forEach(function (evt) {
-            window.addEventListener(evt, loadMetrika, { once: true, passive: true });
-        });
+        // Load ONLY after window.load + idle (fallback ~6s). Interaction
+        // triggers (scroll/touchstart/pointerdown) were removed: on iPhone
+        // the very first swipe was downloading tag.js + starting Webvisor
+        // while the 3D scene scrolled, causing a visible first-swipe jank.
         window.addEventListener('load', function () {
             if ('requestIdleCallback' in window) {
-                requestIdleCallback(loadMetrika, { timeout: 3500 });
+                requestIdleCallback(loadMetrika, { timeout: 6000 });
             } else {
-                setTimeout(loadMetrika, 3500);
+                setTimeout(loadMetrika, 6000);
             }
         });
+        // Safety net if 'load' already fired or never fires (rare)
+        setTimeout(loadMetrika, 12000);
     })();
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/110488231" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
@@ -1667,11 +1672,8 @@
             || (navigator.hardwareConcurrency || 8) <= 4;
         if (isLite3D) document.documentElement.classList.add('lite3d');
 
-        // iOS Safari ignores user-scalable=no, so pinch-zoom is blocked
-        // through its proprietary gesture events.
-        ['gesturestart', 'gesturechange', 'gestureend'].forEach((evt) => {
-            document.addEventListener(evt, (e) => e.preventDefault(), { passive: false });
-        });
+        // Pinch-zoom is intentionally NOT blocked (accessibility):
+        // no gesturestart/gesturechange preventDefault handlers.
 
         const CONFIG = {
             zGap: 900,
@@ -1840,7 +1842,12 @@
         init3D();
 
         // --- LENIS SMOOTH SCROLL ---
-        const lenis = new Lenis({
+        // On Apple touch devices (iPhone/iPad) Lenis is NOT created at all:
+        // even with syncTouch:false its raf participation added latency to
+        // the first swipe. iOS uses fully native Safari scrolling and reads
+        // window.scrollY directly (see the RAF loop below).
+        const IS_APPLE_TOUCH = IS_TOUCH && (IS_APPLE || IS_WEBKIT_ONLY);
+        const lenis = IS_APPLE_TOUCH ? null : new Lenis({
             smoothWheel: true,
             // Mac Safari trackpad: higher lerp so smooth scroll "catches up"
             // faster and doesn't fight a heavier frame. Windows keeps 0.1.
@@ -1853,21 +1860,36 @@
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         });
 
-        lenis.on('scroll', ({ scroll, velocity }) => {
-            state.scroll = scroll;
-            // velocity feeds the 3D HUD / warp effects only
-            state.targetSpeed = is3DActive ? velocity : 0;
-        });
+        if (lenis) {
+            lenis.on('scroll', ({ scroll, velocity }) => {
+                state.scroll = scroll;
+                // velocity feeds the 3D HUD / warp effects only
+                state.targetSpeed = is3DActive ? velocity : 0;
+            });
+        }
 
         // --- RAF LOOP ---
+        // iOS (no Lenis): the page scrolls natively; only the 3D scene's
+        // VISUAL position is smoothed toward window.scrollY (factor 0.25).
+        // Real page scrolling is never intercepted.
+        let renderedScroll = window.scrollY || 0;
         function raf(time) {
             // Tab in background: keep Lenis ticking, skip all 3D work.
             if (document.hidden) {
-                lenis.raf(time);
+                if (lenis) lenis.raf(time);
                 requestAnimationFrame(raf);
                 return;
             }
-            lenis.raf(time);
+            if (lenis) {
+                lenis.raf(time);
+            } else {
+                const targetScroll = window.scrollY || 0;
+                renderedScroll += (targetScroll - renderedScroll) * 0.25;
+                // Snap when close so the 3D->2D switch lands exactly.
+                if (Math.abs(targetScroll - renderedScroll) < 0.5) renderedScroll = targetScroll;
+                state.scroll = renderedScroll;
+                state.targetSpeed = 0; // warp/HUD velocity effects are desktop-only
+            }
 
             // Smooth velocity only while the 3D intro is visible.
             if (is3DActive) {
@@ -1882,9 +1904,12 @@
             const limitIn = 1900;  // threshold to enter 3D back
 
             if (is3DActive && state.scroll >= limitOut) {
-                // Disable 3D completely
+                // Disable 3D completely. Also release the GPU layer hint on
+                // the world container: while the main site is open, the whole
+                // hidden 3D tree no longer needs compositing memory.
                 viewport.style.opacity = 0;
                 viewport.style.display = 'none';
+                world.style.willChange = 'auto';
 
                 mainSite.style.opacity = 1;
                 mainSite.style.visibility = 'visible';
@@ -1892,6 +1917,7 @@
             } else if (!is3DActive && state.scroll < limitIn) {
                 // Enable 3D back
                 viewport.style.display = 'block';
+                world.style.willChange = 'transform';
                 is3DActive = true;
             }
 
@@ -2809,12 +2835,16 @@
         }
 
         // ── Lightbox for Dev Page ──
-        (function() {
+        // The lightbox HTML (#lb-overlay) sits BELOW this script in the DOM,
+        // so init runs after DOMContentLoaded and guards every element —
+        // fixes iOS "null is not an object (overlay.addEventListener)".
+        function initLightbox() {
             const overlay = document.getElementById('lb-overlay');
             const lbImg   = document.getElementById('lb-img');
             const btnClose = document.getElementById('lb-close');
             const btnPrev  = document.getElementById('lb-prev');
             const btnNext  = document.getElementById('lb-next');
+            if (!overlay || !lbImg || !btnClose || !btnPrev || !btnNext) return;
 
             let items = [];
             let cur   = 0;
@@ -2876,7 +2906,12 @@
                 const dx = e.changedTouches[0].clientX - tx;
                 if (Math.abs(dx) > 50) dx < 0 ? show(cur + 1) : show(cur - 1);
             });
-        })();
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initLightbox);
+        } else {
+            initLightbox();
+        }
 
         loadPortfolioData();
     </script>

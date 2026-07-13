@@ -36,28 +36,10 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Bebas+Neue&amp;display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Bebas+Neue&amp;display=swap" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Bebas+Neue&amp;display=swap"></noscript>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            mono: ['"JetBrains Mono"', 'monospace'],
-            display: ['"Bebas Neue"', 'sans-serif'],
-            sans: ['"Space Grotesk"', 'sans-serif'],
-          },
-          colors: {
-            ink: '#0A0A0A',
-            bone: '#EDE6D6',
-            rec: '#FF3B30',
-            amber: '#F5B82E',
-            tape: '#1A1A1A',
-            dust: '#3B3A36',
-          },
-        },
-      },
-    };
-  </script>
+  <!-- Statically compiled Tailwind (was the render-blocking cdn.tailwindcss.com
+       runtime script). Rebuild if new classes are added:
+       npx tailwindcss -c tailwind.montage.config.js -i input.css -o assets/tw-montage.css --minify -->
+  <link rel="stylesheet" href="assets/tw-montage.css">
   <style>
     /* ============ ZERO-DEFAULTS ============ */
     html {
@@ -451,7 +433,7 @@
   <!-- ============ HERO ============ -->
   <section class="relative min-h-screen flex items-center px-4 md:px-8 pt-24 pb-16">
     <!-- Background Video -->
-    <video autoplay="" muted="" loop="" playsinline="" class="absolute inset-0 w-full h-full object-cover opacity-30 z-0">
+    <video preload="none" autoplay="" muted="" loop="" playsinline="" class="absolute inset-0 w-full h-full object-cover opacity-30 z-0">
       <source data-src="videos/Nikita.mp4" type="video/mp4">
     </video>
 
@@ -556,7 +538,7 @@
       <div class="grid grid-cols-12 gap-3">
         <!-- 01 Music videos: col-span-12 md:col-span-6 -->
         <div class="cell p-6 md:p-8 col-span-12 md:col-span-6 reveal relative cursor-pointer" data-clip-id="music-clip">
-          <video class="absolute inset-0 w-full h-full object-cover opacity-20 z-0" autoplay="" muted="" loop="" playsinline="">
+          <video preload="none" class="absolute inset-0 w-full h-full object-cover opacity-20 z-0" autoplay="" muted="" loop="" playsinline="">
             <source data-src="videos/MUSIC.mp4" type="video/mp4">
           </video>
           <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/65 to-ink/35 z-[1]"></div>
@@ -578,7 +560,7 @@
 
         <!-- 02 YouTube & Reels: col-span-12 md:col-span-6 -->
         <div class="cell p-6 md:p-8 col-span-12 md:col-span-6 reveal relative cursor-pointer" data-clip-id="reel-3">
-          <video class="absolute inset-0 w-full h-full object-cover opacity-20 z-0" autoplay="" muted="" loop="" playsinline="">
+          <video preload="none" class="absolute inset-0 w-full h-full object-cover opacity-20 z-0" autoplay="" muted="" loop="" playsinline="">
             <source data-src="videos/reel_03.mp4" type="video/mp4">
           </video>
           <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/65 to-ink/35 z-[1]"></div>
@@ -600,7 +582,7 @@
 
         <!-- 03 AI Video - SUPER ACCENT BLOCK: col-span-12 -->
         <div class="cell p-6 md:p-8 col-span-12 reveal relative overflow-hidden border border-amber/40 hover:border-amber transition-all duration-500 cursor-pointer" data-clip-id="reel-5">
-          <video class="absolute inset-0 w-full h-full object-cover opacity-20 z-0" autoplay="" muted="" loop="" playsinline="">
+          <video preload="none" class="absolute inset-0 w-full h-full object-cover opacity-20 z-0" autoplay="" muted="" loop="" playsinline="">
             <source data-src="videos/AI MULT.mp4" type="video/mp4">
           </video>
           <div class="absolute inset-0 bg-gradient-to-r from-ink via-ink/90 to-transparent z-[1] hidden md:block"></div>
@@ -653,7 +635,7 @@
 
         <!-- 04 Promo & Advertising: col-span-12 md:col-span-4 -->
         <div class="cell p-6 md:p-8 col-span-12 md:col-span-4 reveal relative cursor-pointer" data-clip-id="logo-clip">
-          <video class="absolute inset-0 w-full h-full object-cover opacity-20 z-0" autoplay="" muted="" loop="" playsinline="">
+          <video preload="none" class="absolute inset-0 w-full h-full object-cover opacity-20 z-0" autoplay="" muted="" loop="" playsinline="">
             <source data-src="videos/LOGO.mp4" type="video/mp4">
           </video>
           <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/65 to-ink/35 z-[1]"></div>
@@ -675,7 +657,7 @@
 
         <!-- 05 VFX & Effects: col-span-12 md:col-span-4 -->
         <div class="cell p-6 md:p-8 col-span-12 md:col-span-4 reveal relative cursor-pointer" data-clip-id="vfx-clip">
-          <video class="absolute inset-0 w-full h-full object-cover opacity-20 z-0" autoplay="" muted="" loop="" playsinline="">
+          <video preload="none" class="absolute inset-0 w-full h-full object-cover opacity-20 z-0" autoplay="" muted="" loop="" playsinline="">
             <source data-src="videos/VFX.mp4" type="video/mp4">
           </video>
           <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/65 to-ink/35 z-[1]"></div>
@@ -715,7 +697,7 @@
 
         <!-- 07 Color Correction: col-span-12 md:col-span-6 -->
         <div class="cell p-6 md:p-8 col-span-12 md:col-span-6 reveal relative cursor-pointer" data-clip-id="color-clip">
-          <video class="absolute inset-0 w-full h-full object-cover opacity-20 z-0" autoplay="" muted="" loop="" playsinline="">
+          <video preload="none" class="absolute inset-0 w-full h-full object-cover opacity-20 z-0" autoplay="" muted="" loop="" playsinline="">
             <source data-src="videos/Color.mp4" type="video/mp4">
           </video>
           <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/65 to-ink/35 z-[1]"></div>
@@ -898,7 +880,7 @@
           <div class="flex-1 flex items-center justify-center relative overflow-hidden bg-black/50 border border-bone/10 rounded-sm min-h-[360px] md:min-h-[420px] crt-screen">
             <!-- Background screen with Nikita video playing -->
             <div id="monitor-placeholder" class="absolute inset-0 z-20 transition-opacity duration-500 overflow-hidden">
-              <video id="monitor-bg-video" class="absolute inset-0 w-full h-full object-cover opacity-35" playsinline="" autoplay="" muted="" loop="">
+              <video preload="none" id="monitor-bg-video" class="absolute inset-0 w-full h-full object-cover opacity-35" playsinline="" autoplay="" muted="" loop="">
                 <source data-src="videos/Nikita.mp4" type="video/mp4">
               </video>
               <!-- CRT TV scanlines and vignetting overlay -->
@@ -925,7 +907,7 @@
                 <div id="monitor-phone-bezel" class="absolute top-2 left-1/2 -translate-x-1/2 w-16 h-4 bg-ink rounded-full z-30 opacity-70 flex items-center justify-center transition-all duration-300">
                   <div class="w-2 h-2 rounded-full bg-zinc-800"></div>
                 </div>
-                <video id="monitor-video" class="w-full h-full object-cover" playsinline="" loop=""></video>
+                <video preload="none" id="monitor-video" class="w-full h-full object-cover" playsinline="" loop=""></video>
                 <!-- CRT TV scanlines inside monitor screen -->
                 <div class="absolute inset-0 pointer-events-none crt-scanlines bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.45)_100%)] z-28">
                 </div>
@@ -1674,6 +1656,13 @@
             // Re-bind bin-item event listeners
             const currentBinItems = mediaBin.querySelectorAll('.bin-item');
             currentBinItems.forEach(item => {
+              // A11y: re-rendered clips stay keyboard-operable
+              item.setAttribute('role', 'button');
+              item.setAttribute('tabindex', '0');
+              item.setAttribute('aria-label', 'Вставить кассету: ' + (item.dataset.name || ''));
+              item.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); item.click(); }
+              });
               item.addEventListener('click', () => {
                 const id = item.dataset.id;
                 const url = item.dataset.url;
@@ -2010,8 +1999,25 @@
         }
       }
 
-      // Link services bento cells to the interactive editing desk
+      // Link services bento cells to the interactive editing desk.
+      // A11y: clickable divs get role=button + tabindex + Enter/Space
+      // activation so they work from the keyboard (classes and data
+      // attributes are preserved — visual design unchanged).
+      function makeKeyActivatable(el, label) {
+        el.setAttribute('role', 'button');
+        el.setAttribute('tabindex', '0');
+        if (label && !el.hasAttribute('aria-label')) el.setAttribute('aria-label', label);
+        el.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            el.click();
+          }
+        });
+      }
+
       document.querySelectorAll('#services .cell[data-clip-id]').forEach(cell => {
+        const title = cell.querySelector('h3, h2, .font-display')?.textContent?.trim() || 'работа';
+        makeKeyActivatable(cell, 'Смотреть пример: ' + title);
         cell.addEventListener('click', (e) => {
           // If clicked a link like "Узнать цену", don't trigger the monitor scroll
           if (e.target.closest('a')) return;
@@ -2028,6 +2034,11 @@
             }
           }
         });
+      });
+
+      // Media-bin clips (also clickable divs, incl. dynamically re-rendered ones)
+      document.querySelectorAll('.bin-item').forEach(item => {
+        makeKeyActivatable(item, 'Вставить кассету: ' + (item.dataset.name || item.dataset.id || ''));
       });
     })();
   </script>
