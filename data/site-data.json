@@ -1,0 +1,32 @@
+{
+  "_comment": "Единый источник правды для повторяющихся данных сайта. При изменении цифр/контактов сначала правь здесь, потом синхронизируй страницы. Только подтверждённые значения — ничего не выдумывать.",
+  "contacts": {
+    "telegram": "https://t.me/pythonvoin",
+    "email": "typonik@vk.com",
+    "kwork": "https://kwork.ru/user/nikitanext2002",
+    "vk": "https://vk.com/typonik",
+    "youtube": "https://youtube.com/@yotubeThebadBoy"
+  },
+  "statistics": {
+    "subscribers": "272K",
+    "views": "10M+",
+    "yearsExperience": "6"
+  },
+  "analytics": {
+    "yandexMetrikaId": "110488231",
+    "_note": "webvisor и clickmap ОТКЛЮЧЕНЫ на тач-устройствах (webvisor:!isTouchDevice) — не включать обратно, вызывает лаги скролла на телефонах"
+  },
+  "prices": {
+    "design": {
+      "thumbnail": "от 500 ₽",
+      "productCard": "от 1 000 ₽"
+    },
+    "_note": "Цены на dev.html (сайты от 5 000 ₽ до 30 000 ₽, боты) зависят от объёма — единый прайс не фиксируется"
+  },
+  "seoPages": {
+    "index.html": "общий хаб: монтаж + превью + сайты + боты",
+    "montage.html": "монтаж видео, монтаж YouTube/Reels/Shorts",
+    "design.html": "превью YouTube, дизайн каналов, дизайн карточек товаров",
+    "dev.html": "разработка сайтов, разработка Telegram-ботов"
+  }
+}
