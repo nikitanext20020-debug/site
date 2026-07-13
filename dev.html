@@ -1121,7 +1121,7 @@
                                 Данных</h3>
                             <p class="text-slate-300 text-sm leading-relaxed">
                                 Связываю веб-интерфейсы, Telegram-боты и распределенные БД (PostgreSQL / Redis). Полная
-                                автоматизация вор��нки продаж и учета.
+                                автоматизация воронки продаж и учета.
                             </p>
                             <ul class="text-xs space-y-2.5 text-slate-400 font-mono">
                                 <li class="flex items-center gap-2.5">
@@ -1294,7 +1294,7 @@
                             <p class="text-slate-300 text-sm leading-relaxed">
                                 Ставлю на сайты умных ИИ-агентов, которые сами отвечают посетителям: рассказывают о
                                 товарах и услугах, отвечают на частые вопросы, помогают с выбором и доводят клиента
-                                до заявки — 24/7, без выходных и зарплаты. Это не скриншот: справа живой робо��,
+                                до заявки — 24/7, без выходных и зарплаты. Это не скриншот: справа живой робот,
                                 нажми на кнопку <b class="text-bone">ВЫЗОВ</b> на его экране и поговори с агентом.
                             </p>
                             <ul class="text-xs space-y-2.5 text-slate-400 font-mono">
@@ -1475,7 +1475,7 @@
                             <div class="text-4xl mb-4 text-rec glow-rec font-bold">⚡</div>
                             <h3 class="text-bone text-xl font-bold mb-3 font-sans">Автоматизации</h3>
                             <p class="text-slate-300 text-xs leading-relaxed font-mono">Интеграции с API, umные
-                                Telegram-боты, автоматические парсеры и автоматизация проц��ссов.</p>
+                                Telegram-боты, автоматические парсеры и автоматизация процессов.</p>
                         </div>
                         <div
                             class="border-t border-white/15 pt-4 text-xs text-slate-400 font-mono flex justify-between items-center">
@@ -2499,7 +2499,7 @@
 
         // Case 3: Облачко VPN — живое демо.
         // На десктопе встраивается прямо в карточку (можно свернуть/развернуть),
-        // на телефоне открывается полноэкранным оверлеем — так удобнее смотреть вертикальный са��т.
+        // на телефоне открывается полноэкранным оверлеем — так удобнее смотреть вертикальный сайт.
         (function () {
             const shell = document.getElementById('vpn-demo-shell');
             const body = document.getElementById('vpn-demo-body');
@@ -3027,14 +3027,23 @@
         viewer.style.display = 'block';
         robotSlot.appendChild(viewer);
 
-        // Any click on the robot scene (including its CALL button) opens the chat.
-        viewer.addEventListener('click', openChat);
-        viewer.addEventListener('pointerup', openChat);
-
         // The CALL button inside the Spline scene has an "Open Link" action
-        // that navigates to an external site. Runtimes trigger it either via
-        // window.open OR by creating an <a> and calling .click() (iOS path),
-        // so BOTH are intercepted and open our chat instead.
+        // that navigates to an external site. Interception of window.open /
+        // anchor.click() proved unreliable across runtime versions and iOS,
+        // so the runtime's click handling is cut off entirely: pointerup and
+        // click are swallowed at the CAPTURE phase on the viewer host, before
+        // they can reach the WebGL canvas inside the shadow DOM. The scene
+        // still renders and reacts to pointermove (head follows the cursor),
+        // but its "Open Link" action can never fire. Any tap opens our chat.
+        ['pointerup', 'click'].forEach((evt) => {
+          viewer.addEventListener(evt, (e) => {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            if (evt === 'pointerup') openChat();
+          }, { capture: true });
+        });
+
+        // Safety nets in case a runtime version triggers navigation another way.
         window.open = function () {
           openChat();
           // Fake window object so the runtime does not throw on .focus()
